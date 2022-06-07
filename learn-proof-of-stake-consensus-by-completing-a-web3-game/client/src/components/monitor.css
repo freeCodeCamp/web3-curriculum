@@ -1,0 +1,136 @@
+.monitor {
+  width: 100%;
+  min-width: 200px;
+  aspect-ratio: 2 / 1;
+  margin-bottom: var(--server-border-width);
+  z-index: 1;
+}
+.screen {
+  width: calc(100% - 8px);
+  height: 80%;
+  background-color: #111;
+  border: black solid 4px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.screen:hover {
+  cursor: pointer;
+}
+.actual-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+
+  flex-direction: column;
+  align-items: center;
+  word-wrap: wrap;
+  z-index: 100;
+  background-color: #111;
+  color: var(--light-2);
+}
+.actual-screen > header {
+  grid-area: header;
+  width: 100%;
+  height: 3em;
+  background-color: var(--dark-2);
+}
+.actual-screen #logo {
+  width: 50%;
+  height: 85%;
+  max-height: 100%;
+  background-color: var(--dark-1);
+  display: block;
+  margin: 0 auto;
+  padding: 0.4em;
+}
+.description {
+  padding-top: 1rem;
+}
+.content {
+  min-height: 100px;
+}
+
+ul.options {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+li.options-item {
+  width: 100%;
+  background-color: var(--dark-2);
+  list-style: none;
+  padding: 0.5rem;
+  margin: 0.3rem;
+}
+li.options-item.selected {
+  border: var(--light-yellow) solid 2px;
+}
+li > label {
+  display: flex;
+  width: 100%;
+  font-weight: 700;
+  color: var(--light-2);
+  flex-direction: row;
+  align-items: center;
+}
+li > label > input {
+  margin-right: 1rem;
+}
+
+.submit {
+  margin: 0 auto;
+  width: 100%;
+}
+.submit > button {
+  width: 80%;
+  max-width: 300px;
+  display: block;
+  margin: 0 auto;
+  height: 100%;
+  background-image: linear-gradient(var(--light-yellow), var(--dark-yellow));
+  border-width: 0.2em;
+  border-color: var(--dark-yellow);
+  font-size: 1.2em;
+  font-weight: bold;
+  color: var(--dark-1);
+  cursor: pointer;
+  margin-top: 0.8em;
+}
+.submit > button:hover {
+  background-image: none;
+  background-color: var(--light-yellow);
+}
+
+.flash {
+  animation: flash 2s ease-in-out 1s infinite;
+}
+@keyframes flash {
+  0% {
+    background-color: black;
+  }
+  50% {
+    background-color: #555;
+  }
+  100% {
+    background-color: black;
+  }
+}
+.arm {
+  width: 10%;
+  height: 18%;
+  background-color: #111;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  margin: 0 auto;
+}
+.stand {
+  width: 100%;
+  height: 2%;
+  background-color: #111;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  margin: 0 auto;
+}

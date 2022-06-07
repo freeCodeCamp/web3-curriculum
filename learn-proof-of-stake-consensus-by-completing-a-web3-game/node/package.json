@@ -1,0 +1,23 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShaunSHamilton/silly-websocket.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --stack-trace-limit=2 index.js",
+    "start": "node index.js"
+  },
+  "type": "module",
+  "author": "Shaun Hamilton",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

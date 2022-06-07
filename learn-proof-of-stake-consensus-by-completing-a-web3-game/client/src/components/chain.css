@@ -1,0 +1,33 @@
+#chain-container {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 35vw;
+  height: 50vh;
+  background-color: black;
+  opacity: 0.75;
+  font-size: 0.8rem;
+  border-radius: 5px;
+  overflow: auto;
+}
+
+#chain-container > h2 {
+  text-align: center;
+}
+
+#transaction-pool-container {
+  position: absolute;
+  top: 50vh;
+  left: 5px;
+  width: 30vw;
+  height: 50vh;
+  background-color: black;
+  opacity: 0.75;
+  font-size: 0.8rem;
+  border-radius: 5px;
+  overflow: auto;
+}
+
+#transaction-pool-container > h2 {
+  text-align: center;
+}

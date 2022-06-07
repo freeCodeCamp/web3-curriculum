@@ -1,0 +1,48 @@
+.server-stack {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column-reverse;
+  max-width: 60vw;
+  max-height: 30vh;
+  height: fit-content;
+  width: fit-content;
+  align-items: center;
+}
+/* If screen width is less than 900px */
+@media screen and (max-width: 900px) {
+  .server-stack {
+    max-width: 80vw;
+  }
+}
+.server {
+  width: var(--server-width);
+  aspect-ratio: 5 / 1;
+  background-color: black;
+  border: #444 solid var(--server-border-width);
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap-reverse;
+  gap: 10px;
+}
+
+.status-led {
+  width: 10px;
+  height: 5px;
+  flex-basis: 10px;
+  margin: auto 0;
+}
+.status-led:hover {
+  cursor: pointer;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

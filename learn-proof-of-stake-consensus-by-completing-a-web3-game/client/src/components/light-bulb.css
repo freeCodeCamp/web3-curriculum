@@ -1,0 +1,46 @@
+.light-bulb {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: fit-content;
+}
+.wire {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  width: 7px;
+  height: 80px;
+  background-color: black;
+}
+.shade {
+  width: 60px;
+  height: 50px;
+  border-top-left-radius: 100px;
+  border-top-right-radius: 100px;
+  background-color: black;
+  z-index: 1;
+}
+.bulb {
+  background-color: yellow;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  margin: -20px auto;
+  z-index: 0;
+}
+.light {
+  top: 620px;
+  width: 2120px;
+  aspect-ratio: 1 / 1;
+  position: fixed;
+  background: rgb(238, 255, 0);
+  background: linear-gradient(
+    to right bottom,
+    rgba(251, 255, 0, 0.301),
+    6%,
+    rgba(78, 83, 34, 0),
+    30%,
+    transparent
+  );
+  transform: rotate(45deg);
+}

@@ -1,0 +1,11 @@
+tasks:
+  - init: npm install && npm run build:blockchain && npm run build:client
+
+ports:
+  - port: 3000
+    visibility: private
+    onOpen: open-preview
+
+vscode:
+  extensions:
+    - dbaeumer.vscode-eslint

@@ -1,0 +1,6 @@
+{
+  "rust-analyzer.linkedProjects": [
+    "build-a-smart-contract-in-rust/Cargo.toml",
+    "learn-proof-of-stake-consensus-by-completing-a-web3-game/blockchain/Cargo.toml"
+  ]
+}

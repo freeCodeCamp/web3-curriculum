@@ -1,0 +1,241 @@
+.camperbot {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 99999;
+  width: fit-content;
+  height: 230px;
+  padding: 10px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+}
+
+.camperbot-body {
+  position: relative;
+  top: 0;
+  right: 0;
+  animation: hover 6s ease-in-out 1s infinite;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes hover {
+  0% {
+    top: 0;
+  }
+  50% {
+    top: 10px;
+  }
+  100% {
+    top: 0;
+  }
+}
+
+.camperbot-hat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.camperbot-hat:hover {
+  cursor: pointer;
+}
+.camperbot-hat > .ball {
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  background-color: green;
+}
+.camperbot-hat > .rod {
+  width: 2px;
+  height: 25px;
+  background-color: green;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+}
+.camperbot-hat > .rod > .ring {
+  width: 15px;
+  height: 1px;
+  background-color: green;
+}
+.camperbot-hat > .bowl {
+  width: 30px;
+  height: 20px;
+  border: 1px solid green;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  background-color: green;
+}
+.camperbot-hat > .bowl > .logo {
+  background-image: url("https://www.freecodecamp.org/favicon-32x32.png?v=6cba562cbd10e31af925a976f3db73f7");
+  width: 105%;
+  height: 140%;
+  transform: scale(0.55);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.camperbot-head {
+  width: 80px;
+  height: 40px;
+  background-color: green;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-areas:
+    "eye-left eye-right"
+    "mouth mouth";
+  border-radius: 3px;
+}
+.camperbot-eye {
+  border: 1px solid yellow;
+  width: 10px;
+  height: 10px;
+  background-color: yellow;
+  border-radius: 50%;
+  margin: auto;
+}
+.camperbot-eye.left {
+  grid-area: eye-left;
+}
+.camperbot-eye.right {
+  grid-area: eye-right;
+}
+.camperbot-mouth {
+  grid-area: mouth;
+  border: 1px solid yellow;
+  width: 50%;
+  height: 9px;
+  background-color: yellow;
+  border-radius: 10%;
+  margin: auto;
+}
+.camperbot-mouth > .speech-smoke {
+  width: 0;
+  height: 0;
+  border-left: 2vh solid transparent;
+  border-right: 2vh solid transparent;
+  border-top: 10vh solid grey;
+  margin-top: -20px;
+  margin-left: -30px;
+  transform: rotate(250deg);
+}
+.speech-smoke > .speech-bubble {
+  width: 230px;
+  min-height: 60px;
+  background-color: grey;
+  border-radius: 10%;
+  padding: 0.4rem;
+  color: var(--light-2);
+  transform: rotate(-250deg);
+  transform-origin: right top;
+  margin-top: -50px;
+  margin-left: -220px;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2rem;
+}
+.speech-bubble > .speech-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.speech-buttons > button {
+  background-color: var(--dark-yellow);
+  border: 1px solid var(--light-yellow);
+  border-radius: 5px;
+  padding: 0.1rem;
+  width: 55px;
+  color: var(--light-1);
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.speech-buttons > button:hover {
+  background-color: var(--light-yellow);
+  border: 1px solid var(--dark-yellow);
+  color: var(--dark-1);
+}
+
+.speech-bubble > pre {
+  white-space: break-spaces;
+  letter-spacing: 0.15em; /* Adjust as needed */
+  animation: blink-caret 0.75s step-end infinite;
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: orange;
+  }
+}
+
+.camperbot-neck {
+  width: 10px;
+  height: 11px;
+  background-color: green;
+}
+
+.camperbot-torso {
+  width: 90px;
+  height: 40px;
+  text-align: center;
+  font-weight: 700;
+  align-items: center;
+  background-color: green;
+  display: flex;
+  justify-content: center;
+  border-radius: 3px;
+}
+
+/* .camperbot-arm {
+}
+.camperbot-arm.left {
+}
+.camperbot-arm.right {
+} */
+
+/* .camperbot-prop {
+} */
+.camperbot-prop > div {
+  border: 2px solid green;
+  height: 10px;
+  border-radius: 40% / 50%;
+  margin: 10px auto;
+  animation: propel 4s ease-in-out 0s infinite;
+}
+.camperbot-prop > .top {
+  width: 50px;
+  animation-delay: 0.1s;
+}
+.camperbot-prop > .mid {
+  width: 30px;
+  animation-delay: 0.3s;
+}
+.camperbot-prop > .bot {
+  width: 20px;
+  animation-delay: 0.55s;
+}
+
+@keyframes propel {
+  0% {
+    margin: 10px auto;
+  }
+  50% {
+    margin: 0px auto;
+  }
+  100% {
+    margin: 10px auto;
+  }
+}

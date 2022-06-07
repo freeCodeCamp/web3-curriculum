@@ -1,0 +1,46 @@
+{
+  "name": "proof-of-stake",
+  "version": "1.0.0",
+  "description": "freeCodeCamp Web3 curriculum project",
+  "main": "node/index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "build:blockchain": "wasm-pack build --debug blockchain --target nodejs",
+    "build:client": "npm -w=client run build",
+    "build:quiz": "node ./utils/parser/index.js",
+    "dev:client": "npm -w=client run watch",
+    "dev:node": "LOG_LEVEL=debug npm -w=node run dev",
+    "start:client": "npm -w=client run start",
+    "start:node": "npm -w=node run start"
+  },
+  "workspaces": [
+    "client",
+    "node"
+  ],
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShaunSHamilton/proof-of-stake.git"
+  },
+  "keywords": [
+    "freeCodeCamp",
+    "web3",
+    "course",
+    "curriculum",
+    "proof",
+    "of",
+    "stake"
+  ],
+  "author": "Shaun Hamilton",
+  "license": "CC-BY-SA-4.0",
+  "bugs": {
+    "url": "https://github.com/ShaunSHamilton/proof-of-stake/issues"
+  },
+  "homepage": "https://github.com/ShaunSHamilton/proof-of-stake#readme",
+  "devDependencies": {
+    "js-yaml": "^4.1.0",
+    "wasm-pack": "^0.10.2"
+  }
+}
