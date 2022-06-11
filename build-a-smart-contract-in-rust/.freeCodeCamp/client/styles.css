@@ -1,0 +1,131 @@
+:root {
+  --dark-1: #0a0a23;
+  --dark-2: #1b1b32;
+  --dark-3: #2a2a40;
+  --dark-4: #3b3b4f;
+  --light-1: #ffffff;
+  --light-2: #f5f6f7;
+  --light-3: #dfdfe2;
+  --light-4: #d0d0d5;
+  --light-purple: #dbb8ff;
+  --light-yellow: #f1be32;
+  --light-blue: #99c9ff;
+  --light-green: #acd157;
+  --dark-purple: #5a01a7;
+  --dark-yellow: #ffac33;
+  --dark-something: #4d3800;
+  --dark-blue: #002ead;
+  --dark-green: #00471b;
+}
+* {
+  color: white;
+}
+body {
+  background-color: var(--dark-1);
+  margin: 0;
+  text-align: center;
+  font-family: monospace;
+  font-size: 1.1rem;
+}
+
+header {
+  width: 100%;
+  height: 55px;
+  background-color: var(--dark-2);
+  display: flex;
+}
+
+#logo {
+  width: 350px;
+  height: 42px;
+  max-height: 100%;
+  background-color: var(--dark-1);
+  padding: 0.4rem;
+  display: block;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.loader {
+  --b: 10px; /* border thickness */
+  --n: 10; /* number of dashes*/
+  --g: 10deg; /* gap  between dashes*/
+  --c: red; /* the color */
+
+  width: 100px; /* size */
+  margin: 0 auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  padding: 1px; /* get rid of bad outlines */
+  background: conic-gradient(#0000, var(--c)) content-box;
+  -webkit-mask: /* we use +/-1deg between colors to avoid jagged edges */ repeating-conic-gradient(
+      #0000 0deg,
+      #000 1deg calc(360deg / var(--n) - var(--g) - 1deg),
+      #0000 calc(360deg / var(--n) - var(--g)) calc(360deg / var(--n))
+    ),
+    radial-gradient(
+      farthest-side,
+      #0000 calc(98% - var(--b)),
+      #000 calc(100% - var(--b))
+    );
+  mask: repeating-conic-gradient(
+      #0000 0deg,
+      #000 1deg calc(360deg / var(--n) - var(--g) - 1deg),
+      #0000 calc(360deg / var(--n) - var(--g)) calc(360deg / var(--n))
+    ),
+    radial-gradient(
+      farthest-side,
+      #0000 calc(98% - var(--b)),
+      #000 calc(100% - var(--b))
+    );
+  -webkit-mask-composite: destination-in;
+  mask-composite: intersect;
+  animation: load 1s infinite steps(var(--n));
+}
+.width-10 {
+  width: 10px;
+}
+.width-20 {
+  width: 20px;
+}
+.width-30 {
+  width: 30px;
+}
+.width-40 {
+  width: 40px;
+}
+.width-50 {
+  width: 50px;
+}
+.width-60 {
+  width: 60px;
+}
+.width-70 {
+  width: 70px;
+}
+.width-80 {
+  width: 80px;
+}
+.width-90 {
+  width: 90px;
+}
+[class*="width-"] {
+  margin: 0;
+  display: inline-block;
+}
+
+@keyframes load {
+  to {
+    transform: rotate(1turn);
+  }
+}
+.hidden {
+  display: none;
+}
+
+code {
+  background-color: var(--dark-3);
+  color: var(--light-1);
+  padding: 0.2rem;
+}

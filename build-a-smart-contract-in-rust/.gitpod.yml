@@ -1,0 +1,15 @@
+image: gitpod/workspace-full
+
+# Commands to start on workspace startup
+tasks:
+  - init: cd .freeCodeCamp && cp sample.env .env && npm ci
+    command: code --install-extension ../.devcontainer/freeCodeCamp.freecodecamp-dark-vscode-theme-0.1.0.vsix && exit
+
+ports:
+  - port: 8080
+    onOpen: open-preview
+
+# TODO: See about publishing to Open VSX for smoother process
+vscode:
+  extensions:
+    - https://github.com/freeCodeCamp/freecodecamp-courses/raw/main/freecodecamp-courses-patch.vsix

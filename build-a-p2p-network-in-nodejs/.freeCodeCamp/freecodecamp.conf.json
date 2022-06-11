@@ -1,0 +1,34 @@
+{
+  "path": ".freeCodeCamp",
+  "prepare": "\\cp sample.env .env && source ./tooling/.bashrc && npm ci",
+  "scripts": {
+    "develop-course": "npm run develop",
+    "run-course": "npm run start",
+    "test": {
+      "functionName": "handleMessage",
+      "arguments": [
+        {
+          "message": "Hello World!",
+          "type": "info"
+        }
+      ]
+    }
+  },
+  "workspace": {
+    "previews": [
+      {
+        "open": true,
+        "url": "http://localhost:8080",
+        "showLoader": true
+      }
+    ],
+    "terminals": [
+      {
+        "name": "JavaScript",
+        "directory": ".",
+        "show": true,
+        "message": "'Use me to run your code'"
+      }
+    ]
+  }
+}
