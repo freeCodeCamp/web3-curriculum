@@ -4,6 +4,4 @@
 
 In this project, you will build a web3 client-side package for your distributed application.
 
-## User Stories
-
-## Tests
+- Should this project have a `createSmartContract` method to create the smart contract from an IDL?

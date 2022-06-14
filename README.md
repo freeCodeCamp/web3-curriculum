@@ -14,12 +14,7 @@ https://astexplorer.net/
 
 ### User Stories
 
-1. You should default export `Web3` from `./index.js`
-2. `Web3` should accept an argument, and set `Web3.provider` to an instance of `URL` constructed with that argument
-3. `Web3.provider` should be an instance of `URL`
-4. `Web3` should have a method named `setClientAddress`
-5. `setClientAddress` should accept one argument and set `Web3.address` to that argument
-6.
+[build-a-web3-client-side-package-for-your-dapp.md](./.freeCodeCamp/tooling/locales/english/build-a-web3-client-side-package-for-your-dapp.md)
 
 ## <u>[Learn Websockets by Building a Blockchain Explorer](./learn-websockets-by-building-a-blockchain-explorer/)</u>
 
@@ -45,5 +40,4 @@ https://astexplorer.net/
 
 ### User Stories
 
-1. You should use Wasm-Pack to compile your Rust code to WebAssembly
-2. You should create a new Rust library named
+[build-a-smart-contract-in-rust.md](./.freeCodeCamp/tooling/locales/english/build-a-smart-contract-in-rust.md)
