@@ -42,31 +42,19 @@ Your package should export a class with the handle `Web3`.
 
 ```
 
-Your `Web3` class should be initialised with a `URL` parseable argument.
+Your `Web3` class should have a `provider` property that is an instance of `URL` constructed from the initialiser argument.
 
 ```js
 
 ```
 
-Your `Web3` class should have a `provider` property that is an instance of `URL` constructed from the only initialiser argument.
-
-```js
-
-```
-
-Your `Web3` class should have a `setClientAddress` method that takes a `String` as an argument and sets the `address` property of the class to the argument.
+Your `Web3` class should have a `setClientAddress` method that takes a `string` as an argument and sets the `address` property of the class to the argument.
 
 ```js
 
 ```
 
 Your `Web3` class should have an asynchronous method with the handle `call`.
-
-```js
-
-```
-
-The `call` method should accept one argument which is an RPC object literal.
 
 ```js
 
@@ -114,31 +102,13 @@ Your `Web3` class should have an asynchronous method with the handle `getBalance
 
 ```
 
-The `getBalance` method should accept one argument which is a string pointing to an account.
-
-```js
-
-```
-
 Your `Web3` class should have an asynchronous method with the handle `transfer`.
 
 ```js
 
 ```
 
-The `transfer` method should accept two arguments. The first is a string pointing to the desired recipient account. The second is a number representing the amount to transfer.
-
-```js
-
-```
-
 Your `Web3` class should have an asynchronous method with the handle `createIDL`.
-
-```js
-
-```
-
-`createIDL` should accept one argument which is an object literal representing the IDL of a smart contract.
 
 ```js
 
