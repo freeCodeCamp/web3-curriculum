@@ -39,31 +39,44 @@ createIDL(wasmJs: any, id: number): Promise<Record<string, any>>
 Your package should export a class with the handle `Web3`.
 
 ```js
-
+const Web3 = await import("./index.js");
+assert.exists(Web3);
 ```
 
 Your `Web3` class should have a `provider` property that is an instance of `URL` constructed from the initialiser argument.
 
 ```js
-
+const Web3 = await import("./index.js");
+const web3 = new Web3("http://localhost:3000");
+assert(web3.provider instanceof URL);
+assert.equal(web3.provider.href, "http://localhost:3000/");
 ```
 
 Your `Web3` class should have a `setClientAddress` method that takes a `string` as an argument and sets the `address` property of the class to the argument.
 
 ```js
-
+const Web3 = await import("./index.js");
+const web3 = new Web3("http://localhost:3000");
+assert.isFunction(web3.setClientAddress); // TODO: Is this a thing?
+web3.setClientAddress("Tom_the_tomnificent");
+assert.equal(web3.address, "Tom_the_tomnificent");
 ```
 
 Your `Web3` class should have an asynchronous method with the handle `call`.
 
 ```js
-
+const Web3 = await import("./index.js");
+const web3 = new Web3("http://localhost:3000");
+assert.isFunction(web3.call);
 ```
 
 The `call` method should make a `POST /call-smart-contract` request to the `href` of `this.provider`.
 
 ```js
-
+const Web3 = await import("./index.js");
+const web3 = new Web3("http://localhost:3000");
+await web3.call("todo");
+const tests = await (await fetch("http://localhost:3000/tests")).json();
 ```
 
 The `POST /call-smart-contract` request should have a body including the JSON stringified version of the RPC object literal.
@@ -93,25 +106,33 @@ The `call` method should return a promise that resolves with the object literal 
 Your `Web3` class should have a method with the handle `createSmartContract`.?
 
 ```js
-
+const Web3 = await import("./index.js");
+const web3 = new Web3("http://localhost:3000");
+assert.isFunction(web3.createSmartContract);
 ```
 
 Your `Web3` class should have an asynchronous method with the handle `getBalance`.
 
 ```js
-
+const Web3 = await import("./index.js");
+const web3 = new Web3("http://localhost:3000");
+assert.isFunction(web3.getBalance);
 ```
 
 Your `Web3` class should have an asynchronous method with the handle `transfer`.
 
 ```js
-
+const Web3 = await import("./index.js");
+const web3 = new Web3("http://localhost:3000");
+assert.isFunction(web3.transfer);
 ```
 
 Your `Web3` class should have an asynchronous method with the handle `createIDL`.
 
 ```js
-
+const Web3 = await import("./index.js");
+const web3 = new Web3("http://localhost:3000");
+assert.isFunction(web3.createIDL);
 ```
 
 `createIDL` should make a `POST /idl` request to the `href` of `this.provider`, with the `idl` argument as the body.

@@ -21,14 +21,6 @@
         "url": "http://localhost:8080",
         "showLoader": true
       }
-    ],
-    "terminals": [
-      {
-        "name": "JavaScript",
-        "directory": ".",
-        "show": true,
-        "message": "'Use me to run your code'"
-      }
     ]
   }
 }
