@@ -1,4 +1,4 @@
-use wasm_bindgen::{prelude::*};
+use wasm_bindgen::prelude::*;
 use serde::{Deserialize, Serialize};
 use serde_json;
 
@@ -13,6 +13,17 @@ pub struct Account {
 #[derive(Serialize, Deserialize)]
 pub struct Context {
     pub base_account: Account
+}
+
+#[wasm_bindgen]
+pub fn initialise() -> Result<JsValue, JsError> {
+    let context = Context {
+        base_account: Account {
+            total_clicks: 0,
+            clickers: vec![],
+        }
+    };
+    Ok(JsValue::from_serde(&context).unwrap())
 }
 
 #[wasm_bindgen]

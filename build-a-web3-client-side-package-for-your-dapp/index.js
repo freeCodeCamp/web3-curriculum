@@ -66,7 +66,7 @@ export default class Web3 {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ address: address || this.address }),
+        body: JSON.stringify({ from: address || this.address, to, amount }),
       });
       return (await response.json()).result;
     } catch (err) {

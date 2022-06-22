@@ -4,7 +4,9 @@
   "description": "## Description",
   "main": "test.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node fixture/provider.js",
+    "build:blockchain": "wasm-pack build fixture/blockchain --target nodejs --out-dir ./fixture/blockchain/pkg",
+    "build:contract": "wasm-pack build ../build-a-smart-contract-in-rust --out-dir ../build-a-web3-client-side-package-for-your-dapp/fixture/pkg --target nodejs"
   },
   "repository": {
     "type": "git",
