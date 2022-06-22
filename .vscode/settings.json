@@ -35,6 +35,7 @@
   // "explorer.openEditors.visible": 0,
   // "extensions.autoCheckUpdates": false,
   // "extensions.ignoreRecommendations": true,
+  // Hide .gitignore file in the explorer
   // "files.exclude": {
   // "**/.git": true,
   // "**/.svn": true,
@@ -43,7 +44,7 @@
   // "**/.DS_Store": true
   // ".freecodecamp": true,
   // ".vscode": true
-  // ".gitignore": true,
+  // ".gitignore": true
   // ".freeCodeCamp": true,
   // ".env": true,
   // ".gitpod.yml": true,
@@ -53,7 +54,7 @@
   // "README.md": true,
   // ".devcontainer": true,
   // "curriculum": true
-  // },
+  // }
   // "html.autoClosingTags": false,
   // "npm.fetchOnlinePackageInfo": false,
   // "task.slowProviderWarning": false,

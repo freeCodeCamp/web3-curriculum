@@ -24,12 +24,18 @@ export default class Web3 {
     }
   }
   // Init rpc with given IDL
-  createSmartContract(idl) {
+  initSmartContract(idl) {
     const smartContract = {};
     for (const instruction of idl.instructions) {
       smartContract[instruction.handle] = async (...args) => {
+        for (const i in args) {
+          if (typeof args[i] !== instruction.args[i]) {
+            throw new Error(
+              `Unexpected argument: ${args[i]}\nExpected: ${instruction.args[i]}`
+            );
+          }
+        }
         const rpcCall = {
-          version: idl.version,
           method: instruction.handle,
           args,
           id: idl.id,
@@ -55,7 +61,7 @@ export default class Web3 {
   }
   async transfer(to, amount) {
     try {
-      const response = await fetch(`${this.provider.href}get-balance`, {
+      const response = await fetch(`${this.provider.href}transfer`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,23 +69,6 @@ export default class Web3 {
         body: JSON.stringify({ address: address || this.address }),
       });
       return (await response.json()).result;
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  createIDL(wasmJs, id) {
-    try {
-      const entries = Object.entries(wasmJs);
-      const functions = entries.filter(([_, val]) => typeof val === "function");
-      const idl = functions.reduce((acc, [key, func]) => {
-        acc.instructions.push({
-          handle: key,
-          args: func.length,
-        });
-        return acc;
-      }, {});
-      idl.id = id;
-      return idl;
     } catch (err) {
       console.error(err);
     }

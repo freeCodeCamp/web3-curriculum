@@ -6,6 +6,10 @@
 
 You will be building a client-side package in the form of a class that can be used to interact with a Web3 provider.
 
+The `example/` directory should **not** be altered.
+
+An example provider exists in `example/provider.js`. An example client using your `Web3` package exists in `example/client/`. You can view the client at `http://localhost:3000`.
+
 **User Stories:**
 
 Your `Web3` class should have the following methods:
@@ -19,7 +23,7 @@ call(rpcCall: Record<string, any>): Promise<Record<string, any>>
 ```
 
 ```ts
-createSmartContract(idl: Record<string, any>): Promise<Record<string, any>>
+initSmartContract(idl: Record<string, any>): Promise<Record<string, any>>
 ```
 
 ```ts
@@ -28,10 +32,6 @@ getBalance(address: string): Promise<number>
 
 ```ts
 transfer(to: string, amount: number): Promise<Record<string, any>>
-```
-
-```ts
-createIDL(wasmJs: any, id: number): Promise<Record<string, any>>
 ```
 
 ### --tests--
@@ -48,7 +48,7 @@ Your `Web3` class should have a `provider` property that is an instance of `URL`
 ```js
 const Web3 = await import("./index.js");
 const web3 = new Web3("http://localhost:3000");
-assert(web3.provider instanceof URL);
+assert.instanceOf(web3.provider, URL);
 assert.equal(web3.provider.href, "http://localhost:3000/");
 ```
 
@@ -125,20 +125,6 @@ Your `Web3` class should have an asynchronous method with the handle `transfer`.
 const Web3 = await import("./index.js");
 const web3 = new Web3("http://localhost:3000");
 assert.isFunction(web3.transfer);
-```
-
-Your `Web3` class should have an asynchronous method with the handle `createIDL`.
-
-```js
-const Web3 = await import("./index.js");
-const web3 = new Web3("http://localhost:3000");
-assert.isFunction(web3.createIDL);
-```
-
-`createIDL` should make a `POST /idl` request to the `href` of `this.provider`, with the `idl` argument as the body.
-
-```js
-
 ```
 
 ## --fcc-end--
