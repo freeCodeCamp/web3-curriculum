@@ -26,7 +26,14 @@ pub struct Transfer {
 pub enum Transactions {
     AddAccount(String),
     AddSmartContract(SmartContract),
+    SetSmartContractState(Context),
     Transfer(Transfer),
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Context {
+    pub id: u64,
+    pub context: String
 }
 
 #[wasm_bindgen]
@@ -58,6 +65,13 @@ pub fn mine_block(chain: JsValue, transactions: JsValue) -> Result<JsValue, JsEr
             Transactions::AddSmartContract(mut smart_contract) => {
                 smart_contract.id = Some(chain.get_num_smart_contracts());
                 data.smart_contracts.push(smart_contract);
+            }
+            Transactions::SetSmartContractState(context) => {
+                let mut context: Context = context.into_serde()?;
+                let id = context.id;
+                let context = context.context;
+                let mut smart_contract = data.smart_contracts.iter_mut().find(|sc| sc.id == Some(id)).unwrap();
+                smart_contract.context = context;
             }
             Transactions::Transfer(transfer) => {
                 if let Some(from_account) = chain.get_account_by_address(&transfer.from) {

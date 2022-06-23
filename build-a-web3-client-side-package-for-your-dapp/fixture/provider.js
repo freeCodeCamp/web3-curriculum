@@ -25,16 +25,23 @@ try {
 const app = express();
 
 app.use(express.json());
-app.use(express.static("client"));
+app.use(express.static(loc("../client")));
+app.use(express.static(loc("../")));
 
 app.get("/", (req, res) => {
   const client = loc("client/index.html");
-  debug(client);
   res.sendFile(client);
 });
 
 app.post("/call-smart-contract", async (req, res) => {
   const { id, method, args, address } = req.body;
+
+  if (![id, method, address].filter(Boolean).length) {
+    res
+      .status(400)
+      .json({ error: `Missing required fields: ${(id, method, address)}` });
+    return;
+  }
 
   try {
     const result = await callSmartContract(id, method, args, address);
@@ -67,7 +74,7 @@ app.get("/tests", (req, res) => {
 // Start a server listening on port 3001
 const PORT = 3001;
 app.listen(PORT, () => {
-  info(`Test server on port ${PORT}`);
+  info(`Test server at http://localhost:${PORT}`);
 });
 
 async function getChain() {
@@ -76,26 +83,28 @@ async function getChain() {
   return JSON.parse(chain);
 }
 
+const MICRO_SECOND = 1000;
 async function callSmartContract(smartContractId, method, args, callerAddress) {
   const smartContract = await getSmartContractById(smartContractId);
-  const buf = Buffer.from(smartContract.byte_code);
-  const wasmModule = await WebAssembly.instantiate(buf);
-  const context = smartContract.context;
-
+  if (!smartContract) throw new Error("Smart contract not found");
+  debug(smartContract);
+  await createPkg(Buffer.from(smartContract.pkg));
+  const contract = await getSmartContract("build_a_smart_contract_in_rust");
+  const context = JSON.parse(smartContract.context);
   const start = performance.now();
-  const res = wasmModule.instance.exports[method](context, ...args);
+  const res = contract[method](context, ...args);
 
   // Smart Contract function is a set method - alters blockchain state
   // Else, function is a view method - does not alter blockchain state
   if (method.startsWith("set")) {
     // Re-deploy contract with new state
-    await deploy(smartContract.base_account, smartContract.byte_code, res);
+    await setSmartContractState(smartContract.id, res);
   }
   const end = performance.now();
 
   const cost = calculateCost(MICRO_SECOND * (end - start));
   debug(`Calling '${method}' cost '${cost}' tokens`);
-  debug(`Result: ${res}`);
+  debug("Result: ", res);
   addTransaction(transfer(callerAddress, PROGRAM_ACCOUNT, cost));
 
   return res;
@@ -144,25 +153,29 @@ async function mine() {
   try {
     const transactions = await readFile(TRANSACTIONS_PATH, "utf8");
     const chain = await readFile(CHAIN_PATH, "utf8");
-    const updatedChain = mine_block(
-      JSON.parse(chain),
-      JSON.parse(transactions)
-    );
+    if (transactions.length > 0) {
+      const updatedChain = mine_block(
+        JSON.parse(chain),
+        JSON.parse(transactions)
+      );
 
-    await writeFile(CHAIN_PATH, JSON.stringify(updatedChain));
-    await writeFile(TRANSACTIONS_PATH, JSON.stringify([]));
+      await writeFile(CHAIN_PATH, JSON.stringify(updatedChain));
+      await writeFile(TRANSACTIONS_PATH, JSON.stringify([]));
+    } else {
+      debug("No transactions to mine");
+    }
   } catch (e) {
     error(e);
   }
 }
 
-async function deploy(contractOwner, byteCode, state = {}) {
+async function deploy(contractOwner, pkg, state = {}) {
   try {
     await addTransaction(
       addSmartContract({
-        byte_code: byteCode.toJSON().data,
+        pkg,
         base_account: contractOwner,
-        context: state,
+        context: JSON.stringify(state),
       })
     );
   } catch (e) {
@@ -173,6 +186,27 @@ async function deploy(contractOwner, byteCode, state = {}) {
 function addSmartContract(smartContract) {
   return {
     AddSmartContract: smartContract,
+  };
+}
+
+async function setSmartContractState(id, state = {}) {
+  try {
+    await addTransaction(
+      setSmartContractState({
+        id,
+        context: JSON.stringify(state),
+      })
+    );
+  } catch (e) {
+    console.error(e);
+  }
+}
+function setSmartContractState(id, state) {
+  return {
+    SetSmartContractState: {
+      id,
+      state,
+    },
   };
 }
 
@@ -194,20 +228,50 @@ async function init() {
   // Add genesis block
   await mine();
 
-  const { initialise } = await import(
-    "./pkg/build_a_smart_contract_in_rust.js"
-  );
-  const context = initialise();
-  debug(context);
+  const pkg = await readFile(loc("data/contract.json"));
 
-  const byteCode = await readFile(
-    loc("pkg/build_a_smart_contract_in_rust_bg.wasm")
-  );
-  await deploy(PROGRAM_ACCOUNT, byteCode, context);
+  await createPkg(pkg);
+  const contract = await getSmartContract("build_a_smart_contract_in_rust");
+  const context = contract.initialise();
+
+  await deploy(PROGRAM_ACCOUNT, pkg, context);
+  await mine();
 }
 
-watch(TRANSACTIONS_PATH, { interval: 1000 }, async () => {
-  info("Mining a new block...");
-  await mine();
-  info("New block mined!");
+async function createPkg(pkg) {
+  const PATH_TO_TEMP_DIR = loc("./data/tmp");
+  const files = JSON.parse(pkg);
+  for (const file of files) {
+    // Write file to temp dir
+    const filePath = `${PATH_TO_TEMP_DIR}/${file.name}`;
+    await writeFile(filePath, Buffer.from(file.buffer));
+  }
+}
+
+async function getSmartContract(name) {
+  const PATH_TO_TEMP_DIR = loc("./data/tmp");
+  const wasm = await import(PATH_TO_TEMP_DIR + "/" + name + ".js");
+  return wasm;
+  // const wasmModule = await WebAssembly.instantiate(wasm);
+  // return wasmModule.instance.exports;
+}
+
+// Rate limit watch callback
+
+const RATE_LIMIT_WATCH_INTERVAL = 1000;
+let shouldMine = true;
+
+watch(TRANSACTIONS_PATH, async () => {
+  if (shouldMine) {
+    const transactions = await readFile(TRANSACTIONS_PATH, "utf8");
+    if (transactions.length > 0) {
+      info("Mining a new block...");
+      shouldMine = false;
+      await mine();
+      info("New block mined!");
+      setTimeout(() => {
+        shouldMine = true;
+      }, RATE_LIMIT_WATCH_INTERVAL);
+    }
+  }
 });

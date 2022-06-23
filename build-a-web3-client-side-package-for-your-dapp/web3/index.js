@@ -1,3 +1,8 @@
+import logover, { error } from "../node_modules/logover/lib/index.js";
+logover({
+  level: "debug",
+});
+
 export default class Web3 {
   constructor(provider) {
     this.provider = new URL(provider);
@@ -18,7 +23,11 @@ export default class Web3 {
         },
         body: JSON.stringify({ ...rpcCall, address: this.address }),
       });
-      return (await response.json()).result;
+      const res = await response.json();
+      if (res.error) {
+        throw new Error(res.error);
+      }
+      return res.result;
     } catch (err) {
       error(err);
     }
@@ -54,9 +63,13 @@ export default class Web3 {
         },
         body: JSON.stringify({ address: address || this.address }),
       });
-      return (await response.json()).result;
+      const res = await response.json();
+      if (res.error) {
+        throw new Error(res.error);
+      }
+      return res.result;
     } catch (err) {
-      console.error(err);
+      error(err);
     }
   }
   async transfer(to, amount) {
@@ -68,9 +81,13 @@ export default class Web3 {
         },
         body: JSON.stringify({ from: address || this.address, to, amount }),
       });
-      return (await response.json()).result;
+      const res = await response.json();
+      if (res.error) {
+        throw new Error(res.error);
+      }
+      return res.result;
     } catch (err) {
-      console.error(err);
+      error(err);
     }
   }
 }
