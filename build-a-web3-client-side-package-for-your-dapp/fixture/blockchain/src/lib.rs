@@ -74,9 +74,17 @@ pub fn mine_block(chain: JsValue, transactions: JsValue) -> Result<JsValue, JsEr
             }
             Transactions::SetSmartContractContext(context) => {
                 let id = context.id;
-                let context = context.context;
-                let mut smart_contract = data.smart_contracts.iter_mut().find(|sc| sc.id == Some(id)).unwrap();
-                smart_contract.context = context;
+                if let Some(smart_contract) = chain.get_smart_contract_by_id(id) {
+                    let smart_contract = SmartContract {
+                        id: Some(id),
+                        base_account: smart_contract.base_account.clone(),
+                        context: context.context,
+                        pkg: None,
+                    };
+                    data.smart_contracts.push(smart_contract);
+                    } else {
+                        return Err(JsError::new("Could not find smart contract with id"));
+                    }
             }
             Transactions::Transfer(transfer) => {
                 if let Some(from_account) = chain.get_account_by_address(&transfer.from) {

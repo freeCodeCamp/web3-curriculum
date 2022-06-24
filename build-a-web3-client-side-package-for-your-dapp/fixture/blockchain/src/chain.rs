@@ -1,5 +1,6 @@
 use crate::account::Account;
 use crate::block::{Block, Data};
+use crate::smart_contract::SmartContract;
 use crate::{calculate_hash, hash_to_binary, DIFFICULTY_PREFIX};
 
 use chrono;
@@ -17,6 +18,18 @@ impl ChainTrait for Chain {
             for node in block.data.accounts.iter() {
                 if node.address == address {
                     return Some(node);
+                }
+            }
+        }
+        None
+    }
+
+    fn get_smart_contract_by_id(&self, id: u64) -> Option<&SmartContract> {
+        // Search Chain data in reverse
+        for block in self.iter().rev() {
+            for contract in block.data.smart_contracts.iter() {
+                if contract.id == Some(id) {
+                    return Some(contract);
                 }
             }
         }
@@ -66,4 +79,5 @@ pub trait ChainTrait {
     fn mine_block(&mut self, data: Data);
     fn get_account_by_address(&self, address: &str) -> Option<&Account>;
     fn get_num_smart_contracts(&self) -> u64;
+    fn get_smart_contract_by_id(&self, id: u64) -> Option<&SmartContract>;
 }

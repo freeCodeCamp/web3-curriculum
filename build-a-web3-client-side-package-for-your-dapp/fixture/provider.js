@@ -33,6 +33,12 @@ app.get("/", (req, res) => {
   res.sendFile(client);
 });
 
+app.post("/mine", async (req, res) => {
+  await mine();
+  res.status(200);
+  res.json({ result: "success" });
+});
+
 app.post("/call-smart-contract", async (req, res) => {
   const { id, method, args, address } = req.body;
 
@@ -80,6 +86,11 @@ app.listen(PORT, () => {
 async function getChain() {
   // Open chain from ./chain.json
   const chain = await readFile(CHAIN_PATH, "utf8");
+  // Log max end 200chars of chain
+  debug(
+    "CHAIN: ",
+    chain.slice(chain.length - Math.min(chain.length, 200), chain.length)
+  );
   return JSON.parse(chain);
 }
 
@@ -87,10 +98,10 @@ const MICRO_SECOND = 1000;
 async function callSmartContract(smartContractId, method, args, callerAddress) {
   const smartContract = await getSmartContractById(smartContractId);
   if (!smartContract) throw new Error("Smart contract not found");
-  debug(smartContract);
   await createPkg(Buffer.from(smartContract.pkg));
   const contract = await getSmartContract("build_a_smart_contract_in_rust");
-  const context = JSON.parse(smartContract.context);
+  const context = JSON.parse(await getSmartContractContext(smartContractId));
+  debug("context: ", context);
   const start = performance.now();
   const res = contract[method](context, ...args);
 
@@ -115,7 +126,7 @@ async function getSmartContractById(id) {
   for (let i = chain.length - 1; i >= 0; i--) {
     const block = chain[i];
     const smartContract = block.data.smart_contracts.find(
-      (smartContract) => smartContract.id === id
+      (smartContract) => smartContract.id === id && smartContract.pkg
     );
     if (smartContract) {
       return smartContract;
@@ -184,6 +195,23 @@ function addSmartContract(smartContract) {
   return {
     AddSmartContract: smartContract,
   };
+}
+
+async function getSmartContractContext(id) {
+  try {
+    const chain = await getChain();
+    for (let i = chain.length - 1; i >= 0; i--) {
+      const block = chain[i];
+      const smartContract = block.data.smart_contracts.find(
+        (smartContract) => smartContract.id === id
+      );
+      if (smartContract) {
+        return smartContract.context;
+      }
+    }
+  } catch (e) {
+    error(e);
+  }
 }
 
 async function setContext(id, state = {}) {

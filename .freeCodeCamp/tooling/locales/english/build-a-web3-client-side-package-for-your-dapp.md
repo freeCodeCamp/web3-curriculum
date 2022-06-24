@@ -57,7 +57,7 @@ Your `Web3` class should have a `setClientAddress` method that takes a `string` 
 ```js
 const Web3 = await import("./index.js");
 const web3 = new Web3("http://localhost:3001");
-assert.isFunction(web3.setClientAddress); // TODO: Is this a thing?
+assert.isFunction(web3.setClientAddress);
 web3.setClientAddress("Tom_the_tomnificent");
 assert.equal(web3.address, "Tom_the_tomnificent");
 ```
