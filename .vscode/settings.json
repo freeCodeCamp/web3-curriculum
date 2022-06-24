@@ -1,7 +1,8 @@
 {
   "rust-analyzer.linkedProjects": [
     "build-a-smart-contract-in-rust/Cargo.toml",
-    "learn-proof-of-stake-consensus-by-completing-a-web3-game/blockchain/Cargo.toml"
+    "learn-proof-of-stake-consensus-by-completing-a-web3-game/blockchain/Cargo.toml",
+    "build-a-web3-client-side-package-for-your-dapp/fixture/blockchain/Cargo.toml"
   ]
   //  "search.exclude": {
   //   "dist": true // set this to false to include "dist" folder in search results

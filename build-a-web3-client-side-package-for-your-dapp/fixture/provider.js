@@ -98,7 +98,7 @@ async function callSmartContract(smartContractId, method, args, callerAddress) {
   // Else, function is a view method - does not alter blockchain state
   if (method.startsWith("set")) {
     // Re-deploy contract with new state
-    await setSmartContractState(smartContract.id, res);
+    await setContext(smartContract.id, res);
   }
   const end = performance.now();
 
@@ -152,12 +152,9 @@ async function getBalance(address) {
 async function mine() {
   try {
     const transactions = await readFile(TRANSACTIONS_PATH, "utf8");
-    const chain = await readFile(CHAIN_PATH, "utf8");
+    const chain = await getChain();
     if (transactions.length > 0) {
-      const updatedChain = mine_block(
-        JSON.parse(chain),
-        JSON.parse(transactions)
-      );
+      const updatedChain = mine_block(chain, JSON.parse(transactions));
 
       await writeFile(CHAIN_PATH, JSON.stringify(updatedChain));
       await writeFile(TRANSACTIONS_PATH, JSON.stringify([]));
@@ -165,7 +162,7 @@ async function mine() {
       debug("No transactions to mine");
     }
   } catch (e) {
-    error(e);
+    error(e.message);
   }
 }
 
@@ -179,7 +176,7 @@ async function deploy(contractOwner, pkg, state = {}) {
       })
     );
   } catch (e) {
-    console.error(e);
+    error(e);
   }
 }
 
@@ -189,23 +186,19 @@ function addSmartContract(smartContract) {
   };
 }
 
-async function setSmartContractState(id, state = {}) {
+async function setContext(id, state = {}) {
+  debug("setContext: ", id, state);
   try {
-    await addTransaction(
-      setSmartContractState({
-        id,
-        context: JSON.stringify(state),
-      })
-    );
+    await addTransaction(setSmartContractContext(id, JSON.stringify(state)));
   } catch (e) {
-    console.error(e);
+    error(e);
   }
 }
-function setSmartContractState(id, state) {
+function setSmartContractContext(id, context) {
   return {
-    SetSmartContractState: {
+    SetSmartContractContext: {
       id,
-      state,
+      context,
     },
   };
 }
@@ -227,6 +220,12 @@ async function init() {
 
   // Add genesis block
   await mine();
+
+  // Add test addresses
+  await addTransaction({ AddAccount: "ahmad" });
+  await addTransaction({ AddAccount: "mrugesh" });
+  await addTransaction({ AddAccount: "quincy" });
+  await addTransaction({ AddAccount: "tom" });
 
   const pkg = await readFile(loc("data/contract.json"));
 
@@ -252,13 +251,11 @@ async function getSmartContract(name) {
   const PATH_TO_TEMP_DIR = loc("./data/tmp");
   const wasm = await import(PATH_TO_TEMP_DIR + "/" + name + ".js");
   return wasm;
-  // const wasmModule = await WebAssembly.instantiate(wasm);
-  // return wasmModule.instance.exports;
 }
 
 // Rate limit watch callback
 
-const RATE_LIMIT_WATCH_INTERVAL = 1000;
+const RATE_LIMIT_WATCH_INTERVAL = 2000;
 let shouldMine = true;
 
 watch(TRANSACTIONS_PATH, async () => {

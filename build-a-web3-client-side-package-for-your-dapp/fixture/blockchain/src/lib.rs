@@ -13,6 +13,12 @@ use smart_contract::SmartContract;
 use wasm_bindgen::prelude::*;
 // use web_sys::console;
 
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_namespace = console)]
+    fn log(s: &str);
+}
+
 pub static DIFFICULTY_PREFIX: &str = "0";
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -26,7 +32,7 @@ pub struct Transfer {
 pub enum Transactions {
     AddAccount(String),
     AddSmartContract(SmartContract),
-    SetSmartContractState(Context),
+    SetSmartContractContext(Context),
     Transfer(Transfer),
 }
 
@@ -59,15 +65,14 @@ pub fn mine_block(chain: JsValue, transactions: JsValue) -> Result<JsValue, JsEr
             Transactions::AddAccount(account) => {
                 data.accounts.push(Account {
                     address: account,
-                    balance: 0,
+                    balance: 1_000_000,
                 });
             }
             Transactions::AddSmartContract(mut smart_contract) => {
                 smart_contract.id = Some(chain.get_num_smart_contracts());
                 data.smart_contracts.push(smart_contract);
             }
-            Transactions::SetSmartContractState(context) => {
-                let mut context: Context = context.into_serde()?;
+            Transactions::SetSmartContractContext(context) => {
                 let id = context.id;
                 let context = context.context;
                 let mut smart_contract = data.smart_contracts.iter_mut().find(|sc| sc.id == Some(id)).unwrap();
@@ -87,12 +92,15 @@ pub fn mine_block(chain: JsValue, transactions: JsValue) -> Result<JsValue, JsEr
                             data.accounts.push(to_account);
                         } else {
                             // To account does not exist
+                            return Err(JsError::new("To account does not exist"));
                         }
                     } else {
                         // From account cannot afford this transfer
+                        return Err(JsError::new("From account cannot afford this transfer"));
                     }
                 } else {
                     // From account does not exist
+                    return Err(JsError::new("From account does not exist"));
                 }
             }
         };
@@ -101,20 +109,6 @@ pub fn mine_block(chain: JsValue, transactions: JsValue) -> Result<JsValue, JsEr
     chain.mine_block(data);
     Ok(JsValue::from_serde(&chain)?)
 }
-
-// #[wasm_bindgen]
-// pub fn transact(data: JsValue) -> Result<(), JsError> {
-//     let transaction: Transactions = data.into_serde()?;
-//     // console::log_1(&format!("{:?}", transaction).into());
-//     // Append `transaction` to `../../transactions.json`
-//     let transactions_file = std::fs::read_to_string("../../transactions.json")?;
-//     console::log_1(&format!("{:?}", transactions_file).into());
-//     let mut transactions: Vec<Transactions> = serde_json::from_str(&transactions_file)?;
-//     transactions.push(transaction);
-//     let transactions = serde_json::to_string(&transactions)?;
-//     std::fs::write("../../transactions.json", transactions)?;
-//     Ok(())
-// }
 
 //---------------------
 
