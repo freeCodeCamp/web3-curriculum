@@ -1,7 +1,7 @@
-import { watch } from "fs";
+import { watch, read } from "fs";
 import express from "express";
 import logover, { info, error, debug } from "logover";
-import { readFile, writeFile } from "fs/promises";
+import { readFile, writeFile, open } from "fs/promises";
 import { mine_block } from "./blockchain/pkg/blockchain.js";
 logover({
   level: process.env.NODE_ENV === "production" ? "info" : "debug",
@@ -84,14 +84,25 @@ app.listen(PORT, () => {
 });
 
 async function getChain() {
-  // Open chain from ./chain.json
-  const chain = await readFile(CHAIN_PATH, "utf8");
-  // Log max end 200chars of chain
-  debug(
-    "CHAIN: ",
-    chain.slice(chain.length - Math.min(chain.length, 200), chain.length)
-  );
-  return JSON.parse(chain);
+  const buff = Buffer.from([]);
+  // Read chain from `CHAIN_PATH` using `filehandle.read` api, taking chunks of 10_000 bytes, until EOF
+  // Open file
+  const filehandle = await open(CHAIN_PATH, "r");
+  // Read file
+  let bytesRead = await filehandle.read(buff, 0, 10_000);
+  // While bytesRead is greater than 0, read next chunk
+  let loc = 10_000;
+  while (bytesRead > 0) {
+    // Read next chunk
+    bytesRead = await filehandle.read(buff, loc, 10_000, bytesRead);
+    loc += 10_000;
+  }
+  // Close file
+  await filehandle.close();
+  // Parse JSON
+  debug(buff.toString());
+  const chain = JSON.parse(buff.toString());
+  return chain;
 }
 
 const MICRO_SECOND = 1000;
@@ -140,8 +151,8 @@ function calculateCost(num) {
 }
 
 async function addTransaction(data) {
-  const transactionsFile = await readFile(TRANSACTIONS_PATH, "utf8");
-  const transactions = JSON.parse(transactionsFile);
+  const transactionsFile = await readFile(TRANSACTIONS_PATH);
+  const transactions = JSON.parse(transactionsFile.toString());
   transactions.push(data);
   await writeFile(TRANSACTIONS_PATH, JSON.stringify(transactions));
 }
@@ -162,10 +173,13 @@ async function getBalance(address) {
 
 async function mine() {
   try {
-    const transactions = await readFile(TRANSACTIONS_PATH, "utf8");
+    const transactions = await readFile(TRANSACTIONS_PATH);
     const chain = await getChain();
     if (transactions.length > 0) {
-      const updatedChain = mine_block(chain, JSON.parse(transactions));
+      const updatedChain = mine_block(
+        chain,
+        JSON.parse(transactions.toString())
+      );
 
       await writeFile(CHAIN_PATH, JSON.stringify(updatedChain));
       await writeFile(TRANSACTIONS_PATH, JSON.stringify([]));
@@ -288,7 +302,8 @@ let shouldMine = true;
 
 watch(TRANSACTIONS_PATH, async () => {
   if (shouldMine) {
-    const transactions = await readFile(TRANSACTIONS_PATH, "utf8");
+    const transactionBuffer = await readFile(TRANSACTIONS_PATH);
+    const transactions = JSON.parse(transactionBuffer.toString());
     if (transactions.length > 0) {
       info("Mining a new block...");
       shouldMine = false;
