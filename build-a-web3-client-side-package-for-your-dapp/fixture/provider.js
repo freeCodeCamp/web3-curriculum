@@ -1,7 +1,7 @@
-import { watch, read } from "fs";
+import { watch } from "fs";
 import express from "express";
 import logover, { info, error, debug } from "logover";
-import { readFile, writeFile, open } from "fs/promises";
+import { readFile, writeFile } from "fs/promises";
 import { mine_block } from "./blockchain/pkg/blockchain.js";
 logover({
   level: process.env.NODE_ENV === "production" ? "info" : "debug",
@@ -84,25 +84,9 @@ app.listen(PORT, () => {
 });
 
 async function getChain() {
-  const buff = Buffer.from([]);
-  // Read chain from `CHAIN_PATH` using `filehandle.read` api, taking chunks of 10_000 bytes, until EOF
-  // Open file
-  const filehandle = await open(CHAIN_PATH, "r");
-  // Read file
-  let bytesRead = await filehandle.read(buff, 0, 10_000);
-  // While bytesRead is greater than 0, read next chunk
-  let loc = 10_000;
-  while (bytesRead > 0) {
-    // Read next chunk
-    bytesRead = await filehandle.read(buff, loc, 10_000, bytesRead);
-    loc += 10_000;
-  }
-  // Close file
-  await filehandle.close();
-  // Parse JSON
-  debug(buff.toString());
-  const chain = JSON.parse(buff.toString());
-  return chain;
+  // Open chain from ./chain.json
+  const chain = await readFile(CHAIN_PATH, "utf-8");
+  return JSON.parse(chain);
 }
 
 const MICRO_SECOND = 1000;
@@ -127,7 +111,7 @@ async function callSmartContract(smartContractId, method, args, callerAddress) {
   const cost = calculateCost(MICRO_SECOND * (end - start));
   debug(`Calling '${method}' cost '${cost}' tokens`);
   debug("Result: ", res);
-  addTransaction(transfer(callerAddress, PROGRAM_ACCOUNT, cost));
+  await addTransaction(transfer(callerAddress, PROGRAM_ACCOUNT, cost));
 
   return res;
 }
@@ -155,6 +139,7 @@ async function addTransaction(data) {
   const transactions = JSON.parse(transactionsFile.toString());
   transactions.push(data);
   await writeFile(TRANSACTIONS_PATH, JSON.stringify(transactions));
+  await mine();
 }
 
 async function getBalance(address) {
@@ -294,24 +279,3 @@ async function getSmartContract(name) {
   const wasm = await import(PATH_TO_TEMP_DIR + "/" + name + ".js");
   return wasm;
 }
-
-// Rate limit watch callback
-
-const RATE_LIMIT_WATCH_INTERVAL = 2000;
-let shouldMine = true;
-
-watch(TRANSACTIONS_PATH, async () => {
-  if (shouldMine) {
-    const transactionBuffer = await readFile(TRANSACTIONS_PATH);
-    const transactions = JSON.parse(transactionBuffer.toString());
-    if (transactions.length > 0) {
-      info("Mining a new block...");
-      shouldMine = false;
-      await mine();
-      info("New block mined!");
-      setTimeout(() => {
-        shouldMine = true;
-      }, RATE_LIMIT_WATCH_INTERVAL);
-    }
-  }
-});

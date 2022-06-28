@@ -3,4 +3,5 @@ node_modules
 .env
 Cargo.lock
 pkg
-tmp
+build-a-web3-client-side-package-for-your-dapp/fixture/data/tmp/**/*
+!.gitkeep

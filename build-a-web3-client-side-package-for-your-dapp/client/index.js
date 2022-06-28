@@ -9,11 +9,6 @@ const smartContract = web3.initSmartContract(idl);
 const btn = document.getElementById("click");
 const address = document.getElementById("address");
 
-const mine = document.getElementById("mine");
-mine.addEventListener("click", async () => {
-  fetch("http://localhost:3001/mine", { method: "POST" });
-});
-
 btn.addEventListener("click", handleClick);
 
 address.addEventListener("change", setClientAddress);
@@ -22,7 +17,6 @@ const totalClicks = document.getElementById("total-clicks");
 const clickers = document.getElementById("clickers");
 
 function setClientAddress(e) {
-  console.log(e.target.value);
   web3.setClientAddress(e.target.value);
 }
 
@@ -36,9 +30,10 @@ async function handleClick() {
 }
 
 async function refreshContract() {
+  clickers.innerHTML = "";
   const contractState = await smartContract.get_contract_account();
   console.log(contractState);
-  totalClicks.innerText = contractState.total_clicks;
+  totalClicks.innerText = `Total clicks: ${contractState.total_clicks}`;
   for (const clicker of contractState.clickers) {
     const clickerEl = document.createElement("li");
     clickerEl.innerText = clicker;
