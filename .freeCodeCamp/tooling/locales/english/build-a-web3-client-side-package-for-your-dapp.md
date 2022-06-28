@@ -39,14 +39,22 @@ transfer(to: string, amount: number): Promise<Record<string, any>>
 Your package should export a class with the handle `Web3`.
 
 ```js
-const Web3 = await import("./index.js");
+const Web3 = (
+  await import(
+    "../../build-a-web3-client-side-package-for-your-dapp/web3/index.js"
+  )
+).default;
 assert.exists(Web3);
 ```
 
 Your `Web3` class should have a `provider` property that is an instance of `URL` constructed from the initialiser argument.
 
 ```js
-const Web3 = await import("./index.js");
+const Web3 = (
+  await import(
+    "../../build-a-web3-client-side-package-for-your-dapp/web3/index.js"
+  )
+).default;
 const web3 = new Web3("http://localhost:3001");
 assert.instanceOf(web3.provider, URL);
 assert.equal(web3.provider.href, "http://localhost:3001/");
@@ -55,7 +63,11 @@ assert.equal(web3.provider.href, "http://localhost:3001/");
 Your `Web3` class should have a `setClientAddress` method that takes a `string` as an argument and sets the `address` property of the class to the argument.
 
 ```js
-const Web3 = await import("./index.js");
+const Web3 = (
+  await import(
+    "../../build-a-web3-client-side-package-for-your-dapp/web3/index.js"
+  )
+).default;
 const web3 = new Web3("http://localhost:3001");
 assert.isFunction(web3.setClientAddress);
 web3.setClientAddress("Tom_the_tomnificent");
@@ -65,7 +77,11 @@ assert.equal(web3.address, "Tom_the_tomnificent");
 Your `Web3` class should have an asynchronous method with the handle `call`.
 
 ```js
-const Web3 = await import("./index.js");
+const Web3 = (
+  await import(
+    "../../build-a-web3-client-side-package-for-your-dapp/web3/index.js"
+  )
+).default;
 const web3 = new Web3("http://localhost:3001");
 assert.isFunction(web3.call);
 ```
@@ -73,10 +89,15 @@ assert.isFunction(web3.call);
 The `call` method should make a `POST /call-smart-contract` request to the `href` of `this.provider`.
 
 ```js
-const Web3 = await import("./index.js");
+const Web3 = (
+  await import(
+    "../../build-a-web3-client-side-package-for-your-dapp/web3/index.js"
+  )
+).default;
 const web3 = new Web3("http://localhost:3001");
 await web3.call("todo");
 const tests = await (await fetch("http://localhost:3001/tests")).json();
+assert.equal(tests.some((t) => t.url === "/call-smart-contract"));
 ```
 
 The `POST /call-smart-contract` request should have a body including the JSON stringified version of the RPC object literal.
@@ -103,18 +124,14 @@ The `call` method should return a promise that resolves with the object literal 
 
 ```
 
-Your `Web3` class should have a method with the handle `createSmartContract`.?
-
-```js
-const Web3 = await import("./index.js");
-const web3 = new Web3("http://localhost:3001");
-assert.isFunction(web3.createSmartContract);
-```
-
 Your `Web3` class should have an asynchronous method with the handle `getBalance`.
 
 ```js
-const Web3 = await import("./index.js");
+const Web3 = (
+  await import(
+    "../../build-a-web3-client-side-package-for-your-dapp/web3/index.js"
+  )
+).default;
 const web3 = new Web3("http://localhost:3001");
 assert.isFunction(web3.getBalance);
 ```
@@ -122,9 +139,25 @@ assert.isFunction(web3.getBalance);
 Your `Web3` class should have an asynchronous method with the handle `transfer`.
 
 ```js
-const Web3 = await import("./index.js");
+const Web3 = (
+  await import(
+    "../../build-a-web3-client-side-package-for-your-dapp/web3/index.js"
+  )
+).default;
 const web3 = new Web3("http://localhost:3001");
 assert.isFunction(web3.transfer);
+```
+
+### --before-all--
+
+```js
+
+```
+
+### --before-each--
+
+```js
+
 ```
 
 ## --fcc-end--

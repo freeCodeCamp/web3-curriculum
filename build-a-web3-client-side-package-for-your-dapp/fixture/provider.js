@@ -1,4 +1,3 @@
-import { watch } from "fs";
 import express from "express";
 import logover, { info, error, debug } from "logover";
 import { readFile, writeFile } from "fs/promises";
@@ -33,13 +32,8 @@ app.get("/", (req, res) => {
   res.sendFile(client);
 });
 
-app.post("/mine", async (req, res) => {
-  await mine();
-  res.status(200);
-  res.json({ result: "success" });
-});
-
 app.post("/call-smart-contract", async (req, res) => {
+  _tests.push({ body: req.body, url: req.url });
   const { id, method, args, address } = req.body;
 
   if (![id, method, address].filter(Boolean).length) {
@@ -56,10 +50,10 @@ app.post("/call-smart-contract", async (req, res) => {
     error(e);
     res.status(500).json({ error: e.message });
   }
-  // TODO: Add req to _tests
 });
 
 app.post("/get-balance", async (req, res) => {
+  _tests.push(req);
   const { address } = req.body;
   const balance = await getBalance(address);
   if (!balance) {
@@ -69,12 +63,18 @@ app.post("/get-balance", async (req, res) => {
 });
 
 app.post("/transfer", async (req, res) => {
+  _tests.push(req);
   const { from, to, amount } = req.body;
-  addTransaction(transfer(from, to, amount));
+  await addTransaction(transfer(from, to, amount));
 });
 
 app.get("/tests", (req, res) => {
   res.json(_tests);
+});
+
+app.delete("/tests", (req, res) => {
+  _tests.splice(0, _tests.length);
+  res.status(200).json({});
 });
 
 // Start a server listening on port 3001
@@ -84,7 +84,6 @@ app.listen(PORT, () => {
 });
 
 async function getChain() {
-  // Open chain from ./chain.json
   const chain = await readFile(CHAIN_PATH, "utf-8");
   return JSON.parse(chain);
 }
@@ -96,14 +95,10 @@ async function callSmartContract(smartContractId, method, args, callerAddress) {
   await createPkg(Buffer.from(smartContract.pkg));
   const contract = await getSmartContract("build_a_smart_contract_in_rust");
   const context = JSON.parse(await getSmartContractContext(smartContractId));
-  debug("context: ", context);
   const start = performance.now();
   const res = contract[method](context, ...args);
 
-  // Smart Contract function is a set method - alters blockchain state
-  // Else, function is a view method - does not alter blockchain state
   if (method.startsWith("set")) {
-    // Re-deploy contract with new state
     await setContext(smartContract.id, res);
   }
   const end = performance.now();
@@ -165,6 +160,7 @@ async function mine() {
         chain,
         JSON.parse(transactions.toString())
       );
+      info("New block mined");
 
       await writeFile(CHAIN_PATH, JSON.stringify(updatedChain));
       await writeFile(TRANSACTIONS_PATH, JSON.stringify([]));
@@ -214,7 +210,6 @@ async function getSmartContractContext(id) {
 }
 
 async function setContext(id, state = {}) {
-  debug("setContext: ", id, state);
   try {
     await addTransaction(setSmartContractContext(id, JSON.stringify(state)));
   } catch (e) {
@@ -241,6 +236,7 @@ function transfer(from, to, amount) {
 }
 
 async function init() {
+  info("Initializing...");
   // Clear chain and transactions
   await writeFile(CHAIN_PATH, JSON.stringify([]));
   await writeFile(TRANSACTIONS_PATH, JSON.stringify([]));
@@ -262,13 +258,13 @@ async function init() {
 
   await deploy(PROGRAM_ACCOUNT, pkg, context);
   await mine();
+  info("Initialization complete");
 }
 
 async function createPkg(pkg) {
   const PATH_TO_TEMP_DIR = loc("./data/tmp");
   const files = JSON.parse(pkg);
   for (const file of files) {
-    // Write file to temp dir
     const filePath = `${PATH_TO_TEMP_DIR}/${file.name}`;
     await writeFile(filePath, Buffer.from(file.buffer));
   }
