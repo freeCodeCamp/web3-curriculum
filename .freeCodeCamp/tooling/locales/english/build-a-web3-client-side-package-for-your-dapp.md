@@ -134,6 +134,19 @@ const response = await web3.call(rpc);
 assert.deepEqual(response, "");
 ```
 
+Your `Web3` class should have an asynchronous method with the handle `initSmartContract`.
+
+```js
+const web3 = new Web3("http://localhost:3001");
+assert.isFunction(web3.initSmartContract);
+```
+
+The `initSmartContract` method should return an object literal consisting of ...
+
+```js
+
+```
+
 Your `Web3` class should have an asynchronous method with the handle `getBalance`.
 
 ```js
