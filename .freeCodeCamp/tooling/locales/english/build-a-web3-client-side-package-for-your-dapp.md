@@ -70,23 +70,27 @@ The `call` method should make a `POST /call-smart-contract` request to the `href
 
 ```js
 const web3 = new Web3("http://localhost:3001");
-await web3.call("todo");
+try {
+  await web3.call("todo");
+} catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
-assert.equal(tests.some((t) => t.url === "/call-smart-contract"));
+assert.isTrue(tests.some((t) => t.url === "/call-smart-contract"));
 ```
 
 The `POST /call-smart-contract` request should have a body including the JSON stringified version of the RPC object literal.
 
 ```js
 const rpc = {
-  method: "todo",
+  method: "get_contract_account",
   args: ["test", 1],
   id: 0,
 };
 const web3 = new Web3("http://localhost:3001");
-await web3.call(rpc);
+try {
+  await web3.call(rpc);
+} catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
-assert.equal(tests.some((t) => t.url === "/call-smart-contract"));
+assert.isTrue(tests.some((t) => t.url === "/call-smart-contract"));
 assert.deepEqual(tests[0]?.body, { ...rpc, address: null });
 ```
 
@@ -99,9 +103,11 @@ const rpc = {
   id: 0,
 };
 const web3 = new Web3("http://localhost:3001");
-await web3.call(rpc);
+try {
+  await web3.call(rpc);
+} catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
-assert.equal(tests.some((t) => t.url === "/call-smart-contract"));
+assert.isTrue(tests.some((t) => t.url === "/call-smart-contract"));
 assert.deepEqual(tests[0]?.headers, { "Content-Type": "application/json" });
 ```
 
@@ -115,9 +121,11 @@ const rpc = {
 };
 const web3 = new Web3("http://localhost:3001");
 web3.setClientAddress("Tom_the_tomnificent");
-await web3.call(rpc);
+try {
+  await web3.call(rpc);
+} catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
-assert.equal(tests.some((t) => t.url === "/call-smart-contract"));
+assert.isTrue(tests.some((t) => t.url === "/call-smart-contract"));
 assert.deepEqual(tests[0]?.body, { ...rpc, address: "Tom_the_tomnificent" });
 ```
 
@@ -125,13 +133,19 @@ The `call` method should return a promise that resolves with the object literal 
 
 ```js
 const rpc = {
-  method: "todo",
-  args: ["test", 1],
+  method: "get_contract_account",
+  args: [],
   id: 0,
 };
 const web3 = new Web3("http://localhost:3001");
 const response = await web3.call(rpc);
-assert.deepEqual(response, "");
+assert.deepEqual(response, { total_clicks: 0, clickers: [] });
+```
+
+If the response body contains an `error` property, `call` throws an `Error` with the value of the `error` property.
+
+```js
+
 ```
 
 Your `Web3` class should have an asynchronous method with the handle `initSmartContract`.
@@ -164,18 +178,13 @@ assert.isFunction(web3.transfer);
 ### --before-all--
 
 ```js
+await fetch("http://localhost:3001/tests", { method: "DELETE" });
 const Web3 = (
   await import(
     "../../build-a-web3-client-side-package-for-your-dapp/web3/index.js"
   )
 ).default;
 global.Web3 = Web3;
-```
-
-### --before-each--
-
-```js
-await fetch("/tests", { method: "DELETE" });
 ```
 
 ## --fcc-end--

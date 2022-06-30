@@ -15,22 +15,18 @@ export default class Web3 {
     this.address = address;
   }
   async call(rpcCall) {
-    try {
-      const response = await fetch(`${this.provider.href}call-smart-contract`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...rpcCall, address: this.address }),
-      });
-      const res = await response.json();
-      if (res.error) {
-        throw new Error(res.error);
-      }
-      return res.result;
-    } catch (err) {
-      error(err);
+    const response = await fetch(`${this.provider.href}call-smart-contract`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...rpcCall, address: this.address }),
+    });
+    const res = await response.json();
+    if (res.error) {
+      throw new Error(res.error);
     }
+    return res.result;
   }
   // Init rpc with given IDL
   initSmartContract(idl) {

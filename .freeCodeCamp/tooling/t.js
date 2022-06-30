@@ -8,7 +8,9 @@ export async function t(key, args = {}, forceLangToUse) {
   // Read file and parse JSON
   const locale =
     forceLangToUse ?? loc === "undefined" ? "english" : loc ?? "english";
-  const comments = import(`./locales/${locale}/comments.json`);
+  const comments = import(`./locales/${locale}/comments.json`, {
+    assert: { type: "json" },
+  });
 
   // Get value from JSON
   const value = comments[key];

@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/call-smart-contract", async (req, res) => {
-  _tests.push({ body: req.body, url: req.url });
+  _tests.push({ body: req.body, url: req.url, headers: req.headers });
   const { id, method, args, address } = req.body;
 
   if (![id, method, address].filter(Boolean).length) {

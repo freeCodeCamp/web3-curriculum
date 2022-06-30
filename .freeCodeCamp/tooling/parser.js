@@ -64,7 +64,7 @@ export function getLessonDescription(lesson) {
  * @returns {[string, string]} An array of [hint, test]
  */
 export function getLessonHintsAndTests(lesson) {
-  const testsString = lesson.trim().split(NEXT_MARKER)?.[2];
+  const testsString = lesson.trim().split(new RegExp(NEXT_MARKER))?.[2];
   const hintsAndTestsArr = [];
   const hints = testsString?.match(/^(.*?)$(?=\n+```js)/gm).filter(Boolean);
   const tests = testsString.match(/(?<=```js\n).*?(?=\n```)/gms);
@@ -85,6 +85,34 @@ export function getLessonHintsAndTests(lesson) {
 export function getLessonSeed(lesson) {
   const seed = lesson.match(new RegExp(`${SEED_MARKER}\n(.*)`, "s"))?.[1];
   return seed ?? "";
+}
+
+/**
+ * Gets the command/script to run before running the lesson tests
+ * @param {string} lesson - The lesson content
+ * @returns {string} The command to run before running the lesson tests
+ */
+export function getBeforeAll(lesson) {
+  const sections = lesson.trim().split(NEXT_MARKER);
+  const beforeAll = sections.find((section) =>
+    section.startsWith("before-all")
+  );
+  const beforeAllCommand = extractStringFromCode(beforeAll ?? "");
+  return beforeAllCommand ?? "";
+}
+
+/**
+ * Gets the command/script to run before running each lesson test
+ * @param {string} lesson - The lesson content
+ * @returns {string} The command to run before running each lesson test
+ */
+export function getBeforeEach(lesson) {
+  const sections = lesson.trim().split(NEXT_MARKER);
+  const beforeEach = sections.find((section) =>
+    section.startsWith("before-each")
+  );
+  const beforeEachCommand = extractStringFromCode(beforeEach ?? "");
+  return beforeEachCommand ?? "";
 }
 
 /**
