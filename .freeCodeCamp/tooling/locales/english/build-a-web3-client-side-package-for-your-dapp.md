@@ -171,6 +171,50 @@ const web3 = new Web3("http://localhost:3001");
 assert.isFunction(web3.getBalance);
 ```
 
+The `getBalance` method should make a `POST /get-balance` request to the `href` of `this.provider`.
+
+```js
+const web3 = new Web3("http://localhost:3001");
+try {
+  await web3.getBalance();
+} catch (e) {}
+const tests = await (await fetch("http://localhost:3001/tests")).json();
+assert.isTrue(tests.some((t) => t.url === "/get-balance"));
+```
+
+The `POST /get-balance` request should have a `Content-Type` header set to `application/json`.
+
+```js
+const web3 = new Web3("http://localhost:3001");
+try {
+  await web3.getBalance();
+} catch (e) {}
+const tests = await (await fetch("http://localhost:3001/tests")).json();
+assert.isTrue(tests.some((t) => t.url === "/get-balance"));
+assert.deepEqual(tests[0]?.headers, { "Content-Type": "application/json" });
+```
+
+The `POST /get-balance` request should have a body including the JSON stringified version of `{address}`.
+
+```js
+const web3 = new Web3("http://localhost:3001");
+web3.setClientAddress("Tom_the_tomnificent");
+try {
+  await web3.transfer("test");
+} catch (e) {}
+const tests = await (await fetch("http://localhost:3001/tests")).json();
+assert.isTrue(tests.some((t) => t.url === "/transfer"));
+assert.deepEqual(tests[0]?.body, _t);
+```
+
+The `getBalance` method should return a promise that resolves with the object literal of the response body.
+
+```js
+const web3 = new Web3("http://localhost:3001");
+const response = await web3.getBalance("test");
+assert.deepEqual(response, { total_clicks: 0, clickers: [] });
+```
+
 If the response body contains an `error` property, `getBalance` throws an `Error` with the value of the `error` property.
 
 ```js
@@ -183,6 +227,65 @@ Your `Web3` class should have an asynchronous method with the handle `transfer`.
 ```js
 const web3 = new Web3("http://localhost:3001");
 assert.isFunction(web3.transfer);
+```
+
+The `call` method should make a `POST /transfer` request to the `href` of `this.provider`.
+
+```js
+const web3 = new Web3("http://localhost:3001");
+try {
+  await web3.transfer();
+} catch (e) {}
+const tests = await (await fetch("http://localhost:3001/tests")).json();
+assert.isTrue(tests.some((t) => t.url === "/transfer"));
+```
+
+The `POST /transfer` request should have a `Content-Type` header set to `application/json`.
+
+```js
+const _t = {
+  from: "a",
+  to: "b",
+  amount: 1,
+};
+const web3 = new Web3("http://localhost:3001");
+try {
+  await web3.transfer(_t);
+} catch (e) {}
+const tests = await (await fetch("http://localhost:3001/tests")).json();
+assert.isTrue(tests.some((t) => t.url === "/transfer"));
+assert.deepEqual(tests[0]?.headers, { "Content-Type": "application/json" });
+```
+
+The `POST /transfer` request should have a body including the JSON stringified version of `{from, to, amount}`.
+
+```js
+const _t = {
+  from: "a",
+  to: "b",
+  amount: 1,
+};
+const web3 = new Web3("http://localhost:3001");
+web3.setClientAddress("Tom_the_tomnificent");
+try {
+  await web3.transfer(_t_);
+} catch (e) {}
+const tests = await (await fetch("http://localhost:3001/tests")).json();
+assert.isTrue(tests.some((t) => t.url === "/transfer"));
+assert.deepEqual(tests[0]?.body, _t);
+```
+
+The `transfer` method should return a promise that resolves with the object literal of the response body.
+
+```js
+const _t = {
+  from: "a",
+  to: "b",
+  amount: 1,
+};
+const web3 = new Web3("http://localhost:3001");
+const response = await web3.transfer(_t);
+assert.deepEqual(response, { total_clicks: 0, clickers: [] });
 ```
 
 If the response body contains an `error` property, `transfer` throws an `Error` with the value of the `error` property.
