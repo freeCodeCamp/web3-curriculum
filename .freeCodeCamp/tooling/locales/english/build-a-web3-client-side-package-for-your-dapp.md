@@ -176,7 +176,7 @@ The `getBalance` method should make a `POST /get-balance` request to the `href` 
 ```js
 const web3 = new Web3("http://localhost:3001");
 try {
-  await web3.getBalance();
+  await web3.getBalance("shaun");
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
 assert.isTrue(tests.some((t) => t.url === "/get-balance"));
@@ -200,19 +200,32 @@ The `POST /get-balance` request should have a body including the JSON stringifie
 const web3 = new Web3("http://localhost:3001");
 web3.setClientAddress("Tom_the_tomnificent");
 try {
-  await web3.transfer("test");
+  await web3.getBalance("test");
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
-assert.isTrue(tests.some((t) => t.url === "/transfer"));
-assert.deepEqual(tests[0]?.body, _t);
+assert.isTrue(tests.some((t) => t.url === "/get-balance"));
+assert.deepEqual(tests[0]?.body, { address: "test" });
+```
+
+The `POST /get-balance` request should fallback to the `this.address` if no address is provided.
+
+```js
+const web3 = new Web3("http://localhost:3001");
+web3.setClientAddress("Tom_the_tomnificent");
+try {
+  await web3.getBalance();
+} catch (e) {}
+const tests = await (await fetch("http://localhost:3001/tests")).json();
+assert.isTrue(tests.some((t) => t.url === "/get-balance"));
+assert.deepEqual(tests[0]?.body, { address: "Tom_the_tomnificent" });
 ```
 
 The `getBalance` method should return a promise that resolves with the object literal of the response body.
 
 ```js
 const web3 = new Web3("http://localhost:3001");
-const response = await web3.getBalance("test");
-assert.deepEqual(response, { total_clicks: 0, clickers: [] });
+const response = await web3.getBalance("shaun");
+assert.equal(response, 1_000_000_000);
 ```
 
 If the response body contains an `error` property, `getBalance` throws an `Error` with the value of the `error` property.
@@ -279,13 +292,13 @@ The `transfer` method should return a promise that resolves with the object lite
 
 ```js
 const _t = {
-  from: "a",
-  to: "b",
-  amount: 1,
+  from: "shaun",
+  to: "tom",
+  amount: 100,
 };
 const web3 = new Web3("http://localhost:3001");
 const response = await web3.transfer(_t);
-assert.deepEqual(response, { total_clicks: 0, clickers: [] });
+assert.deepEqual(response, { success: true });
 ```
 
 If the response body contains an `error` property, `transfer` throws an `Error` with the value of the `error` property.

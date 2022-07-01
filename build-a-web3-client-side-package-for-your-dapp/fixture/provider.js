@@ -53,7 +53,7 @@ app.post("/call-smart-contract", async (req, res) => {
 });
 
 app.post("/get-balance", async (req, res) => {
-  _tests.push(req);
+  _tests.push({ body: req.body, url: req.url, headers: req.headers });
   const { address } = req.body;
   const balance = await getBalance(address);
   if (!balance) {
@@ -63,7 +63,7 @@ app.post("/get-balance", async (req, res) => {
 });
 
 app.post("/transfer", async (req, res) => {
-  _tests.push(req);
+  _tests.push({ body: req.body, url: req.url, headers: req.headers });
   const { from, to, amount } = req.body;
   await addTransaction(transfer(from, to, amount));
 });
