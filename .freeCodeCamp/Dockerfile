@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 ARG USERNAME=camper
 ARG REPO_NAME=external-project
@@ -27,8 +27,13 @@ RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> \
 RUN sudo apt-get install -y curl git bash-completion man-db
 
 # Install Node LTS
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 RUN sudo apt-get install -y nodejs
+
+# Rust
+RUN sudo apt-get install build-essential
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
 
 # /usr/lib/node_modules is owned by root, so this creates a folder ${USERNAME} 
 # can use for npm install --global
@@ -44,10 +49,6 @@ WORKDIR ${HOMEDIR}
 
 # Other Tools
 
-## Rust
-# RUN sudo apt-get install build-essential
-# RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
-# ENV PATH="/root/.cargo/bin:${PATH}"
 
 ## Python
 
