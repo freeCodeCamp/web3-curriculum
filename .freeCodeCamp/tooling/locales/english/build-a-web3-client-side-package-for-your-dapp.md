@@ -139,8 +139,12 @@ const rpc = {
   args: [],
   id: 0,
 };
+
 const web3 = new Web3("http://localhost:3001");
-const response = await web3.call(rpc);
+let response;
+try {
+  response = await web3.call(rpc);
+} catch (e) {}
 assert.deepEqual(response, { total_clicks: 0, clickers: [] });
 ```
 
@@ -224,7 +228,10 @@ The `getBalance` method should return a promise that resolves with the object li
 
 ```js
 const web3 = new Web3("http://localhost:3001");
-const response = await web3.getBalance("shaun");
+let response;
+try {
+  response = await web3.getBalance("shaun");
+}
 assert.equal(response, 1_000_000_000);
 ```
 
@@ -242,7 +249,7 @@ const web3 = new Web3("http://localhost:3001");
 assert.isFunction(web3.transfer);
 ```
 
-The `call` method should make a `POST /transfer` request to the `href` of `this.provider`.
+The `transfer` method should make a `POST /transfer` request to the `href` of `this.provider`.
 
 ```js
 const web3 = new Web3("http://localhost:3001");
@@ -297,7 +304,10 @@ const _t = {
   amount: 100,
 };
 const web3 = new Web3("http://localhost:3001");
-const response = await web3.transfer(_t);
+let response;
+try {
+  response = await web3.transfer(_t);
+}
 assert.deepEqual(response, { success: true });
 ```
 

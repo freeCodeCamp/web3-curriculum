@@ -36,10 +36,10 @@ app.post("/call-smart-contract", async (req, res) => {
   _tests.push({ body: req.body, url: req.url, headers: req.headers });
   const { id, method, args, address } = req.body;
 
-  if (![id, method, address].filter(Boolean).length) {
-    res
-      .status(400)
-      .json({ error: `Missing required fields: ${(id, method, address)}` });
+  if (![id, method, address].filter(Boolean).length === 3) {
+    res.status(400).json({
+      error: `Missing required fields: id: ${id}, method: ${method}, address: ${address}`,
+    });
     return;
   }
 
@@ -55,6 +55,14 @@ app.post("/call-smart-contract", async (req, res) => {
 app.post("/get-balance", async (req, res) => {
   _tests.push({ body: req.body, url: req.url, headers: req.headers });
   const { address } = req.body;
+
+  if (!address) {
+    res
+      .status(400)
+      .json({ error: `Missing required fields: address: ${address}` });
+    return;
+  }
+
   const balance = await getBalance(address);
   if (!balance) {
     return res.status(404).json({ error: "Account not found" });
@@ -65,6 +73,13 @@ app.post("/get-balance", async (req, res) => {
 app.post("/transfer", async (req, res) => {
   _tests.push({ body: req.body, url: req.url, headers: req.headers });
   const { from, to, amount } = req.body;
+
+  if (![from, to, amount].filter(Boolean).length === 3) {
+    res.status(400).json({
+      error: `Missing required fields: from: ${from}, to: ${to}, amount: ${amount}`,
+    });
+    return;
+  }
   await addTransaction(transfer(from, to, amount));
 });
 
