@@ -51,39 +51,31 @@ export default class Web3 {
     return smartContract;
   }
   async getBalance(address) {
-    try {
-      const response = await fetch(`${this.provider.href}get-balance`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ address: address || this.address }),
-      });
-      const res = await response.json();
-      if (res.error) {
-        throw new Error(res.error);
-      }
-      return res.result;
-    } catch (err) {
-      error(err);
+    const response = await fetch(`${this.provider.href}get-balance`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ address: address || this.address }),
+    });
+    const res = await response.json();
+    if (res.error) {
+      throw new Error(res.error);
     }
+    return res.result;
   }
-  async transfer(to, amount) {
-    try {
-      const response = await fetch(`${this.provider.href}transfer`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ from: address || this.address, to, amount }),
-      });
-      const res = await response.json();
-      if (res.error) {
-        throw new Error(res.error);
-      }
-      return res.result;
-    } catch (err) {
-      error(err);
+  async transfer({ from, to, amount }) {
+    const response = await fetch(`${this.provider.href}transfer`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ from: from || this.address, to, amount }),
+    });
+    const res = await response.json();
+    if (res.error) {
+      throw new Error(res.error);
     }
+    return res.result;
   }
 }

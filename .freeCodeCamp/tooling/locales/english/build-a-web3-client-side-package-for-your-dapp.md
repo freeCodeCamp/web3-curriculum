@@ -10,6 +10,8 @@ The `fixture/` directory should **not** be altered.
 
 An example provider exists in `fixture/provider.js`. An example client using your `Web3` package exists in `fixture/client/`. You can view the client at `http://localhost:3001/`.
 
+An example `IDL` exists in `fixture/data/idl.json`.
+
 **User Stories:**
 
 Your `Web3` class should have the following methods:
@@ -27,11 +29,11 @@ initSmartContract(idl: Record<string, any>): Promise<Record<string, any>>
 ```
 
 ```ts
-getBalance(address: string): Promise<number>
+getBalance(address?: string): Promise<number>
 ```
 
 ```ts
-transfer(to: string, amount: number): Promise<Record<string, any>>
+transfer({from, to, amount}: {from?: string; to: string; amount: number;}): Promise<Record<string, any>>
 ```
 
 ### --tests--
@@ -145,7 +147,8 @@ assert.deepEqual(response, { total_clicks: 0, clickers: [] });
 If the response body contains an `error` property, `call` throws an `Error` with the value of the `error` property.
 
 ```js
-
+const web3 = new Web3("http://localhost:3001");
+assert.throws(() => web3.call({ test: "todo" }), "error");
 ```
 
 Your `Web3` class should have an asynchronous method with the handle `initSmartContract`.
@@ -168,11 +171,28 @@ const web3 = new Web3("http://localhost:3001");
 assert.isFunction(web3.getBalance);
 ```
 
+If the response body contains an `error` property, `getBalance` throws an `Error` with the value of the `error` property.
+
+```js
+const web3 = new Web3("http://localhost:3001");
+assert.throws(() => web3.getBalance("bad-addresss"), "error");
+```
+
 Your `Web3` class should have an asynchronous method with the handle `transfer`.
 
 ```js
 const web3 = new Web3("http://localhost:3001");
 assert.isFunction(web3.transfer);
+```
+
+If the response body contains an `error` property, `transfer` throws an `Error` with the value of the `error` property.
+
+```js
+const web3 = new Web3("http://localhost:3001");
+assert.throws(
+  () => web3.transfer({ from: "from", to: "to", amount: 10 }),
+  "error"
+);
 ```
 
 ### --before-all--
