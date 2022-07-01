@@ -81,6 +81,7 @@ app.post("/transfer", async (req, res) => {
     return;
   }
   await addTransaction(transfer(from, to, amount));
+  res.json({ result: "success" });
 });
 
 app.get("/tests", (req, res) => {

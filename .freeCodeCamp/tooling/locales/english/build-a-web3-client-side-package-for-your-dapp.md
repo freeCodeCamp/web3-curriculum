@@ -71,9 +71,14 @@ assert.isFunction(web3.call);
 The `call` method should make a `POST /call-smart-contract` request to the `href` of `this.provider`.
 
 ```js
+const rpc = {
+  method: "get_contract_account",
+  args: [],
+  id: 0,
+};
 const web3 = new Web3("http://localhost:3001");
 try {
-  await web3.call("todo");
+  await web3.call(rpc);
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
 assert.isTrue(tests.some((t) => t.url === "/call-smart-contract"));
@@ -84,7 +89,7 @@ The `POST /call-smart-contract` request should have a body including the JSON st
 ```js
 const rpc = {
   method: "get_contract_account",
-  args: ["test", 1],
+  args: [],
   id: 0,
 };
 const web3 = new Web3("http://localhost:3001");
@@ -100,8 +105,8 @@ The `POST /call-smart-contract` request should have a `Content-Type` header set 
 
 ```js
 const rpc = {
-  method: "todo",
-  args: ["test", 1],
+  method: "get_contract_account",
+  args: [],
   id: 0,
 };
 const web3 = new Web3("http://localhost:3001");
@@ -117,8 +122,8 @@ The `POST /call-smart-contract` request should have a body including the JSON st
 
 ```js
 const rpc = {
-  method: "todo",
-  args: ["test", 1],
+  method: "get_contract_account",
+  args: [],
   id: 0,
 };
 const web3 = new Web3("http://localhost:3001");
@@ -152,7 +157,15 @@ If the response body contains an `error` property, `call` throws an `Error` with
 
 ```js
 const web3 = new Web3("http://localhost:3001");
-assert.throws(() => web3.call({ test: "todo" }), "error");
+try {
+  await web3.call({ test: "todo" });
+  assert.fail("'call' should have thrown");
+} catch (e) {
+  if (e instanceof AssertionError) {
+    throw e;
+  }
+  assert.equal(e.message, "Smart contract not found");
+}
 ```
 
 Your `Web3` class should have an asynchronous method with the handle `initSmartContract`.
@@ -191,7 +204,7 @@ The `POST /get-balance` request should have a `Content-Type` header set to `appl
 ```js
 const web3 = new Web3("http://localhost:3001");
 try {
-  await web3.getBalance();
+  await web3.getBalance("shaun");
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
 assert.isTrue(tests.some((t) => t.url === "/get-balance"));
@@ -204,7 +217,7 @@ The `POST /get-balance` request should have a body including the JSON stringifie
 const web3 = new Web3("http://localhost:3001");
 web3.setClientAddress("Tom_the_tomnificent");
 try {
-  await web3.getBalance("test");
+  await web3.getBalance("shaun");
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
 assert.isTrue(tests.some((t) => t.url === "/get-balance"));
@@ -231,15 +244,23 @@ const web3 = new Web3("http://localhost:3001");
 let response;
 try {
   response = await web3.getBalance("shaun");
-}
-assert.equal(response, 1_000_000_000);
+} catch (e) {}
+assert.equal(response, 1_000_000_000_000_000_000);
 ```
 
 If the response body contains an `error` property, `getBalance` throws an `Error` with the value of the `error` property.
 
 ```js
 const web3 = new Web3("http://localhost:3001");
-assert.throws(() => web3.getBalance("bad-addresss"), "error");
+try {
+  await web3.getBalance();
+  assert.fail("'getBalance' should have thrown");
+} catch (e) {
+  if (e instanceof AssertionError) {
+    throw e;
+  }
+  assert.equal(e.message, "Missing required fields: address: null");
+}
 ```
 
 Your `Web3` class should have an asynchronous method with the handle `transfer`.
@@ -252,9 +273,14 @@ assert.isFunction(web3.transfer);
 The `transfer` method should make a `POST /transfer` request to the `href` of `this.provider`.
 
 ```js
+const _t = {
+  from: "shaun",
+  to: "tom",
+  amount: 1,
+};
 const web3 = new Web3("http://localhost:3001");
 try {
-  await web3.transfer();
+  await web3.transfer(_t);
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
 assert.isTrue(tests.some((t) => t.url === "/transfer"));
@@ -264,8 +290,8 @@ The `POST /transfer` request should have a `Content-Type` header set to `applica
 
 ```js
 const _t = {
-  from: "a",
-  to: "b",
+  from: "shaun",
+  to: "tom",
   amount: 1,
 };
 const web3 = new Web3("http://localhost:3001");
@@ -288,7 +314,7 @@ const _t = {
 const web3 = new Web3("http://localhost:3001");
 web3.setClientAddress("Tom_the_tomnificent");
 try {
-  await web3.transfer(_t_);
+  await web3.transfer(_t);
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
 assert.isTrue(tests.some((t) => t.url === "/transfer"));
@@ -307,18 +333,23 @@ const web3 = new Web3("http://localhost:3001");
 let response;
 try {
   response = await web3.transfer(_t);
-}
-assert.deepEqual(response, { success: true });
+} catch (e) {}
+assert.equal(response, "success");
 ```
 
 If the response body contains an `error` property, `transfer` throws an `Error` with the value of the `error` property.
 
 ```js
 const web3 = new Web3("http://localhost:3001");
-assert.throws(
-  () => web3.transfer({ from: "from", to: "to", amount: 10 }),
-  "error"
-);
+try {
+  await web3.transfer({ amount: 10 });
+  assert.fail("'transfer' should have thrown");
+} catch (e) {
+  if (e instanceof AssertionError) {
+    throw e;
+  }
+  assert.equal(e.message, "error");
+}
 ```
 
 ### --before-all--
