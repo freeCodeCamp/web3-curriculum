@@ -10,7 +10,16 @@ import { Events, TestType } from "./types/index";
 import { parseMarkdown } from "./utils";
 import Loader from "./components/loader";
 
-const socket = new WebSocket("ws://localhost:8080");
+let socket: WebSocket;
+console.log(process.env.GITPOD_WORKSPACE_URL);
+if (process.env.GITPOD_WORKSPACE_URL) {
+  socket = new WebSocket(
+    process.env.GITPOD_WORKSPACE_URL.replace(/^https:\/\//, "wss://8080-") + ""
+  );
+} else {
+  socket = new WebSocket("ws://localhost:8080");
+}
+
 const App = () => {
   const [topic, setTopic] = useState("");
   const [project, setProject] = useState("");
