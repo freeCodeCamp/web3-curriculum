@@ -128,4 +128,10 @@ code {
   background-color: var(--dark-3);
   color: var(--light-1);
   padding: 0.2rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
+}
+
+#description > pre {
+  overflow-x: auto;
 }
