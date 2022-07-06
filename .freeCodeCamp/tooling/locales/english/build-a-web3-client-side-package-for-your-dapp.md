@@ -54,7 +54,7 @@ assert.instanceOf(web3.provider, URL);
 assert.equal(web3.provider.href, "http://localhost:3001/");
 ```
 
-Your `Web3` class should have a `setClientAddress` method that takes a `string` as an argument and sets the `address` property of the class to the argument.
+Your `Web3` class should have a `setClientAddress` method that takes a `string` as an argument and sets the `address` property of the class to the argument. _Other tests depend on this API_
 
 ```js
 const web3 = new Web3("http://localhost:3001");
@@ -79,35 +79,40 @@ const rpc = {
   id: 0,
 };
 const web3 = new Web3("http://localhost:3001");
+web3.setClientAddress("fcc_test_5");
 try {
   await web3.call(rpc);
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
-assert.isTrue(tests.some((t) => t.url === "/call-smart-contract"));
+assert(
+  tests.some((t) => t.url === "/call-smart-contract"),
+  "`new Web3(provider).call()` should make a `POST /call-smart-contract` request to `this.provider`"
+);
 ```
 
 The `POST /call-smart-contract` request should have a body including the JSON stringified version of the RPC object literal.
 
 ```js
 const rpc = {
-  method: "get_contract_account",
+  method: "test_6",
   args: [],
   id: 0,
 };
 const web3 = new Web3("http://localhost:3001");
+web3.setClientAddress("fcc_test_6");
 try {
   await web3.call(rpc);
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
-assert.isTrue(tests.some((t) => t.url === "/call-smart-contract"));
-assert.deepEqual(tests[0]?.body, { ...rpc, address: null });
+const test = tests.find((t) => t.body?.method === "test_6");
+assert.deepInclude(test?.body, { ...rpc });
 ```
 
 The `POST /call-smart-contract` request should have a `Content-Type` header set to `application/json`.
 
 ```js
 const rpc = {
-  method: "get_contract_account",
+  method: "test_7",
   args: [],
   id: 0,
 };
@@ -116,26 +121,32 @@ try {
   await web3.call(rpc);
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
-assert.isTrue(tests.some((t) => t.url === "/call-smart-contract"));
-assert.deepEqual(tests[0]?.headers, { "Content-Type": "application/json" });
+const test = tests.find((t) => t.body?.method === "test_7");
+assert.deepInclude(test.headers, { "content-type": "application/json" });
 ```
 
 The `POST /call-smart-contract` request should have a body including the JSON stringified version of `{address: this.address}`.
 
 ```js
 const rpc = {
-  method: "get_contract_account",
+  method: "test_8",
   args: [],
   id: 0,
 };
 const web3 = new Web3("http://localhost:3001");
-web3.setClientAddress("Tom_the_tomnificent");
+web3.setClientAddress("fcc_test_8");
+assert.equal(
+  web3.address,
+  "fcc_test_8",
+  "`setClientAddress` should set `this.address`"
+);
 try {
   await web3.call(rpc);
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
-assert.isTrue(tests.some((t) => t.url === "/call-smart-contract"));
-assert.deepEqual(tests[0]?.body, { ...rpc, address: "Tom_the_tomnificent" });
+const test = tests.find((t) => t.body?.address === "fcc_test_8");
+assert.exists(test);
+assert.deepInclude(test, { address: "fcc_test_8" });
 ```
 
 The `call` method should return a promise that resolves with the object literal of the response body.
@@ -148,6 +159,7 @@ const rpc = {
 };
 
 const web3 = new Web3("http://localhost:3001");
+web3.setClientAddress("fcc_test_9");
 let response;
 try {
   response = await web3.call(rpc);
@@ -201,42 +213,42 @@ const tests = await (await fetch("http://localhost:3001/tests")).json();
 assert.isTrue(tests.some((t) => t.url === "/get-balance"));
 ```
 
-The `POST /get-balance` request should have a `Content-Type` header set to `application/json`.
-
-```js
-const web3 = new Web3("http://localhost:3001");
-try {
-  await web3.getBalance("shaun");
-} catch (e) {}
-const tests = await (await fetch("http://localhost:3001/tests")).json();
-assert.isTrue(tests.some((t) => t.url === "/get-balance"));
-assert.equal(tests[0]?.headers?.["content-type"], "application/json");
-```
-
 The `POST /get-balance` request should have a body including the JSON stringified version of `{address}`.
 
 ```js
 const web3 = new Web3("http://localhost:3001");
 web3.setClientAddress("Tom_the_tomnificent");
 try {
-  await web3.getBalance("shaun");
+  await web3.getBalance("fcc_test_14");
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
-assert.isTrue(tests.some((t) => t.url === "/get-balance"));
-assert.deepNestedInclude(tests[0]?.body, { address: "test" });
+const test = tests.find((t) => t.body?.address === "fcc_test_14");
+assert.deepInclude(test?.body, { address: "fcc_test_14" });
 ```
 
 The `POST /get-balance` request should fallback to the `this.address` if no address is provided.
 
 ```js
 const web3 = new Web3("http://localhost:3001");
-web3.setClientAddress("Tom_the_tomnificent");
+web3.setClientAddress("fcc_test_15");
 try {
   await web3.getBalance();
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
-assert.isTrue(tests.some((t) => t.url === "/get-balance"));
-assert.deepNestedInclude(tests[0]?.body, { address: "Tom_the_tomnificent" });
+const test = tests.find((t) => t.body?.address === "fcc_test_15");
+assert.deepInclude(test?.body, { address: "fcc_test_15" });
+```
+
+The `POST /get-balance` request should have a `Content-Type` header set to `application/json`.
+
+```js
+const web3 = new Web3("http://localhost:3001");
+try {
+  await web3.getBalance("fcc_test_16");
+} catch (e) {}
+const tests = await (await fetch("http://localhost:3001/tests")).json();
+const test = tests.find((t) => t.body?.address === "fcc_test_16");
+assert.equal(test?.headers?.["content-type"], "application/json");
 ```
 
 The `getBalance` method should return a promise that resolves with the object literal of the response body.
@@ -259,9 +271,9 @@ try {
   assert.fail("'getBalance' should have thrown");
 } catch (e) {
   if (e instanceof AssertionError) {
+    assert.equal(e.message, "Missing required fields: address: null");
     throw e;
   }
-  assert.equal(e.message, "Missing required fields: address: null");
 }
 ```
 
