@@ -11,7 +11,6 @@ import { parseMarkdown } from "./utils";
 import Loader from "./components/loader";
 
 let socket: WebSocket;
-console.log(process.env.GITPOD_WORKSPACE_URL);
 if (process.env.GITPOD_WORKSPACE_URL) {
   socket = new WebSocket(
     process.env.GITPOD_WORKSPACE_URL.replace(/^https:\/\//, "wss://8080-") + ""

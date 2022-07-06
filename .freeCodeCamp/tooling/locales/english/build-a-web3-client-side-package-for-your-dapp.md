@@ -210,7 +210,7 @@ try {
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
 assert.isTrue(tests.some((t) => t.url === "/get-balance"));
-assert.deepEqual(tests[0]?.headers, { "Content-Type": "application/json" });
+assert.equal(tests[0]?.headers?.["content-type"], "application/json");
 ```
 
 The `POST /get-balance` request should have a body including the JSON stringified version of `{address}`.
@@ -223,7 +223,7 @@ try {
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
 assert.isTrue(tests.some((t) => t.url === "/get-balance"));
-assert.deepEqual(tests[0]?.body, { address: "test" });
+assert.deepNestedInclude(tests[0]?.body, { address: "test" });
 ```
 
 The `POST /get-balance` request should fallback to the `this.address` if no address is provided.
@@ -236,7 +236,7 @@ try {
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
 assert.isTrue(tests.some((t) => t.url === "/get-balance"));
-assert.deepEqual(tests[0]?.body, { address: "Tom_the_tomnificent" });
+assert.deepNestedInclude(tests[0]?.body, { address: "Tom_the_tomnificent" });
 ```
 
 The `getBalance` method should return a promise that resolves with the object literal of the response body.
@@ -302,7 +302,7 @@ try {
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
 assert.isTrue(tests.some((t) => t.url === "/transfer"));
-assert.deepEqual(tests[0]?.headers, { "Content-Type": "application/json" });
+assert.equal(tests[0]?.headers?.["content-type"], "application/json");
 ```
 
 The `POST /transfer` request should have a body including the JSON stringified version of `{from, to, amount}`.
