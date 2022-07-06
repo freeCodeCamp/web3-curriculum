@@ -1,4 +1,5 @@
 const path = require("path");
+const { DefinePlugin } = require("webpack");
 const Dotenv = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
@@ -73,6 +74,11 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "client", "index.html"),
+    }),
+    new DefinePlugin({
+      "process.env.GITPOD_WORKSPACE_URL": JSON.stringify(
+        process.env.GITPOD_WORKSPACE_URL
+      ),
     }),
     new Dotenv(),
   ],
