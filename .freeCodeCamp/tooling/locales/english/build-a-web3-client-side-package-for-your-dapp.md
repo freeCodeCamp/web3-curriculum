@@ -146,7 +146,7 @@ try {
 const tests = await (await fetch("http://localhost:3001/tests")).json();
 const test = tests.find((t) => t.body?.address === "fcc_test_8");
 assert.exists(test);
-assert.deepInclude(test, { address: "fcc_test_8" });
+assert.deepInclude(test?.body, { address: "fcc_test_8" });
 ```
 
 The `call` method should return a promise that resolves with the object literal of the response body.
@@ -248,7 +248,7 @@ try {
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
 const test = tests.find((t) => t.body?.address === "fcc_test_16");
-assert.equal(test?.headers?.["content-type"], "application/json");
+assert.deepInclude(test?.headers, { "content-type": "application/json" });
 ```
 
 The `getBalance` method should return a promise that resolves with the object literal of the response body.
@@ -313,26 +313,26 @@ try {
   await web3.transfer(_t);
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
-assert.isTrue(tests.some((t) => t.url === "/transfer"));
-assert.equal(tests[0]?.headers?.["content-type"], "application/json");
+const test = tests.find((t) => t.url === "/transfer");
+assert.deepInclude(test?.headers, { "content-type": "application/json" });
 ```
 
 The `POST /transfer` request should have a body including the JSON stringified version of `{from, to, amount}`.
 
 ```js
 const _t = {
-  from: "a",
-  to: "b",
+  from: "from_address",
+  to: "to_address",
   amount: 1,
 };
 const web3 = new Web3("http://localhost:3001");
-web3.setClientAddress("Tom_the_tomnificent");
+web3.setClientAddress("fcc_test_23_address");
 try {
   await web3.transfer(_t);
 } catch (e) {}
 const tests = await (await fetch("http://localhost:3001/tests")).json();
-assert.isTrue(tests.some((t) => t.url === "/transfer"));
-assert.deepEqual(tests[0]?.body, _t);
+const test = tests.find((t) => t.body?.from === "from_address");
+assert.deepEqual(test?.body, _t);
 ```
 
 The `transfer` method should return a promise that resolves with the object literal of the response body.
