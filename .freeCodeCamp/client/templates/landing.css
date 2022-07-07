@@ -1,0 +1,27 @@
+.blocks {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-inline-start: 0;
+}
+
+.block {
+  width: 90%;
+  min-height: 40px;
+  margin-top: 10px;
+}
+
+.block-btn {
+  background-color: var(--dark-2);
+  color: var(--light-2);
+  width: 100%;
+  height: 100%;
+  min-height: 40px;
+}
+
+.block-btn:hover {
+  cursor: pointer;
+  background-color: var(--dark-3);
+}

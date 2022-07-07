@@ -1,0 +1,37 @@
+[
+  {
+    "id": 0,
+    "title": "Build a Web3 Client-Side Package for Your dApp",
+    "dashedName": "build-a-web3-client-side-package-for-your-dapp",
+    "isIntegrated": true,
+    "description": ""
+  },
+  {
+    "id": 1,
+    "title": "Build a Web3 Client-Side Package for Your dApp",
+    "dashedName": "build-a-web3-client-side-package-for-your-dapp",
+    "isIntegrated": true,
+    "description": ""
+  },
+  {
+    "id": 2,
+    "title": "Learn Basic Rust by Building a CLI Wallet",
+    "dashedName": "learn-basic-rust-by-building-a-cli-wallet",
+    "isIntegrated": false,
+    "description": ""
+  },
+  {
+    "id": 3,
+    "title": "Learn Intermediate Rust by Building a Blockchain",
+    "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
+    "isIntegrated": false,
+    "description": ""
+  },
+  {
+    "id": 4,
+    "title": "Build a Smart Contract in Rust",
+    "dashedName": "build-a-smart-contract-in-rust",
+    "isIntegrated": true,
+    "description": ""
+  }
+]
