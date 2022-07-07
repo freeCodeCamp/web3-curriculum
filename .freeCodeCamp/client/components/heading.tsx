@@ -2,7 +2,7 @@ import { F } from "../types";
 
 interface HeadingProps {
   topic: string;
-  project: string;
+  title: string;
   lessonNumber?: number;
   goToNextLesson?: F<void, void>;
   goToPreviousLesson?: F<void, void>;
@@ -10,7 +10,7 @@ interface HeadingProps {
 
 const Heading = ({
   topic,
-  project,
+  title,
   lessonNumber,
   goToNextLesson,
   goToPreviousLesson,
@@ -21,7 +21,7 @@ const Heading = ({
         <button onClick={() => goToPreviousLesson()}>&lt;</button>
       )}
       <h1 id="project-heading">
-        {topic} - {project}
+        {topic} - {title}
         {lessonNumber && <LessonNumber lessonNumber={lessonNumber} />}
       </h1>
       {goToNextLesson && <button onClick={() => goToNextLesson()}>&gt;</button>}

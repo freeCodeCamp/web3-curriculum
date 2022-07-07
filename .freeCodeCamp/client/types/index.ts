@@ -22,3 +22,11 @@ export type TestType = {
   isLoading: boolean;
   testId: number;
 };
+
+export interface Project {
+  id: number;
+  title: string;
+  description: string;
+  isIntegrated: boolean;
+  isPublic: boolean;
+}

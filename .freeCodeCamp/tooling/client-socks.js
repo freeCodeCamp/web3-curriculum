@@ -1,3 +1,5 @@
+import projects from "../config/projects.json" assert { type: "json" };
+
 export function toggleLoaderAnimation(ws) {
   ws.send(parse({ event: "toggle-loader-animation" }));
 }
@@ -18,6 +20,16 @@ export function updateProjectHeading(ws, projectHeading) {
     parse({
       event: "update-project-heading",
       data: projectHeading,
+    })
+  );
+}
+
+export function updateProject(ws, project) {
+  const selectedProject = projects.find((p) => p.dashedName === project);
+  ws.send(
+    parse({
+      event: "update-project",
+      data: selectedProject,
     })
   );
 }

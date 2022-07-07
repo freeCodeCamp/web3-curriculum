@@ -1,7 +1,7 @@
 import Description from "../components/description";
 import Header from "../components/header";
 import Heading from "../components/heading";
-import { F, TestType } from "../types";
+import { F, Project, TestType } from "../types";
 import "./integrated-project.css";
 import Ruler from "../components/ruler";
 import IntegratedProjectControls from "../components/integrated-project-controls";
@@ -11,7 +11,7 @@ interface IntegratedProjectProps {
   runTests: F<void, void>;
   description: string;
   topic: string;
-  project: string;
+  title: string;
   tests: TestType[];
   cons: string;
   isLoading: boolean;
@@ -21,14 +21,14 @@ const IntegratedProject = ({
   runTests,
   description,
   topic,
-  project,
+  title,
   tests,
   cons,
   isLoading,
 }: IntegratedProjectProps) => {
   return (
     <>
-      <Heading topic={topic} project={project} />
+      <Heading topic={topic} title={title} />
 
       <Ruler />
 

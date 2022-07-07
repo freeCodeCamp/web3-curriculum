@@ -33,6 +33,14 @@ header {
   height: 55px;
   background-color: var(--dark-2);
   display: flex;
+  justify-content: center;
+}
+
+.header-btn {
+  all: unset;
+}
+.header-btn:hover {
+  cursor: pointer;
 }
 
 #logo {

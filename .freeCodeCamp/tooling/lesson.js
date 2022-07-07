@@ -12,6 +12,7 @@ import {
   updateDescription,
   updateProjectHeading,
   updateTests,
+  updateProject,
 } from "./client-socks.js";
 import { PATH, readEnv } from "./env.js";
 import seedLesson from "./seed.js";
@@ -21,6 +22,8 @@ async function runLesson(ws, project, lessonNumber) {
   const projectFile = `${PATH}/tooling/locales/${locale}/${project}.md`;
   const lesson = await getLessonFromFile(projectFile, Number(lessonNumber));
   const description = getLessonDescription(lesson);
+
+  updateProject(ws, project);
 
   const { SEED_EVERY_LESSON, INTEGRATED_PROJECT } = await readEnv();
   if (INTEGRATED_PROJECT !== "true") {

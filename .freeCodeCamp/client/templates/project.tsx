@@ -13,7 +13,7 @@ interface ProjectProps {
   goToNextLesson: F<void, void>;
   goToPreviousLesson: F<void, void>;
   isLoading: boolean;
-  project: string;
+  title: string;
   topic: string;
   lessonNumber: number;
   description: string;
@@ -28,7 +28,7 @@ const Project = ({
   goToNextLesson,
   goToPreviousLesson,
   isLoading,
-  project,
+  title,
   topic,
   lessonNumber,
   description,
@@ -43,7 +43,7 @@ const Project = ({
           goToNextLesson,
           goToPreviousLesson,
           topic,
-          project,
+          title,
           lessonNumber,
         }}
       />

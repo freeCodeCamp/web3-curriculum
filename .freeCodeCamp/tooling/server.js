@@ -44,7 +44,7 @@ async function handleConnect(ws) {
 }
 
 async function handleSelectProject(ws, data) {
-  const selectedProject = projects.find((p) => p.id === data?.id);
+  const selectedProject = projects.find((p) => p.id === data?.data?.id);
   const { CURRENT_LESSON } = await readEnv();
   runLesson(ws, selectedProject.dashedName, CURRENT_LESSON);
 }

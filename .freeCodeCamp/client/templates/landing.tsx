@@ -1,5 +1,5 @@
 import Header from "../components/header";
-import { Events, TestType } from "../types/index";
+import { Events, Project, TestType } from "../types/index";
 import { parseMarkdown } from "../utils";
 import projects from "../../config/projects.json" assert { type: "json" };
 import "./landing.css";
@@ -22,7 +22,7 @@ if (process.env.GITPOD_WORKSPACE_URL) {
 
 export const Landing = () => {
   const [topic, setTopic] = useState("");
-  const [project, setProject] = useState("");
+  const [project, setProject] = useState<Project | null>(null);
   const [lessonNumber, setLessonNumber] = useState(1);
   const [description, setDescription] = useState("");
   const [tests, setTests] = useState<TestType[]>([]);
@@ -55,7 +55,7 @@ export const Landing = () => {
     "update-console": updateConsole,
     "update-description": updateDescription,
     "update-project-heading": updateProjectHeading,
-    "select-project": selectProject,
+    "update-project": updateProject,
     "reset-tests": resetTests,
   };
 
@@ -63,8 +63,8 @@ export const Landing = () => {
     socket.send(parse({ event: type, data }));
   }
 
-  function selectProject({ currentProject }: { currentProject: string }) {
-    setProject(currentProject);
+  function updateProject(project: Project) {
+    setProject(project);
   }
 
   function updateProjectHeading({
@@ -118,7 +118,7 @@ export const Landing = () => {
   }
   return (
     <>
-      <Header />
+      <Header setProject={setProject} />
 
       {project ? (
         <IntegratedOrProject
@@ -130,7 +130,7 @@ export const Landing = () => {
             hints,
             isLoading,
             lessonNumber,
-            project,
+            title: project.title,
             resetProject,
             runTests,
             tests,
@@ -143,13 +143,6 @@ export const Landing = () => {
     </>
   );
 };
-
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  isIntegrated: boolean;
-}
 
 interface SelectionProps {
   topic: string;
@@ -177,15 +170,29 @@ type BlockProps = {
   sock: SelectionProps["sock"];
 } & Project;
 
-const Block = ({ id, title, description, isIntegrated, sock }: BlockProps) => {
+const Block = ({
+  id,
+  title,
+  description,
+  isIntegrated,
+  isPublic,
+  sock,
+}: BlockProps) => {
   function selectProject() {
     sock(Events.SELECT_PROJECT, { id });
   }
   return (
     <li className="block">
-      <button className="block-btn" onClick={selectProject}>
+      <button
+        className="block-btn"
+        onClick={selectProject}
+        disabled={!isPublic}
+        style={
+          !isPublic ? { backgroundColor: "grey", cursor: "not-allowed" } : {}
+        }
+      >
         <h3>{title}</h3>
-        <p>{description}</p>
+        <p>{isPublic ? description : "Coming Soon..."}</p>
         {isIntegrated && <Badge />}
       </button>
     </li>
