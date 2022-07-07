@@ -28,7 +28,6 @@ const IntegratedProject = ({
 }: IntegratedProjectProps) => {
   return (
     <>
-      <Header />
       <Heading topic={topic} project={project} />
 
       <Ruler />

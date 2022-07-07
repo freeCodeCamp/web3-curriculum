@@ -38,7 +38,6 @@ const Project = ({
 }: ProjectProps) => {
   return (
     <>
-      <Header />
       <Heading
         {...{
           goToNextLesson,

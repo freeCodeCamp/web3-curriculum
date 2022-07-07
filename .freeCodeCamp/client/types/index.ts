@@ -13,6 +13,7 @@ export enum Events {
   RESET_PROJECT = "reset-project",
   GO_TO_NEXT_LESSON = "go-to-next-lesson",
   GO_TO_PREVIOUS_LESSON = "go-to-previous-lesson",
+  SELECT_PROJECT = "select-project",
 }
 
 export type TestType = {

@@ -21,6 +21,7 @@ module.exports = {
           options: {
             presets: ["@babel/preset-env"],
             plugins: [
+              require.resolve("@babel/plugin-syntax-import-assertions"),
               [
                 "prismjs",
                 {

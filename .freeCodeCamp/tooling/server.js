@@ -6,6 +6,7 @@ import { WebSocketServer } from "ws";
 import runLesson from "./lesson.js";
 import { updateTests, updateHints } from "./client-socks.js";
 import hotReload from "./hot-reload.js";
+import projects from "../config/projects.json" assert { "type": "json" };
 
 const app = express();
 
@@ -42,6 +43,12 @@ async function handleConnect(ws) {
   runLesson(ws, CURRENT_PROJECT, CURRENT_LESSON);
 }
 
+async function handleSelectProject(ws, data) {
+  const selectedProject = projects.find((p) => p.id === data?.id);
+  const { CURRENT_LESSON } = await readEnv();
+  runLesson(ws, selectedProject.dashedName, CURRENT_LESSON);
+}
+
 const server = app.listen(8080, () => {
   console.log("Listening on port 8080");
 });
@@ -54,6 +61,7 @@ const handle = {
   "reset-project": handleResetProject,
   "go-to-next-lesson": handleGoToNextLesson,
   "go-to-previous-lesson": handleGoToPreviousLesson,
+  "select-project": handleSelectProject,
 };
 
 const wss = new WebSocketServer({ server });
