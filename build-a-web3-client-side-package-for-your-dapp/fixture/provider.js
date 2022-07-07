@@ -2,9 +2,12 @@ import express from "express";
 import logover, { info, error, debug } from "logover";
 import { readFile, writeFile } from "fs/promises";
 import { mine_block } from "./blockchain/pkg/blockchain.js";
+import { clearInterval } from "timers";
 logover({
   level: process.env.NODE_ENV === "production" ? "info" : "debug",
 });
+
+let canWriteToTransactions = true;
 
 const loc = (p) => new URL(p, import.meta.url).pathname;
 const CHAIN_PATH = loc("data/chain.json");
@@ -84,6 +87,19 @@ app.post("/transfer", async (req, res) => {
   res.json({ result: "success" });
 });
 
+async function pollTransactionFile() {
+  let interval;
+  await new Promise((res, _) => {
+    interval = setInterval(() => {
+      if (canWriteToTransactions) {
+        canWriteToTransactions = false;
+        res();
+      }
+    }, 300);
+  });
+  clearInterval(interval);
+}
+
 app.get("/tests", (req, res) => {
   res.json(_tests);
 });
@@ -146,11 +162,16 @@ function calculateCost(num) {
 }
 
 async function addTransaction(data) {
+  await pollTransactionFile();
+
   const transactionsFile = await readFile(TRANSACTIONS_PATH);
   const transactions = JSON.parse(transactionsFile.toString());
   transactions.push(data);
+
   await writeFile(TRANSACTIONS_PATH, JSON.stringify(transactions));
   await mine();
+
+  canWriteToTransactions = true;
 }
 
 async function getBalance(address) {
