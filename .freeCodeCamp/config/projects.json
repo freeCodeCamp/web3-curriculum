@@ -1,37 +1,122 @@
 [
   {
     "id": 0,
-    "title": "Build a Web3 Client-Side Package for Your dApp",
-    "dashedName": "build-a-web3-client-side-package-for-your-dapp",
-    "isIntegrated": true,
-    "description": ""
+    "title": "Learn Digital Ledgers by Building a Blockchain",
+    "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
+    "isIntegrated": false,
+    "description": "Placeholder description of project until Tom can think of a clever one."
   },
   {
     "id": 1,
-    "title": "Build a Web3 Client-Side Package for Your dApp",
-    "dashedName": "build-a-web3-client-side-package-for-your-dapp",
-    "isIntegrated": true,
-    "description": ""
+    "title": "Learn (Proof of Work | Hashing) by Building a Block Miner",
+    "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
+    "isIntegrated": false,
+    "description": "Placeholder description of project until Tom can think of a clever one."
   },
   {
     "id": 2,
-    "title": "Learn Basic Rust by Building a CLI Wallet",
-    "dashedName": "learn-basic-rust-by-building-a-cli-wallet",
+    "title": "Learn Digital Signatures by Buiding a Wallet",
+    "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
     "isIntegrated": false,
-    "description": ""
+    "description": "Placeholder description of project until Tom can think of a clever one."
   },
   {
     "id": 3,
-    "title": "Learn Intermediate Rust by Building a Blockchain",
-    "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
-    "isIntegrated": false,
-    "description": ""
+    "title": "Build a Video Game Marketplace Blockchain",
+    "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
+    "isIntegrated": true,
+    "description": "Placeholder description of project until Tom can think of a clever one."
   },
   {
     "id": 4,
+    "title": "Learn X by Building Y",
+    "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
+    "isIntegrated": false,
+    "description": "Placeholder description of project until Tom can think of a clever one."
+  },
+  {
+    "id": 5,
+    "title": "Learn Y by Building X",
+    "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
+    "isIntegrated": false,
+    "description": "Placeholder description of project until Tom can think of a clever one."
+  },
+  {
+    "id": 6,
+    "title": "Build a Fundraising Smart Contract",
+    "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
+    "isIntegrated": true,
+    "description": "Placeholder description of project until Tom can think of a clever one."
+  },
+  {
+    "id": 7,
+    "title": "Learn Proof of Stake Consensus by Completing a Web3 Game",
+    "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
+    "isIntegrated": false,
+    "description": "Complete the boilerplate given to you, and play the game."
+  },
+  {
+    "id": 8,
+    "title": "Learn RPC and IDLs by Building a dApp",
+    "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
+    "isIntegrated": false,
+    "description": "Remote Procedural Calls and Interface Description Languages are an integral part of most decentralised blockchains."
+  },
+  {
+    "id": 9,
+    "title": "Build a Web3 Client-Side Package for Your dApp",
+    "dashedName": "build-a-web3-client-side-package-for-your-dapp",
+    "isIntegrated": true,
+    "description": "Put your new Web3 knowledge to the test, by developing a package for use by client-side dApps."
+  },
+
+  {
+    "id": 10,
+    "title": "Learn X by Building Y",
+    "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
+    "isIntegrated": false,
+    "description": "To be decided..."
+  },
+  {
+    "id": 11,
+    "title": "Learn Y by Building X",
+    "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
+    "isIntegrated": false,
+    "description": "To be decided..."
+  },
+  {
+    "id": 12,
+    "title": "Build a Basic P2P Network in Node.js",
+    "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
+    "isIntegrated": true,
+    "description": "Peer-to-peer networking, but you build it."
+  },
+  {
+    "id": 13,
+    "title": "Learn Basic Rust by Building a CLI Wallet",
+    "dashedName": "learn-basic-rust-by-building-a-cli-wallet",
+    "isIntegrated": false,
+    "description": "Did someone say 'Rust'!?"
+  },
+  {
+    "id": 14,
+    "title": "Learn Intermediate Rust by Building a Blockchain",
+    "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
+    "isIntegrated": false,
+    "description": "You have learnt how to build a blockchain. Now, you will learn Rust by building a blockchain using Rust and WASM."
+  },
+  {
+    "id": 15,
+    "title": "Learn Smart Contracts by Building a Dumb Contract in Rust",
+    "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
+    "isIntegrated": false,
+    "description": "You know a bit about smart contracts, but now you will learn how to use WASM with Rust to compile your code into byte code, store it on your blockchain, and run it."
+  },
+  {
+    "id": 16,
     "title": "Build a Smart Contract in Rust",
     "dashedName": "build-a-smart-contract-in-rust",
     "isIntegrated": true,
-    "description": ""
+    "description": "With all this Rustacean knowledge, you can now build a smart contract to store and run on your blockchain."
   }
 ]

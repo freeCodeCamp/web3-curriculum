@@ -160,8 +160,10 @@ const Selection = ({ topic, sock }: SelectionProps) => {
   return (
     <>
       <h2>{topic}</h2>
-      <p className="description">Placeholder description</p>
-      <a className="faq">placeholder link to FAQ</a>
+      <p className="description">Yes, more Web3 hype! Woot!</p>
+      <a className="faq" href="#">
+        Link to FAQ related to course
+      </a>
       <ul className="blocks">
         {projects.map((p, i) => {
           return <Block {...{ ...p, sock }} />;
@@ -191,7 +193,7 @@ const Block = ({ id, title, description, isIntegrated, sock }: BlockProps) => {
 };
 
 const Badge = () => {
-  return <p>&#127744;</p>;
+  return <p style={{ fontSize: "18px", color: "#002ead" }}>&#127744;</p>;
 };
 
 function parse(objOrString: any) {
