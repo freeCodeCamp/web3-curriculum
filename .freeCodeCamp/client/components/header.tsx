@@ -1,11 +1,11 @@
 import { Project } from "../types";
 
 interface HeaderProps {
-  setProject: (project: Project | null) => void;
+  updateProject: (project: Project | null) => void;
 }
-const Header = ({ setProject }: HeaderProps) => {
+const Header = ({ updateProject }: HeaderProps) => {
   function returnToLanding() {
-    setProject(null);
+    updateProject(null);
   }
   return (
     <header>

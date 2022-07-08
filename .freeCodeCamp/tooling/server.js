@@ -1,12 +1,16 @@
 import express from "express";
 import runTests from "./test.js";
 import { readEnv, updateEnv } from "./env.js";
+import logover, { debug, error } from "logover";
 
 import { WebSocketServer } from "ws";
 import runLesson from "./lesson.js";
 import { updateTests, updateHints } from "./client-socks.js";
 import hotReload from "./hot-reload.js";
 import projects from "../config/projects.json" assert { "type": "json" };
+logover({
+  level: process.env.NODE_ENV === "production" ? "info" : "debug",
+});
 
 const app = express();
 
@@ -40,11 +44,21 @@ async function handleGoToPreviousLesson(ws, data) {
 
 async function handleConnect(ws) {
   const { CURRENT_PROJECT, CURRENT_LESSON } = await readEnv();
+  if (!CURRENT_PROJECT) {
+    return;
+  }
   runLesson(ws, CURRENT_PROJECT, CURRENT_LESSON);
 }
 
 async function handleSelectProject(ws, data) {
   const selectedProject = projects.find((p) => p.id === data?.data?.id);
+  // TODO: Should this set the CURRENT_PROJECT to `null` (empty string)?
+  // for the case where the Camper has navigated to the landing page.
+  if (!selectedProject) {
+    error("Selected project does not exist.");
+    return;
+  }
+  await updateEnv({ CURRENT_PROJECT: selectedProject.dashedName });
   const { CURRENT_LESSON } = await readEnv();
   runLesson(ws, selectedProject.dashedName, CURRENT_LESSON);
 }

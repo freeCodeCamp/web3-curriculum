@@ -55,7 +55,7 @@ export const Landing = () => {
     "update-console": updateConsole,
     "update-description": updateDescription,
     "update-project-heading": updateProjectHeading,
-    "update-project": updateProject,
+    "update-project": setProject,
     "reset-tests": resetTests,
   };
 
@@ -63,7 +63,8 @@ export const Landing = () => {
     socket.send(parse({ event: type, data }));
   }
 
-  function updateProject(project: Project) {
+  function updateProject(project: Project | null) {
+    sock(Events.SELECT_PROJECT, { id: project?.id });
     setProject(project);
   }
 
@@ -118,7 +119,7 @@ export const Landing = () => {
   }
   return (
     <>
-      <Header setProject={setProject} />
+      <Header updateProject={updateProject} />
 
       {project ? (
         <IntegratedOrProject
@@ -159,7 +160,7 @@ const Selection = ({ topic, sock }: SelectionProps) => {
       </a>
       <ul className="blocks">
         {projects.map((p, i) => {
-          return <Block {...{ ...p, sock }} />;
+          return <Block key={i} {...{ ...p, sock }} />;
         })}
       </ul>
     </>
@@ -192,11 +193,15 @@ const Block = ({
         }
       >
         <h3>{title}</h3>
-        <p>{isPublic ? description : "Coming Soon..."}</p>
+        <p>{isPublic ? description : <Tag text="Coming Soon" />}</p>
         {isIntegrated && <Badge />}
       </button>
     </li>
   );
+};
+
+const Tag = ({ text }: { text: string }) => {
+  return <span className="tag">{text}</span>;
 };
 
 const Badge = () => {

@@ -22,6 +22,9 @@ function hotReload(ws) {
         }, TEST_POLLING_RATE);
 
         const { CURRENT_PROJECT, CURRENT_LESSON } = await readEnv();
+        if (!CURRENT_PROJECT) {
+          return;
+        }
         if (isClearConsole) {
           console.clear();
         }
