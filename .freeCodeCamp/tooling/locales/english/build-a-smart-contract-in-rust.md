@@ -20,6 +20,9 @@ This project comes with a boilerplate including the following:
 **User Stories:**
 
 - Your smart contract uses `wasm-pack` to compile the Rust code to JavaScript for Nodejs
+- Your smart contract exports an `initialise` function that returns `Result<JsValue, JsError>`
+  - This function takes no arguments
+  - This function returns a `Context` wrapped in a `JsValue`
 - Your smart contract exports a `set_click` function that returns `Result<JsValue, JsError>`
   - This function accepts a `JsValue` with the `Context` type
   - This function also accepts a `String` as the second argument which is the address of the user who clicked the button
@@ -32,7 +35,18 @@ Your smart contract should pass all `lib::tests` unit tests.
 ```js
 const { stdout } = await __helpers.getCommandOutput(
   "cargo test --lib lib::tests",
-  "blockchain"
+  "build-a-smart-contract-in-rust"
+);
+assert.match(stdout, /test result: ok/);
+```
+
+Your smart contract should pass all `initialise` integration tests.
+
+```js
+// Execute `wasm-pack test --firefox --headless -- --test mine_block`, and pipe output to tests client
+const { stdout } = await __helpers.getCommandOutput(
+  "wasm-pack test --firefox --headless -- --test initialise",
+  "build-a-smart-contract-in-rust"
 );
 assert.match(stdout, /test result: ok/);
 ```
@@ -43,7 +57,7 @@ Your smart contract should pass all `set_click` integration tests.
 // Execute `wasm-pack test --firefox --headless -- --test mine_block`, and pipe output to tests client
 const { stdout } = await __helpers.getCommandOutput(
   "wasm-pack test --firefox --headless -- --test set_click",
-  "blockchain"
+  "build-a-smart-contract-in-rust"
 );
 assert.match(stdout, /test result: ok/);
 ```
@@ -54,7 +68,7 @@ Your smart contract should pass all `get_contract_account` integration tests.
 // Execute `wasm-pack test --firefox --headless -- --test mine_block`, and pipe output to tests client
 const { stdout } = await __helpers.getCommandOutput(
   "wasm-pack test --firefox --headless -- --test get_contract_account",
-  "blockchain"
+  "build-a-smart-contract-in-rust"
 );
 assert.match(stdout, /test result: ok/);
 ```
