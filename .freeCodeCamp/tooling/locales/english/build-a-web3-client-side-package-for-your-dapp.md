@@ -362,7 +362,10 @@ try {
   if (e instanceof AssertionError) {
     throw e;
   }
-  assert.equal(e.message, "error");
+  assert.equal(
+    e.message,
+    "Missing required fields: from: null, to: undefined, amount: 10"
+  );
 }
 ```
 

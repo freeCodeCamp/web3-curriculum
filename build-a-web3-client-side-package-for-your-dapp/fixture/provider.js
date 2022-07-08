@@ -77,7 +77,7 @@ app.post("/transfer", async (req, res) => {
   _tests.push({ body: req.body, url: req.url, headers: req.headers });
   const { from, to, amount } = req.body;
 
-  if (![from, to, amount].filter(Boolean).length === 3) {
+  if ([from, to, amount].filter(Boolean).length !== 3) {
     res.status(400).json({
       error: `Missing required fields: from: ${from}, to: ${to}, amount: ${amount}`,
     });
