@@ -48,3 +48,31 @@ pub fn get_contract_account(context: JsValue) -> Result<JsValue, JsError> {
 
     Ok(JsValue::from_serde(&account).unwrap())
 }
+
+#[config(tests)]
+mod tests {
+    #[test]
+    fn account_struct_is_defined() {
+        use super::Account;
+    }
+    #[test]
+    fn account_struct_has_total_clicks() {
+
+    }
+    #[test]
+    fn account_struct_has_clickers() {
+
+    }
+    #[test]
+    fn account_struct_is_serde() {
+
+    }
+    #[test]
+    fn context_struct_is_defined() {
+
+    }
+    #[test]
+    fn context_struct_has_base_account() {
+        
+    }
+}
