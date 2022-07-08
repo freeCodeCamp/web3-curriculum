@@ -23,7 +23,7 @@ async function isFileOpen(path) {
 }
 
 async function getTerminalOutput() {
-  const pathToTerminalLogs = join(`${ROOT}/.logs/.terminal-out.log`);
+  const pathToTerminalLogs = join(ROOT, ".logs/.terminal-out.log");
   const terminalLogs = await readFile(pathToTerminalLogs, "utf8");
 
   if (!terminalLogs) {
@@ -34,24 +34,24 @@ async function getTerminalOutput() {
 }
 
 /**
- * Returns stdout of a command called from a given path
+ * Returns the output of a command called from a given path
  * @param {string} command
  * @param {string} path Path relative to curriculum folder
- * @returns
+ * @returns {{stdout, stderr}}
  */
 async function getCommandOutput(command, path = "") {
-  const { stdout } = await execute(command, {
-    cwd: `${ROOT}/${path}`,
+  const cmdOut = await execute(command, {
+    cwd: join(ROOT, path),
     shell: "/bin/bash",
   });
-  return stdout;
+  return cmdOut;
 }
 
 /**
  * TODO
  */
 async function getLastCommand(howManyBack = 0) {
-  const pathToBashLogs = join(`${ROOT}/.logs/.bash_history.log`);
+  const pathToBashLogs = join(ROOT, ".logs/.bash_history.log");
   const bashLogs = await readFile(pathToBashLogs, "utf8");
 
   if (!bashLogs) {
@@ -66,13 +66,13 @@ async function getLastCommand(howManyBack = 0) {
 
 // TODO: Do not return whole file
 async function getCWD() {
-  const pathToCWD = join(`${ROOT}/.logs/.cwd.log`);
+  const pathToCWD = join(ROOT, ".logs/.cwd.log");
   const cwd = await readFile(pathToCWD, "utf8");
   return cwd;
 }
 
 async function getFile(path) {
-  const file = await readFile(`${ROOT}/${path}`, "utf8");
+  const file = await readFile(join(ROOT, path), "utf8");
   return file;
 }
 
