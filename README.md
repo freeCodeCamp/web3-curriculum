@@ -1,5 +1,8 @@
 # Web3 Curriculum
 
+- [ ] Dynamically hide `learn-` folders based on which project is selected.
+- [ ] Push/pop content to `/` when working on project
+
 **KEEP THINGS SIMPLE, SHAUN!!!!**
 
 ## <u>[Learn Proof of Stake Consensus by Completing a Web3 Game](./learn-proof-of-stake-consensus-by-completing-a-web3-game/)</u>
