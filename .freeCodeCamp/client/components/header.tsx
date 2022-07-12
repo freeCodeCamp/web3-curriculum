@@ -1,7 +1,7 @@
-import { Project } from "../types";
+import { ProjectI } from "../types";
 
 interface HeaderProps {
-  updateProject: (project: Project | null) => void;
+  updateProject: (project: ProjectI | null) => void;
 }
 const Header = ({ updateProject }: HeaderProps) => {
   function returnToLanding() {

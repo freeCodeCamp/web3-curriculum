@@ -1,15 +1,12 @@
 import Header from "../components/header";
-import { Events, Project, TestType } from "../types/index";
+import { Events, ProjectI, TestType } from "../types/index";
 import { parseMarkdown } from "../utils";
 import projects from "../../config/projects.json" assert { type: "json" };
+import IntegratedProject from "./integrated-project";
+import Project from "./project";
 import "./landing.css";
 
-import { useEffect, useState, lazy } from "react";
-const IntegratedOrProject = lazy(() => {
-  return process.env.INTEGRATED_PROJECT === "true"
-    ? import("./integrated-project")
-    : import("./project");
-});
+import { useEffect, useState } from "react";
 
 let socket: WebSocket;
 if (process.env.GITPOD_WORKSPACE_URL) {
@@ -22,7 +19,7 @@ if (process.env.GITPOD_WORKSPACE_URL) {
 
 export const Landing = () => {
   const [topic, setTopic] = useState("");
-  const [project, setProject] = useState<Project | null>(null);
+  const [project, setProject] = useState<ProjectI | null>(null);
   const [lessonNumber, setLessonNumber] = useState(1);
   const [description, setDescription] = useState("");
   const [tests, setTests] = useState<TestType[]>([]);
@@ -63,7 +60,7 @@ export const Landing = () => {
     socket.send(parse({ event: type, data }));
   }
 
-  function updateProject(project: Project | null) {
+  function updateProject(project: ProjectI | null) {
     sock(Events.SELECT_PROJECT, { id: project?.id });
     setProject(project);
   }
@@ -122,22 +119,41 @@ export const Landing = () => {
       <Header updateProject={updateProject} />
 
       {project ? (
-        <IntegratedOrProject
-          {...{
-            cons,
-            description,
-            goToNextLesson,
-            goToPreviousLesson,
-            hints,
-            isLoading,
-            lessonNumber,
-            title: project.title,
-            resetProject,
-            runTests,
-            tests,
-            topic,
-          }}
-        />
+        project.isIntegrated ? (
+          <IntegratedProject
+            {...{
+              cons,
+              description,
+              goToNextLesson,
+              goToPreviousLesson,
+              hints,
+              isLoading,
+              lessonNumber,
+              title: project.title,
+              resetProject,
+              runTests,
+              tests,
+              topic,
+            }}
+          />
+        ) : (
+          <Project
+            {...{
+              cons,
+              description,
+              goToNextLesson,
+              goToPreviousLesson,
+              hints,
+              isLoading,
+              lessonNumber,
+              title: project.title,
+              resetProject,
+              runTests,
+              tests,
+              topic,
+            }}
+          />
+        )
       ) : (
         <Selection {...{ topic, sock }} />
       )}
@@ -169,7 +185,7 @@ const Selection = ({ topic, sock }: SelectionProps) => {
 
 type BlockProps = {
   sock: SelectionProps["sock"];
-} & Project;
+} & ProjectI;
 
 const Block = ({
   id,
