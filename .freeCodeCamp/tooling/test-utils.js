@@ -1,8 +1,12 @@
 import { readFile, readdir } from "fs/promises";
 import { promisify } from "util";
 import { join } from "path";
-import { exec } from "child_process";
+import { exec, execSync } from "child_process";
 const execute = promisify(exec);
+import fs from 'fs';
+import sha256 from 'crypto-js/sha256.js';
+import elliptic from 'elliptic';
+const ec = new elliptic.ec('p192');
 
 const ROOT = ".";
 
@@ -76,6 +80,60 @@ async function getFile(path) {
   return file;
 }
 
+// Video Game project:
+const projectFiles = [
+  "blockchain-helpers.js",
+  "blockchain.json",
+  "buy-item.js",
+  "generate-wallet.js",
+  "get-address-info.js",
+  "init-blockchain.js",
+  "items.json",
+  "mine-block.js",
+  "sell-item.js",
+  "transactions.json",
+  "wallets.json"
+];
+
+async function copyProjectFiles(destinationFolder = 'test-files', arrayOfFiles = projectFiles) {
+  arrayOfFiles.forEach(file => {
+    fs.copyFileSync(`../${file}`, `./${destinationFolder}/${file}`);
+  })
+}
+
+async function runCommand(command, options) {
+  execSync(command, options);
+}
+
+async function getJsonFile(file) {
+  const fileString = fs.readFileSync(file);
+  return JSON.parse(fileString);
+}
+
+async function generateHash(content) {
+  const hash = sha256(content).toString();
+  return hash;
+}
+
+async function generateSignature(privateKey, content) {
+  const keyPair = ec.keyFromPrivate(privateKey, 'hex');
+  const signature = keyPair.sign(content).toDER('hex');
+  return signature;
+}
+
+async function validateSignature(publicKey, content, signature) {
+  const keyPair = ec.keyFromPublic(publicKey, 'hex');
+  const verifiedSignature = keyPair.verify(content, signature);
+  return verifiedSignature;
+}
+
+async function getPublicKeyFromPrivate(privateKey) {
+  const keyPair = ec.keyFromPrivate(privateKey, 'hex');
+  const publicKey = keyPair.getPublic('hex');
+  return publicKey;
+}
+// end video game project
+
 const __helpers = {
   getDirectory,
   isFileOpen,
@@ -84,6 +142,13 @@ const __helpers = {
   getCommandOutput,
   getLastCommand,
   getCWD,
+  copyProjectFiles,
+  runCommand,
+  getJsonFile,
+  generateHash,
+  generateSignature,
+  validateSignature,
+  getPublicKeyFromPrivate
 };
 
 export default __helpers;
