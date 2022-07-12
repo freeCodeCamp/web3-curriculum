@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 ARG USERNAME=camper
 ARG REPO_NAME=external-project
@@ -31,7 +31,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 RUN sudo apt-get install -y nodejs
 
 # Rust
-RUN sudo apt-get install build-essential
+RUN sudo apt-get install -y build-essential
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 
@@ -44,12 +44,3 @@ RUN npm config set prefix '~/.npm-global'
 # Configure course-specific environment
 COPY . .
 WORKDIR ${HOMEDIR}
-
-
-
-# Other Tools
-
-
-## Python
-
-## SQL
