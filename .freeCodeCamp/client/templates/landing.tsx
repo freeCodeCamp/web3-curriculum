@@ -2,11 +2,10 @@ import Header from "../components/header";
 import { Events, ProjectI, TestType } from "../types/index";
 import { parseMarkdown } from "../utils";
 import projects from "../../config/projects.json" assert { type: "json" };
-import IntegratedProject from "./integrated-project";
-import Project from "./project";
+import { ProjectProps } from "./project";
 import "./landing.css";
 
-import { useEffect, useState } from "react";
+import { lazy, LazyExoticComponent, useEffect, useState } from "react";
 
 let socket: WebSocket;
 if (process.env.GITPOD_WORKSPACE_URL) {
@@ -26,6 +25,8 @@ export const Landing = () => {
   const [hints, setHints] = useState("");
   const [cons, setCons] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [IntegratedOrProject, setIntegratedOrProject] =
+    useState<LazyExoticComponent<(props: ProjectProps) => JSX.Element>>();
 
   useEffect(() => {
     socket.onopen = function (_event) {
@@ -43,6 +44,16 @@ export const Landing = () => {
       socket.close();
     };
   }, []);
+
+  useEffect(() => {
+    if (project?.isIntegrated) {
+      setIntegratedOrProject(
+        lazy(async () => await import("./integrated-project"))
+      );
+    } else {
+      setIntegratedOrProject(lazy(async () => await import("./project")));
+    }
+  }, [project]);
 
   const handle = {
     "toggle-loader-animation": toggleLoaderAnimation,
@@ -119,25 +130,8 @@ export const Landing = () => {
       <Header updateProject={updateProject} />
 
       {project ? (
-        project.isIntegrated ? (
-          <IntegratedProject
-            {...{
-              cons,
-              description,
-              goToNextLesson,
-              goToPreviousLesson,
-              hints,
-              isLoading,
-              lessonNumber,
-              title: project.title,
-              resetProject,
-              runTests,
-              tests,
-              topic,
-            }}
-          />
-        ) : (
-          <Project
+        IntegratedOrProject && (
+          <IntegratedOrProject
             {...{
               cons,
               description,
