@@ -121,7 +121,6 @@ async function getPublicKeyFromPrivate(privateKey) {
   const publicKey = keyPair.getPublic('hex');
   return publicKey;
 }
-// end video game project
 
 const __helpers = {
   getDirectory,
