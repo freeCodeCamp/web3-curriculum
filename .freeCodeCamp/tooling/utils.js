@@ -2,16 +2,11 @@ import { writeFile } from "fs/promises";
 import { dirname, join } from "path";
 import { promisify } from "util";
 import { exec } from "child_process";
+import { readdirSync } from "fs";
 const execute = promisify(exec);
 
-// TODO: Need to add directories too.
-const PERMANENT_FILES_IN_ROOT = [
-  ".gitignore",
-  ".gitpod.Dockerfile",
-  ".gitpod.yml",
-  "LICENSE",
-  "README.md",
-];
+// Adds all existing paths at runtime
+const PERMANENT_PATHS_IN_ROOT = readdirSync("..");
 
 export async function setVSCSettings(obj) {
   const settings = await import("../../.vscode/settings.json", {
@@ -53,8 +48,8 @@ export async function dumpProjectDirectoryIntoRoot(project) {
 
 export async function clearWorkingDirectory() {
   const pathToRoot = join(dirname(), "..");
-  const stringOfFilesToKeep = PERMANENT_FILES_IN_ROOT.join("|");
-  await execute(`rm -r !(${stringOfFilesToKeep})`, {
+  const stringOfPathsToKeep = PERMANENT_PATHS_IN_ROOT.join("|");
+  await execute(`rm -r !(${stringOfPathsToKeep})`, {
     cwd: pathToRoot,
     shell: "/bin/bash",
   });
