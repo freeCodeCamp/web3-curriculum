@@ -366,7 +366,8 @@ for (let i = 1; i < blockchain.length; i++) {
     if (transactions[j].hasOwnProperty('signature')) {
 
       const { toAddress, fromAddress, amount, signature } = transactions[j];
-      const validSignature = await __helpers.validateSignature(fromAddress, fromAddress + toAddress + amount, signature);
+      const hash = await __helpers.generateHash(fromAddress + toAddress + amount);
+      const validSignature = await __helpers.validateSignature(fromAddress, hash, signature);
 
       if (!validSignature) {
         assert(false, "All transaction signatures should be able to be verified with keyPair.verify(hash, signature)");
