@@ -46,11 +46,24 @@ export async function dumpProjectDirectoryIntoRoot(project) {
   });
 }
 
-export async function clearWorkingDirectory() {
-  const pathToRoot = join(dirname(), "..");
+export async function cleanWorkingDirectory(projectToCopyTo) {
+  if (projectToCopyTo) {
+    await copyNonWDirToProject(projectToCopyTo);
+  }
   const stringOfPathsToKeep = PERMANENT_PATHS_IN_ROOT.join("|");
   await execute(`rm -r !(${stringOfPathsToKeep})`, {
     cwd: pathToRoot,
     shell: "/bin/bash",
   });
+}
+
+async function copyNonWDirToProject(project) {
+  const pathToRoot = join(dirname(), "..");
+  await execute(
+    `cp -r !(${PERMANENT_PATHS_IN_ROOT.join("|")}|${project}) ${project}`,
+    {
+      cwd: pathToRoot,
+      shell: "/bin/bash",
+    }
+  );
 }

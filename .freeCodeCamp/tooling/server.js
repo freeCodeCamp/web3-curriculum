@@ -13,7 +13,10 @@ import runLesson from "./lesson.js";
 import { updateTests, updateHints } from "./client-socks.js";
 import hotReload from "./hot-reload.js";
 import projects from "../config/projects.json" assert { "type": "json" };
-import { clearWorkingDirectory } from "./utils.js";
+import {
+  cleanWorkingDirectory,
+  dumpProjectDirectoryIntoRoot,
+} from "./utils.js";
 logover({
   level: process.env.NODE_ENV === "production" ? "info" : "debug",
 });
@@ -62,6 +65,8 @@ async function handleConnect(ws) {
 
 async function handleSelectProject(ws, data) {
   const selectedProject = projects.find((p) => p.id === data?.data?.id);
+
+  const { CURRENT_PROJECT: previouslySelectedProject } = await readEnv();
   // TODO: Should this set the CURRENT_PROJECT to `null` (empty string)?
   // for the case where the Camper has navigated to the landing page.
   await updateEnv({ CURRENT_PROJECT: selectedProject?.dashedName ?? "" });
@@ -70,9 +75,8 @@ async function handleSelectProject(ws, data) {
     return;
   }
 
-  // TODO: Add all files to keep
-  // clearWorkingDirectory();
-  // dumpProjectDirectoryIntoRoot(selectedProject);
+  cleanWorkingDirectory(previouslySelectedProject);
+  dumpProjectDirectoryIntoRoot(selectedProject);
   runLesson(ws, selectedProject);
 }
 
