@@ -122,6 +122,46 @@ async function getPublicKeyFromPrivate(privateKey) {
   return publicKey;
 }
 
+async function getContract(contractAddress, cwd = '..', includePool = true) {
+  // get the latest contract state from the blockchain
+  const blockchain = await getJsonFile(`${cwd}/blockchain.json`);
+  const latestContract = blockchain.reduce((currentContract, nextBlock) => {
+    if (nextBlock.smartContracts) {
+      nextBlock.smartContracts.forEach(contract => {
+        if (contract.address === contractAddress) {
+
+          // first occurrence of contract
+          if (!currentContract.hasOwnProperty('address')) {
+            Object.keys(contract).forEach(key => currentContract[key] = contract[key]);
+
+            // contract found and added, only update state after that
+          } else if (contract.hasOwnProperty('state')) {
+            currentContract.state = contract.state;
+          }
+        }
+      });
+    }
+    return currentContract;
+  }, {});
+
+  if (includePool) {
+    // add contract pool to latest contract state
+    const smartContracts = await getJsonFile(`${cwd}/smart-contracts.json`);
+    smartContracts.forEach(contract => {
+      if (contract.address === contractAddress) {
+        if (!latestContract.hasOwnProperty('address')) {
+          Object.keys(contract).forEach(key => latestContract[key] = contract[key]);
+
+        } else if (latestContract.hasOwnProperty('state')) {
+          latestContract.state = contract.state;
+        }
+      }
+    });
+  }
+
+  return latestContract.hasOwnProperty('address') ? latestContract : null;
+}
+
 const __helpers = {
   getDirectory,
   isFileOpen,
@@ -136,7 +176,8 @@ const __helpers = {
   generateHash,
   generateSignature,
   validateSignature,
-  getPublicKeyFromPrivate
+  getPublicKeyFromPrivate,
+  getContract
 };
 
 export default __helpers;

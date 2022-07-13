@@ -1,0 +1,14 @@
+{
+  "Me": {
+    "publicKey": "047f18310ca11477a0ccd328df42d7ff9cd068ac6816d9c76535b0fe1b7b45ab7312ff6167964c050e66c6db00642c5492",
+    "privateKey": "477203cb2cfb900466f1ca7d79335aa3775857a333cdd0ef"
+  },
+  "You": {
+    "publicKey": "0412bb6129d866a633aa62270e84be8630ebf803a64f6879a5ac08f12cde2aeca2eb272481fcc742d568aad80e44ba68c5",
+    "privateKey": "9fa063a824dd98371d1194f2360cd417509050e68f76c769"
+  },
+  "I": {
+    "publicKey": "041608a1e5bc12c505bb60b52bf64ca40f816f14acc9e31bfa21c6c7ba435a215a8f54ba49ce767b950cfdfea2efe261a9",
+    "privateKey": "182ea9005fedd24b3a4d93c84936ce4400380d85949743"
+  }
+}
