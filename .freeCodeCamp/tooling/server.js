@@ -13,6 +13,7 @@ import runLesson from "./lesson.js";
 import { updateTests, updateHints } from "./client-socks.js";
 import hotReload from "./hot-reload.js";
 import projects from "../config/projects.json" assert { "type": "json" };
+import { clearWorkingDirectory } from "./utils.js";
 logover({
   level: process.env.NODE_ENV === "production" ? "info" : "debug",
 });
@@ -68,6 +69,10 @@ async function handleSelectProject(ws, data) {
     error("Selected project does not exist: ", data);
     return;
   }
+
+  // TODO: Add all files to keep
+  // clearWorkingDirectory();
+  // dumpProjectDirectoryIntoRoot(selectedProject);
   runLesson(ws, selectedProject);
 }
 
