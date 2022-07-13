@@ -80,25 +80,14 @@ async function getFile(path) {
   return file;
 }
 
-// Video Game project:
-const projectFiles = [
-  "blockchain-helpers.js",
-  "blockchain.json",
-  "buy-item.js",
-  "generate-wallet.js",
-  "get-address-info.js",
-  "init-blockchain.js",
-  "items.json",
-  "mine-block.js",
-  "sell-item.js",
-  "transactions.json",
-  "wallets.json"
-];
+async function copyProjectFiles(projectFolder, testsFolder, arrayOfFiles = []) {
+  if (!projectFolder || !testsFolder || arrayOfFiles.length === 0) {
+    throw Error('Cannot copy project files');
+  }
 
-async function copyProjectFiles(destinationFolder = 'test-files', arrayOfFiles = projectFiles) {
   arrayOfFiles.forEach(file => {
-    fs.copyFileSync(`../${file}`, `./${destinationFolder}/${file}`);
-  })
+    fs.copyFileSync(`${projectFolder}/${file}`, `${projectFolder}/${testsFolder}/${file}`);
+  });
 }
 
 async function runCommand(command, options) {

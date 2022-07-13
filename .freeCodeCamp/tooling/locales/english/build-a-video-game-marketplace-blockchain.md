@@ -88,11 +88,10 @@ Running `node init-blockchain.js` should replace everything in `blockchain.json`
 
 ```js
 // test 1
-const cwd = '../.tests/test1';
-await __helpers.copyProjectFiles(cwd);
-await __helpers.runCommand('node init-blockchain.js', { cwd });
-
-const blockchain = await __helpers.getJsonFile(`${cwd}/blockchain.json`);
+const testFolder = `${testsFolder}/test1`;
+await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
+await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+const blockchain = await __helpers.getJsonFile(`${testFolder}/blockchain.json`);
 
 assert(blockchain.length === 1 && blockchain[0].hash == '0' && blockchain[0].previousHash == null, "Running 'node init-blockchain.js' should create the suggested genesis block");
 ```
@@ -101,11 +100,11 @@ Running `node init-blockchain.js` should replace everything in `transactions.jso
 
 ```js
 // test 2
-const cwd = '../.tests/test2';
-await __helpers.copyProjectFiles(cwd);
-await __helpers.runCommand('echo "[1]" > transactions.json', { cwd });
-await __helpers.runCommand('node init-blockchain.js', { cwd });
-const transactions = await __helpers.getJsonFile(`${cwd}/transactions.json`);
+const testFolder = `${testsFolder}/test2`;
+await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
+await __helpers.runCommand('echo "[1]" > transactions.json', { cwd: testFolder });
+await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+const transactions = await __helpers.getJsonFile(`${testFolder}/transactions.json`);
 
 assert(Array.isArray(transactions) && transactions.length == 0, "Running 'node init-blockchain.js' should empty the 'transactions.json array'");
 ```
@@ -114,10 +113,10 @@ Running `node generate-wallet.js user_xyz123` should add `user_xyz123` as a key 
 
 ```js
 // test 3
-const cwd = '../.tests/test3';
-await __helpers.copyProjectFiles(cwd);
-await __helpers.runCommand('node generate-wallet.js user_xyz123', { cwd });
-const wallets = await __helpers.getJsonFile(`${cwd}/wallets.json`);
+const testFolder = `${testsFolder}/test3`;
+await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
+await __helpers.runCommand('node generate-wallet.js user_xyz123', { cwd: testFolder });
+const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
 const { publicKey, privateKey } = wallets.user_xyz123;
 const publicKeyFromPrivate = await __helpers.getPublicKeyFromPrivate(privateKey);
 
@@ -128,11 +127,11 @@ When you generate a wallet, it should add a transaction at the end of the `trans
 
 ```js
 // test 4
-const cwd = '../.tests/test4';
-await __helpers.copyProjectFiles(cwd);
-await __helpers.runCommand('node generate-wallet.js user_xyz123', { cwd });
-const wallets = await __helpers.getJsonFile(`${cwd}/wallets.json`);
-const transactions = await __helpers.getJsonFile(`${cwd}/transactions.json`);
+const testFolder = `${testsFolder}/test4`;
+await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
+await __helpers.runCommand('node generate-wallet.js user_xyz123', { cwd: testFolder });
+const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
+const transactions = await __helpers.getJsonFile(`${testFolder}/transactions.json`);
 const latestTransaction = transactions[transactions.length - 1];
 
 assert(!latestTransaction.buyerAddress && latestTransaction.price == 40 && latestTransaction.sellerAddress == wallets.user_xyz123.publicKey, "Generating a wallet should add the correct transaction for that wallet");
@@ -142,17 +141,17 @@ Running `node mine-block.js` should add an object at the end of the `blockchain.
 
 ```js
 // test 5
-const cwd = '../.tests/test5';
-await __helpers.copyProjectFiles(cwd);
-await __helpers.runCommand('node init-blockchain.js', { cwd });
-await __helpers.runCommand('node generate-wallet.js user_xyz123', { cwd });
+const testFolder = `${testsFolder}/test5`;
+await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
+await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand('node generate-wallet.js user_xyz123', { cwd: testFolder });
 
-const blockchain1 = await __helpers.getJsonFile(`${cwd}/blockchain.json`);
-const transactions1 = await __helpers.getJsonFile(`${cwd}/transactions.json`);
+const blockchain1 = await __helpers.getJsonFile(`${testFolder}/blockchain.json`);
+const transactions1 = await __helpers.getJsonFile(`${testFolder}/transactions.json`);
 
-await __helpers.runCommand('node mine-block.js', { cwd });
+await __helpers.runCommand('node mine-block.js', { cwd: testFolder });
 
-const blockchain2 = await __helpers.getJsonFile(`${cwd}/blockchain.json`);
+const blockchain2 = await __helpers.getJsonFile(`${testFolder}/blockchain.json`);
 const currentBlock = blockchain2[blockchain2.length - 1];
 const previousBlock = blockchain2[blockchain2.length - 2];
 const { nonce, previousHash, transactions } = currentBlock;
@@ -177,17 +176,17 @@ After you run `node mine-block`, your `transactions.json` file should be an empt
 
 ```js
 // test 6
-const cwd = '../.tests/test6';
-await __helpers.copyProjectFiles(cwd);
-await __helpers.runCommand('node init-blockchain.js', { cwd });
-await __helpers.runCommand('node generate-wallet.js user_xyz123', { cwd });
+const testFolder = `${testsFolder}/test6`;
+await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
+await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand('node generate-wallet.js user_xyz123', { cwd: testFolder });
 
-const transactions1 = await __helpers.getJsonFile(`${cwd}/transactions.json`);
+const transactions1 = await __helpers.getJsonFile(`${testFolder}/transactions.json`);
 if (transactions1.length == 0) {
-  await __helpers.runCommand('echo "[1]" > transactions.json', { cwd });
+  await __helpers.runCommand('echo "[1]" > transactions.json', { testFolder });
 }
-await __helpers.runCommand('node mine-block.js', { cwd });
-const transactions = await __helpers.getJsonFile(`${cwd}/transactions.json`);
+await __helpers.runCommand('node mine-block.js', { cwd: testFolder });
+const transactions = await __helpers.getJsonFile(`${testFolder}/transactions.json`);
 
 assert(Array.isArray(transactions) && transactions.length == 0, "After you mine a block, your `transactions.json` file should be an empty array");
 ```
@@ -196,20 +195,20 @@ Running `node buy-item.js <address-privateKey> <item>` should add a transaction 
 
 ```js
 // test 7
-const cwd = '../.tests/test7';
-await __helpers.copyProjectFiles(cwd);
-await __helpers.runCommand('node init-blockchain.js', { cwd });
-await __helpers.runCommand('node generate-wallet.js user_xyz123', { cwd });
-await __helpers.runCommand('node mine-block.js', { cwd });
+const testFolder = `${testsFolder}/test7`;
+await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
+await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand('node generate-wallet.js user_xyz123', { cwd: testFolder });
+await __helpers.runCommand('node mine-block.js', { cwd: testFolder });
 
-const wallets = await __helpers.getJsonFile(`${cwd}/wallets.json`);
+const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
 const publicKey = wallets.user_xyz123.publicKey;
 const privateKey = wallets.user_xyz123.privateKey;
-const transactions1 = await __helpers.getJsonFile(`${cwd}/transactions.json`);
+const transactions1 = await __helpers.getJsonFile(`${testFolder}/transactions.json`);
 
-await __helpers.runCommand(`node buy-item.js ${privateKey} icon`, { cwd });
+await __helpers.runCommand(`node buy-item.js ${privateKey} icon`, { cwd: testFolder });
 
-const transactions2 = await __helpers.getJsonFile(`${cwd}/transactions.json`);
+const transactions2 = await __helpers.getJsonFile(`${testFolder}/transactions.json`);
 const lastTransaction = transactions2[transactions2.length - 1];
 const { buyerAddress, sellerAddress, price, itemBought, signature } = lastTransaction;
 const recreatedSignature = await __helpers.generateSignature(privateKey, buyerAddress + price + itemBought);
@@ -232,18 +231,18 @@ Running `node buy-item.js <address-privateKey> <item>` should not add a transact
 
 ```js
 // test 8
-const cwd = '../.tests/test8';
-await __helpers.copyProjectFiles(cwd);
-await __helpers.runCommand('node init-blockchain.js', { cwd });
-await __helpers.runCommand('node generate-wallet.js user_xyz123', { cwd });
+const testFolder = `${testsFolder}/test7`;
+await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
+await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand('node generate-wallet.js user_xyz123', { cwd: testFolder });
 
-const wallets = await __helpers.getJsonFile(`${cwd}/wallets.json`);
+const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
 const privateKey = wallets.user_xyz123.privateKey;
 
-await __helpers.runCommand(`node buy-item.js ${privateKey} skin`, { cwd });
-await __helpers.runCommand(`node buy-item.js ${privateKey} skin`, { cwd });
+await __helpers.runCommand(`node buy-item.js ${privateKey} skin`, { cwd: testFolder });
+await __helpers.runCommand(`node buy-item.js ${privateKey} skin`, { cwd: testFolder });
 
-const transactions = await __helpers.getJsonFile(`${cwd}/transactions.json`);
+const transactions = await __helpers.getJsonFile(`${testFolder}/transactions.json`);
 
 assert(transactions.length === 2, "You should not be able to buy an item if you don't have the funds");
 ```
@@ -252,24 +251,24 @@ Running `node sell-item.js <address-privateKey> <item>` should add a transaction
 
 ```js
 // test 9
-const cwd = '../.tests/test9';
-await __helpers.copyProjectFiles(cwd);
+const testFolder = `${testsFolder}/test9`;
+await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
 
-await __helpers.runCommand('node init-blockchain.js', { cwd });
-await __helpers.runCommand('node generate-wallet.js user_xyz123', { cwd });
+await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand('node generate-wallet.js user_xyz123', { cwd: testFolder });
 
-const wallets = await __helpers.getJsonFile(`${cwd}/wallets.json`);
+const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
 const publicKey = wallets.user_xyz123.publicKey;
 const privateKey = wallets.user_xyz123.privateKey;
 
-await __helpers.runCommand(`node buy-item.js ${privateKey} icon`, { cwd });
-await __helpers.runCommand('node mine-block.js', { cwd });
+await __helpers.runCommand(`node buy-item.js ${privateKey} icon`, { cwd: testFolder });
+await __helpers.runCommand('node mine-block.js', { cwd: testFolder });
 
-const transactions1 = await __helpers.getJsonFile(`${cwd}/transactions.json`);
+const transactions1 = await __helpers.getJsonFile(`${testFolder}/transactions.json`);
 
-await __helpers.runCommand(`node sell-item.js ${privateKey} icon`, { cwd });
+await __helpers.runCommand(`node sell-item.js ${privateKey} icon`, { cwd: testFolder });
 
-const transactions2 = await __helpers.getJsonFile(`${cwd}/transactions.json`);
+const transactions2 = await __helpers.getJsonFile(`${testFolder}/transactions.json`);
 const lastTransaction = transactions2[transactions2.length - 1];
 const { buyerAddress, sellerAddress, price, itemSold, signature } = lastTransaction;
 const recreatedSignature = await __helpers.generateSignature(privateKey, sellerAddress + price + itemSold);
@@ -293,17 +292,17 @@ Running `node sell-item.js <address-privateKey> <item>` should not add a transac
 
 ```js
 // test 10
-const cwd = '../.tests/test10';
-await __helpers.copyProjectFiles(cwd);
-await __helpers.runCommand('node init-blockchain.js', { cwd });
-await __helpers.runCommand('node generate-wallet.js user_xyz123', { cwd });
+const testFolder = `${testsFolder}/test10`;
+await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
+await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand('node generate-wallet.js user_xyz123', { cwd: testFolder });
 
-const wallets = await __helpers.getJsonFile(`${cwd}/wallets.json`);
+const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
 const privateKey = wallets.user_xyz123.privateKey;
 
-await __helpers.runCommand(`node sell-item.js ${privateKey} skin`, { cwd });
+await __helpers.runCommand(`node sell-item.js ${privateKey} skin`, { cwd: testFolder });
 
-const transactions = await __helpers.getJsonFile(`${cwd}/transactions.json`);
+const transactions = await __helpers.getJsonFile(`${testFolder}/transactions.json`);
 
 assert(transactions.length === 1, "You should not be able to sell an item if you don't have that item");
 ```
@@ -312,7 +311,7 @@ You should have at least three wallets in your `wallets.json` file, each with a 
 
 ```js
 // test 11
-const wallets = await __helpers.getJsonFile('../wallets.json');
+const wallets = await __helpers.getJsonFile(`${projectFolder}/wallets.json`);
 const walletNames = Object.keys(wallets);
 walletNames.forEach(name => {
   if(!wallets[name].privateKey || !wallets[name].publicKey) {
@@ -327,7 +326,7 @@ Your blockchain should have at least 10 blocks
 
 ```js
 // test 12
-const blockchain = await __helpers.getJsonFile('../blockchain.json');
+const blockchain = await __helpers.getJsonFile(`${projectFolder}/blockchain.json`);
 assert(Array.isArray(blockchain) && blockchain.length >= 10, "You should have at least 10 blocks in your blockchain");
 ```
 
@@ -335,7 +334,7 @@ Your blockchain should have at least 20 transactions
 
 ```js
 // test 13
-const blockchain = await __helpers.getJsonFile('../blockchain.json');
+const blockchain = await __helpers.getJsonFile(`${projectFolder}/blockchain.json`);
 const numberOfTransactions = blockchain.reduce((total, block) => {
   return block.transactions ? total + block.transactions.length : total;
 }, 0)
@@ -346,7 +345,7 @@ Your blockchain should have at least 10 transactions with signatures
 
 ```js
 // test 14
-const blockchain = await __helpers.getJsonFile('../blockchain.json');
+const blockchain = await __helpers.getJsonFile(`${projectFolder}/blockchain.json`);
 let signedTransactions = 0;
 
 for (let i = 0; i < blockchain.length; i++) {
@@ -366,7 +365,7 @@ All the hashes and signatures on your blockchain should be valid
 
 ```js
 // test 15
-const blockchain = await __helpers.getJsonFile('../blockchain.json');
+const blockchain = await __helpers.getJsonFile(`${projectFolder}/blockchain.json`);
 
 // loop over blocks
 for (let i = 1; i < blockchain.length; i++) {
@@ -415,6 +414,27 @@ for (let i = 1; i < blockchain.length; i++) {
 }
 
 assert(blockchain.length > 0);
+```
+
+### --before-all--
+
+```js
+global.root = '..';
+global.projectFolder = `${root}/build-a-video-game-marketplace-blockchain`;
+global.testsFolder = `${projectFolder}/.tests`;
+global.projectFiles = [
+  'blockchain-helpers.js',
+  'blockchain.json',
+  'buy-item.js',
+  'generate-wallet.js',
+  'get-address-info.js',
+  'init-blockchain.js',
+  'items.json',
+  'mine-block.js',
+  'sell-item.js',
+  'transactions.json',
+  'wallets.json'
+];
 ```
 
 ## --fcc-end--
