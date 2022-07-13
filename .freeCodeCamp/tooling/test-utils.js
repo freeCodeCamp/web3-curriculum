@@ -80,6 +80,16 @@ async function getFile(path) {
   return file;
 }
 
+async function copyDirectory(folderToCopy, destinationFolder) {
+  if (!fs.existsSync(destinationFolder)) {
+    fs.mkdirSync(destinationFolder);
+  }
+
+  fs.readdirSync(folderToCopy).forEach(file => {
+    fs.copyFileSync(`${folderToCopy}/${file}`, `${destinationFolder}/${file}`);
+  });
+}
+
 async function copyProjectFiles(projectFolder, testsFolder, arrayOfFiles = []) {
   if (!projectFolder || !testsFolder || arrayOfFiles.length === 0) {
     throw Error('Cannot copy project files');
@@ -122,7 +132,7 @@ async function getPublicKeyFromPrivate(privateKey) {
   return publicKey;
 }
 
-async function getContract(contractAddress, cwd = '..', includePool = true) {
+async function getContract(contractAddress, cwd, includePool = true) {
   // get the latest contract state from the blockchain
   const blockchain = await getJsonFile(`${cwd}/blockchain.json`);
   const latestContract = blockchain.reduce((currentContract, nextBlock) => {
@@ -170,6 +180,7 @@ const __helpers = {
   getCommandOutput,
   getLastCommand,
   getCWD,
+  copyDirectory,
   copyProjectFiles,
   runCommand,
   getJsonFile,
