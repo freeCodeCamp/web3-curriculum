@@ -80,6 +80,10 @@ async function getFile(path) {
   return file;
 }
 
+async function fileExists(path) {
+  return fs.existsSync(path);
+}
+
 async function copyDirectory(folderToCopy, destinationFolder) {
   if (!fs.existsSync(destinationFolder)) {
     fs.mkdirSync(destinationFolder);
@@ -107,6 +111,10 @@ async function runCommand(command, options) {
 async function getJsonFile(file) {
   const fileString = fs.readFileSync(file);
   return JSON.parse(fileString);
+}
+
+async function writeJsonFile(path, content) {
+  fs.writeFileSync(path, JSON.stringify(content, null, 2));
 }
 
 async function generateHash(content) {
@@ -176,6 +184,7 @@ const __helpers = {
   getDirectory,
   isFileOpen,
   getFile,
+  fileExists,
   getTerminalOutput,
   getCommandOutput,
   getLastCommand,
@@ -184,6 +193,7 @@ const __helpers = {
   copyProjectFiles,
   runCommand,
   getJsonFile,
+  writeJsonFile,
   generateHash,
   generateSignature,
   validateSignature,

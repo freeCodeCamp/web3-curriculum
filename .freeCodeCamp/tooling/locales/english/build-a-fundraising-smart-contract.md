@@ -110,7 +110,7 @@ const contract = await __helpers.getContract(contractAddress, testFolder);
 const output = await __helpers.getCommandOutput(`node run-contract.js ${contractAddress} get-description.js`, testFolder);
 const re = new RegExp(`Here's the description of the fundraising contract: ${contract.state.description}`, 'g');
 
-assert(re.test(output));
+assert(re.test(output.stdout));
 ```
 
 You should have an `update-description.js` file in your contract folder
