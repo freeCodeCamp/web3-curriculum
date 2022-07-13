@@ -53,10 +53,8 @@ export async function dumpProjectDirectoryIntoRoot(project) {
 
 export async function clearWorkingDirectory() {
   const pathToRoot = join(dirname(), "..");
-  const stringOfFilesToKeep = PERMANENT_FILES_IN_ROOT.map(
-    (f) => `!(${f})`
-  ).join(" ");
-  await execute(`rm -r ${stringOfFilesToKeep}`, {
+  const stringOfFilesToKeep = PERMANENT_FILES_IN_ROOT.join("|");
+  await execute(`rm -r !(${stringOfFilesToKeep})`, {
     cwd: pathToRoot,
     shell: "/bin/bash",
   });
