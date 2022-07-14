@@ -1,15 +1,11 @@
 import Header from "../components/header";
-import { Events, Project, TestType } from "../types/index";
+import { Events, ProjectI, TestType } from "../types/index";
 import { parseMarkdown } from "../utils";
 import projects from "../../config/projects.json" assert { type: "json" };
+import { ProjectProps } from "./project";
 import "./landing.css";
 
-import { useEffect, useState, lazy } from "react";
-const IntegratedOrProject = lazy(() => {
-  return process.env.INTEGRATED_PROJECT === "true"
-    ? import("./integrated-project")
-    : import("./project");
-});
+import { lazy, LazyExoticComponent, useEffect, useState } from "react";
 
 let socket: WebSocket;
 if (process.env.GITPOD_WORKSPACE_URL) {
@@ -22,13 +18,15 @@ if (process.env.GITPOD_WORKSPACE_URL) {
 
 export const Landing = () => {
   const [topic, setTopic] = useState("");
-  const [project, setProject] = useState<Project | null>(null);
+  const [project, setProject] = useState<ProjectI | null>(null);
   const [lessonNumber, setLessonNumber] = useState(1);
   const [description, setDescription] = useState("");
   const [tests, setTests] = useState<TestType[]>([]);
   const [hints, setHints] = useState("");
   const [cons, setCons] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [IntegratedOrProject, setIntegratedOrProject] =
+    useState<LazyExoticComponent<(props: ProjectProps) => JSX.Element>>();
 
   useEffect(() => {
     socket.onopen = function (_event) {
@@ -47,6 +45,16 @@ export const Landing = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (project?.isIntegrated) {
+      setIntegratedOrProject(
+        lazy(async () => await import("./integrated-project"))
+      );
+    } else {
+      setIntegratedOrProject(lazy(async () => await import("./project")));
+    }
+  }, [project]);
+
   const handle = {
     "toggle-loader-animation": toggleLoaderAnimation,
     "update-test": updateTest,
@@ -63,7 +71,7 @@ export const Landing = () => {
     socket.send(parse({ event: type, data }));
   }
 
-  function updateProject(project: Project | null) {
+  function updateProject(project: ProjectI | null) {
     sock(Events.SELECT_PROJECT, { id: project?.id });
     setProject(project);
   }
@@ -122,22 +130,24 @@ export const Landing = () => {
       <Header updateProject={updateProject} />
 
       {project ? (
-        <IntegratedOrProject
-          {...{
-            cons,
-            description,
-            goToNextLesson,
-            goToPreviousLesson,
-            hints,
-            isLoading,
-            lessonNumber,
-            title: project.title,
-            resetProject,
-            runTests,
-            tests,
-            topic,
-          }}
-        />
+        IntegratedOrProject && (
+          <IntegratedOrProject
+            {...{
+              cons,
+              description,
+              goToNextLesson,
+              goToPreviousLesson,
+              hints,
+              isLoading,
+              lessonNumber,
+              title: project.title,
+              resetProject,
+              runTests,
+              tests,
+              topic,
+            }}
+          />
+        )
       ) : (
         <Selection {...{ topic, sock }} />
       )}
@@ -169,7 +179,7 @@ const Selection = ({ topic, sock }: SelectionProps) => {
 
 type BlockProps = {
   sock: SelectionProps["sock"];
-} & Project;
+} & ProjectI;
 
 const Block = ({
   id,

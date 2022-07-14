@@ -7,7 +7,7 @@ import Ruler from "../components/ruler";
 import ProjectControls from "../components/project-controls";
 import ProjectOutput from "../components/project-output";
 
-interface ProjectProps {
+export interface ProjectProps {
   runTests: F<void, void>;
   resetProject: F<void, void>;
   goToNextLesson: F<void, void>;

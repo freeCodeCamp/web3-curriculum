@@ -1,7 +1,6 @@
 import Description from "../components/description";
-import Header from "../components/header";
 import Heading from "../components/heading";
-import { F, Project, TestType } from "../types";
+import { F, TestType } from "../types";
 import "./integrated-project.css";
 import Ruler from "../components/ruler";
 import IntegratedProjectControls from "../components/integrated-project-controls";

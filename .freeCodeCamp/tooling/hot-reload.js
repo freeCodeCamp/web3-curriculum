@@ -1,10 +1,13 @@
 // This file handles the watching of the /curriculum folder for changes
 // and executing the command to run the tests for the next (current) lesson
-import { readEnv } from "./env.js";
+import { readEnv, getProjectConfig } from "./env.js";
 import runLesson from "./lesson.js";
 import runTests from "./test.js";
 import { watch } from "chokidar";
-const { TEST_POLLING_RATE, RUN_TESTS_ON_WATCH } = await readEnv();
+const { CURRENT_PROJECT } = await readEnv();
+const { testPollingRate, runTestsOnWatch } = await getProjectConfig(
+  CURRENT_PROJECT
+);
 const curriculumFolder = "../";
 
 function hotReload(ws) {
@@ -19,19 +22,20 @@ function hotReload(ws) {
         if (isWait) return;
         isWait = setTimeout(() => {
           isWait = false;
-        }, TEST_POLLING_RATE);
+        }, testPollingRate);
 
-        const { CURRENT_PROJECT, CURRENT_LESSON } = await readEnv();
+        const { CURRENT_PROJECT } = await readEnv();
         if (!CURRENT_PROJECT) {
           return;
         }
+        const project = await getProjectConfig(CURRENT_PROJECT);
         if (isClearConsole) {
           console.clear();
         }
-        runLesson(ws, CURRENT_PROJECT, Number(CURRENT_LESSON));
+        runLesson(ws, project);
         // console.log(`Watcher: ${event} - ${name}`);
-        if (RUN_TESTS_ON_WATCH === "true") {
-          runTests(ws, CURRENT_PROJECT, Number(CURRENT_LESSON));
+        if (runTestsOnWatch) {
+          runTests(ws, project);
         }
       }
     }

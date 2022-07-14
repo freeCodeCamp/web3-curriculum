@@ -11,7 +11,7 @@ import {
 } from "./parser.js";
 
 import { t, LOCALE } from "./t.js";
-import { updateEnv, PATH } from "./env.js";
+import { PATH, setProjectConfig } from "./env.js";
 import runLesson from "./lesson.js";
 import {
   toggleLoaderAnimation,
@@ -21,15 +21,22 @@ import {
   updateHints,
 } from "./client-socks.js";
 import logover, { error, warn, debug, info } from "logover";
+import { join } from "path";
 logover({
   level: process.env.NODE_ENV === "production" ? "warn" : "debug",
 });
 
-export default async function runTests(ws, project, lessonNumber) {
+export default async function runTests(ws, project) {
   const locale = LOCALE === "undefined" ? "english" : LOCALE ?? "english";
   toggleLoaderAnimation(ws);
+  const lessonNumber = project.curretLesson;
+  const projectFile = join(
+    PATH,
+    "tooling/locales",
+    locale,
+    project.dashedName + ".md"
+  );
   try {
-    const projectFile = `${PATH}/tooling/locales/${locale}/${project}.md`;
     const lesson = await getLessonFromFile(projectFile, lessonNumber);
     const beforeAll = getBeforeAll(lesson);
     const beforeEach = getBeforeEach(lesson);
@@ -97,8 +104,10 @@ export default async function runTests(ws, project, lessonNumber) {
       const passed = await Promise.all(testPromises);
       if (passed) {
         console.log(await t("lesson-correct", { lessonNumber }));
-        updateEnv({ CURRENT_LESSON: lessonNumber + 1 });
-        runLesson(ws, project, lessonNumber + 1);
+        setProjectConfig(project.dashedName, {
+          currentLesson: lessonNumber + 1,
+        });
+        runLesson(ws, project);
         updateHints(ws, "");
       }
     } catch (e) {

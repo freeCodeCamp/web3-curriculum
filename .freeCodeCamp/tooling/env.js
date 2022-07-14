@@ -1,4 +1,5 @@
 import { readFile, writeFile } from "fs/promises";
+import { join } from "path";
 
 export const PATH = ".";
 
@@ -6,10 +7,6 @@ export async function readEnv() {
   let meta = {
     CURRENT_PROJECT: "calculator",
     LOCALE: "english",
-    TEST_POLLING_RATE: "1000",
-    LAST_KNOWN_LESSON_WITH_HASH: "1",
-    RUN_TESTS_ON_WATCH: "false",
-    CURRENT_LESSON: "1",
   };
   try {
     const META = await readFile(`${PATH}/.env`, "utf8");
@@ -34,4 +31,41 @@ export async function updateEnv(obj) {
       return `${acc}\n${key}=${value}`;
     }, "")
   );
+}
+
+export async function getProjectConfig(project) {
+  const projects = (
+    await import("../config/projects.json", {
+      assert: { type: "json" },
+    })
+  ).default;
+  const proj = projects.find((p) => p.dashedName === project);
+
+  const defaultConfig = {
+    testPollingRate: 100,
+    runTestsOnWatch: false,
+    lastKnownLessonWithHash: 1,
+    seedEveryLesson: false,
+    useGitBuildOnProduction: false, // TODO: Necessary?
+  };
+  if (!proj) {
+    return defaultConfig;
+  }
+  return { ...defaultConfig, ...proj };
+}
+
+export async function setProjectConfig(project, config = {}) {
+  const projects = (
+    await import("../config/projects.json", {
+      assert: { type: "json" },
+    })
+  ).default;
+  const updatedProject = {
+    ...projects.find((p) => p.dashedName === project),
+    ...config,
+  };
+  const updatedProjects = projects.map((p) =>
+    p.dashedName === project ? updatedProject : p
+  );
+  await writeFile(join(PATH, "../config/projects.json"), updatedProjects);
 }

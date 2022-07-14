@@ -1,4 +1,5 @@
 // This file parses answer files for lesson content
+import { join } from "path";
 import {
   getLessonFromFile,
   getLessonDescription,
@@ -17,16 +18,22 @@ import {
 import { PATH, readEnv } from "./env.js";
 import seedLesson from "./seed.js";
 
-async function runLesson(ws, project, lessonNumber) {
+async function runLesson(ws, project) {
   const locale = LOCALE === "undefined" ? "english" : LOCALE ?? "english";
-  const projectFile = `${PATH}/tooling/locales/${locale}/${project}.md`;
-  const lesson = await getLessonFromFile(projectFile, Number(lessonNumber));
+  const projectFile = join(
+    PATH,
+    "tooling/locales",
+    locale,
+    project.dashedName + ".md"
+  );
+  const lessonNumber = project.currentLesson;
+  const lesson = await getLessonFromFile(projectFile, lessonNumber);
   const description = getLessonDescription(lesson);
 
   updateProject(ws, project);
 
-  const { SEED_EVERY_LESSON, INTEGRATED_PROJECT } = await readEnv();
-  if (INTEGRATED_PROJECT !== "true") {
+  const { SEED_EVERY_LESSON } = await readEnv();
+  if (!project.isIntegrated) {
     const hintsAndTestsArr = getLessonHintsAndTests(lesson);
     updateTests(
       ws,
