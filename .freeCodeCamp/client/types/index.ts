@@ -23,7 +23,7 @@ export type TestType = {
   testId: number;
 };
 
-export interface Project {
+export interface ProjectI {
   id: number;
   title: string;
   description: string;

@@ -5,7 +5,8 @@
     "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
     "isIntegrated": false,
     "description": "Placeholder description of project until Tom can think of a clever one.",
-    "isPublic": false
+    "isPublic": false,
+    "currentLesson": 1
   },
   {
     "id": 1,
@@ -13,7 +14,8 @@
     "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
     "isIntegrated": false,
     "description": "Placeholder description of project until Tom can think of a clever one.",
-    "isPublic": false
+    "isPublic": false,
+    "currentLesson": 1
   },
   {
     "id": 2,
@@ -21,7 +23,8 @@
     "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
     "isIntegrated": false,
     "description": "Placeholder description of project until Tom can think of a clever one.",
-    "isPublic": false
+    "isPublic": false,
+    "currentLesson": 1
   },
   {
     "id": 3,
@@ -29,7 +32,8 @@
     "dashedName": "build-a-video-game-marketplace-blockchain",
     "isIntegrated": true,
     "description": "Placeholder description of project until Tom can think of a clever one.",
-    "isPublic": true
+    "isPublic": true,
+    "currentLesson": 1
   },
   {
     "id": 4,
@@ -37,7 +41,8 @@
     "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
     "isIntegrated": false,
     "description": "Placeholder description of project until Tom can think of a clever one.",
-    "isPublic": false
+    "isPublic": false,
+    "currentLesson": 1
   },
   {
     "id": 5,
@@ -45,7 +50,8 @@
     "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
     "isIntegrated": false,
     "description": "Placeholder description of project until Tom can think of a clever one.",
-    "isPublic": false
+    "isPublic": false,
+    "currentLesson": 1
   },
   {
     "id": 6,
@@ -53,7 +59,8 @@
     "dashedName": "build-a-fundraising-smart-contract",
     "isIntegrated": true,
     "description": "Placeholder description of project until Tom can think of a clever one.",
-    "isPublic": true
+    "isPublic": true,
+    "currentLesson": 1
   },
   {
     "id": 7,
@@ -61,7 +68,8 @@
     "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
     "isIntegrated": false,
     "description": "Complete the boilerplate given to you, and play the game.",
-    "isPublic": false
+    "isPublic": false,
+    "currentLesson": 1
   },
   {
     "id": 8,
@@ -69,7 +77,8 @@
     "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
     "isIntegrated": false,
     "description": "Remote Procedural Calls and Interface Description Languages are an integral part of most decentralised blockchains.",
-    "isPublic": false
+    "isPublic": false,
+    "currentLesson": 1
   },
   {
     "id": 9,
@@ -77,7 +86,8 @@
     "dashedName": "build-a-web3-client-side-package-for-your-dapp",
     "isIntegrated": true,
     "description": "Put your new Web3 knowledge to the test, by developing a package for use by client-side dApps.",
-    "isPublic": true
+    "isPublic": true,
+    "currentLesson": 1
   },
 
   {
@@ -86,7 +96,8 @@
     "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
     "isIntegrated": false,
     "description": "To be decided...",
-    "isPublic": false
+    "isPublic": false,
+    "currentLesson": 1
   },
   {
     "id": 11,
@@ -94,7 +105,8 @@
     "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
     "isIntegrated": false,
     "description": "To be decided...",
-    "isPublic": false
+    "isPublic": false,
+    "currentLesson": 1
   },
   {
     "id": 12,
@@ -102,7 +114,8 @@
     "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
     "isIntegrated": true,
     "description": "Peer-to-peer networking, but you build it.",
-    "isPublic": false
+    "isPublic": false,
+    "currentLesson": 1
   },
   {
     "id": 13,
@@ -110,7 +123,8 @@
     "dashedName": "learn-basic-rust-by-building-a-cli-wallet",
     "isIntegrated": false,
     "description": "Did someone say 'Rust'!?",
-    "isPublic": false
+    "isPublic": false,
+    "currentLesson": 1
   },
   {
     "id": 14,
@@ -118,7 +132,8 @@
     "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
     "isIntegrated": false,
     "description": "You have learnt how to build a blockchain. Now, you will learn Rust by building a blockchain using Rust and WASM.",
-    "isPublic": false
+    "isPublic": false,
+    "currentLesson": 1
   },
   {
     "id": 15,
@@ -126,7 +141,8 @@
     "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
     "isIntegrated": false,
     "description": "You know a bit about smart contracts, but now you will learn how to use WASM with Rust to compile your code into byte code, store it on your blockchain, and run it.",
-    "isPublic": false
+    "isPublic": false,
+    "currentLesson": 1
   },
   {
     "id": 16,
@@ -134,6 +150,7 @@
     "dashedName": "build-a-smart-contract-in-rust",
     "isIntegrated": true,
     "description": "With all this Rustacean knowledge, you can now build a smart contract to store and run on your blockchain.",
-    "isPublic": true
+    "isPublic": true,
+    "currentLesson": 1
   }
 ]

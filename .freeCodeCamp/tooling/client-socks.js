@@ -25,11 +25,10 @@ export function updateProjectHeading(ws, projectHeading) {
 }
 
 export function updateProject(ws, project) {
-  const selectedProject = projects.find((p) => p.dashedName === project);
   ws.send(
     parse({
       event: "update-project",
-      data: selectedProject,
+      data: project,
     })
   );
 }
