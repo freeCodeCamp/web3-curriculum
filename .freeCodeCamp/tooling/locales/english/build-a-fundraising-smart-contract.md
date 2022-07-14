@@ -46,6 +46,7 @@ Bonus: Create a file in your contract to destroy the contract (change its state 
 
 Hints:
 There's an `example-contract` for you to play with. To see what it can do, keep an eye on your `.json` files and run these commands:
+
 1. `node init-blockchain.js` to re-initialize the blockchain files
 1. `node deploy-contract.js example-contract <a_private_key_from_wallets.json>` to deploy the example contract. It will add an address for it in `contract-addresses.json` and add the contract to the contract pool (`smart-contracts.json`)
 1. `node mine-block.js` to mine the next block and add the contract to the blockchain (`blockchain.json`). You will see a message from the contract running it's `on-new-block.js` file
@@ -66,18 +67,38 @@ Your `initial-state.json` file should have a `status` property set to `open` and
 // test 1
 //root/projectFolder
 //
-const initialState = await __helpers.getJsonFile(`${projectFolder}/fundraising-contract/initial-state.json`);
+const initialState = await __helpers.getJsonFile(
+  `${projectFolder}/fundraising-contract/initial-state.json`
+);
 
-assert(initialState.status === 'open', "Your 'initial-state.json' file should have a 'status' property that set to 'open'")
-assert(initialState.description === 'Smart contract', "Your 'initial-state.json' file should have a 'description' property set to 'Smart contract'");
+assert(
+  initialState.status === "open",
+  "Your 'initial-state.json' file should have a 'status' property that set to 'open'"
+);
+assert(
+  initialState.description === "Smart contract",
+  "Your 'initial-state.json' file should have a 'description' property set to 'Smart contract'"
+);
 ```
 
 Your `fundraising-contract` should be deployed and mined to the blockchain
+
 ```js
 // test 2
-const contractWallets = await __helpers.getJsonFile(`${projectFolder}/contract-wallets.json`);
-const contractAddress = contractWallets[Object.keys(contractWallets).find(key => /fundraising-contract/g.test(key))]?.publicKey || null;
-const contract = await __helpers.getContract(contractAddress, projectFolder, false);
+const contractWallets = await __helpers.getJsonFile(
+  `${projectFolder}/contract-wallets.json`
+);
+const contractAddress =
+  contractWallets[
+    Object.keys(contractWallets).find((key) =>
+      /fundraising-contract/g.test(key)
+    )
+  ]?.publicKey || null;
+const contract = await __helpers.getContract(
+  contractAddress,
+  projectFolder,
+  false
+);
 
 assert(!!contract);
 ```
@@ -86,7 +107,9 @@ You should have a `get-description.js` file in your contract folder
 
 ```js
 // test 3
-const fileExists = await __helpers.fileExists(`${projectFolder}/fundraising-contract/get-description.js`);
+const fileExists = await __helpers.fileExists(
+  `${projectFolder}/fundraising-contract/get-description.js`
+);
 assert(!!fileExists);
 ```
 
@@ -99,16 +122,32 @@ const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
 
-await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand("node init-blockchain.js", { cwd: testFolder });
 const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
-const privateKey = wallets['Me'].privateKey;
-await __helpers.runCommand(`node deploy-contract.js fundraising-contract ${privateKey}`, { cwd: testFolder });
+const privateKey = wallets["Me"].privateKey;
+await __helpers.runCommand(
+  `node deploy-contract.js fundraising-contract ${privateKey}`,
+  { cwd: testFolder }
+);
 await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
-const contractWallets = await __helpers.getJsonFile(`${testFolder}/contract-wallets.json`);
-const contractAddress = contractWallets[Object.keys(contractWallets).find(key => /fundraising-contract/g.test(key))]?.publicKey || null;
+const contractWallets = await __helpers.getJsonFile(
+  `${testFolder}/contract-wallets.json`
+);
+const contractAddress =
+  contractWallets[
+    Object.keys(contractWallets).find((key) =>
+      /fundraising-contract/g.test(key)
+    )
+  ]?.publicKey || null;
 const contract = await __helpers.getContract(contractAddress, testFolder);
-const output = await __helpers.getCommandOutput(`node run-contract.js ${contractAddress} get-description.js`, testFolder);
-const re = new RegExp(`Here's the description of the fundraising contract: ${contract.state.description}`, 'g');
+const output = await __helpers.getCommandOutput(
+  `node run-contract.js ${contractAddress} get-description.js`,
+  testFolder
+);
+const re = new RegExp(
+  `Here's the description of the fundraising contract: ${contract.state.description}`,
+  "g"
+);
 
 assert(re.test(output.stdout));
 ```
@@ -117,7 +156,9 @@ You should have an `update-description.js` file in your contract folder
 
 ```js
 // test 5
-const fileExists = await __helpers.fileExists(`${projectContractFolder}/update-description.js`);
+const fileExists = await __helpers.fileExists(
+  `${projectContractFolder}/update-description.js`
+);
 assert(!!fileExists);
 ```
 
@@ -130,14 +171,27 @@ const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
 
-await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand("node init-blockchain.js", { cwd: testFolder });
 const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
-const privateKey = wallets['Me'].privateKey;
-await __helpers.runCommand(`node deploy-contract.js fundraising-contract ${privateKey}`, { cwd: testFolder });
+const privateKey = wallets["Me"].privateKey;
+await __helpers.runCommand(
+  `node deploy-contract.js fundraising-contract ${privateKey}`,
+  { cwd: testFolder }
+);
 await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
-const contractWallets = await __helpers.getJsonFile(`${testFolder}/contract-wallets.json`);
-const contractAddress = contractWallets[Object.keys(contractWallets).find(key => /fundraising-contract/g.test(key))]?.publicKey || null;
-await __helpers.runCommand(`node run-contract.js ${contractAddress} update-description.js "New description"`, { cwd: testFolder });
+const contractWallets = await __helpers.getJsonFile(
+  `${testFolder}/contract-wallets.json`
+);
+const contractAddress =
+  contractWallets[
+    Object.keys(contractWallets).find((key) =>
+      /fundraising-contract/g.test(key)
+    )
+  ]?.publicKey || null;
+await __helpers.runCommand(
+  `node run-contract.js ${contractAddress} update-description.js "New description"`,
+  { cwd: testFolder }
+);
 const contract = await __helpers.getContract(contractAddress, testFolder);
 assert(contract.state.description === "New description");
 ```
@@ -151,28 +205,47 @@ const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
 
-await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand("node init-blockchain.js", { cwd: testFolder });
 const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
-await __helpers.runCommand(`node deploy-contract.js fundraising-contract ${wallets['Me'].privateKey}`, { cwd: testFolder });
+await __helpers.runCommand(
+  `node deploy-contract.js fundraising-contract ${wallets["Me"].privateKey}`,
+  { cwd: testFolder }
+);
 
-const tx = [{
-  "fromAddress": null,
-  "toAddress": wallets['You'].publicKey,
-  "amount": 200
-}];
+const tx = [
+  {
+    fromAddress: null,
+    toAddress: wallets["You"].publicKey,
+    amount: 200,
+  },
+];
 await __helpers.writeJsonFile(`${testFolder}/transactions.json`, tx);
 await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
 
-const contractWallets = await __helpers.getJsonFile(`${testFolder}/contract-wallets.json`);
+const contractWallets = await __helpers.getJsonFile(
+  `${testFolder}/contract-wallets.json`
+);
 
-const contractAddress = contractWallets['fundraising-contract']?.publicKey;
-await __helpers.runCommand(`node add-transaction.js ${wallets['You'].privateKey} ${contractAddress} 200`, { cwd: testFolder });
+const contractAddress = contractWallets["fundraising-contract"]?.publicKey;
+await __helpers.runCommand(
+  `node add-transaction.js ${wallets["You"].privateKey} ${contractAddress} 200`,
+  { cwd: testFolder }
+);
 
-const transactions = await __helpers.getJsonFile(`${testFolder}/transactions.json`);
-const lastTransaction = transactions[transactions.length-1];
+const transactions = await __helpers.getJsonFile(
+  `${testFolder}/transactions.json`
+);
+const lastTransaction = transactions[transactions.length - 1];
 
-assert(lastTransaction.fromAddress === contractAddress && lastTransaction.toAddress === wallets['Me'].publicKey, "After raising the funding goal, your contract should add a transaction, from itself, to the contract creator");
-assert(lastTransaction.amount === 200, "After raising the funding goal, your contract should add a transaction with the total amount raised");
+assert(
+  lastTransaction.fromAddress === contractAddress &&
+    lastTransaction.toAddress === wallets["Me"].publicKey,
+  "After raising the funding goal, your contract should add a transaction, from itself, to the contract creator"
+);
+assert(
+  lastTransaction.amount === 200,
+  "After raising the funding goal, your contract should add a transaction with the total amount raised"
+);
 ```
 
 Running the above commands should set the `status` variable of your contract state to `closed`
@@ -184,25 +257,38 @@ const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
 
-await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand("node init-blockchain.js", { cwd: testFolder });
 const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
-await __helpers.runCommand(`node deploy-contract.js fundraising-contract ${wallets['Me'].privateKey}`, { cwd: testFolder });
+await __helpers.runCommand(
+  `node deploy-contract.js fundraising-contract ${wallets["Me"].privateKey}`,
+  { cwd: testFolder }
+);
 
-const tx = [{
-  "fromAddress": null,
-  "toAddress": wallets['You'].publicKey,
-  "amount": 200
-}];
+const tx = [
+  {
+    fromAddress: null,
+    toAddress: wallets["You"].publicKey,
+    amount: 200,
+  },
+];
 await __helpers.writeJsonFile(`${testFolder}/transactions.json`, tx);
 await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
 
-const contractWallets = await __helpers.getJsonFile(`${testFolder}/contract-wallets.json`);
+const contractWallets = await __helpers.getJsonFile(
+  `${testFolder}/contract-wallets.json`
+);
 
-const contractAddress = contractWallets['fundraising-contract']?.publicKey;
-await __helpers.runCommand(`node add-transaction.js ${wallets['You'].privateKey} ${contractAddress} 200`, { cwd: testFolder });
+const contractAddress = contractWallets["fundraising-contract"]?.publicKey;
+await __helpers.runCommand(
+  `node add-transaction.js ${wallets["You"].privateKey} ${contractAddress} 200`,
+  { cwd: testFolder }
+);
 const contract = await __helpers.getContract(contractAddress, testFolder);
 
-assert(contract.state.status === 'closed', "After raising the funding goal, the 'status' property in your contract state should be set to 'closed'");
+assert(
+  contract.state.status === "closed",
+  "After raising the funding goal, the 'status' property in your contract state should be set to 'closed'"
+);
 ```
 
 Running the commands to deploy your contract and mine seven blocks before the 150 tokens are raised should create a transaction for each donation it received, sending the donation back to the original donor
@@ -214,42 +300,68 @@ const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
 
-await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand("node init-blockchain.js", { cwd: testFolder });
 const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
-await __helpers.runCommand(`node deploy-contract.js fundraising-contract ${wallets['Me'].privateKey}`, { cwd: testFolder });
+await __helpers.runCommand(
+  `node deploy-contract.js fundraising-contract ${wallets["Me"].privateKey}`,
+  { cwd: testFolder }
+);
 
-const tx = [{
-  "fromAddress": null,
-  "toAddress": wallets['You'].publicKey,
-  "amount": 27
-},{
-  "fromAddress": null,
-  "toAddress": wallets['I'].publicKey,
-  "amount": 44
-}];
+const tx = [
+  {
+    fromAddress: null,
+    toAddress: wallets["You"].publicKey,
+    amount: 27,
+  },
+  {
+    fromAddress: null,
+    toAddress: wallets["I"].publicKey,
+    amount: 44,
+  },
+];
 
 await __helpers.writeJsonFile(`${testFolder}/transactions.json`, tx);
 await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
 
-
-const contractWallets = await __helpers.getJsonFile(`${testFolder}/contract-wallets.json`);
-const contractAddress = contractWallets['fundraising-contract'].publicKey;
-await __helpers.runCommand(`node add-transaction.js ${wallets['You'].privateKey} ${contractAddress} 27`, { cwd: testFolder });
-await __helpers.runCommand(`node add-transaction.js ${wallets['I'].privateKey} ${contractAddress} 44`, { cwd: testFolder });
+const contractWallets = await __helpers.getJsonFile(
+  `${testFolder}/contract-wallets.json`
+);
+const contractAddress = contractWallets["fundraising-contract"].publicKey;
+await __helpers.runCommand(
+  `node add-transaction.js ${wallets["You"].privateKey} ${contractAddress} 27`,
+  { cwd: testFolder }
+);
+await __helpers.runCommand(
+  `node add-transaction.js ${wallets["I"].privateKey} ${contractAddress} 44`,
+  { cwd: testFolder }
+);
 await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
 await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
 await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
 await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
 await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
 
-const transactions = await __helpers.getJsonFile(`${testFolder}/transactions.json`);
-const youTx = transactions.find(tx => {
-  return tx.fromAddress === contractAddress && tx.toAddress === wallets['You'].
-  publicKey && tx.amount === 27
+const transactions = await __helpers.getJsonFile(
+  `${testFolder}/transactions.json`
+);
+const youTx = transactions.find((tx) => {
+  return (
+    tx.fromAddress === contractAddress &&
+    tx.toAddress === wallets["You"].publicKey &&
+    tx.amount === 27
+  );
 });
-const iTx = transactions.find(tx => tx.fromAddress === contractAddress && tx.toAddress === wallets['I'].publicKey && tx.amount === 44);
+const iTx = transactions.find(
+  (tx) =>
+    tx.fromAddress === contractAddress &&
+    tx.toAddress === wallets["I"].publicKey &&
+    tx.amount === 44
+);
 
-assert(youTx && iTx, "If your contract hasn't raised its goal after the seventh block is mined, it should add a transaction for each donation it received to send the funds back to the address that donated it");
+assert(
+  youTx && iTx,
+  "If your contract hasn't raised its goal after the seventh block is mined, it should add a transaction for each donation it received to send the funds back to the address that donated it"
+);
 ```
 
 Running the above commands should set the `status` variable of your contract state to `closed`
@@ -261,9 +373,12 @@ const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
 
-await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand("node init-blockchain.js", { cwd: testFolder });
 const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
-await __helpers.runCommand(`node deploy-contract.js fundraising-contract ${wallets['Me'].privateKey}`, { cwd: testFolder });
+await __helpers.runCommand(
+  `node deploy-contract.js fundraising-contract ${wallets["Me"].privateKey}`,
+  { cwd: testFolder }
+);
 await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
 await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
 await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
@@ -271,18 +386,25 @@ await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
 await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
 await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
 
-const contractWallets = await __helpers.getJsonFile(`${testFolder}/contract-wallets.json`);
-const contractAddress = contractWallets['fundraising-contract'].publicKey;
+const contractWallets = await __helpers.getJsonFile(
+  `${testFolder}/contract-wallets.json`
+);
+const contractAddress = contractWallets["fundraising-contract"].publicKey;
 const contract = await __helpers.getContract(contractAddress, testFolder);
 
-assert(contract.state.status === 'closed', "If your contract hasn't raised its goal after the seventh block is mined, the 'status' property in your contract state should be set to 'closed'");
+assert(
+  contract.state.status === "closed",
+  "If your contract hasn't raised its goal after the seventh block is mined, the 'status' property in your contract state should be set to 'closed'"
+);
 ```
 
 Your blockchain should have at least six blocks
 
 ```js
 // test 11
-const blockchain = await __helpers.getJsonFile(`${projectFolder}/blockchain.json`);
+const blockchain = await __helpers.getJsonFile(
+  `${projectFolder}/blockchain.json`
+);
 assert(blockchain.length >= 6);
 ```
 
@@ -290,9 +412,18 @@ Your contract should have had at least 150 tokens sent to it, and it should have
 
 ```js
 // test 12
-const blockchain = await __helpers.getJsonFile(`${projectFolder}/blockchain.json`);
-const contractWallets = await __helpers.getJsonFile(`${projectFolder}/contract-wallets.json`);
-const contractAddress = contractWallets[Object.keys(contractWallets).find(key => /fundraising-contract/g.test(key))].publicKey || null;
+const blockchain = await __helpers.getJsonFile(
+  `${projectFolder}/blockchain.json`
+);
+const contractWallets = await __helpers.getJsonFile(
+  `${projectFolder}/contract-wallets.json`
+);
+const contractAddress =
+  contractWallets[
+    Object.keys(contractWallets).find((key) =>
+      /fundraising-contract/g.test(key)
+    )
+  ].publicKey || null;
 const contract = await __helpers.getContract(contractAddress, projectFolder);
 
 let raised = 0;
@@ -310,67 +441,124 @@ for (let i = 1; i < blockchain.length; i++) {
       raised += amount;
     }
 
-    if (fromAddress === contractAddress && toAddress === contract.creatorAddress && amount === raised) {
+    if (
+      fromAddress === contractAddress &&
+      toAddress === contract.creatorAddress &&
+      amount === raised
+    ) {
       txToCreator = true;
     }
   }
 }
 
-assert(raised >= 150, "There should be at least 150 tokens sent to your contract address");
-assert(!!txToCreator, "There should be a single transaction sending all the raised funds to the address of the contract creator");
+assert(
+  raised >= 150,
+  "There should be at least 150 tokens sent to your contract address"
+);
+assert(
+  !!txToCreator,
+  "There should be a single transaction sending all the raised funds to the address of the contract creator"
+);
 ```
 
 The current state object for your deployed contract should have a `status` property set to `closed` and a description set to `Smart contract to raise funds for my start up.`
 
 ```js
 // test 13
-const contractWallets = await __helpers.getJsonFile(`${projectFolder}/contract-wallets.json`);
-const contractAddress = contractWallets[Object.keys(contractWallets).find(key => /fundraising-contract/g.test(key))]?.publicKey || null;
-const contract = await __helpers.getContract(contractAddress, projectFolder, false);
+const contractWallets = await __helpers.getJsonFile(
+  `${projectFolder}/contract-wallets.json`
+);
+const contractAddress =
+  contractWallets[
+    Object.keys(contractWallets).find((key) =>
+      /fundraising-contract/g.test(key)
+    )
+  ]?.publicKey || null;
+const contract = await __helpers.getContract(
+  contractAddress,
+  projectFolder,
+  false
+);
 
-assert(contract.state.status === 'closed', "Your current contract state should have a 'status' of 'closed'");
-assert(contract.state.description === 'Smart contract to raise funds for my start up.', "Your current contract state should have a 'description' of 'Smart contract to raise funds for my start up.'")
+assert(
+  contract.state.status === "closed",
+  "Your current contract state should have a 'status' of 'closed'"
+);
+assert(
+  contract.state.description ===
+    "Smart contract to raise funds for my start up.",
+  "Your current contract state should have a 'description' of 'Smart contract to raise funds for my start up.'"
+);
 ```
 
 All the hashes and signatures on your blockchain should be valid
 
 ```js
 // test 14
-const blockchain = await __helpers.getJsonFile(`${projectFolder}/blockchain.json`);
+const blockchain = await __helpers.getJsonFile(
+  `${projectFolder}/blockchain.json`
+);
 
 // loop over blocks
 for (let i = 1; i < blockchain.length; i++) {
-  const previousBlock = blockchain[i-1];
-  const { hash, previousHash, nonce, transactions = [], smartContracts = [] } = blockchain[i];
+  const previousBlock = blockchain[i - 1];
+  const {
+    hash,
+    previousHash,
+    nonce,
+    transactions = [],
+    smartContracts = [],
+  } = blockchain[i];
 
   // validate previous hash
   if (previousHash !== previousBlock.hash) {
-    assert(false, "Except for the genesis block, the 'previousHash' value of each block should match the 'hash' of the block before it");
+    assert(
+      false,
+      "Except for the genesis block, the 'previousHash' value of each block should match the 'hash' of the block before it"
+    );
   }
 
   // validate hash format
-  if (!hash.startsWith('00')) {
-    assert(false, "Except for the genesis block, the 'hash' of each block should start with two zeros ('00')");
+  if (!hash.startsWith("00")) {
+    assert(
+      false,
+      "Except for the genesis block, the 'hash' of each block should start with two zeros ('00')"
+    );
   }
 
   // validate block hash
-  const recreatedHash = await __helpers.generateHash(nonce + previousHash + JSON.stringify(transactions) + JSON.stringify(smartContracts));
+  const recreatedHash = await __helpers.generateHash(
+    nonce +
+      previousHash +
+      JSON.stringify(transactions) +
+      JSON.stringify(smartContracts)
+  );
   if (recreatedHash != hash) {
-    assert(false, "Except for the genesis block, the 'hash' of each block should be able to be recreated with 'sha256(nonce + previousHash + JSON.stringify(transactions) + JSON.stringify(smartContracts)).toString()'");
+    assert(
+      false,
+      "Except for the genesis block, the 'hash' of each block should be able to be recreated with 'sha256(nonce + previousHash + JSON.stringify(transactions) + JSON.stringify(smartContracts)).toString()'"
+    );
   }
 
   // loop over transactions
   for (let j = 0; j < transactions.length; j++) {
-
     // validate transaction signatures
-    if (transactions[j].hasOwnProperty('signature')) {
-
+    if (transactions[j].hasOwnProperty("signature")) {
       const { toAddress, fromAddress, amount, signature } = transactions[j];
-      const hash = await __helpers.generateHash(fromAddress + toAddress + amount);
-      const validSignature = await __helpers.validateSignature(fromAddress, hash, signature);
+      const hash = await __helpers.generateHash(
+        fromAddress + toAddress + amount
+      );
+      const validSignature = await __helpers.validateSignature(
+        fromAddress,
+        hash,
+        signature
+      );
 
       if (!validSignature) {
-        assert(false, "All transaction signatures should be able to be verified with keyPair.verify(hash, signature)");
+        assert(
+          false,
+          "All transaction signatures should be able to be verified with keyPair.verify(hash, signature)"
+        );
       }
     }
   }
@@ -382,7 +570,7 @@ assert(blockchain.length > 0);
 ### --before-all--
 
 ```js
-global.root = '..';
+global.root = "..";
 global.projectFolder = `${root}/build-a-fundraising-smart-contract`;
 global.projectContractFolder = `${projectFolder}/fundraising-contract`;
 global.testsFolder = `${projectFolder}/.tests`;
@@ -399,7 +587,7 @@ global.projectFiles = [
   "run-contract.js",
   "smart-contracts.json",
   "transactions.json",
-  "wallets.json"
+  "wallets.json",
 ];
 ```
 
