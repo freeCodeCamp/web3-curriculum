@@ -1,0 +1,10 @@
+{
+  "me": {
+    "publicKey": "04e67ecf0a9ee84dd91a63c67be4dea9230c02267713d306cf5cf88f8da5c229e370506764b682be6940f0cd9782c9cd81",
+    "privateKey": "76066ff0788e7176a925f00ca7d7ebada416ee23be2c68ca"
+  },
+  "you": {
+    "publicKey": "048b439de98215d534bd1498414754a39c646592abcafea59f04791a1dc20ae20ecbcdeafcb9049a0613c048bd7135b2ab",
+    "privateKey": "f323fd8e00a6204ad7c0c5b10254efcbc4c9d9ae5d43f0cf"
+  }
+}

@@ -1,9 +1,13 @@
-import { writeFile } from "fs/promises";
-import { dirname, join } from "path";
+import { cp, readdir, rm, rmdir, writeFile } from "fs/promises";
+import path, { dirname, join } from "path";
+import { fileURLToPath } from "url";
 import { promisify } from "util";
 import { exec } from "child_process";
 import { readdirSync } from "fs";
 const execute = promisify(exec);
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Adds all existing paths at runtime
 const PERMANENT_PATHS_IN_ROOT = readdirSync("..");
@@ -39,10 +43,9 @@ export async function showFile(file) {
 }
 
 export async function dumpProjectDirectoryIntoRoot(project) {
-  const pathToRoot = join(dirname(), "..");
-  await execute(`cp ${project.dashedName}/* .`, {
-    cwd: pathToRoot,
-    shell: "/bin/bash",
+  const pathToRoot = join(__dirname, "../..");
+  await cp(join(pathToRoot, project.dashedName), pathToRoot, {
+    recursive: true,
   });
 }
 
@@ -50,20 +53,22 @@ export async function cleanWorkingDirectory(projectToCopyTo) {
   if (projectToCopyTo) {
     await copyNonWDirToProject(projectToCopyTo);
   }
-  const stringOfPathsToKeep = PERMANENT_PATHS_IN_ROOT.join("|");
-  await execute(`rm -r !(${stringOfPathsToKeep})`, {
-    cwd: pathToRoot,
-    shell: "/bin/bash",
+  const pathToRoot = join(__dirname, "../..");
+  const allOtherPaths = (await readdir(pathToRoot)).filter(
+    (p) => !PERMANENT_PATHS_IN_ROOT.includes(p)
+  );
+  allOtherPaths.forEach(async (p) => {
+    await rm(join(pathToRoot, p), { recursive: true });
   });
 }
 
 async function copyNonWDirToProject(project) {
-  const pathToRoot = join(dirname(), "..");
-  await execute(
-    `cp -r !(${PERMANENT_PATHS_IN_ROOT.join("|")}|${project}) ${project}`,
-    {
-      cwd: pathToRoot,
-      shell: "/bin/bash",
-    }
+  const pathToRoot = join(__dirname, "../..");
+  const allOtherPaths = (await readdir(pathToRoot)).filter(
+    (p) => !PERMANENT_PATHS_IN_ROOT.includes(p)
   );
+  allOtherPaths.forEach(async (p) => {
+    const relativePath = join(pathToRoot, p);
+    await cp(relativePath, join(pathToRoot, project, p), { recursive: true });
+  });
 }

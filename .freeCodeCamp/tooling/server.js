@@ -67,6 +67,7 @@ async function handleSelectProject(ws, data) {
   const selectedProject = projects.find((p) => p.id === data?.data?.id);
 
   const { CURRENT_PROJECT: previouslySelectedProject } = await readEnv();
+  cleanWorkingDirectory(previouslySelectedProject);
   // TODO: Should this set the CURRENT_PROJECT to `null` (empty string)?
   // for the case where the Camper has navigated to the landing page.
   await updateEnv({ CURRENT_PROJECT: selectedProject?.dashedName ?? "" });
@@ -75,7 +76,6 @@ async function handleSelectProject(ws, data) {
     return;
   }
 
-  cleanWorkingDirectory(previouslySelectedProject);
   dumpProjectDirectoryIntoRoot(selectedProject);
   runLesson(ws, selectedProject);
 }

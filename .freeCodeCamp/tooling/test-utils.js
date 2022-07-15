@@ -1,10 +1,17 @@
 import { readFile, readdir } from "fs/promises";
+import { exec, execSync } from "child_process";
+import sha256 from "crypto-js/sha256.js";
+import { fileURLToPath } from "url";
 import { promisify } from "util";
-import { join } from "path";
-import { exec } from "child_process";
-const execute = promisify(exec);
+import elliptic from "elliptic";
+import { join, dirname } from "path";
+import fs from "fs";
 
-const ROOT = ".";
+const execute = promisify(exec);
+const ec = new elliptic.ec("p192");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const ROOT = join(__dirname, "..");
 
 async function getDirectory(path) {
   const files = await readdir(`${ROOT}/${path}`);
@@ -76,14 +83,130 @@ async function getFile(path) {
   return file;
 }
 
+async function fileExists(path) {
+  return fs.existsSync(path);
+}
+
+async function copyDirectory(folderToCopy, destinationFolder) {
+  if (!fs.existsSync(destinationFolder)) {
+    fs.mkdirSync(destinationFolder);
+  }
+
+  fs.readdirSync(folderToCopy).forEach((file) => {
+    fs.copyFileSync(`${folderToCopy}/${file}`, `${destinationFolder}/${file}`);
+  });
+}
+
+async function copyProjectFiles(projectFolder, testsFolder, arrayOfFiles = []) {
+  if (!projectFolder || !testsFolder || arrayOfFiles.length === 0) {
+    throw Error("Cannot copy project files");
+  }
+
+  arrayOfFiles.forEach((file) => {
+    fs.copyFileSync(
+      `${projectFolder}/${file}`,
+      `${projectFolder}/${testsFolder}/${file}`
+    );
+  });
+}
+
+async function runCommand(command, options) {
+  execSync(command, options);
+}
+
+async function getJsonFile(file) {
+  const fileString = fs.readFileSync(file);
+  return JSON.parse(fileString);
+}
+
+async function writeJsonFile(path, content) {
+  fs.writeFileSync(path, JSON.stringify(content, null, 2));
+}
+
+async function generateHash(content) {
+  const hash = sha256(content).toString();
+  return hash;
+}
+
+async function generateSignature(privateKey, content) {
+  const keyPair = ec.keyFromPrivate(privateKey, "hex");
+  const signature = keyPair.sign(content).toDER("hex");
+  return signature;
+}
+
+async function validateSignature(publicKey, content, signature) {
+  const keyPair = ec.keyFromPublic(publicKey, "hex");
+  const verifiedSignature = keyPair.verify(content, signature);
+  return verifiedSignature;
+}
+
+async function getPublicKeyFromPrivate(privateKey) {
+  const keyPair = ec.keyFromPrivate(privateKey, "hex");
+  const publicKey = keyPair.getPublic("hex");
+  return publicKey;
+}
+
+async function getContract(contractAddress, cwd, includePool = true) {
+  // get the latest contract state from the blockchain
+  const blockchain = await getJsonFile(`${cwd}/blockchain.json`);
+  const latestContract = blockchain.reduce((currentContract, nextBlock) => {
+    if (nextBlock.smartContracts) {
+      nextBlock.smartContracts.forEach((contract) => {
+        if (contract.address === contractAddress) {
+          // first occurrence of contract
+          if (!currentContract.hasOwnProperty("address")) {
+            Object.keys(contract).forEach(
+              (key) => (currentContract[key] = contract[key])
+            );
+
+            // contract found and added, only update state after that
+          } else if (contract.hasOwnProperty("state")) {
+            currentContract.state = contract.state;
+          }
+        }
+      });
+    }
+    return currentContract;
+  }, {});
+
+  if (includePool) {
+    // add contract pool to latest contract state
+    const smartContracts = await getJsonFile(`${cwd}/smart-contracts.json`);
+    smartContracts.forEach((contract) => {
+      if (contract.address === contractAddress) {
+        if (!latestContract.hasOwnProperty("address")) {
+          Object.keys(contract).forEach(
+            (key) => (latestContract[key] = contract[key])
+          );
+        } else if (latestContract.hasOwnProperty("state")) {
+          latestContract.state = contract.state;
+        }
+      }
+    });
+  }
+
+  return latestContract.hasOwnProperty("address") ? latestContract : null;
+}
+
 const __helpers = {
   getDirectory,
   isFileOpen,
   getFile,
+  fileExists,
   getTerminalOutput,
   getCommandOutput,
   getLastCommand,
   getCWD,
+  copyDirectory,
+  copyProjectFiles,
+  runCommand,
+  getJsonFile,
+  writeJsonFile,
+  generateHash,
+  generateSignature,
+  validateSignature,
+  getPublicKeyFromPrivate,
+  getContract,
 };
 
 export default __helpers;
