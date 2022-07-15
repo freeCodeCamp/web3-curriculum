@@ -1,14 +1,17 @@
 import { readFile, readdir } from "fs/promises";
-import { promisify } from "util";
-import { join } from "path";
 import { exec, execSync } from "child_process";
-const execute = promisify(exec);
-import fs from 'fs';
-import sha256 from 'crypto-js/sha256.js';
-import elliptic from 'elliptic';
-const ec = new elliptic.ec('p192');
+import sha256 from "crypto-js/sha256.js";
+import { fileURLToPath } from "url";
+import { promisify } from "util";
+import elliptic from "elliptic";
+import { join, dirname } from "path";
+import fs from "fs";
 
-const ROOT = ".";
+const execute = promisify(exec);
+const ec = new elliptic.ec("p192");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const ROOT = join(__dirname, "..");
 
 async function getDirectory(path) {
   const files = await readdir(`${ROOT}/${path}`);
@@ -89,18 +92,21 @@ async function copyDirectory(folderToCopy, destinationFolder) {
     fs.mkdirSync(destinationFolder);
   }
 
-  fs.readdirSync(folderToCopy).forEach(file => {
+  fs.readdirSync(folderToCopy).forEach((file) => {
     fs.copyFileSync(`${folderToCopy}/${file}`, `${destinationFolder}/${file}`);
   });
 }
 
 async function copyProjectFiles(projectFolder, testsFolder, arrayOfFiles = []) {
   if (!projectFolder || !testsFolder || arrayOfFiles.length === 0) {
-    throw Error('Cannot copy project files');
+    throw Error("Cannot copy project files");
   }
 
-  arrayOfFiles.forEach(file => {
-    fs.copyFileSync(`${projectFolder}/${file}`, `${projectFolder}/${testsFolder}/${file}`);
+  arrayOfFiles.forEach((file) => {
+    fs.copyFileSync(
+      `${projectFolder}/${file}`,
+      `${projectFolder}/${testsFolder}/${file}`
+    );
   });
 }
 
@@ -123,20 +129,20 @@ async function generateHash(content) {
 }
 
 async function generateSignature(privateKey, content) {
-  const keyPair = ec.keyFromPrivate(privateKey, 'hex');
-  const signature = keyPair.sign(content).toDER('hex');
+  const keyPair = ec.keyFromPrivate(privateKey, "hex");
+  const signature = keyPair.sign(content).toDER("hex");
   return signature;
 }
 
 async function validateSignature(publicKey, content, signature) {
-  const keyPair = ec.keyFromPublic(publicKey, 'hex');
+  const keyPair = ec.keyFromPublic(publicKey, "hex");
   const verifiedSignature = keyPair.verify(content, signature);
   return verifiedSignature;
 }
 
 async function getPublicKeyFromPrivate(privateKey) {
-  const keyPair = ec.keyFromPrivate(privateKey, 'hex');
-  const publicKey = keyPair.getPublic('hex');
+  const keyPair = ec.keyFromPrivate(privateKey, "hex");
+  const publicKey = keyPair.getPublic("hex");
   return publicKey;
 }
 
@@ -145,15 +151,16 @@ async function getContract(contractAddress, cwd, includePool = true) {
   const blockchain = await getJsonFile(`${cwd}/blockchain.json`);
   const latestContract = blockchain.reduce((currentContract, nextBlock) => {
     if (nextBlock.smartContracts) {
-      nextBlock.smartContracts.forEach(contract => {
+      nextBlock.smartContracts.forEach((contract) => {
         if (contract.address === contractAddress) {
-
           // first occurrence of contract
-          if (!currentContract.hasOwnProperty('address')) {
-            Object.keys(contract).forEach(key => currentContract[key] = contract[key]);
+          if (!currentContract.hasOwnProperty("address")) {
+            Object.keys(contract).forEach(
+              (key) => (currentContract[key] = contract[key])
+            );
 
             // contract found and added, only update state after that
-          } else if (contract.hasOwnProperty('state')) {
+          } else if (contract.hasOwnProperty("state")) {
             currentContract.state = contract.state;
           }
         }
@@ -165,19 +172,20 @@ async function getContract(contractAddress, cwd, includePool = true) {
   if (includePool) {
     // add contract pool to latest contract state
     const smartContracts = await getJsonFile(`${cwd}/smart-contracts.json`);
-    smartContracts.forEach(contract => {
+    smartContracts.forEach((contract) => {
       if (contract.address === contractAddress) {
-        if (!latestContract.hasOwnProperty('address')) {
-          Object.keys(contract).forEach(key => latestContract[key] = contract[key]);
-
-        } else if (latestContract.hasOwnProperty('state')) {
+        if (!latestContract.hasOwnProperty("address")) {
+          Object.keys(contract).forEach(
+            (key) => (latestContract[key] = contract[key])
+          );
+        } else if (latestContract.hasOwnProperty("state")) {
           latestContract.state = contract.state;
         }
       }
     });
   }
 
-  return latestContract.hasOwnProperty('address') ? latestContract : null;
+  return latestContract.hasOwnProperty("address") ? latestContract : null;
 }
 
 const __helpers = {
@@ -198,7 +206,7 @@ const __helpers = {
   generateSignature,
   validateSignature,
   getPublicKeyFromPrivate,
-  getContract
+  getContract,
 };
 
 export default __helpers;
