@@ -189,10 +189,126 @@ const web3 = new Web3("http://localhost:3001");
 assert.isFunction(web3.initSmartContract);
 ```
 
-The `initSmartContract` method should return an object literal consisting of ...
+The `initSmartContract` method should return an object literal including a `set_click` property, when called with the example `idl`.
 
 ```js
+const web3 = new Web3("http://localhost:3001");
+const smartContract = web3.initSmartContract(
+  (
+    await import(
+      "../../build-a-web3-client-side-package-for-your-dapp/fixture/data/idl.json",
+      { assert: { type: "json" } }
+    )
+  ).default
+);
+assert.isObject(smartContract);
+assert.exists(smartContract.set_click);
+```
 
+The `initSmartContract` method should return an object literal including a `get_contract_account` property, when called with the example `idl`.
+
+```js
+const web3 = new Web3("http://localhost:3001");
+const smartContract = web3.initSmartContract(
+  (
+    await import(
+      "../../build-a-web3-client-side-package-for-your-dapp/fixture/data/idl.json",
+      { assert: { type: "json" } }
+    )
+  ).default
+);
+assert.isObject(smartContract);
+assert.exists(smartContract.get_contract_account);
+```
+
+The `set_click` property should be a function.
+
+```js
+const web3 = new Web3("http://localhost:3001");
+const smartContract = web3.initSmartContract(
+  (
+    await import(
+      "../../build-a-web3-client-side-package-for-your-dapp/fixture/data/idl.json",
+      { assert: { type: "json" } }
+    )
+  ).default
+);
+assert.isFunction(smartContract.set_click);
+```
+
+The `get_contract_account` property should be a function.
+
+```js
+const web3 = new Web3("http://localhost:3001");
+const smartContract = web3.initSmartContract(
+  (
+    await import(
+      "../../build-a-web3-client-side-package-for-your-dapp/fixture/data/idl.json",
+      { assert: { type: "json" } }
+    )
+  ).default
+);
+assert.isFunction(smartContract.get_contract_account);
+```
+
+The `set_click` function should validate that one argument of type `string` is passed, when called. Validation is done by throwing an `Error` if the argument is not a string.
+
+```js
+const web3 = new Web3("http://localhost:3001");
+const smartContract = web3.initSmartContract(
+  (
+    await import(
+      "../../build-a-web3-client-side-package-for-your-dapp/fixture/data/idl.json",
+      { assert: { type: "json" } }
+    )
+  ).default
+);
+assert.throws(() => smartContract.set_click());
+assert.throws(() => smartContract.set_click(1));
+assert.throws(() => smartContract.set_click(true));
+assert.throws(() => smartContract.set_click([]));
+assert.throws(() => smartContract.set_click({}));
+assert.throws(() => smartContract.set_click(() => {}));
+assert.throws(() => smartContract.set_click(null));
+assert.throws(() => smartContract.set_click(undefined));
+assert.throws(() => smartContract.set_click(new Date()));
+assert.throws(() => smartContract.set_click(new RegExp()));
+```
+
+The `set_click` function should return a promise that resolves with the result of calling `this.call` with `{method: "set_click", args: ["test"], id: 0}`.
+
+```js
+const web3 = new Web3("http://localhost:3001");
+const smartContract = web3.initSmartContract(
+  (
+    await import(
+      "../../build-a-web3-client-side-package-for-your-dapp/fixture/data/idl.json",
+      { assert: { type: "json" } }
+    )
+  ).default
+);
+const prom = smartContract.set_click("test");
+assert.isPromise(prom);
+const res = await prom;
+assert.deepEqual(response, { total_clicks: 1, clickers: ["test"] });
+```
+
+The `get_contract_account` function should return a promise that resolves with the result of calling `this.call` with `{method: "get_contract_account", args: [], id: 0}`.
+
+```js
+const web3 = new Web3("http://localhost:3001");
+const smartContract = web3.initSmartContract(
+  (
+    await import(
+      "../../build-a-web3-client-side-package-for-your-dapp/fixture/data/idl.json",
+      { assert: { type: "json" } }
+    )
+  ).default
+);
+const prom = smartContract.get_contract_account();
+assert.isPromise(prom);
+const res = await prom;
+assert.deepEqual(response, { total_clicks: 0, clickers: [] });
 ```
 
 Your `Web3` class should have an asynchronous method with the handle `getBalance`.
