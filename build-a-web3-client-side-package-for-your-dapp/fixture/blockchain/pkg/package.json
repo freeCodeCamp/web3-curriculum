@@ -1,0 +1,11 @@
+{
+  "name": "blockchain",
+  "version": "0.1.0",
+  "files": [
+    "blockchain_bg.wasm",
+    "blockchain.js",
+    "blockchain.d.ts"
+  ],
+  "main": "blockchain.js",
+  "types": "blockchain.d.ts"
+}

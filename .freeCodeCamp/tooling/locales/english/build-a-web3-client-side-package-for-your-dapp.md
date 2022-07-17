@@ -6,6 +6,8 @@
 
 You will be building a client-side package in the form of a class that can be used to interact with a Web3 provider.
 
+**Instruction**: Start the node server, by running `npm run test` in a free terminal.
+
 This class has been started off for you in `web3/index.js`.
 
 The `fixture/` directory should **not** be altered.
