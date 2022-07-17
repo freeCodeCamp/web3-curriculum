@@ -1,4 +1,4 @@
-# Build a Fundraising Smart Contract
+# Web3 - Build a Fundraising Smart Contract
 
 ## 1
 

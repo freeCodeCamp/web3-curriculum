@@ -34,7 +34,7 @@ export async function getProjectTitle(file) {
  * @param {number} lessonNumber - The number of the lesson
  * @returns {Promise<string>} The content of the lesson
  */
-export async function getLessonFromFile(file, lessonNumber) {
+export async function getLessonFromFile(file, lessonNumber = 1) {
   const fileContent = await readFile(file, "utf8");
   const mat = fileContent.match(
     new RegExp(

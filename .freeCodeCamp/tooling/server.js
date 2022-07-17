@@ -6,7 +6,7 @@ import {
   setProjectConfig,
   updateEnv,
 } from "./env.js";
-import logover, { debug, error } from "logover";
+import logover, { debug, error, warn } from "logover";
 
 import { WebSocketServer } from "ws";
 import runLesson from "./lesson.js";
@@ -67,12 +67,12 @@ async function handleSelectProject(ws, data) {
   const selectedProject = projects.find((p) => p.id === data?.data?.id);
 
   const { CURRENT_PROJECT: previouslySelectedProject } = await readEnv();
-  cleanWorkingDirectory(previouslySelectedProject);
+  await cleanWorkingDirectory(previouslySelectedProject);
   // TODO: Should this set the CURRENT_PROJECT to `null` (empty string)?
   // for the case where the Camper has navigated to the landing page.
   await updateEnv({ CURRENT_PROJECT: selectedProject?.dashedName ?? "" });
   if (!selectedProject) {
-    error("Selected project does not exist: ", data);
+    warn("Selected project does not exist: ", data);
     return;
   }
 
