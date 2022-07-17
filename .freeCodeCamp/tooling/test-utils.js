@@ -43,7 +43,7 @@ async function getTerminalOutput() {
 /**
  * Returns the output of a command called from a given path
  * @param {string} command
- * @param {string} path Path relative to curriculum folder
+ * @param {string} path Path relative to root
  * @returns {{stdout, stderr}}
  */
 async function getCommandOutput(command, path = "") {
