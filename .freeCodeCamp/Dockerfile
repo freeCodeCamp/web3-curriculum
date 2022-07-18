@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
 ARG USERNAME=camper
-ARG REPO_NAME=external-project
+ARG REPO_NAME=web3-curriculum
 ARG HOMEDIR=/workspace/$REPO_NAME
 
 ENV TZ="America/New_York"
