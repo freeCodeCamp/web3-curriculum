@@ -2,11 +2,11 @@ import {
   getAddressItems,
   getItemPrice,
   getTransactions,
-  writeTransactions,
-} from "./blockchain-helpers";
+  writeTransactions
+} from './blockchain-helpers.js';
 
-import { ec as EC } from "elliptic";
-const ec = new EC("p192");
+import EC from 'elliptic';
+const ec = new EC.ec('p192');
 
 const sellerPrivateKey = process.argv[2];
 const itemSold = process.argv[3];

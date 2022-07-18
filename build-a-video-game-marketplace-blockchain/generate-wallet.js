@@ -2,11 +2,11 @@ import {
   getTransactions,
   writeTransactions,
   getWallets,
-  writeWallets,
-} from "./blockchain-helpers";
+  writeWallets
+} from './blockchain-helpers.js';
 
-import { ec as EC } from "elliptic";
-const ec = new EC("p192");
+import EC from 'elliptic';
+const ec = new EC.ec('p192');
 
 const newWalletName = process.argv[2];
 // Add your code below
