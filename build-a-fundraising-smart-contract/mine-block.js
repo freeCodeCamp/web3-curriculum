@@ -9,9 +9,9 @@ import {
   getContract,
   getContractAddresses,
   getContractWalletFromAddress,
-  getRandomWalletAddress,
-} from "./blockchain-helpers";
-import sha256 from "crypto-js/sha256";
+  getRandomWalletAddress
+} from './blockchain-helpers.js';
+import sha256 from 'crypto-js/sha256.js';
 
 // don't mine a block without any wallets for reward
 const rewardAddress = getRandomWalletAddress();
@@ -28,11 +28,11 @@ const smartContracts = getSmartContracts();
 const transactions = getTransactions();
 
 const previousBlock = blockchain[blockchain.length - 1];
-let hash = "";
+let hash = '';
 let nonce = 0;
 const difficulty = 2;
 
-while (!hash.startsWith("0".repeat(difficulty))) {
+while (!hash.startsWith('0'.repeat(difficulty))) {
   nonce++;
   hash = sha256(
     nonce +
@@ -47,13 +47,13 @@ const newBlock = {
   previousHash: previousBlock.hash,
   nonce,
   transactions,
-  smartContracts,
+  smartContracts
 };
 
 const rewardTransaction = {
   fromAddress: null,
   toAddress: rewardAddress,
-  amount: 50,
+  amount: 50
 };
 
 blockchain.push(newBlock);
@@ -65,18 +65,18 @@ writeTransactions([rewardTransaction]);
 // run on-new-block for all contracts
 const allContractsAddresses = getContractAddresses();
 
-allContractsAddresses.forEach((contractAddress) => {
+allContractsAddresses.forEach(contractAddress => {
   const contract = getContract(contractAddress);
 
   // only run if status is "open"
-  if (contract && contract.state && contract.state.status === "open") {
+  if (contract && contract.state && contract.state.status === 'open') {
     const contractWallet = getContractWalletFromAddress(contract.address);
 
     // only run if contract wallet exists
     if (
       contractWallet &&
-      contractWallet.hasOwnProperty("publicKey") &&
-      contractWallet.hasOwnProperty("privateKey")
+      contractWallet.hasOwnProperty('publicKey') &&
+      contractWallet.hasOwnProperty('privateKey')
     ) {
       process.env.PRIVATE_KEY = contractWallet.privateKey;
       process.env.CONTRACT_ADDRESS = contract.address;
@@ -85,8 +85,8 @@ allContractsAddresses.forEach((contractAddress) => {
       process.env.BLOCKCHAIN_LENGTH = getBlockchain().length;
 
       // only run the function if it exists
-      if (contract.functions.hasOwnProperty("on-new-block.js")) {
-        eval(contract.functions["on-new-block.js"]);
+      if (contract.functions.hasOwnProperty('on-new-block.js')) {
+        eval(contract.functions['on-new-block.js']);
       }
     }
   }

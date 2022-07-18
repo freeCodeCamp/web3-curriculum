@@ -2,8 +2,8 @@
 
 import {
   getAddressBalance,
-  getWalletAddressFromName,
-} from "./blockchain-helpers";
+  getWalletAddressFromName
+} from './blockchain-helpers.js';
 
 const nameOfAddress = process.argv[2];
 
