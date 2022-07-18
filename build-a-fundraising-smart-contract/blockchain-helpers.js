@@ -317,7 +317,7 @@ function addTransaction(privateKey, toAddress, amount) {
 
     // only run the function if it exists
     if (contract.functions.hasOwnProperty('on-transaction.js')) {
-      eval(contract.functions['on-transaction.js']);
+      eval(`(async () => { ${contract.functions['on-transaction.js']} })();`);
     }
   }
 }

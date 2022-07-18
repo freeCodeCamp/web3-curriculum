@@ -1,4 +1,4 @@
-import { addTransaction } from './blockchain-helpers.js';
+const { addTransaction } = (await import('./blockchain-helpers.js'));
 
 const privateKey = process.env.PRIVATE_KEY;
 const toAddress =

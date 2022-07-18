@@ -86,7 +86,7 @@ allContractsAddresses.forEach(contractAddress => {
 
       // only run the function if it exists
       if (contract.functions.hasOwnProperty('on-new-block.js')) {
-        eval(contract.functions['on-new-block.js']);
+        eval(`(async () => { ${contract.functions['on-new-block.js']} })();`);
       }
     }
   }

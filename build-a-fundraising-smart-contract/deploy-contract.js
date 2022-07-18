@@ -1,10 +1,10 @@
 /** Do not change the code in this file **/
 
 // syntax:
-// node deploy-smart-contract.js <contract-folder> <creator-private-key>
+// node deploy-contract.js <contract-folder> <creator-private-key>
 
 // example:
-// node deploy-smart-contract.js smart-contract 8007344d8eaa1f4c5410412638e68715732dcbefb6168310
+// node deploy-contract.js smart-contract 8007344d8eaa1f4c5410412638e68715732dcbefb6168310
 
 import {
   getFileContents,

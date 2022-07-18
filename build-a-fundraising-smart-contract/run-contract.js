@@ -52,4 +52,4 @@ process.env.CREATOR_ADDRESS = contract.creatorAddress;
 process.env.ARGS = JSON.stringify(args);
 process.env.BLOCKCHAIN_LENGTH = getBlockchain().length;
 
-eval(contract.functions[functionToRun]);
+eval(`(async () => { ${contract.functions[functionToRun]} })();`);

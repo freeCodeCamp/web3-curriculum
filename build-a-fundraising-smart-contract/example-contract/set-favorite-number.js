@@ -1,4 +1,4 @@
-import { updateContractState } from './blockchain-helpers.js';
+const { updateContractState } = (await import('./blockchain-helpers.js'));
 
 const contractState = JSON.parse(process.env.CONTRACT_STATE);
 const contractAddress = process.env.CONTRACT_ADDRESS;
