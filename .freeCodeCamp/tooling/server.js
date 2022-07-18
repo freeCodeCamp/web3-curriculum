@@ -15,7 +15,9 @@ import hotReload from './hot-reload.js';
 import projects from '../config/projects.json' assert { 'type': 'json' };
 import {
   cleanWorkingDirectory,
-  dumpProjectDirectoryIntoRoot
+  dumpProjectDirectoryIntoRoot,
+  hideAll,
+  showFile
 } from './utils.js';
 logover({
   level: process.env.NODE_ENV === 'production' ? 'info' : 'debug'
@@ -65,9 +67,6 @@ async function handleConnect(ws) {
 
 async function handleSelectProject(ws, data) {
   const selectedProject = projects.find(p => p.id === data?.data?.id);
-
-  const { CURRENT_PROJECT: previouslySelectedProject } = await readEnv();
-  await cleanWorkingDirectory(previouslySelectedProject);
   // TODO: Should this set the CURRENT_PROJECT to `null` (empty string)?
   // for the case where the Camper has navigated to the landing page.
   await updateEnv({ CURRENT_PROJECT: selectedProject?.dashedName ?? '' });
@@ -75,8 +74,8 @@ async function handleSelectProject(ws, data) {
     warn('Selected project does not exist: ', data);
     return;
   }
-
-  dumpProjectDirectoryIntoRoot(selectedProject);
+  await hideAll();
+  await showFile(selectedProject.dashedName);
   runLesson(ws, selectedProject);
 }
 

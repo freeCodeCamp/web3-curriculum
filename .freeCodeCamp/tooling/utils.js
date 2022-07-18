@@ -13,15 +13,17 @@ const __dirname = dirname(__filename);
 const PERMANENT_PATHS_IN_ROOT = readdirSync('..');
 
 export async function setVSCSettings(obj) {
-  const settings = await import('../../.vscode/settings.json', {
-    assert: { type: 'json' }
-  }).default;
+  const settings = (
+    await import('../../.vscode/settings.json', {
+      assert: { type: 'json' }
+    })
+  ).default;
   const updated = {
     ...settings,
     ...obj
   };
-  const pathToSettings = join('../../', '.vscode', 'settings.json');
-  await writeFile(pathToSettings, JSON.stringify(updated));
+  const pathToSettings = join(__dirname, '../..', '.vscode', 'settings.json');
+  await writeFile(pathToSettings, JSON.stringify(updated, null, 2));
 }
 
 export async function hideFile(file) {
@@ -30,7 +32,7 @@ export async function hideFile(file) {
     await import('../../.vscode/settings.json', { assert: { type: 'json' } })
   ).default['files.exclude'];
   filesExclude[file] = true;
-  await setVSCSettings(filesExclude);
+  await setVSCSettings({ 'files.exclude': filesExclude });
 }
 
 export async function showFile(file) {
@@ -39,7 +41,17 @@ export async function showFile(file) {
     await import('../../.vscode/settings.json', { assert: { type: 'json' } })
   ).default['files.exclude'];
   filesExclude[file] = false;
-  await setVSCSettings(filesExclude);
+  await setVSCSettings({ 'files.exclude': filesExclude });
+}
+
+export async function hideAll() {
+  const filesExclude = (
+    await import('../../.vscode/settings.json', { assert: { type: 'json' } })
+  ).default['files.exclude'];
+  for (const file of Object.keys(filesExclude)) {
+    filesExclude[file] = true;
+  }
+  await setVSCSettings({ 'files.exclude': filesExclude });
 }
 
 export async function dumpProjectDirectoryIntoRoot(project) {
