@@ -1,30 +1,30 @@
 // This file parses answer files for lesson content
-import { join } from "path";
+import { join } from 'path';
 import {
   getLessonFromFile,
   getLessonDescription,
   getLessonHintsAndTests,
   getProjectTitle,
   getLessonSeed,
-  isForceFlag,
-} from "./parser.js";
-import { LOCALE } from "./t.js";
+  isForceFlag
+} from './parser.js';
+import { LOCALE } from './t.js';
 import {
   updateDescription,
   updateProjectHeading,
   updateTests,
-  updateProject,
-} from "./client-socks.js";
-import { PATH, readEnv } from "./env.js";
-import seedLesson from "./seed.js";
+  updateProject
+} from './client-socks.js';
+import { PATH, readEnv } from './env.js';
+import seedLesson from './seed.js';
 
 async function runLesson(ws, project) {
-  const locale = LOCALE === "undefined" ? "english" : LOCALE ?? "english";
+  const locale = LOCALE === 'undefined' ? 'english' : LOCALE ?? 'english';
   const projectFile = join(
     PATH,
-    "tooling/locales",
+    'tooling/locales',
     locale,
-    project.dashedName + ".md"
+    project.dashedName + '.md'
   );
   const lessonNumber = project.currentLesson;
   const lesson = await getLessonFromFile(projectFile, lessonNumber);
@@ -40,7 +40,7 @@ async function runLesson(ws, project) {
       hintsAndTestsArr.reduce((acc, curr, i) => {
         return [
           ...acc,
-          { passed: false, testText: curr[0], testId: i, isLoading: false },
+          { passed: false, testText: curr[0], testId: i, isLoading: false }
         ];
       }, [])
     );
@@ -54,8 +54,8 @@ async function runLesson(ws, project) {
   const isForce = isForceFlag(seed);
   // force flag overrides seed flag
   if (
-    (SEED_EVERY_LESSON === "true" && !isForce) ||
-    (SEED_EVERY_LESSON !== "true" && isForce)
+    (SEED_EVERY_LESSON === 'true' && !isForce) ||
+    (SEED_EVERY_LESSON !== 'true' && isForce)
   ) {
     await seedLesson(ws, project, lessonNumber);
   }

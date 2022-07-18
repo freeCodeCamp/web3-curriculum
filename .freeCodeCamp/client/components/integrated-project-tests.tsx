@@ -1,12 +1,12 @@
-import { TestType } from "../types";
-import Test from "./test";
+import { TestType } from '../types';
+import Test from './test';
 
 interface IntegratedProjectTestsProps {
   tests: TestType[];
 }
 const IntegratedProjectTests = ({ tests }: IntegratedProjectTestsProps) => {
   return (
-    <section id="tests">
+    <section id='tests'>
       <ul>
         {tests.map(({ testText, passed, isLoading, testId }, i) => (
           <Test
@@ -15,7 +15,7 @@ const IntegratedProjectTests = ({ tests }: IntegratedProjectTestsProps) => {
               testText,
               passed,
               isLoading,
-              testId,
+              testId
             }}
           />
         ))}

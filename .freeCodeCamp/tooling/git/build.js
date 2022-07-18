@@ -1,22 +1,22 @@
 // This file handles creating the Git curriculum branches
-import { join } from "path";
-import { PATH, readEnv, updateEnv } from "../env.js";
+import { join } from 'path';
+import { PATH, readEnv, updateEnv } from '../env.js';
 import {
   getCommands,
   getFilesWithSeed,
   getLessonFromFile,
-  getLessonSeed,
-} from "../parser.js";
-import { runCommands, runSeed } from "../seed.js";
+  getLessonSeed
+} from '../parser.js';
+import { runCommands, runSeed } from '../seed.js';
 import {
   checkoutMain,
   commit,
   deleteBranch,
   initCurrentProjectBranch,
-  pushProject,
-} from "./gitterizer.js";
+  pushProject
+} from './gitterizer.js';
 
-const PROJECT_LIST = ["project-1"];
+const PROJECT_LIST = ['project-1'];
 
 for (const project of PROJECT_LIST) {
   await updateEnv({ CURRENT_PROJECT: project });
@@ -24,15 +24,15 @@ for (const project of PROJECT_LIST) {
     await deleteBranch(project);
     await buildProject();
   } catch (e) {
-    console.error("🔴 Failed to build project: ", project);
+    console.error('🔴 Failed to build project: ', project);
     await deleteBranch(project);
     throw new Error(e);
   } finally {
     await checkoutMain();
-    console.log("✅ Successfully built project: ", project);
+    console.log('✅ Successfully built project: ', project);
   }
 }
-console.log("✅ Successfully built all projects");
+console.log('✅ Successfully built all projects');
 
 async function buildProject() {
   const { CURRENT_PROJECT } = await readEnv();
@@ -41,7 +41,7 @@ async function buildProject() {
   try {
     await initCurrentProjectBranch();
   } catch (e) {
-    console.error("🔴 Failed to create a branch for ", CURRENT_PROJECT);
+    console.error('🔴 Failed to create a branch for ', CURRENT_PROJECT);
     throw new Error(e);
   }
 
@@ -62,7 +62,7 @@ async function buildProject() {
         await runCommands(commands);
         await runSeed(filesWithSeed);
       } catch (e) {
-        console.error("🔴 Failed to run seed for lesson: ", lessonNumber);
+        console.error('🔴 Failed to run seed for lesson: ', lessonNumber);
         throw new Error(e);
       }
     }

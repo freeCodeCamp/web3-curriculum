@@ -1,27 +1,27 @@
 // This file handles seeding the lesson contents with the seed in markdown.
-import { join } from "path";
+import { join } from 'path';
 import {
   getLessonFromFile,
   getLessonSeed,
   getCommands,
-  getFilesWithSeed,
-} from "./parser.js";
-import { LOCALE } from "./t.js";
-import { PATH } from "./env.js";
-import { writeFile } from "fs/promises";
-import { promisify } from "util";
-import { exec } from "child_process";
+  getFilesWithSeed
+} from './parser.js';
+import { LOCALE } from './t.js';
+import { PATH } from './env.js';
+import { writeFile } from 'fs/promises';
+import { promisify } from 'util';
+import { exec } from 'child_process';
 const execute = promisify(exec);
 
 export default async function seedLesson(ws, project) {
   // TODO: Use ws to display loader whilst seeding
   const lessonNumber = project.currentLesson;
-  const locale = LOCALE === "undefined" ? "english" : LOCALE ?? "english";
+  const locale = LOCALE === 'undefined' ? 'english' : LOCALE ?? 'english';
   const projectFile = join(
     PATH,
-    "tooling/locales",
+    'tooling/locales',
     locale,
-    project.dashedName + ".md"
+    project.dashedName + '.md'
   );
   const lesson = await getLessonFromFile(projectFile, lessonNumber);
   const seed = getLessonSeed(lesson);

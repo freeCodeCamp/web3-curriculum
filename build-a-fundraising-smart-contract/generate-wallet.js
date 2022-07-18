@@ -1,6 +1,6 @@
 /** Do not change the code in this file **/
 
-const { generateWallet } = require('./blockchain-helpers');
+import { generateWallet } from "./blockchain-helpers";
 
 const newWalletName = process.argv[2];
 

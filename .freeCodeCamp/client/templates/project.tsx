@@ -1,11 +1,11 @@
-import Description from "../components/description";
-import Header from "../components/header";
-import Heading from "../components/heading";
-import "./project.css";
-import { F, TestType } from "../types";
-import Ruler from "../components/ruler";
-import ProjectControls from "../components/project-controls";
-import ProjectOutput from "../components/project-output";
+import Description from '../components/description';
+import Header from '../components/header';
+import Heading from '../components/heading';
+import './project.css';
+import { F, TestType } from '../types';
+import Ruler from '../components/ruler';
+import ProjectControls from '../components/project-controls';
+import ProjectOutput from '../components/project-output';
 
 export interface ProjectProps {
   runTests: F<void, void>;
@@ -34,7 +34,7 @@ const Project = ({
   description,
   tests,
   hints,
-  cons,
+  cons
 }: ProjectProps) => {
   return (
     <>
@@ -44,7 +44,7 @@ const Project = ({
           goToPreviousLesson,
           topic,
           title,
-          lessonNumber,
+          lessonNumber
         }}
       />
 

@@ -118,7 +118,7 @@ header {
 .width-90 {
   width: 90px;
 }
-[class*="width-"] {
+[class*='width-'] {
   margin: 0;
   display: inline-block;
 }

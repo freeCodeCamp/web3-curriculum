@@ -6,16 +6,10 @@
 
 You will build a Smart Contract using Rust.
 
-This project comes with a boilerplate including the following:
-
-- `/smart-contract` - the only directory you will be working in
-- `/client` - the directory containing the code for the clientside code
-- `/node` - the directory containing the server-side code managing a node in the network
-
 **Commands**
 
 - Run all unit tests: `cargo test --lib`
-- Run all integration tests: `wasm-pack test --chrome` or `wasm-pack test --firefox --headless`
+- Run all integration tests: `wasm-pack test --firefox --headless`
 
 **User Stories:**
 
@@ -34,8 +28,7 @@ Your smart contract should pass all `lib::tests` unit tests.
 
 ```js
 const { stdout } = await __helpers.getCommandOutput(
-  "cargo test --lib lib::tests",
-  "../build-a-smart-contract-in-rust"
+  'cargo test --lib lib::tests'
 );
 assert.match(stdout, /test result: ok/);
 ```
@@ -45,8 +38,7 @@ Your smart contract should pass all `initialise` integration tests.
 ```js
 // Execute `wasm-pack test --firefox --headless -- --test mine_block`, and pipe output to tests client
 const { stdout } = await __helpers.getCommandOutput(
-  "wasm-pack test --firefox --headless -- --test initialise",
-  "../build-a-smart-contract-in-rust"
+  'wasm-pack test --firefox --headless -- --test initialise'
 );
 assert.match(stdout, /test result: ok/);
 ```
@@ -56,8 +48,7 @@ Your smart contract should pass all `set_click` integration tests.
 ```js
 // Execute `wasm-pack test --firefox --headless -- --test mine_block`, and pipe output to tests client
 const { stdout } = await __helpers.getCommandOutput(
-  "wasm-pack test --firefox --headless -- --test set_click",
-  "../build-a-smart-contract-in-rust"
+  'wasm-pack test --firefox --headless -- --test set_click'
 );
 assert.match(stdout, /test result: ok/);
 ```
@@ -67,8 +58,7 @@ Your smart contract should pass all `get_contract_account` integration tests.
 ```js
 // Execute `wasm-pack test --firefox --headless -- --test mine_block`, and pipe output to tests client
 const { stdout } = await __helpers.getCommandOutput(
-  "wasm-pack test --firefox --headless -- --test get_contract_account",
-  "../build-a-smart-contract-in-rust"
+  'wasm-pack test --firefox --headless -- --test get_contract_account'
 );
 assert.match(stdout, /test result: ok/);
 ```

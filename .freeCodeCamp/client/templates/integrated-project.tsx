@@ -1,10 +1,10 @@
-import Description from "../components/description";
-import Heading from "../components/heading";
-import { F, TestType } from "../types";
-import "./integrated-project.css";
-import Ruler from "../components/ruler";
-import IntegratedProjectControls from "../components/integrated-project-controls";
-import IntegratedProjectOutput from "../components/integrated-project-output";
+import Description from '../components/description';
+import Heading from '../components/heading';
+import { F, TestType } from '../types';
+import './integrated-project.css';
+import Ruler from '../components/ruler';
+import IntegratedProjectControls from '../components/integrated-project-controls';
+import IntegratedProjectOutput from '../components/integrated-project-output';
 
 interface IntegratedProjectProps {
   runTests: F<void, void>;
@@ -23,7 +23,7 @@ const IntegratedProject = ({
   title,
   tests,
   cons,
-  isLoading,
+  isLoading
 }: IntegratedProjectProps) => {
   return (
     <>

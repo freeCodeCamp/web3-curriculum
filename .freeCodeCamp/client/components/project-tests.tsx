@@ -1,5 +1,5 @@
-import { TestType } from "../types";
-import Test from "./test";
+import { TestType } from '../types';
+import Test from './test';
 
 interface ProjectTestsProps {
   tests: TestType[];
@@ -15,7 +15,7 @@ const ProjectTests = ({ tests }: ProjectTestsProps) => {
             testText,
             passed,
             isLoading,
-            testId,
+            testId
           }}
         />
       ))}

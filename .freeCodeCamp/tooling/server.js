@@ -1,29 +1,31 @@
-import express from "express";
-import runTests from "./test.js";
+import express from 'express';
+import runTests from './test.js';
 import {
   getProjectConfig,
   readEnv,
   setProjectConfig,
-  updateEnv,
-} from "./env.js";
-import logover, { debug, error } from "logover";
+  updateEnv
+} from './env.js';
+import logover, { debug, error, warn } from 'logover';
 
-import { WebSocketServer } from "ws";
-import runLesson from "./lesson.js";
-import { updateTests, updateHints } from "./client-socks.js";
-import hotReload from "./hot-reload.js";
-import projects from "../config/projects.json" assert { "type": "json" };
+import { WebSocketServer } from 'ws';
+import runLesson from './lesson.js';
+import { updateTests, updateHints } from './client-socks.js';
+import hotReload from './hot-reload.js';
+import projects from '../config/projects.json' assert { 'type': 'json' };
 import {
   cleanWorkingDirectory,
   dumpProjectDirectoryIntoRoot,
-} from "./utils.js";
+  hideAll,
+  showFile
+} from './utils.js';
 logover({
-  level: process.env.NODE_ENV === "production" ? "info" : "debug",
+  level: process.env.NODE_ENV === 'production' ? 'info' : 'debug'
 });
 
 const app = express();
 
-app.use(express.static("./dist"));
+app.use(express.static('./dist'));
 
 async function handleRunTests(ws, data) {
   const { CURRENT_PROJECT } = await readEnv();
@@ -40,7 +42,7 @@ async function handleGoToNextLesson(ws, data) {
   const nextLesson = project.currentLesson + 1;
   setProjectConfig(CURRENT_PROJECT, { currentLesson: nextLesson });
   runLesson(ws, project);
-  updateHints(ws, "");
+  updateHints(ws, '');
   updateTests(ws, []);
 }
 
@@ -51,7 +53,7 @@ async function handleGoToPreviousLesson(ws, data) {
   setProjectConfig(CURRENT_PROJECT, { CURRENT_LESSON: prevLesson });
   runLesson(ws, project);
   updateTests(ws, []);
-  updateHints(ws, "");
+  updateHints(ws, '');
 }
 
 async function handleConnect(ws) {
@@ -64,46 +66,43 @@ async function handleConnect(ws) {
 }
 
 async function handleSelectProject(ws, data) {
-  const selectedProject = projects.find((p) => p.id === data?.data?.id);
-
-  const { CURRENT_PROJECT: previouslySelectedProject } = await readEnv();
-  cleanWorkingDirectory(previouslySelectedProject);
+  const selectedProject = projects.find(p => p.id === data?.data?.id);
   // TODO: Should this set the CURRENT_PROJECT to `null` (empty string)?
   // for the case where the Camper has navigated to the landing page.
-  await updateEnv({ CURRENT_PROJECT: selectedProject?.dashedName ?? "" });
+  await updateEnv({ CURRENT_PROJECT: selectedProject?.dashedName ?? '' });
   if (!selectedProject) {
-    error("Selected project does not exist: ", data);
+    warn('Selected project does not exist: ', data);
     return;
   }
-
-  dumpProjectDirectoryIntoRoot(selectedProject);
+  await hideAll();
+  await showFile(selectedProject.dashedName);
   runLesson(ws, selectedProject);
 }
 
 const server = app.listen(8080, () => {
-  console.log("Listening on port 8080");
+  console.log('Listening on port 8080');
 });
 
 const handle = {
   connect: (ws, data) => {
     handleConnect(ws);
   },
-  "run-tests": handleRunTests,
-  "reset-project": handleResetProject,
-  "go-to-next-lesson": handleGoToNextLesson,
-  "go-to-previous-lesson": handleGoToPreviousLesson,
-  "select-project": handleSelectProject,
+  'run-tests': handleRunTests,
+  'reset-project': handleResetProject,
+  'go-to-next-lesson': handleGoToNextLesson,
+  'go-to-previous-lesson': handleGoToPreviousLesson,
+  'select-project': handleSelectProject
 };
 
 const wss = new WebSocketServer({ server });
 
-wss.on("connection", function connection(ws) {
+wss.on('connection', function connection(ws) {
   hotReload(ws);
-  ws.on("message", function message(data) {
+  ws.on('message', function message(data) {
     const parsedData = parseBuffer(data);
     handle[parsedData.event]?.(ws, parsedData);
   });
-  sock("connect", { message: "Server says 'Hello!'" });
+  sock('connect', { message: "Server says 'Hello!'" });
 
   function sock(type, data = {}) {
     ws.send(parse({ event: type, data }));

@@ -85,8 +85,8 @@ Your `blockchain` library should pass all `account::tests` unit tests.
 
 ```js
 const { stdout } = await __helpers.getCommandOutput(
-  "cargo test --lib account::tests",
-  "blockchain"
+  'cargo test --lib account::tests',
+  'blockchain'
 );
 assert.match(stdout, /test result: ok/);
 ```
@@ -95,8 +95,8 @@ Your `blockchain` library should pass all `block::tests` unit tests.
 
 ```js
 const { stdout } = await __helpers.getCommandOutput(
-  "cargo test --lib block::tests",
-  "blockchain"
+  'cargo test --lib block::tests',
+  'blockchain'
 );
 assert.match(stdout, /test result: ok/);
 ```
@@ -105,8 +105,8 @@ Your `blockchain` library should pass all `chain::tests` unit tests.
 
 ```js
 const { stdout } = await __helpers.getCommandOutput(
-  "cargo test --lib chain::tests",
-  "blockchain"
+  'cargo test --lib chain::tests',
+  'blockchain'
 );
 assert.match(stdout, /test result: ok/);
 ```
@@ -115,8 +115,8 @@ Your `blockchain` library should pass all `lib::tests` unit tests.
 
 ```js
 const { stdout } = await __helpers.getCommandOutput(
-  "cargo test --lib lib::tests",
-  "blockchain"
+  'cargo test --lib lib::tests',
+  'blockchain'
 );
 assert.match(stdout, /test result: ok/);
 ```
@@ -126,8 +126,8 @@ Your `blockchain` library should pass all `mine_block` integration tests.
 ```js
 // Execute `wasm-pack test --firefox --headless -- --test mine_block`, and pipe output to tests client
 const { stdout } = await __helpers.getCommandOutput(
-  "wasm-pack test --firefox --headless -- --test mine_block",
-  "blockchain"
+  'wasm-pack test --firefox --headless -- --test mine_block',
+  'blockchain'
 );
 assert.match(stdout, /test result: ok/);
 ```
@@ -136,8 +136,8 @@ Your `blockchain` library should pass all `validate_block` integration tests.
 
 ```js
 const { stdout } = await __helpers.getCommandOutput(
-  "wasm-pack test --firefox --headless -- --test validate_block",
-  "blockchain"
+  'wasm-pack test --firefox --headless -- --test validate_block',
+  'blockchain'
 );
 assert.match(stdout, /test result: ok/);
 ```

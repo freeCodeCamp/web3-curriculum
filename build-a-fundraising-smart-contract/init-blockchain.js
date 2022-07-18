@@ -1,15 +1,15 @@
 /** Do not change the code in this file **/
-const {
+import {
   writeBlockchain,
   writeSmartContracts,
   writeTransactions,
-  writeContractWallets
-} = require('./blockchain-helpers');
+  writeContractWallets,
+} from "./blockchain-helpers";
 
 const genesisBlock = {
   hash: 0,
-  previousHash: null
-}
+  previousHash: null,
+};
 
 const blockchain = [genesisBlock];
 writeBlockchain(blockchain);

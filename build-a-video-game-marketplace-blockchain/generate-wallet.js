@@ -1,7 +1,12 @@
-const { getTransactions, writeTransactions, getWallets, writeWallets } = require('./blockchain-helpers');
+import {
+  getTransactions,
+  writeTransactions,
+  getWallets,
+  writeWallets,
+} from "./blockchain-helpers";
 
-const EC = require('elliptic').ec;
-const ec = new EC('p192');
+import { ec as EC } from "elliptic";
+const ec = new EC("p192");
 
 const newWalletName = process.argv[2];
 // Add your code below
