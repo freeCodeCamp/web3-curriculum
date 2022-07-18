@@ -1,0 +1,211 @@
+[
+  {
+    "hash": 0,
+    "previousHash": null
+  },
+  {
+    "hash": "00e1f76daee3a10b82501093b6dbd68fd9425739da2fe90ab2c9fb10a3d907ea",
+    "previousHash": 0,
+    "nonce": 475,
+    "transactions": [],
+    "smartContracts": [
+      {
+        "address": "04f7b7508207e6730e888f5712757d30f75701251b1fc141a57d9a88c801a08de9fa2a99a5749e28780ba0145f5c83075a",
+        "creatorAddress": "047f18310ca11477a0ccd328df42d7ff9cd068ac6816d9c76535b0fe1b7b45ab7312ff6167964c050e66c6db00642c5492",
+        "functions": {
+          "get-description.js": "const contractState = JSON.parse(process.env.CONTRACT_STATE);\n\nconsole.log(`Here's the description of the fundraising contract: ${contractState.description}`);\n",
+          "on-new-block.js": "const { addTransaction, updateContractState } = (await import('./blockchain-helpers.js'));\n\nconst contractState = JSON.parse(process.env.CONTRACT_STATE);\nconst contractAddress = process.env.CONTRACT_ADDRESS;\nconst privateKey = process.env.PRIVATE_KEY;\nconst creatorAddress = process.env.CREATOR_ADDRESS;\nconst blockchainLength = process.env.BLOCKCHAIN_LENGTH;\n// Add your code below\n\nif (blockchainLength >= 7) {\n  // add a tx back to all donors\n  contractState.donations.forEach(donation => {\n    addTransaction(privateKey, donation.fromAddress, donation.amount);\n    contractState.balance -= donation.amount;\n  });\n\n  contractState.status = 'closed';\n\n  updateContractState(contractAddress, contractState);\n} \n",
+          "on-transaction.js": "const { addTransaction, updateContractState } = (await import('./blockchain-helpers.js'));\n\nconst contractState = JSON.parse(process.env.CONTRACT_STATE);\nconst contractAddress = process.env.CONTRACT_ADDRESS;\nconst privateKey = process.env.PRIVATE_KEY;\nconst creatorAddress = process.env.CREATOR_ADDRESS;\nconst transaction = JSON.parse(process.env.TRANSACTION);\n// Add your code below\n\nconst { fromAddress, amount } = transaction;\n\nconst newDonation = {\n  fromAddress,\n  amount\n};\n\ncontractState.donations.push(newDonation);\ncontractState.balance += amount;\ncontractState.funds.raised += amount;\n\n// if contract fulfilled\nif (contractState.funds.raised >= contractState.funds.goal) {\n  console.log(`Contract fulfilled, you raised ${contractState.funds.raised} tokens on your goal of ${contractState.funds.goal} tokens`);\n\n  // send tx with all funds to me\n  // set status and other state variables\n  addTransaction(privateKey, creatorAddress, contractState.balance);\n  contractState.balance = 0;\n  contractState.status = \"closed\";\n} else {\n  console.log(`You have raised ${contractState.funds.raised} tokens on your goal of ${contractState.funds.goal} tokens`)\n}\n\n// update contract state\nupdateContractState(contractAddress, contractState);\n",
+          "other.js": "const { addTransaction, updateContractState } = (await import('./blockchain-helpers.js'));\n\nconst contractState = JSON.parse(process.env.CONTRACT_STATE);\nconst contractAddress = process.env.CONTRACT_ADDRESS;\nconst privateKey = process.env.PRIVATE_KEY;\nconst creatorAddress = process.env.CREATOR_ADDRESS;\nconst blockchainLength = JSON.parse(process.env.TRANSACTION);\nconst args = JSON.parse(process.env.ARGS);\n",
+          "update-description.js": "const { updateContractState } = (await import('./blockchain-helpers.js'));\n\nconst contractState = JSON.parse(process.env.CONTRACT_STATE);\nconst contractAddress = process.env.CONTRACT_ADDRESS;\nconst args = JSON.parse(process.env.ARGS);\n\ncontractState.description = args[0];\n\nconsole.log(`Updating the 'description' property in the 'fundraising-contract' to ${args[0]}, see it in 'smart-contracts.json'`);\nupdateContractState(contractAddress, contractState);\n"
+        },
+        "state": {
+          "status": "open",
+          "description": "Smart contract",
+          "balance": 0,
+          "funds": {
+            "raised": 0,
+            "goal": 150
+          },
+          "donations": []
+        }
+      }
+    ]
+  },
+  {
+    "hash": "00f7fdac8af83c3a10b6ff0f53867831e601604c46f11eb4438457327a2cf1de",
+    "previousHash": "00e1f76daee3a10b82501093b6dbd68fd9425739da2fe90ab2c9fb10a3d907ea",
+    "nonce": 458,
+    "transactions": [
+      {
+        "fromAddress": null,
+        "toAddress": "041608a1e5bc12c505bb60b52bf64ca40f816f14acc9e31bfa21c6c7ba435a215a8f54ba49ce767b950cfdfea2efe261a9",
+        "amount": 50
+      }
+    ],
+    "smartContracts": [
+      {
+        "address": "04f7b7508207e6730e888f5712757d30f75701251b1fc141a57d9a88c801a08de9fa2a99a5749e28780ba0145f5c83075a",
+        "state": {
+          "status": "open",
+          "description": "Smart contract to raise funds for my start up.",
+          "balance": 0,
+          "funds": {
+            "raised": 0,
+            "goal": 150
+          },
+          "donations": []
+        }
+      }
+    ]
+  },
+  {
+    "hash": "00c520197bfb1853426643b3a68308ddab069e495cf2716c63e582fd3e7e5a43",
+    "previousHash": "00f7fdac8af83c3a10b6ff0f53867831e601604c46f11eb4438457327a2cf1de",
+    "nonce": 1462,
+    "transactions": [
+      {
+        "fromAddress": null,
+        "toAddress": "0412bb6129d866a633aa62270e84be8630ebf803a64f6879a5ac08f12cde2aeca2eb272481fcc742d568aad80e44ba68c5",
+        "amount": 50
+      },
+      {
+        "fromAddress": "041608a1e5bc12c505bb60b52bf64ca40f816f14acc9e31bfa21c6c7ba435a215a8f54ba49ce767b950cfdfea2efe261a9",
+        "toAddress": "04f7b7508207e6730e888f5712757d30f75701251b1fc141a57d9a88c801a08de9fa2a99a5749e28780ba0145f5c83075a",
+        "amount": 50,
+        "hash": "6f2032ff29abf4f92cdf9b82b2eb11f3e2afa649a863cac6da789ff153f38919",
+        "signature": "303502187b4908e78e01ab2eccc3fccdf7d633cbec62f70c277c3648021900b896f6677d54a46d626560a044f91758dc23e11d2fc1aa93"
+      }
+    ],
+    "smartContracts": [
+      {
+        "address": "04f7b7508207e6730e888f5712757d30f75701251b1fc141a57d9a88c801a08de9fa2a99a5749e28780ba0145f5c83075a",
+        "state": {
+          "status": "open",
+          "description": "Smart contract to raise funds for my start up.",
+          "balance": 50,
+          "funds": {
+            "raised": 50,
+            "goal": 150
+          },
+          "donations": [
+            {
+              "fromAddress": "041608a1e5bc12c505bb60b52bf64ca40f816f14acc9e31bfa21c6c7ba435a215a8f54ba49ce767b950cfdfea2efe261a9",
+              "amount": 50
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "hash": "008141b503b4acbcf9fefb562742fcc7a6aa302e8ec296ca150567c1eda32a61",
+    "previousHash": "00c520197bfb1853426643b3a68308ddab069e495cf2716c63e582fd3e7e5a43",
+    "nonce": 315,
+    "transactions": [
+      {
+        "fromAddress": null,
+        "toAddress": "041608a1e5bc12c505bb60b52bf64ca40f816f14acc9e31bfa21c6c7ba435a215a8f54ba49ce767b950cfdfea2efe261a9",
+        "amount": 50
+      }
+    ],
+    "smartContracts": []
+  },
+  {
+    "hash": "00f6512ecad6aafbdb6f41f4d978643f404503ae45ae4cdad6748a88e24d1867",
+    "previousHash": "008141b503b4acbcf9fefb562742fcc7a6aa302e8ec296ca150567c1eda32a61",
+    "nonce": 594,
+    "transactions": [
+      {
+        "fromAddress": null,
+        "toAddress": "0412bb6129d866a633aa62270e84be8630ebf803a64f6879a5ac08f12cde2aeca2eb272481fcc742d568aad80e44ba68c5",
+        "amount": 50
+      },
+      {
+        "fromAddress": "0412bb6129d866a633aa62270e84be8630ebf803a64f6879a5ac08f12cde2aeca2eb272481fcc742d568aad80e44ba68c5",
+        "toAddress": "04f7b7508207e6730e888f5712757d30f75701251b1fc141a57d9a88c801a08de9fa2a99a5749e28780ba0145f5c83075a",
+        "amount": 50,
+        "hash": "d295d93eedba6c84cfdfdc92d7ea1db31383b0dcfdd2fb907adb03149d1239f1",
+        "signature": "3035021900a0cca7912292d1d43222c77f8c4d9675921fbbd78f97e323021803ef29066133697df2af7186e7c68d4fa1c1a5bf1efa8882"
+      }
+    ],
+    "smartContracts": [
+      {
+        "address": "04f7b7508207e6730e888f5712757d30f75701251b1fc141a57d9a88c801a08de9fa2a99a5749e28780ba0145f5c83075a",
+        "state": {
+          "status": "open",
+          "description": "Smart contract to raise funds for my start up.",
+          "balance": 100,
+          "funds": {
+            "raised": 100,
+            "goal": 150
+          },
+          "donations": [
+            {
+              "fromAddress": "041608a1e5bc12c505bb60b52bf64ca40f816f14acc9e31bfa21c6c7ba435a215a8f54ba49ce767b950cfdfea2efe261a9",
+              "amount": 50
+            },
+            {
+              "fromAddress": "0412bb6129d866a633aa62270e84be8630ebf803a64f6879a5ac08f12cde2aeca2eb272481fcc742d568aad80e44ba68c5",
+              "amount": 50
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "hash": "009ae11a17ccf8e85284d80fffee4b4606abaf101ed3ecf98a0a7a5963416dcc",
+    "previousHash": "00f6512ecad6aafbdb6f41f4d978643f404503ae45ae4cdad6748a88e24d1867",
+    "nonce": 316,
+    "transactions": [
+      {
+        "fromAddress": null,
+        "toAddress": "047f18310ca11477a0ccd328df42d7ff9cd068ac6816d9c76535b0fe1b7b45ab7312ff6167964c050e66c6db00642c5492",
+        "amount": 50
+      },
+      {
+        "fromAddress": "041608a1e5bc12c505bb60b52bf64ca40f816f14acc9e31bfa21c6c7ba435a215a8f54ba49ce767b950cfdfea2efe261a9",
+        "toAddress": "04f7b7508207e6730e888f5712757d30f75701251b1fc141a57d9a88c801a08de9fa2a99a5749e28780ba0145f5c83075a",
+        "amount": 50,
+        "hash": "6f2032ff29abf4f92cdf9b82b2eb11f3e2afa649a863cac6da789ff153f38919",
+        "signature": "303502187b4908e78e01ab2eccc3fccdf7d633cbec62f70c277c3648021900b896f6677d54a46d626560a044f91758dc23e11d2fc1aa93"
+      },
+      {
+        "fromAddress": "04f7b7508207e6730e888f5712757d30f75701251b1fc141a57d9a88c801a08de9fa2a99a5749e28780ba0145f5c83075a",
+        "toAddress": "047f18310ca11477a0ccd328df42d7ff9cd068ac6816d9c76535b0fe1b7b45ab7312ff6167964c050e66c6db00642c5492",
+        "amount": 150,
+        "hash": "68d5c521d6ec38439ac2ce0f7cbafac99d8b5693511f123823c70951c6d1ffce",
+        "signature": "303602190081c36e577708d55f7d1a676d44f42235525a39572b8d0653021900e20037dd650b6f0e87903c2a1947d054a8ee5ce3d855c118"
+      }
+    ],
+    "smartContracts": [
+      {
+        "address": "04f7b7508207e6730e888f5712757d30f75701251b1fc141a57d9a88c801a08de9fa2a99a5749e28780ba0145f5c83075a",
+        "state": {
+          "status": "closed",
+          "description": "Smart contract to raise funds for my start up.",
+          "balance": 0,
+          "funds": {
+            "raised": 150,
+            "goal": 150
+          },
+          "donations": [
+            {
+              "fromAddress": "041608a1e5bc12c505bb60b52bf64ca40f816f14acc9e31bfa21c6c7ba435a215a8f54ba49ce767b950cfdfea2efe261a9",
+              "amount": 50
+            },
+            {
+              "fromAddress": "0412bb6129d866a633aa62270e84be8630ebf803a64f6879a5ac08f12cde2aeca2eb272481fcc742d568aad80e44ba68c5",
+              "amount": 50
+            },
+            {
+              "fromAddress": "041608a1e5bc12c505bb60b52bf64ca40f816f14acc9e31bfa21c6c7ba435a215a8f54ba49ce767b950cfdfea2efe261a9",
+              "amount": 50
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

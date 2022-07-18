@@ -54,9 +54,6 @@ There's an `example-contract` for you to play with. To see what it can do, keep 
 1. `node run-contract.js <example_contract_address> get-state.js` to get the state of the `example-contract`
 1. `node run-contract.js <example_contract_address> set-favorite-number.js 11` to update the value of `favoriteNumber` in the contract state
 
-TODO: Add smart contracts to validation and block hashes
-TODO: include boilerplate files in repo so we only have to copy the folder each time?
-
 Note: Some of the tests may not pass if the tests before them don't.
 
 ### --tests--
