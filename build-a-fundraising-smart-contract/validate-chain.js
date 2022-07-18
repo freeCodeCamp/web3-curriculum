@@ -1,10 +1,10 @@
 /** Do not change the code in this file **/
 
-const { isValidChain } = require('./blockchain-helpers');
+import { isValidChain } from "./blockchain-helpers";
 
 const validChain = isValidChain();
 if (validChain === true) {
-  console.log('Chain is valid');
+  console.log("Chain is valid");
 } else {
   console.log(validChain);
 }

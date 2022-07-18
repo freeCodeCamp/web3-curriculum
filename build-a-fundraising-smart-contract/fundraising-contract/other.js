@@ -1,4 +1,4 @@
-const { addTransaction, updateContractState } = require('./blockchain-helpers');
+import { addTransaction, updateContractState } from "./blockchain-helpers";
 
 const contractState = JSON.parse(process.env.CONTRACT_STATE);
 const contractAddress = process.env.CONTRACT_ADDRESS;
