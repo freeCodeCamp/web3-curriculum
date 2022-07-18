@@ -252,7 +252,9 @@ const transactions1 = await __helpers.getJsonFile(
   `${testFolder}/transactions.json`
 );
 if (transactions1.length == 0) {
-  await __helpers.runCommand('echo "[1]" > transactions.json', { testFolder });
+  await __helpers.runCommand('echo "[1]" > transactions.json', {
+    cwd: testFolder
+  });
 }
 await __helpers.runCommand('node mine-block.js', { cwd: testFolder });
 const transactions = await __helpers.getJsonFile(

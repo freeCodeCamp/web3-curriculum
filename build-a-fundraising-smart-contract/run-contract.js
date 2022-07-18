@@ -9,8 +9,8 @@
 import {
   getBlockchain,
   getContract,
-  getContractWalletFromAddress,
-} from "./blockchain-helpers";
+  getContractWalletFromAddress
+} from './blockchain-helpers.js';
 
 const contractAddress = process.argv[2];
 const functionToRun = process.argv[3];
@@ -18,13 +18,13 @@ const args = process.argv.slice(4);
 
 const contract = getContract(contractAddress);
 
-if (!contract.hasOwnProperty("address")) {
+if (!contract.hasOwnProperty('address')) {
   console.log(`Contract address '${contractAddress}' not found!`);
   process.exit();
 }
 
 if (
-  !contract.hasOwnProperty("functions") ||
+  !contract.hasOwnProperty('functions') ||
   !contract.functions.hasOwnProperty(functionToRun)
 ) {
   console.log(
@@ -34,15 +34,15 @@ if (
 }
 
 if (
-  functionToRun == "on-transaction.js" ||
-  functionToRun == "on-new-block.js"
+  functionToRun == 'on-transaction.js' ||
+  functionToRun == 'on-new-block.js'
 ) {
   console.log(`You cannot manually run '${functionToRun}'`);
   process.exit();
 }
 
 const contractWallet = getContractWalletFromAddress(contract.address);
-if (contractWallet.hasOwnProperty("privateKey")) {
+if (contractWallet.hasOwnProperty('privateKey')) {
   process.env.PRIVATE_KEY = contractWallet.privateKey;
 }
 
@@ -52,4 +52,4 @@ process.env.CREATOR_ADDRESS = contract.creatorAddress;
 process.env.ARGS = JSON.stringify(args);
 process.env.BLOCKCHAIN_LENGTH = getBlockchain().length;
 
-eval(contract.functions[functionToRun]);
+eval(`(async () => { ${contract.functions[functionToRun]} })();`);

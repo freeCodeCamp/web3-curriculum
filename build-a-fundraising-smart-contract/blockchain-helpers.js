@@ -1,8 +1,8 @@
 /** Do not change the code in this file **/
-import { readdirSync, readFileSync, writeFileSync } from "fs";
-import sha256 from "crypto-js/sha256";
-import { ec as EC } from "elliptic";
-const ec = new EC("p192");
+import { readdirSync, readFileSync, writeFileSync } from 'fs';
+import sha256 from 'crypto-js/sha256.js';
+import EC from 'elliptic';
+const ec = new EC.ec('p192');
 
 /*** FILE SYSTEM HELPERS ***/
 function getFolderContents(folder) {
@@ -11,7 +11,7 @@ function getFolderContents(folder) {
 }
 
 function getFileContents(filename) {
-  const fileContents = readFileSync(filename, "utf-8");
+  const fileContents = readFileSync(filename, 'utf-8');
   return fileContents;
 }
 
@@ -22,7 +22,7 @@ export { _getFileContents as getFileContents };
 
 /*** WALLET HELPERS ***/
 function getWallets() {
-  const walletsFile = readFileSync("./wallets.json");
+  const walletsFile = readFileSync('./wallets.json');
   const wallets = JSON.parse(walletsFile);
   return wallets;
 }
@@ -33,7 +33,7 @@ function getRandomWalletAddress() {
   const keys = Object.keys(wallets);
   const random = keys[Math.floor(Math.random() * keys.length)];
 
-  if (random && wallets[random].hasOwnProperty("publicKey")) {
+  if (random && wallets[random].hasOwnProperty('publicKey')) {
     return wallets[random].publicKey;
   } else {
     return null;
@@ -43,10 +43,10 @@ function getRandomWalletAddress() {
 function generateWallet(name) {
   const keyPair = ec.genKeyPair();
 
-  const publicKey = keyPair.getPublic("hex");
-  const privateKey = keyPair.getPrivate("hex");
+  const publicKey = keyPair.getPublic('hex');
+  const privateKey = keyPair.getPrivate('hex');
 
-  const walletsFile = readFileSync("./wallets.json");
+  const walletsFile = readFileSync('./wallets.json');
   let wallets = JSON.parse(walletsFile);
 
   if (!wallets.hasOwnProperty(name)) {
@@ -55,12 +55,12 @@ function generateWallet(name) {
     wallets[name].privateKey = privateKey;
     wallets = JSON.stringify(wallets, null, 2);
 
-    writeFileSync("./wallets.json", wallets);
+    writeFileSync('./wallets.json', wallets);
   }
 }
 
 function getWalletAddressFromName(name) {
-  const walletsFile = readFileSync("./wallets.json");
+  const walletsFile = readFileSync('./wallets.json');
   const wallets = JSON.parse(walletsFile);
 
   return wallets[name];
@@ -106,17 +106,17 @@ function getAddressBalance(address) {
 
 function writeContractWallets(contractWallets) {
   const contractWalletsString = JSON.stringify(contractWallets, null, 2);
-  writeFileSync("./contract-wallets.json", contractWalletsString);
+  writeFileSync('./contract-wallets.json', contractWalletsString);
 }
 
 function getContractWallets() {
-  const contractWalletsFile = readFileSync("./contract-wallets.json");
+  const contractWalletsFile = readFileSync('./contract-wallets.json');
   const contractWallets = JSON.parse(contractWalletsFile);
   return contractWallets;
 }
 
 function getContractWalletAddressFromName(name) {
-  const contractWalletsFile = readFileSync("./contract-wallets.json");
+  const contractWalletsFile = readFileSync('./contract-wallets.json');
   const contractWallets = JSON.parse(contractWalletsFile);
 
   return contractWallets[name];
@@ -125,8 +125,8 @@ function getContractWalletAddressFromName(name) {
 function getContractWalletFromAddress(address) {
   const contractWallets = getContractWallets();
   const contractNames = Object.keys(contractWallets);
-  const contractName = contractNames.find((name) => {
-    if (contractWallets[name].hasOwnProperty("publicKey")) {
+  const contractName = contractNames.find(name => {
+    if (contractWallets[name].hasOwnProperty('publicKey')) {
       return contractWallets[name].publicKey === address;
     }
   });
@@ -156,11 +156,11 @@ export { _getContractWalletFromAddress as getContractWalletFromAddress };
 /*** BLOCKCHAIN HELPERS ***/
 function writeBlockchain(blockchain) {
   const blockchainString = JSON.stringify(blockchain, null, 2);
-  writeFileSync("./blockchain.json", blockchainString);
+  writeFileSync('./blockchain.json', blockchainString);
 }
 
 function getBlockchain() {
-  const blockchainFile = readFileSync("./blockchain.json");
+  const blockchainFile = readFileSync('./blockchain.json');
   const blockchain = JSON.parse(blockchainFile);
   return blockchain;
 }
@@ -176,7 +176,7 @@ function isValidChain() {
 
     // validate previous hash
     if (previousHash !== previousBlock.hash) {
-      return "A previous block hash is not valid";
+      return 'A previous block hash is not valid';
     }
 
     // validate block hash
@@ -187,7 +187,7 @@ function isValidChain() {
         JSON.stringify(smartContracts)
     ).toString();
     if (testBlockHash != hash) {
-      return "A block hash is not valid";
+      return 'A block hash is not valid';
     }
 
     // loop over transactions
@@ -202,14 +202,14 @@ function isValidChain() {
           fromAddress + toAddress + amount
         ).toString();
         if (testTransactionHash != hash) {
-          return "A transaction hash is not valid";
+          return 'A transaction hash is not valid';
         }
 
         // validate transaction signature
-        const keyPair = ec.keyFromPublic(fromAddress, "hex");
+        const keyPair = ec.keyFromPublic(fromAddress, 'hex');
         const validSignature = keyPair.verify(testTransactionHash, signature);
         if (!validSignature) {
-          return "A transaction signature is not valid";
+          return 'A transaction signature is not valid';
         }
       }
     }
@@ -228,36 +228,36 @@ export { _isValidChain as isValidChain };
 /*** TRANSACTION HELPERS ***/
 function writeTransactions(transactions) {
   const transactionsString = JSON.stringify(transactions, null, 2);
-  writeFileSync("./transactions.json", transactionsString);
+  writeFileSync('./transactions.json', transactionsString);
 }
 
 function getTransactions() {
-  const transactionsFile = readFileSync("./transactions.json");
+  const transactionsFile = readFileSync('./transactions.json');
   const transactions = JSON.parse(transactionsFile);
   return transactions;
 }
 
 function addTransaction(privateKey, toAddress, amount) {
   const keyPair = ec.keyFromPrivate(privateKey);
-  const fromAddress = keyPair.getPublic("hex");
+  const fromAddress = keyPair.getPublic('hex');
 
   if (toAddress === fromAddress) {
     console.log(
-      "Error creating transaction. A transaction cannot have the same sender and reciever address."
+      'Error creating transaction. A transaction cannot have the same sender and reciever address.'
     );
     process.exit();
   }
 
   if (!Number.isInteger(amount)) {
     console.log(
-      "Error creating transaction. A transaction cannot have an amount that is not an integer."
+      'Error creating transaction. A transaction cannot have an amount that is not an integer.'
     );
     process.exit();
   }
 
   if (amount < 0) {
     console.log(
-      "Error creating transaction. A transaction cannot have an amount less than zero."
+      'Error creating transaction. A transaction cannot have an amount less than zero.'
     );
     process.exit();
   }
@@ -274,14 +274,14 @@ function addTransaction(privateKey, toAddress, amount) {
   const transactions = getTransactions();
 
   const hash = sha256(fromAddress + toAddress + amount).toString();
-  const signature = keyPair.sign(hash).toDER("hex");
+  const signature = keyPair.sign(hash).toDER('hex');
 
   const newTransaction = {
     fromAddress,
     toAddress,
     amount,
     hash,
-    signature,
+    signature
   };
 
   transactions.push(newTransaction);
@@ -289,19 +289,19 @@ function addTransaction(privateKey, toAddress, amount) {
 
   // if sent to contract address, run on-transaction.js
   const contract = getContract(toAddress);
-  if (contract && contract.address && contract.state.status === "open") {
+  if (contract && contract.address && contract.state.status === 'open') {
     const contractWallets = getContractWallets();
     const contractNames = Object.keys(contractWallets);
-    const contractName = contractNames.find((name) => {
-      if (contractWallets[name].hasOwnProperty("publicKey")) {
+    const contractName = contractNames.find(name => {
+      if (contractWallets[name].hasOwnProperty('publicKey')) {
         return contractWallets[name].publicKey === contract.address;
       }
     });
 
     if (
       !contractWallets.hasOwnProperty(contractName) ||
-      !contractWallets[contractName].hasOwnProperty("privateKey") ||
-      !contractWallets[contractName].hasOwnProperty("publicKey")
+      !contractWallets[contractName].hasOwnProperty('privateKey') ||
+      !contractWallets[contractName].hasOwnProperty('publicKey')
     ) {
       console.log(
         `Error adding transaction. Could not find contract wallet for the contract address, '${contract.address}'. You should not manually modify the 'contract-wallets.json' file. You may need to re-initialize your blockchain and try again.`
@@ -316,8 +316,8 @@ function addTransaction(privateKey, toAddress, amount) {
     process.env.TRANSACTION = JSON.stringify(newTransaction);
 
     // only run the function if it exists
-    if (contract.functions.hasOwnProperty("on-transaction.js")) {
-      eval(contract.functions["on-transaction.js"]);
+    if (contract.functions.hasOwnProperty('on-transaction.js')) {
+      eval(`(async () => { ${contract.functions['on-transaction.js']} })();`);
     }
   }
 }
@@ -332,11 +332,11 @@ export { _addTransaction as addTransaction };
 /*** SMART CONTRACT HELPERS ***/
 function writeSmartContracts(smartContracts) {
   const smartContractsString = JSON.stringify(smartContracts, null, 2);
-  writeFileSync("./smart-contracts.json", smartContractsString);
+  writeFileSync('./smart-contracts.json', smartContractsString);
 }
 
 function getSmartContracts() {
-  const smartContractsFile = readFileSync("./smart-contracts.json");
+  const smartContractsFile = readFileSync('./smart-contracts.json');
   const smartContracts = JSON.parse(smartContractsFile);
   return smartContracts;
 }
@@ -346,16 +346,16 @@ function getContract(contractAddress) {
   const blockchain = getBlockchain();
   const latestContract = blockchain.reduce((currentContract, nextBlock) => {
     if (nextBlock.smartContracts) {
-      nextBlock.smartContracts.forEach((contract) => {
+      nextBlock.smartContracts.forEach(contract => {
         if (contract.address === contractAddress) {
           // first occurrence of contract
-          if (!currentContract.hasOwnProperty("address")) {
+          if (!currentContract.hasOwnProperty('address')) {
             Object.keys(contract).forEach(
-              (key) => (currentContract[key] = contract[key])
+              key => (currentContract[key] = contract[key])
             );
 
             // contract found and added, only update state after that
-          } else if (contract.hasOwnProperty("state")) {
+          } else if (contract.hasOwnProperty('state')) {
             currentContract.state = contract.state;
           }
         }
@@ -366,30 +366,30 @@ function getContract(contractAddress) {
 
   // add contract pool to latest contract state
   const smartContracts = getSmartContracts();
-  smartContracts.forEach((contract) => {
+  smartContracts.forEach(contract => {
     if (contract.address === contractAddress) {
-      if (!latestContract.hasOwnProperty("address")) {
+      if (!latestContract.hasOwnProperty('address')) {
         Object.keys(contract).forEach(
-          (key) => (latestContract[key] = contract[key])
+          key => (latestContract[key] = contract[key])
         );
-      } else if (latestContract.hasOwnProperty("state")) {
+      } else if (latestContract.hasOwnProperty('state')) {
         latestContract.state = contract.state;
       }
     }
   });
 
-  return latestContract.hasOwnProperty("address") ? latestContract : null;
+  return latestContract.hasOwnProperty('address') ? latestContract : null;
 }
 
 function getContractAddresses() {
   const addresses = [];
   // loop over blockchain
   const blockchain = getBlockchain();
-  blockchain.forEach((block) => {
+  blockchain.forEach(block => {
     if (block.smartContracts) {
-      block.smartContracts.forEach((contract) => {
+      block.smartContracts.forEach(contract => {
         if (
-          contract.hasOwnProperty("address") &&
+          contract.hasOwnProperty('address') &&
           !addresses.includes(contract.address)
         ) {
           addresses.push(contract.address);
@@ -400,9 +400,9 @@ function getContractAddresses() {
 
   // loop over contract pool
   const smartContracts = getSmartContracts();
-  smartContracts.forEach((contract) => {
+  smartContracts.forEach(contract => {
     if (
-      contract.hasOwnProperty("address") &&
+      contract.hasOwnProperty('address') &&
       !addresses.includes(contract.address)
     ) {
       addresses.push(contract.address);
@@ -417,11 +417,11 @@ function updateContractState(address, state) {
   const contract = getContract(address);
 
   if (
-    !contract.hasOwnProperty("state") ||
-    !contract.state.hasOwnProperty("status") ||
-    contract.state.status != "open"
+    !contract.hasOwnProperty('state') ||
+    !contract.state.hasOwnProperty('status') ||
+    contract.state.status != 'open'
   ) {
-    console.log("You cannot update the state of a contract that is not open.");
+    console.log('You cannot update the state of a contract that is not open.');
     process.exit();
   }
 
@@ -446,7 +446,7 @@ function updateContractState(address, state) {
 
   const newState = {
     address,
-    state,
+    state
   };
 
   smartContracts.push(newState);

@@ -1,10 +1,10 @@
 /** Do not change the code in this file **/
 
 // syntax:
-// node deploy-smart-contract.js <contract-folder> <creator-private-key>
+// node deploy-contract.js <contract-folder> <creator-private-key>
 
 // example:
-// node deploy-smart-contract.js smart-contract 8007344d8eaa1f4c5410412638e68715732dcbefb6168310
+// node deploy-contract.js smart-contract 8007344d8eaa1f4c5410412638e68715732dcbefb6168310
 
 import {
   getFileContents,
@@ -13,17 +13,17 @@ import {
   getSmartContracts,
   writeSmartContracts,
   writeContractWallets,
-  getContractWallets,
-} from "./blockchain-helpers";
-import { ec as EC } from "elliptic";
-const ec = new EC("p192");
+  getContractWallets
+} from './blockchain-helpers.js';
+import EC from 'elliptic';
+const ec = new EC.ec('p192');
 
 const contractFolder = process.argv[2];
 const creatorPrivateKey = process.argv[3];
 
 if (!contractFolder || !creatorPrivateKey) {
   console.log(
-    "You cannot deploy a smart contract without providing the contract folder and your private key."
+    'You cannot deploy a smart contract without providing the contract folder and your private key.'
   );
   process.exit();
 }
@@ -32,8 +32,8 @@ if (!contractFolder || !creatorPrivateKey) {
 const wallets = getWallets();
 
 const walletNames = Object.keys(wallets);
-const walletName = walletNames.find((name) => {
-  if (wallets[name].hasOwnProperty("privateKey")) {
+const walletName = walletNames.find(name => {
+  if (wallets[name].hasOwnProperty('privateKey')) {
     return wallets[name].privateKey === creatorPrivateKey;
   }
 });
@@ -53,12 +53,12 @@ const smartContracts = getSmartContracts();
 
 // create new keypair for contract address
 const contractKeyPair = ec.genKeyPair();
-const contractPublicKey = contractKeyPair.getPublic("hex");
-const contractPrivateKey = contractKeyPair.getPrivate("hex");
+const contractPublicKey = contractKeyPair.getPublic('hex');
+const contractPrivateKey = contractKeyPair.getPrivate('hex');
 
 // get creator address
 const keyPair = ec.keyFromPrivate(creatorPrivateKey);
-const creatorAddress = keyPair.getPublic("hex");
+const creatorAddress = keyPair.getPublic('hex');
 
 // get contract files
 const contractFiles = getFolderContents(contractFolder);
@@ -70,8 +70,8 @@ const initialState = JSON.parse(
 );
 
 // add all .js files to contract functions
-contractFiles.forEach((file) => {
-  if (file.endsWith(".js")) {
+contractFiles.forEach(file => {
+  if (file.endsWith('.js')) {
     const fileContents = getFileContents(`${contractFolder}/${file}`);
     contractFunctions[file] = fileContents;
   }
@@ -98,7 +98,7 @@ const newContract = {
   address: contractPublicKey,
   creatorAddress,
   functions: contractFunctions,
-  state: initialState,
+  state: initialState
 };
 
 smartContracts.push(newContract);

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Root package.json",
   "scripts": {
-    "test": "node fixture/provider.js"
+    "test": "cd build-a-web3-client-side-package-for-your-dapp && node fixture/provider.js && cd .."
   },
   "repository": {
     "type": "git",

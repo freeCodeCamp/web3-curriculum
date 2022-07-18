@@ -4,18 +4,18 @@ import {
   getRandomItem,
   getWallets,
   getTransactions,
-  writeTransactions,
-} from "./blockchain-helpers";
+  writeTransactions
+} from './blockchain-helpers.js';
 
 const transactions = getTransactions();
 const wallets = getWallets();
 
-Object.keys(wallets).forEach((walletName) => {
+Object.keys(wallets).forEach(walletName => {
   const randomItem = getRandomItem();
   const giftTransaction = {
     sellerAddress: null,
     buyerAddress: wallets[walletName].publicKey,
-    itemBought: randomItem,
+    itemBought: randomItem
   };
 
   transactions.push(giftTransaction);

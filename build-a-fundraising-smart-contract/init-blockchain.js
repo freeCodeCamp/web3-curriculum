@@ -3,12 +3,12 @@ import {
   writeBlockchain,
   writeSmartContracts,
   writeTransactions,
-  writeContractWallets,
-} from "./blockchain-helpers";
+  writeContractWallets
+} from './blockchain-helpers.js';
 
 const genesisBlock = {
   hash: 0,
-  previousHash: null,
+  previousHash: null
 };
 
 const blockchain = [genesisBlock];
