@@ -1,2 +1,2 @@
-const { writeBlockchain, writeTransactions } = require('./blockchain-helpers');
+import { writeBlockchain, writeTransactions } from "./blockchain-helpers";
 // Add your code below
