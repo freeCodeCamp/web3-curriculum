@@ -1,29 +1,29 @@
-import Header from "../components/header";
-import { Events, ProjectI, TestType } from "../types/index";
-import { parseMarkdown } from "../utils";
-import projects from "../../config/projects.json" assert { type: "json" };
-import { ProjectProps } from "./project";
-import "./landing.css";
+import Header from '../components/header';
+import { Events, ProjectI, TestType } from '../types/index';
+import { parseMarkdown } from '../utils';
+import projects from '../../config/projects.json' assert { type: 'json' };
+import { ProjectProps } from './project';
+import './landing.css';
 
-import { lazy, LazyExoticComponent, useEffect, useState } from "react";
+import { lazy, LazyExoticComponent, useEffect, useState } from 'react';
 
 let socket: WebSocket;
 if (process.env.GITPOD_WORKSPACE_URL) {
   socket = new WebSocket(
-    process.env.GITPOD_WORKSPACE_URL.replace(/^https:\/\//, "wss://8080-") + ""
+    process.env.GITPOD_WORKSPACE_URL.replace(/^https:\/\//, 'wss://8080-') + ''
   );
 } else {
-  socket = new WebSocket("ws://localhost:8080");
+  socket = new WebSocket('ws://localhost:8080');
 }
 
 export const Landing = () => {
-  const [topic, setTopic] = useState("");
+  const [topic, setTopic] = useState('');
   const [project, setProject] = useState<ProjectI | null>(null);
   const [lessonNumber, setLessonNumber] = useState(1);
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState('');
   const [tests, setTests] = useState<TestType[]>([]);
-  const [hints, setHints] = useState("");
-  const [cons, setCons] = useState("");
+  const [hints, setHints] = useState('');
+  const [cons, setCons] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [IntegratedOrProject, setIntegratedOrProject] =
     useState<LazyExoticComponent<(props: ProjectProps) => JSX.Element>>();
@@ -40,7 +40,7 @@ export const Landing = () => {
     };
 
     return () => {
-      console.log("socket closing");
+      console.log('socket closing');
       socket.close();
     };
   }, []);
@@ -48,23 +48,23 @@ export const Landing = () => {
   useEffect(() => {
     if (project?.isIntegrated) {
       setIntegratedOrProject(
-        lazy(async () => await import("./integrated-project"))
+        lazy(async () => await import('./integrated-project'))
       );
     } else {
-      setIntegratedOrProject(lazy(async () => await import("./project")));
+      setIntegratedOrProject(lazy(async () => await import('./project')));
     }
   }, [project]);
 
   const handle = {
-    "toggle-loader-animation": toggleLoaderAnimation,
-    "update-test": updateTest,
-    "update-tests": updateTests,
-    "update-hints": updateHints,
-    "update-console": updateConsole,
-    "update-description": updateDescription,
-    "update-project-heading": updateProjectHeading,
-    "update-project": setProject,
-    "reset-tests": resetTests,
+    'toggle-loader-animation': toggleLoaderAnimation,
+    'update-test': updateTest,
+    'update-tests': updateTests,
+    'update-hints': updateHints,
+    'update-console': updateConsole,
+    'update-description': updateDescription,
+    'update-project-heading': updateProjectHeading,
+    'update-project': setProject,
+    'reset-tests': resetTests
   };
 
   function sock(type: Events, data = {}) {
@@ -78,7 +78,7 @@ export const Landing = () => {
 
   function updateProjectHeading({
     projectTopic,
-    lessonNumber,
+    lessonNumber
   }: {
     projectTopic: string;
     lessonNumber: number;
@@ -95,13 +95,13 @@ export const Landing = () => {
     setTests(tests);
   }
   function updateTest({ test }: { test: TestType }) {
-    setTests((ts) => ts.map((t) => (t.testId === test.testId ? test : t)));
+    setTests(ts => ts.map(t => (t.testId === test.testId ? test : t)));
   }
   function updateHints({ hints }: { hints: string }) {
     setHints(parseMarkdown(hints));
   }
   function updateConsole({ cons }: { cons: string }) {
-    setCons((prev) => prev + "\n\n" + parseMarkdown(cons));
+    setCons(prev => prev + '\n\n' + parseMarkdown(cons));
   }
 
   function resetTests() {
@@ -109,11 +109,11 @@ export const Landing = () => {
   }
 
   function toggleLoaderAnimation() {
-    setIsLoading((prev) => !prev);
+    setIsLoading(prev => !prev);
   }
 
   function runTests() {
-    setCons("");
+    setCons('');
     sock(Events.RUN_TESTS);
   }
   function resetProject() {
@@ -144,7 +144,7 @@ export const Landing = () => {
               resetProject,
               runTests,
               tests,
-              topic,
+              topic
             }}
           />
         )
@@ -164,11 +164,11 @@ const Selection = ({ topic, sock }: SelectionProps) => {
   return (
     <>
       <h2>{topic}</h2>
-      <p className="description">Yes, more Web3 hype! Woot!</p>
-      <a className="faq" href="#">
+      <p className='description'>Yes, more Web3 hype! Woot!</p>
+      <a className='faq' href='#'>
         Link to FAQ related to course
       </a>
-      <ul className="blocks">
+      <ul className='blocks'>
         {projects.map((p, i) => {
           return <Block key={i} {...{ ...p, sock }} />;
         })}
@@ -178,7 +178,7 @@ const Selection = ({ topic, sock }: SelectionProps) => {
 };
 
 type BlockProps = {
-  sock: SelectionProps["sock"];
+  sock: SelectionProps['sock'];
 } & ProjectI;
 
 const Block = ({
@@ -187,23 +187,23 @@ const Block = ({
   description,
   isIntegrated,
   isPublic,
-  sock,
+  sock
 }: BlockProps) => {
   function selectProject() {
     sock(Events.SELECT_PROJECT, { id });
   }
   return (
-    <li className="block">
+    <li className='block'>
       <button
-        className="block-btn"
+        className='block-btn'
         onClick={selectProject}
         disabled={!isPublic}
         style={
-          !isPublic ? { backgroundColor: "grey", cursor: "not-allowed" } : {}
+          !isPublic ? { backgroundColor: 'grey', cursor: 'not-allowed' } : {}
         }
       >
         <h3>{title}</h3>
-        <p>{isPublic ? description : <Tag text="Coming Soon" />}</p>
+        <p>{isPublic ? description : <Tag text='Coming Soon' />}</p>
         {isIntegrated && <Badge />}
       </button>
     </li>
@@ -211,15 +211,15 @@ const Block = ({
 };
 
 const Tag = ({ text }: { text: string }) => {
-  return <span className="tag">{text}</span>;
+  return <span className='tag'>{text}</span>;
 };
 
 const Badge = () => {
-  return <p style={{ fontSize: "18px", color: "#002ead" }}>&#127744;</p>;
+  return <p style={{ fontSize: '18px', color: '#002ead' }}>&#127744;</p>;
 };
 
 function parse(objOrString: any) {
-  if (typeof objOrString === "string") {
+  if (typeof objOrString === 'string') {
     return JSON.parse(objOrString);
   } else {
     return JSON.stringify(objOrString);

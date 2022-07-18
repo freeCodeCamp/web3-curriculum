@@ -1,7 +1,7 @@
-import { useState } from "react";
-import Loader from "../components/loader";
-import { TestType } from "../types";
-import ProjectTests from "./project-tests";
+import { useState } from 'react';
+import Loader from '../components/loader';
+import { TestType } from '../types';
+import ProjectTests from './project-tests';
 
 interface ProjectOutputProps {
   isLoading: boolean;
@@ -14,20 +14,20 @@ const ProjectOutput = ({
   isLoading,
   hints,
   tests,
-  cons,
+  cons
 }: ProjectOutputProps) => {
-  const [content, setContent] = useState<any>("");
-  const [selectedBtn, setSelectedBtn] = useState("tests");
+  const [content, setContent] = useState<any>('');
+  const [selectedBtn, setSelectedBtn] = useState('tests');
 
   return (
-    <section className="project-output">
+    <section className='project-output'>
       <ul>
         <li>
           <button
-            className="output-btn"
-            disabled={selectedBtn === "tests"}
+            className='output-btn'
+            disabled={selectedBtn === 'tests'}
             onClick={() => {
-              setSelectedBtn("tests");
+              setSelectedBtn('tests');
             }}
           >
             Tests
@@ -35,11 +35,11 @@ const ProjectOutput = ({
         </li>
         <li>
           <button
-            className="output-btn"
-            disabled={selectedBtn === "console"}
+            className='output-btn'
+            disabled={selectedBtn === 'console'}
             onClick={() => {
               setContent(cons);
-              setSelectedBtn("console");
+              setSelectedBtn('console');
             }}
           >
             Console
@@ -47,11 +47,11 @@ const ProjectOutput = ({
         </li>
         <li>
           <button
-            className="output-btn"
-            disabled={selectedBtn === "hints"}
+            className='output-btn'
+            disabled={selectedBtn === 'hints'}
             onClick={() => {
               setContent(hints);
-              setSelectedBtn("hints");
+              setSelectedBtn('hints');
             }}
           >
             Hints
@@ -60,13 +60,13 @@ const ProjectOutput = ({
       </ul>
       {isLoading ? (
         <Loader />
-      ) : selectedBtn === "tests" ? (
-        <div className="project-output-content">
+      ) : selectedBtn === 'tests' ? (
+        <div className='project-output-content'>
           <ProjectTests tests={tests} />
         </div>
       ) : (
         <div
-          className="project-output-content"
+          className='project-output-content'
           dangerouslySetInnerHTML={{ __html: content }}
         ></div>
       )}

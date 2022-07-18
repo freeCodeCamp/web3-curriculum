@@ -28,7 +28,7 @@ Your smart contract should pass all `lib::tests` unit tests.
 
 ```js
 const { stdout } = await __helpers.getCommandOutput(
-  "cargo test --lib lib::tests"
+  'cargo test --lib lib::tests'
 );
 assert.match(stdout, /test result: ok/);
 ```
@@ -38,7 +38,7 @@ Your smart contract should pass all `initialise` integration tests.
 ```js
 // Execute `wasm-pack test --firefox --headless -- --test mine_block`, and pipe output to tests client
 const { stdout } = await __helpers.getCommandOutput(
-  "wasm-pack test --firefox --headless -- --test initialise"
+  'wasm-pack test --firefox --headless -- --test initialise'
 );
 assert.match(stdout, /test result: ok/);
 ```
@@ -48,7 +48,7 @@ Your smart contract should pass all `set_click` integration tests.
 ```js
 // Execute `wasm-pack test --firefox --headless -- --test mine_block`, and pipe output to tests client
 const { stdout } = await __helpers.getCommandOutput(
-  "wasm-pack test --firefox --headless -- --test set_click"
+  'wasm-pack test --firefox --headless -- --test set_click'
 );
 assert.match(stdout, /test result: ok/);
 ```
@@ -58,7 +58,7 @@ Your smart contract should pass all `get_contract_account` integration tests.
 ```js
 // Execute `wasm-pack test --firefox --headless -- --test mine_block`, and pipe output to tests client
 const { stdout } = await __helpers.getCommandOutput(
-  "wasm-pack test --firefox --headless -- --test get_contract_account"
+  'wasm-pack test --firefox --headless -- --test get_contract_account'
 );
 assert.match(stdout, /test result: ok/);
 ```

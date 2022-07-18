@@ -1,12 +1,12 @@
 // This file contains the parser for the markdown lessons
-import { readFile } from "fs/promises";
-import { createReadStream } from "fs";
-import { createInterface } from "readline";
+import { readFile } from 'fs/promises';
+import { createReadStream } from 'fs';
+import { createInterface } from 'readline';
 
-const DESCRIPTION_MARKER = "### --description--";
-const SEED_MARKER = "### --seed--";
+const DESCRIPTION_MARKER = '### --description--';
+const SEED_MARKER = '### --seed--';
 const NEXT_MARKER = `### --`;
-const CMD_MARKER = "#### --cmd--";
+const CMD_MARKER = '#### --cmd--';
 const FILE_MARKER_REG = '(?<=#### --")[^"]+(?="--)';
 
 /**
@@ -17,14 +17,14 @@ const FILE_MARKER_REG = '(?<=#### --")[^"]+(?="--)';
 export async function getProjectTitle(file) {
   const readable = createReadStream(file);
   const reader = createInterface({ input: readable });
-  const firstLine = await new Promise((resolve) => {
-    reader.on("line", (line) => {
+  const firstLine = await new Promise(resolve => {
+    reader.on('line', line => {
       reader.close();
       resolve(line);
     });
   });
   readable.close();
-  const proj = firstLine.replace("# ", "").split(" - ");
+  const proj = firstLine.replace('# ', '').split(' - ');
   return { projectTopic: proj[0], currentProject: proj[1] };
 }
 
@@ -35,11 +35,11 @@ export async function getProjectTitle(file) {
  * @returns {Promise<string>} The content of the lesson
  */
 export async function getLessonFromFile(file, lessonNumber = 1) {
-  const fileContent = await readFile(file, "utf8");
+  const fileContent = await readFile(file, 'utf8');
   const mat = fileContent.match(
     new RegExp(
       `## ${lessonNumber}\n(.*?)\n## (${lessonNumber + 1}|--fcc-end--)`,
-      "s"
+      's'
     )
   );
   const lesson = mat?.[1];
@@ -53,7 +53,7 @@ export async function getLessonFromFile(file, lessonNumber = 1) {
  */
 export function getLessonDescription(lesson) {
   const description = lesson.match(
-    new RegExp(`${DESCRIPTION_MARKER}\n(.*?)\n(?=${NEXT_MARKER})`, "s")
+    new RegExp(`${DESCRIPTION_MARKER}\n(.*?)\n(?=${NEXT_MARKER})`, 's')
   )?.[1];
   return description;
 }
@@ -83,8 +83,8 @@ export function getLessonHintsAndTests(lesson) {
  * @returns {string} The seed of the lesson
  */
 export function getLessonSeed(lesson) {
-  const seed = lesson.match(new RegExp(`${SEED_MARKER}\n(.*)`, "s"))?.[1];
-  return seed ?? "";
+  const seed = lesson.match(new RegExp(`${SEED_MARKER}\n(.*)`, 's'))?.[1];
+  return seed ?? '';
 }
 
 /**
@@ -94,11 +94,9 @@ export function getLessonSeed(lesson) {
  */
 export function getBeforeAll(lesson) {
   const sections = lesson.trim().split(NEXT_MARKER);
-  const beforeAll = sections.find((section) =>
-    section.startsWith("before-all")
-  );
-  const beforeAllCommand = extractStringFromCode(beforeAll ?? "");
-  return beforeAllCommand ?? "";
+  const beforeAll = sections.find(section => section.startsWith('before-all'));
+  const beforeAllCommand = extractStringFromCode(beforeAll ?? '');
+  return beforeAllCommand ?? '';
 }
 
 /**
@@ -108,11 +106,11 @@ export function getBeforeAll(lesson) {
  */
 export function getBeforeEach(lesson) {
   const sections = lesson.trim().split(NEXT_MARKER);
-  const beforeEach = sections.find((section) =>
-    section.startsWith("before-each")
+  const beforeEach = sections.find(section =>
+    section.startsWith('before-each')
   );
-  const beforeEachCommand = extractStringFromCode(beforeEach ?? "");
-  return beforeEachCommand ?? "";
+  const beforeEachCommand = extractStringFromCode(beforeEach ?? '');
+  return beforeEachCommand ?? '';
 }
 
 /**
@@ -121,8 +119,8 @@ export function getBeforeEach(lesson) {
  * @returns {string[]} The commands of the lesson in order
  */
 export function getCommands(seed) {
-  const cmds = seed.match(new RegExp(`${CMD_MARKER}\n(.*?\`\`\`\n)`, "gs"));
-  const commands = cmds?.map((cmd) => extractStringFromCode(cmd)?.trim());
+  const cmds = seed.match(new RegExp(`${CMD_MARKER}\n(.*?\`\`\`\n)`, 'gs'));
+  const commands = cmds?.map(cmd => extractStringFromCode(cmd)?.trim());
   return commands ?? [];
 }
 
@@ -133,10 +131,10 @@ export function getCommands(seed) {
  */
 export function getFilesWithSeed(seed) {
   const files = seed.match(
-    new RegExp(`#### --"([^"]+)"--\n(.*?\`\`\`\n)`, "gs")
+    new RegExp(`#### --"([^"]+)"--\n(.*?\`\`\`\n)`, 'gs')
   );
-  const filePaths = seed.match(new RegExp(FILE_MARKER_REG, "gsm"));
-  const fileSeeds = files?.map((file) => extractStringFromCode(file)?.trim());
+  const filePaths = seed.match(new RegExp(FILE_MARKER_REG, 'gsm'));
+  const fileSeeds = files?.map(file => extractStringFromCode(file)?.trim());
 
   // console.log(filePaths, fileSeeds, files);
   const pathAndSeedArr = [];
@@ -154,7 +152,7 @@ export function getFilesWithSeed(seed) {
  * @returns {boolean} Whether the seed has the `force` flag
  */
 export function isForceFlag(seed) {
-  return seed.includes("#### --force--");
+  return seed.includes('#### --force--');
 }
 
 /**
@@ -163,5 +161,5 @@ export function isForceFlag(seed) {
  * @returns {string} The stripped codeblock
  */
 export function extractStringFromCode(code) {
-  return code.replace(/.*?```[a-z]+\n(.*?)\n```/s, "$1");
+  return code.replace(/.*?```[a-z]+\n(.*?)\n```/s, '$1');
 }

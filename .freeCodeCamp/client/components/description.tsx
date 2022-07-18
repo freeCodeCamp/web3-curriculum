@@ -5,7 +5,7 @@ interface DescriptionProps {
 const Description = ({ description }: DescriptionProps) => {
   return (
     <section
-      id="description"
+      id='description'
       dangerouslySetInnerHTML={{ __html: description }}
     ></section>
   );

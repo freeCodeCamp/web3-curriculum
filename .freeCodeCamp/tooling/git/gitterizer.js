@@ -1,7 +1,7 @@
 // This file handles the fetching/parsing of the Git status of the project
-import { promisify } from "util";
-import { exec } from "child_process";
-import { readEnv, updateEnv } from "../env.js";
+import { promisify } from 'util';
+import { exec } from 'child_process';
+import { readEnv, updateEnv } from '../env.js';
 const execute = promisify(exec);
 
 /**
@@ -21,7 +21,7 @@ export async function commit(lessonNumber) {
       `git add . && git commit --allow-empty -m "(${lessonNumber})"`
     );
     if (stderr) {
-      console.error("🔴 Failed to commit lesson: ", lessonNumber);
+      console.error('🔴 Failed to commit lesson: ', lessonNumber);
       throw new Error(stderr);
     }
   } catch (e) {
@@ -105,7 +105,7 @@ export async function setFileSystemToLessonNumber(lessonNumber) {
   try {
     // TODO: Continue on this error? Or, bail?
     if (!endHash || !firstHash) {
-      throw new Error("Could not find commit hash");
+      throw new Error('Could not find commit hash');
     }
     // VOLUME BINDING?
     //
@@ -141,7 +141,7 @@ export async function pushProject() {
     //   throw new Error(stderr);
     // }
   } catch (e) {
-    console.error("🔴 Failed to push project ", CURRENT_PROJECT);
+    console.error('🔴 Failed to push project ', CURRENT_PROJECT);
     return Promise.reject(e);
   }
   return Promise.resolve();
@@ -155,7 +155,7 @@ export async function pushProject() {
  */
 export async function checkoutMain() {
   try {
-    await execute("git restore .");
+    await execute('git restore .');
     const { stdout, stderr } = await execute(`git checkout main`);
     // if (stderr) {
     //   throw new Error(stderr);
@@ -176,7 +176,7 @@ export async function deleteBranch(branch) {
   if (!isBranchExists) {
     return Promise.resolve();
   }
-  console.warn("🟠 Deleting branch ", branch);
+  console.warn('🟠 Deleting branch ', branch);
   try {
     await checkoutMain();
     const { stdout, stderr } = await execute(`git branch -D ${branch}`);
@@ -185,7 +185,7 @@ export async function deleteBranch(branch) {
     //   throw new Error(stderr);
     // }
   } catch (e) {
-    console.error("🔴 Failed to delete branch: ", branch);
+    console.error('🔴 Failed to delete branch: ', branch);
     return Promise.reject(e);
   }
   return Promise.resolve();

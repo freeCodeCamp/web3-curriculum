@@ -1,6 +1,6 @@
-export const locales = ["english", "spanish"];
+export const locales = ['english', 'spanish'];
 
 export const translatedLocales = {
-  english: "English",
-  spanish: "Español",
+  english: 'English',
+  spanish: 'Español'
 };

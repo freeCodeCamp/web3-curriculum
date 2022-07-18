@@ -1,4 +1,4 @@
-import { F } from "../types";
+import { F } from '../types';
 
 interface ProjectControlsProps {
   runTests: F<void, void>;
@@ -7,7 +7,7 @@ interface ProjectControlsProps {
 
 const ProjectControls = ({ runTests, resetProject }: ProjectControlsProps) => {
   return (
-    <section className="project-controls">
+    <section className='project-controls'>
       <button onClick={() => runTests()}>Run Tests</button>
       <button onClick={() => resetProject()}>Reset Step</button>
     </section>

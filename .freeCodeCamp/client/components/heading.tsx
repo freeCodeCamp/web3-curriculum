@@ -1,4 +1,4 @@
-import { F } from "../types";
+import { F } from '../types';
 
 interface HeadingProps {
   topic: string;
@@ -13,14 +13,14 @@ const Heading = ({
   title,
   lessonNumber,
   goToNextLesson,
-  goToPreviousLesson,
+  goToPreviousLesson
 }: HeadingProps) => {
   return (
     <nav>
       {goToPreviousLesson && (
         <button onClick={() => goToPreviousLesson()}>&lt;</button>
       )}
-      <h1 id="project-heading">
+      <h1 id='project-heading'>
         {topic} - {title}
         {lessonNumber && <LessonNumber lessonNumber={lessonNumber} />}
       </h1>
@@ -32,9 +32,9 @@ const Heading = ({
 const LessonNumber = ({ lessonNumber }: { lessonNumber: number }) => {
   return (
     <>
-      {" "}
-      - Lesson{" "}
-      <span id="lesson-number" className="sparkle">
+      {' '}
+      - Lesson{' '}
+      <span id='lesson-number' className='sparkle'>
         {lessonNumber}
       </span>
     </>

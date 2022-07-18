@@ -1,40 +1,40 @@
 // These are used in the local scope of the `eval` in `runTests`
-import fs from "fs";
-import { assert, AssertionError } from "chai";
-import __helpers from "./test-utils.js";
+import fs from 'fs';
+import { assert, AssertionError } from 'chai';
+import __helpers from './test-utils.js';
 
 import {
   getLessonHintsAndTests,
   getLessonFromFile,
   getBeforeAll,
-  getBeforeEach,
-} from "./parser.js";
+  getBeforeEach
+} from './parser.js';
 
-import { t, LOCALE } from "./t.js";
-import { PATH, setProjectConfig } from "./env.js";
-import runLesson from "./lesson.js";
+import { t, LOCALE } from './t.js';
+import { PATH, setProjectConfig } from './env.js';
+import runLesson from './lesson.js';
 import {
   toggleLoaderAnimation,
   updateTest,
   updateTests,
   updateConsole,
-  updateHints,
-} from "./client-socks.js";
-import logover, { error, warn, debug, info } from "logover";
-import { join } from "path";
+  updateHints
+} from './client-socks.js';
+import logover, { error, warn, debug, info } from 'logover';
+import { join } from 'path';
 logover({
-  level: process.env.NODE_ENV === "production" ? "warn" : "debug",
+  level: process.env.NODE_ENV === 'production' ? 'warn' : 'debug'
 });
 
 export default async function runTests(ws, project) {
-  const locale = LOCALE === "undefined" ? "english" : LOCALE ?? "english";
+  const locale = LOCALE === 'undefined' ? 'english' : LOCALE ?? 'english';
   toggleLoaderAnimation(ws);
   const lessonNumber = project.currentLesson;
   const projectFile = join(
     PATH,
-    "tooling/locales",
+    'tooling/locales',
     locale,
-    project.dashedName + ".md"
+    project.dashedName + '.md'
   );
   try {
     debug(projectFile, lessonNumber, locale, PATH);
@@ -46,7 +46,7 @@ export default async function runTests(ws, project) {
       try {
         await eval(`(async () => {${beforeAll}})()`);
       } catch (e) {
-        error("--before-all-- hook failed to run:");
+        error('--before-all-- hook failed to run:');
         error(e);
       }
     }
@@ -57,7 +57,7 @@ export default async function runTests(ws, project) {
       hintsAndTestsArr.reduce((acc, curr, i) => {
         return [
           ...acc,
-          { passed: false, testText: curr[0], testId: i, isLoading: true },
+          { passed: false, testText: curr[0], testId: i, isLoading: true }
         ];
       }, [])
     );
@@ -68,7 +68,7 @@ export default async function runTests(ws, project) {
             `(async () => { ${beforeEach} })();`
           );
         } catch (e) {
-          error("--before-each-- hook failed to run:");
+          error('--before-each-- hook failed to run:');
           error(e);
         }
       }
@@ -78,7 +78,7 @@ export default async function runTests(ws, project) {
           passed: true,
           testText: hint,
           isLoading: false,
-          testId: i,
+          testId: i
         });
       } catch (e) {
         if (!e instanceof AssertionError) {
@@ -94,7 +94,7 @@ export default async function runTests(ws, project) {
           passed: false,
           testText: hint,
           isLoading: false,
-          testId: i,
+          testId: i
         });
         return Promise.reject(`- ${hint}\n`);
       }
@@ -104,19 +104,19 @@ export default async function runTests(ws, project) {
     try {
       const passed = await Promise.all(testPromises);
       if (passed) {
-        console.log(await t("lesson-correct", { lessonNumber }));
+        console.log(await t('lesson-correct', { lessonNumber }));
         setProjectConfig(project.dashedName, {
-          currentLesson: lessonNumber + 1,
+          currentLesson: lessonNumber + 1
         });
         runLesson(ws, project);
-        updateHints(ws, "");
+        updateHints(ws, '');
       }
     } catch (e) {
       console.log(e);
       updateHints(ws, e);
     }
   } catch (e) {
-    console.log(await t("tests-error"));
+    console.log(await t('tests-error'));
     console.log(e);
   } finally {
     toggleLoaderAnimation(ws);

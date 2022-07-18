@@ -1,4 +1,4 @@
-import { ProjectI } from "../types";
+import { ProjectI } from '../types';
 
 interface HeaderProps {
   updateProject: (project: ProjectI | null) => void;
@@ -9,11 +9,11 @@ const Header = ({ updateProject }: HeaderProps) => {
   }
   return (
     <header>
-      <button className="header-btn" onClick={returnToLanding}>
+      <button className='header-btn' onClick={returnToLanding}>
         <img
-          src="https://raw.githubusercontent.com/freeCodeCamp/cdn/main/build/platform/universal/fcc_primary.svg"
-          id="logo"
-          alt="freeCodeCamp logo"
+          src='https://raw.githubusercontent.com/freeCodeCamp/cdn/main/build/platform/universal/fcc_primary.svg'
+          id='logo'
+          alt='freeCodeCamp logo'
         />
       </button>
     </header>

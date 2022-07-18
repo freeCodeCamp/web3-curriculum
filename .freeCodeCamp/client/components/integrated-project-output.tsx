@@ -1,7 +1,7 @@
-import { useState } from "react";
-import Loader from "./loader";
-import { TestType } from "../types";
-import ProjectTests from "./project-tests";
+import { useState } from 'react';
+import Loader from './loader';
+import { TestType } from '../types';
+import ProjectTests from './project-tests';
 
 interface IntegratedProjectOutputProps {
   isLoading: boolean;
@@ -12,20 +12,20 @@ interface IntegratedProjectOutputProps {
 const IntegratedProjectOutput = ({
   isLoading,
   tests,
-  cons,
+  cons
 }: IntegratedProjectOutputProps) => {
-  const [content, setContent] = useState("");
-  const [selectedBtn, setSelectedBtn] = useState("tests");
+  const [content, setContent] = useState('');
+  const [selectedBtn, setSelectedBtn] = useState('tests');
 
   return (
-    <section className="integrated-project-output">
+    <section className='integrated-project-output'>
       <ul>
         <li>
           <button
-            className="output-btn"
-            disabled={selectedBtn === "tests"}
+            className='output-btn'
+            disabled={selectedBtn === 'tests'}
             onClick={() => {
-              setSelectedBtn("tests");
+              setSelectedBtn('tests');
             }}
           >
             Tests
@@ -33,11 +33,11 @@ const IntegratedProjectOutput = ({
         </li>
         <li>
           <button
-            className="output-btn"
-            disabled={selectedBtn === "console"}
+            className='output-btn'
+            disabled={selectedBtn === 'console'}
             onClick={() => {
               setContent(cons);
-              setSelectedBtn("console");
+              setSelectedBtn('console');
             }}
           >
             Console
@@ -46,13 +46,13 @@ const IntegratedProjectOutput = ({
       </ul>
       {isLoading ? (
         <Loader />
-      ) : selectedBtn === "tests" ? (
-        <div className="integrated-project-output-content">
+      ) : selectedBtn === 'tests' ? (
+        <div className='integrated-project-output-content'>
           <ProjectTests tests={tests} />
         </div>
       ) : (
         <div
-          className="integrated-project-output-content"
+          className='integrated-project-output-content'
           dangerouslySetInnerHTML={{ __html: content }}
         ></div>
       )}
