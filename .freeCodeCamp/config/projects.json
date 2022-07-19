@@ -114,7 +114,7 @@
     "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
     "isIntegrated": true,
     "description": "Peer-to-peer networking, but you build it.",
-    "isPublic": false,
+    "isPublic": true,
     "currentLesson": 1
   },
   {
