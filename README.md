@@ -1,43 +1,26 @@
 # Web3 Curriculum
 
-## <u>[Learn Digital Ledgers by Building a Blockchain]()</u>
+Nathan Flickinger, a freeCodeCamp alum who founded his own successful Web3 company, has donated $1M to freeCodeCamp, and asked that we use some of these funds to develop a carbon-neutral Web3 curriculum where you can learn by building more than a dozen projects.
 
-## <u>[Learn Hashing by Building a Block Miner]()</u>
+This free curriculum will teach the fundamentals of smart contracts and distributed application development.
 
-## <u>[Learn Digital Signatures by Building a Wallet]()</u>
+This will be a stand-alone curriculum that you can choose to tackle whenever you feel ready. The prerequisites will involve learning full stack web development through the first 7 freeCodeCamp certifications. (Though as with all aspects of freeCodeCamp, you're welcome to skip around.)
+Our goal is to help people learn these skills so they can get one of the thousands of open jobs that require these technologies, or start entrepreneurial projects of their own.
 
-## **<u>[Build a Video Game Marketplace Blockchain]()</u>**
+## Nathan's Story
 
-## <u>[Learn X by Building Y]()</u>
+Nathan Flickinger was a college dropout. After a period of homelessness, he vowed to get his life together. It started with using his CompTIA certification he had earned in high school to get a minimum wage job in tech support.
 
-## <u>[Learn Y by Building X]()</u>
+From there, Nathan decided to teach himself to code. After several months of study on freeCodeCamp, he was able to land his first software engineering job.
 
-## **<u>[Build a Fundraising Smart Contract]()</u>**
+He became obsessed with Web3 development, and eventually took the plunge and created his own startup. He helped write smart contract code for several Web3 projects. Most notably, KaijuKingz, a monster-inspired collection of cute lizards, each with quirky features. Instead of coffee, they drink radioactive sludge.
 
-## <u>[Learn Proof of Stake Consensus by Completing a Web3 Game](./learn-proof-of-stake-consensus-by-completing-a-web3-game/)</u>
+People from the KaijuKingz community buy and trade these artistic works through a system called Non-fungible Tokens – essentially, deeds of ownership.
 
-## <u>[Learn IDLs and RPCs by Building a dApp]()</u>
+Instead of being stored in a centralized database, these deeds are backed up in computers around the world through a distributed database.
 
-https://babeljs.io/docs/en/babel-parser
+Early on, Nathan decided that if his project was successful, he wanted to donate a large amount of money to freeCodeCamp to help other people to learn how to harness technology to realize their career potential.
 
-https://astexplorer.net/
+And today, he and KaijuKingz have done that. They have donated a million dollars to our nonprofit, for us to use toward our mission of creating free learning resources for people around the world.
 
-## **<u>[Build a Web3 Client-side Package for Your dApp](./build-a-web3-client-side-package-for-your-dapp/)</u>**
-
-[build-a-web3-client-side-package-for-your-dapp.md](./.freeCodeCamp/tooling/locales/english/build-a-web3-client-side-package-for-your-dapp.md)
-
-## <u>[Learn Websockets by Building a Blockchain Explorer](./learn-websockets-by-building-a-blockchain-explorer/)</u>
-
-## <u>[Learn Decentralised Networking by Building a <something>]()</u>
-
-## **<u>[Build a P2P Network in Nodejs](./build-a-p2p-network-in-nodejs/)</u>**
-
-## <u>[Learn Basic Rust by Building a CLI Wallet](./learn-basic-rust-by-building-a-cli-wallet/)</u>
-
-## <u>[Learn Intermediate Rust by Building a Blockchain](./learn-intermediate-rust-by-building-a-blockchain/)</u>
-
-## <u>[Learn Smart Contracts by Building an Intellegent Contract](./learn-smart-contracts-by-building-an-intellegent-contract/)</u>
-
-## **<u>[Build a Smart Contract in Rust](./build-a-smart-contract-in-rust/)</u>**
-
-[build-a-smart-contract-in-rust.md](./.freeCodeCamp/tooling/locales/english/build-a-smart-contract-in-rust.md)
+We are extremely grateful for Nathan and his colleagues at KaijuKingz, and their willingness to support free, open source education. You can [read more about Nathan and his coding journey here](https://www.freecodecamp.org/news/donating-a-million-dollars-to-freecodecamp-a-web3-curriculum).
