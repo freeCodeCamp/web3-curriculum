@@ -3,16 +3,13 @@
   "author": "freeCodeCamp",
   "description": "Template used for freeCodeCamp projects with the freeCodeCamp Courses VSCode extension",
   "scripts": {
-    "start": "node ./tooling/server.js",
+    "start": "npm run build:client && node ./tooling/server.js",
     "develop": "npm run develop:client & npm run develop:server",
     "build:git": "node ./tooling/git/build.js",
     "build:client": "NODE_ENV=production webpack",
     "develop:client": "webpack --watch --mode development",
     "develop:server": "nodemon --watch ./dist/ ./tooling/server.js"
   },
-  "workspaces": [
-    "./client"
-  ],
   "dependencies": {
     "chai": "4.3.6",
     "chokidar": "3.5.3",

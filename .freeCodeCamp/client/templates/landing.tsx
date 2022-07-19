@@ -193,25 +193,43 @@ const Block = ({
     sock(Events.SELECT_PROJECT, { id });
   }
   return (
-    <li className='block'>
+    <li className='block' style={!isPublic ? { height: '70px' } : {}}>
       <button
         className='block-btn'
         onClick={selectProject}
         disabled={!isPublic}
         style={
-          !isPublic ? { backgroundColor: 'grey', cursor: 'not-allowed' } : {}
+          !isPublic
+            ? {
+                backgroundColor: 'grey',
+                cursor: 'not-allowed'
+              }
+            : {}
         }
       >
-        <h3>{title}</h3>
-        <p>{isPublic ? description : <Tag text='Coming Soon' />}</p>
+        <h3 style={!isPublic ? { margin: '0px' } : {}}>{title}</h3>
+        <p style={!isPublic ? { margin: '0px' } : {}}>
+          {isPublic ? (
+            <>
+              {description}
+              <Tag text='Available Now' />
+            </>
+          ) : (
+            <Tag text='Coming Soon' margin='0px' />
+          )}
+        </p>
         {isIntegrated && <Badge />}
       </button>
     </li>
   );
 };
 
-const Tag = ({ text }: { text: string }) => {
-  return <span className='tag'>{text}</span>;
+const Tag = ({ text, margin = '10px' }: { text: string; margin?: string }) => {
+  return (
+    <span className='tag' style={{ margin }}>
+      {text}
+    </span>
+  );
 };
 
 const Badge = () => {

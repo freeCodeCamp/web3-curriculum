@@ -1,6 +1,6 @@
 {
   "path": ".freeCodeCamp",
-  "prepare": "\\cp sample.env .env && source ./tooling/.bashrc && npm ci && cd .. && npm ci",
+  "prepare": "\\cp sample.env .env && npm ci && cd .. && npm ci",
   "scripts": {
     "develop-course": "npm run develop",
     "run-course": "npm run start",

@@ -4,3 +4,4 @@ node_modules
 Cargo.lock
 build-a-web3-client-side-package-for-your-dapp/fixture/data/tmp/**/*
 !.gitkeep
+.freeCodeCamp/dist
