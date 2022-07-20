@@ -79,6 +79,7 @@ export const Landing = () => {
 
   function updateProject(project: ProjectI | null) {
     sock(Events.SELECT_PROJECT, { id: project?.id });
+    resetState();
     setProject(project);
   }
 
@@ -112,6 +113,12 @@ export const Landing = () => {
 
   function resetTests() {
     setTests([]);
+  }
+
+  function resetState() {
+    setTests([]);
+    setHints('');
+    setCons('');
   }
 
   function toggleLoaderAnimation() {
