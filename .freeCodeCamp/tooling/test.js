@@ -60,6 +60,7 @@ export default async function runTests(ws, project) {
         ];
       }, [])
     );
+    updateConsole(ws, '');
     const testPromises = hintsAndTestsArr.map(async ([hint, test], i) => {
       if (beforeEach) {
         try {
@@ -103,7 +104,7 @@ export default async function runTests(ws, project) {
     try {
       const passed = await Promise.all(testPromises);
       if (passed) {
-        console.log(await t('lesson-correct', { lessonNumber }));
+        debug(await t('lesson-correct', { lessonNumber }));
         setProjectConfig(project.dashedName, {
           currentLesson: lessonNumber + 1
         });
@@ -111,12 +112,12 @@ export default async function runTests(ws, project) {
         updateHints(ws, '');
       }
     } catch (e) {
-      console.log(e);
+      debug(e);
       updateHints(ws, e);
     }
   } catch (e) {
-    console.log(await t('tests-error'));
-    console.log(e);
+    debug(await t('tests-error'));
+    error(e);
   } finally {
     toggleLoaderAnimation(ws);
   }
