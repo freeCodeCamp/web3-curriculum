@@ -265,16 +265,24 @@ const smartContract = web3.initSmartContract(
     )
   ).default
 );
-assert.throws(() => smartContract.set_click());
-assert.throws(() => smartContract.set_click(1));
-assert.throws(() => smartContract.set_click(true));
-assert.throws(() => smartContract.set_click([]));
-assert.throws(() => smartContract.set_click({}));
-assert.throws(() => smartContract.set_click(() => {}));
-assert.throws(() => smartContract.set_click(null));
-assert.throws(() => smartContract.set_click(undefined));
-assert.throws(() => smartContract.set_click(new Date()));
-assert.throws(() => smartContract.set_click(new RegExp()));
+try {
+  await smartContract.set_click();
+  await smartContract.set_click(1);
+  await smartContract.set_click(true);
+  await smartContract.set_click([]);
+  await smartContract.set_click({});
+  await smartContract.set_click(() => {});
+  await smartContract.set_click(null);
+  await smartContract.set_click(undefined);
+  await smartContract.set_click(new Date());
+  await smartContract.set_click(new RegExp());
+  assert.fail('`smartContract.set_click()` should have thrown');
+} catch (e) {
+  if (e instanceof AssertionError) {
+    assert.includes(e.message, 'Unexpected argument');
+    throw e;
+  }
+}
 ```
 
 The `set_click` function should return a promise that resolves with the result of calling `this.call` with `{method: "set_click", args: ["test"], id: 0}`.
@@ -290,9 +298,11 @@ const smartContract = web3.initSmartContract(
   ).default
 );
 const prom = smartContract.set_click('test');
-assert.isPromise(prom);
+assert.instanceOf(prom, Promise);
 const res = await prom;
-assert.deepEqual(response, { total_clicks: 1, clickers: ['test'] });
+assert.deepEqual(res, {
+  base_account: { total_clicks: 1, clickers: ['test'] }
+});
 ```
 
 The `get_contract_account` function should return a promise that resolves with the result of calling `this.call` with `{method: "get_contract_account", args: [], id: 0}`.
@@ -308,9 +318,9 @@ const smartContract = web3.initSmartContract(
   ).default
 );
 const prom = smartContract.get_contract_account();
-assert.isPromise(prom);
+assert.instanceOf(prom, Promise);
 const res = await prom;
-assert.deepEqual(response, { total_clicks: 0, clickers: [] });
+assert.deepEqual(res, { total_clicks: 0, clickers: [] });
 ```
 
 Your `Web3` class should have an asynchronous method with the handle `getBalance`.
@@ -496,6 +506,7 @@ const Web3 = (
     '../../build-a-web3-client-side-package-for-your-dapp/web3/index.js'
   )
 ).default;
+delete global.Web3;
 global.Web3 = Web3;
 ```
 

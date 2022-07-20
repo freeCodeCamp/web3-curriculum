@@ -37,7 +37,6 @@ export default async function runTests(ws, project) {
     project.dashedName + '.md'
   );
   try {
-    debug(projectFile, lessonNumber, locale, PATH);
     const lesson = await getLessonFromFile(projectFile, lessonNumber);
     const beforeAll = getBeforeAll(lesson);
     const beforeEach = getBeforeEach(lesson);
