@@ -6,10 +6,16 @@
 
 You will build a Smart Contract using Rust.
 
+You are started with Rust library consisting of all the unit and integration tests you are expected to pass. The boilerplate already contains the necessary crates to complete the user stories.
+
+You will be required to define structs and functions matching those used in the tests.
+
 **Commands**
 
 - Run all unit tests: `cargo test --lib`
 - Run all integration tests: `wasm-pack test --firefox --headless`
+
+_Note: You need to run the tests from within the library directory._
 
 **User Stories:**
 
@@ -21,6 +27,14 @@ You will build a Smart Contract using Rust.
   - This function accepts a `JsValue` with the `Context` type
   - This function also accepts a `String` as the second argument which is the address of the user who clicked the button
 - Your smart contract exports a `get_contract_account` function that returns `Result<JsValue, JsError>`
+
+**Useful Resources:**
+
+- [WebAssembly - Rust Programming Language](https://www.rust-lang.org/what/wasm)
+- [RustWASM Book](https://rustwasm.github.io/docs/book/)
+- [Compiling from Rust to WebAssembly - WebAssembly | MDN](https://developer.mozilla.org/en-US/docs/WebAssembly/Rust_to_wasm)
+- [wasm-bindgen guide](https://rustwasm.github.io/wasm-bindgen/)
+- [wasm-pack](https://rustwasm.github.io/wasm-pack/)
 
 ### --tests--
 
