@@ -27,6 +27,7 @@ export const Landing = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [IntegratedOrProject, setIntegratedOrProject] =
     useState<LazyExoticComponent<(props: ProjectProps) => JSX.Element>>();
+  const [alertCamper, setAlertCamper] = useState<null | string>(null);
 
   useEffect(() => {
     socket.onopen = function (_event) {
@@ -37,6 +38,11 @@ export const Landing = () => {
         event.data
       );
       handle[parsedData.event]?.(parsedData.data);
+    };
+    socket.onclose = function (_event) {
+      setAlertCamper(
+        'freeCodeCamp development server has stopped. Please restart the server: 1) Open the Command Palette 2) Run `freeCodeCamp: Start`'
+      );
     };
 
     return () => {
@@ -127,6 +133,24 @@ export const Landing = () => {
   }
   return (
     <>
+      {alertCamper && (
+        <dialog
+          style={{
+            position: 'fixed',
+            backgroundColor: '#00471b',
+            color: '#f5f6f7',
+            top: '50%',
+            left: '0%',
+            right: '0',
+            margin: 'auto',
+            fontWeight: '700',
+            fontSize: '1.2rem'
+          }}
+          open
+        >
+          {alertCamper}
+        </dialog>
+      )}
       <Header updateProject={updateProject} />
 
       {project ? (
