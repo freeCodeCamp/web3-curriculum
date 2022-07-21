@@ -8,7 +8,7 @@
     "build:git": "node ./tooling/git/build.js",
     "build:client": "NODE_ENV=production webpack",
     "develop:client": "webpack --watch --mode development",
-    "develop:server": "nodemon --watch ./dist/ ./tooling/server.js"
+    "develop:server": "nodemon --watch ./dist/ --watch ./tooling/ ./tooling/server.js"
   },
   "dependencies": {
     "chai": "4.3.6",

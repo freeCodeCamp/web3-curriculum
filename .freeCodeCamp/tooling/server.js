@@ -10,15 +10,10 @@ import logover, { debug, error, warn } from 'logover';
 
 import { WebSocketServer } from 'ws';
 import runLesson from './lesson.js';
-import { updateTests, updateHints } from './client-socks.js';
+import { updateTests, updateHints, updateConsole } from './client-socks.js';
 import hotReload from './hot-reload.js';
 import projects from '../config/projects.json' assert { 'type': 'json' };
-import {
-  cleanWorkingDirectory,
-  dumpProjectDirectoryIntoRoot,
-  hideAll,
-  showFile
-} from './utils.js';
+import { hideAll, showFile } from './utils.js';
 logover({
   level: process.env.NODE_ENV === 'production' ? 'info' : 'debug'
 });
@@ -44,6 +39,7 @@ async function handleGoToNextLesson(ws, data) {
   runLesson(ws, project);
   updateHints(ws, '');
   updateTests(ws, []);
+  updateConsole(ws, '');
 }
 
 async function handleGoToPreviousLesson(ws, data) {
@@ -54,6 +50,7 @@ async function handleGoToPreviousLesson(ws, data) {
   runLesson(ws, project);
   updateTests(ws, []);
   updateHints(ws, '');
+  updateConsole(ws, '');
 }
 
 async function handleConnect(ws) {
