@@ -41,7 +41,7 @@ export const Landing = () => {
     };
     socket.onclose = function (_event) {
       setAlertCamper(
-        'freeCodeCamp development server has stopped. Please restart the server: 1) Open the Command Palette 2) Run `freeCodeCamp: Start`'
+        'freeCodeCamp development server has stopped. Please restart the server: 1) Open the Command Palette 2) Run `freeCodeCamp: Run Course`'
       );
     };
 
