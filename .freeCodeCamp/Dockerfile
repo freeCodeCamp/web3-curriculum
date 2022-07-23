@@ -35,6 +35,9 @@ RUN sudo apt-get install -y build-essential
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 
+# wasm-pack
+RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
 # /usr/lib/node_modules is owned by root, so this creates a folder ${USERNAME} 
 # can use for npm install --global
 WORKDIR ${HOMEDIR}

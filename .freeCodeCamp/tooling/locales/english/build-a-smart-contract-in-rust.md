@@ -6,9 +6,9 @@
 
 You will build a Smart Contract using Rust.
 
-You are started with Rust library consisting of all the unit and integration tests you are expected to pass. The boilerplate already contains the necessary crates to complete the user stories.
+You are started with Rust library consisting of all the unit and integration tests you are expected to pass. The boilerplate already contains the necessary crates to complete the user stories, but you will need to import them.
 
-You will be required to define structs and functions matching those used in the tests.
+You will be required to define structs and functions matching those used in the tests. You should only need to work in the `build-a-smart-contract-in-rust/src/lib.rs` file.
 
 **Commands**
 
@@ -27,14 +27,24 @@ _Note: You need to run the tests from within the library directory._
   - This function accepts a `JsValue` with the `Context` type
   - This function also accepts a `String` as the second argument which is the address of the user who clicked the button
 - Your smart contract exports a `get_contract_account` function that returns `Result<JsValue, JsError>`
+- Your library should export a struct named `Account` with the following fields:
+  - `total_clicks` which is a `u64`
+  - `clickers` which is a `Vec<String>`
+- Your librar should export a struct named `Context` with the following field:
+  - `base_account` which is an `Account`
 
 **Useful Resources:**
 
-- [WebAssembly - Rust Programming Language](https://www.rust-lang.org/what/wasm)
-- [RustWASM Book](https://rustwasm.github.io/docs/book/)
-- [Compiling from Rust to WebAssembly - WebAssembly | MDN](https://developer.mozilla.org/en-US/docs/WebAssembly/Rust_to_wasm)
-- [wasm-bindgen guide](https://rustwasm.github.io/wasm-bindgen/)
-- [wasm-pack](https://rustwasm.github.io/wasm-pack/)
+- `https://www.rust-lang.org/what/wasm` - WebAssembly - Rust Programming Language
+- `https://rustwasm.github.io/docs/book/` - RustWASM Book
+- `https://developer.mozilla.org/en-US/docs/WebAssembly/Rust_to_wasm` - Compiling from Rust to WebAssembly - WebAssembly | MDN
+- `https://rustwasm.github.io/wasm-bindgen/` - wasm-bindgen guide
+- `https://rustwasm.github.io/wasm-pack/` - wasm-pack
+
+**Tips:**
+
+- You can wrap a value in a `JsValue` using `JsValue::from_serde`
+- You can serialize a `JsValue` using the `.into_serde()` method
 
 ### --tests--
 
@@ -42,7 +52,7 @@ Your smart contract should pass all `lib::tests` unit tests.
 
 ```js
 const { stdout } = await __helpers.getCommandOutput(
-  'cargo test --lib lib::tests',
+  'cargo test --lib tests',
   __projectLoc
 );
 assert.match(stdout, /test result: ok/);
