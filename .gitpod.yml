@@ -13,4 +13,4 @@ ports:
 vscode:
   extensions:
     - https://github.com/freeCodeCamp/courses-vscode-extension/releases/download/v1.4.1/freecodecamp-courses-1.4.1.vsix
-    - https://github.com/freeCodeCamp/freecodecamp-dark-vscode-theme/releases/download/v1.0.0/freecodecamp-dark-theme-1.0.0.vsix
+    - https://github.com/freeCodeCamp/freecodecamp-dark-vscode-theme/releases/download/v1.0.0/freecodecamp-dark-vscode-theme-1.0.0.vsix
