@@ -30,8 +30,12 @@ _Note: You need to run the tests from within the library directory._
 - Your library should export a struct named `Account` with the following fields:
   - `total_clicks` which is a `u64`
   - `clickers` which is a `Vec<String>`
-- Your librar should export a struct named `Context` with the following field:
+- Your library should export a struct named `Context` with the following field:
   - `base_account` which is an `Account`
+- You should start a node using `npm run start:scr`
+  - You should deploy your smart contract using `npm run deploy:scr`
+  - You should open the served content at port `3001` in your browser
+    - You should use the UI to add at least 3 clickers to your contract state
 
 **Useful Resources:**
 
