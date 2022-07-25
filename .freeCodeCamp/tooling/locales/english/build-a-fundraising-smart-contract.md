@@ -63,19 +63,11 @@ Your `initial-state.json` file should have a `status` property set to `open` and
 ```js
 // test 1
 //root/projectFolder
-//
 const initialState = await __helpers.getJsonFile(
   `${projectFolder}/fundraising-contract/initial-state.json`
 );
 
-assert(
-  initialState.status === 'open',
-  "Your 'initial-state.json' file should have a 'status' property that set to 'open'"
-);
-assert(
-  initialState.description === 'Smart contract',
-  "Your 'initial-state.json' file should have a 'description' property set to 'Smart contract'"
-);
+assert.inlcude(initialState, { status: 'open', description: 'Smart contract' });
 ```
 
 Your `fundraising-contract` should be deployed and mined to the blockchain
@@ -95,7 +87,7 @@ const contract = await __helpers.getContract(
   false
 );
 
-assert(!!contract);
+assert.exists(contract);
 ```
 
 You should have a `get-description.js` file in your contract folder
@@ -105,7 +97,7 @@ You should have a `get-description.js` file in your contract folder
 const fileExists = await __helpers.fileExists(
   `${projectFolder}/fundraising-contract/get-description.js`
 );
-assert(!!fileExists);
+assert.exists(fileExists);
 ```
 
 Running the `get-description.js` function in your deployed contract should console log only the `description` from current state object of the contract like this: `Here's the description of the fundraising-contract: <description_here>`
@@ -142,7 +134,7 @@ const re = new RegExp(
   'g'
 );
 
-assert(re.test(output.stdout));
+assert.match(output.stdout, re);
 ```
 
 You should have an `update-description.js` file in your contract folder
@@ -152,7 +144,7 @@ You should have an `update-description.js` file in your contract folder
 const fileExists = await __helpers.fileExists(
   `${projectContractFolder}/update-description.js`
 );
-assert(!!fileExists);
+assert.exists(fileExists);
 ```
 
 Running the `update-description.js` function in your deployed contract, with a string as the argument, should update the `description` property in your contract state to the argument
@@ -184,7 +176,9 @@ await __helpers.runCommand(
   { cwd: testFolder }
 );
 const contract = await __helpers.getContract(contractAddress, testFolder);
-assert(contract.state.description === 'New description');
+assert.deepNestedInclude(contract, {
+  state: { description: 'New description' }
+});
 ```
 
 Running the commands to deploy your contract and send it the 150 tokens before the seventh block is mined should create a transaction that sends all the funds donated from the contract to the address of the contract creator
@@ -228,15 +222,11 @@ const transactions = await __helpers.getJsonFile(
 );
 const lastTransaction = transactions[transactions.length - 1];
 
-assert(
-  lastTransaction.fromAddress === contractAddress &&
-    lastTransaction.toAddress === wallets['Me'].publicKey,
-  'After raising the funding goal, your contract should add a transaction, from itself, to the contract creator'
-);
-assert(
-  lastTransaction.amount === 200,
-  'After raising the funding goal, your contract should add a transaction with the total amount raised'
-);
+assert.deepNestedInclude(lastTransaction, {
+  fromAddress: contractAddress,
+  toAddress: wallets['You'].publicKey,
+  amount: 200
+});
 ```
 
 Running the above commands should set the `status` variable of your contract state to `closed`
@@ -276,10 +266,7 @@ await __helpers.runCommand(
 );
 const contract = await __helpers.getContract(contractAddress, testFolder);
 
-assert(
-  contract.state.status === 'closed',
-  "After raising the funding goal, the 'status' property in your contract state should be set to 'closed'"
-);
+assert.deepNestedInclude(contract, { state: { status: 'closed' } });
 ```
 
 Running the commands to deploy your contract and mine seven blocks before the 150 tokens are raised should create a transaction for each donation it received, sending the donation back to the original donor
@@ -349,8 +336,12 @@ const iTx = transactions.find(
     tx.amount === 44
 );
 
-assert(
-  youTx && iTx,
+assert.exists(
+  youTx,
+  "If your contract hasn't raised its goal after the seventh block is mined, it should add a transaction for each donation it received to send the funds back to the address that donated it"
+);
+assert.exists(
+  iTx,
   "If your contract hasn't raised its goal after the seventh block is mined, it should add a transaction for each donation it received to send the funds back to the address that donated it"
 );
 ```
@@ -383,10 +374,7 @@ const contractWallets = await __helpers.getJsonFile(
 const contractAddress = contractWallets['fundraising-contract'].publicKey;
 const contract = await __helpers.getContract(contractAddress, testFolder);
 
-assert(
-  contract.state.status === 'closed',
-  "If your contract hasn't raised its goal after the seventh block is mined, the 'status' property in your contract state should be set to 'closed'"
-);
+assert.deepNestedInclude(contract, { state: { status: 'closed' } });
 ```
 
 Your blockchain should have at least six blocks
@@ -396,7 +384,7 @@ Your blockchain should have at least six blocks
 const blockchain = await __helpers.getJsonFile(
   `${projectFolder}/blockchain.json`
 );
-assert(blockchain.length >= 6);
+assert.isAtLeast(blockchain.length, 6);
 ```
 
 Your contract should have had at least 150 tokens sent to it, and it should have added a transaction sending all the tokens to the contract creator address
@@ -440,12 +428,13 @@ for (let i = 1; i < blockchain.length; i++) {
   }
 }
 
-assert(
-  raised >= 150,
+assert.isAtLeast(
+  raised,
+  150,
   'There should be at least 150 tokens sent to your contract address'
 );
-assert(
-  !!txToCreator,
+assert.exists(
+  txToCreator,
   'There should be a single transaction sending all the raised funds to the address of the contract creator'
 );
 ```
@@ -467,15 +456,12 @@ const contract = await __helpers.getContract(
   false
 );
 
-assert(
-  contract.state.status === 'closed',
-  "Your current contract state should have a 'status' of 'closed'"
-);
-assert(
-  contract.state.description ===
-    'Smart contract to raise funds for my start up.',
-  "Your current contract state should have a 'description' of 'Smart contract to raise funds for my start up.'"
-);
+assert.deepNestedInclude(contract, {
+  state: {
+    status: 'closed',
+    description: 'Smart contract to raise funds for my start up.'
+  }
+});
 ```
 
 All the hashes and signatures on your blockchain should be valid
@@ -498,20 +484,18 @@ for (let i = 1; i < blockchain.length; i++) {
   } = blockchain[i];
 
   // validate previous hash
-  if (previousHash !== previousBlock.hash) {
-    assert(
-      false,
-      "Except for the genesis block, the 'previousHash' value of each block should match the 'hash' of the block before it"
-    );
-  }
+  assert.equal(
+    previousHash,
+    previousBlock.hash,
+    "Except for the genesis block, the 'previousHash' value of each block should match the 'hash' of the block before it"
+  );
 
   // validate hash format
-  if (!hash.startsWith('00')) {
-    assert(
-      false,
-      "Except for the genesis block, the 'hash' of each block should start with two zeros ('00')"
-    );
-  }
+  assert.match(
+    hash,
+    /^00/,
+    "Except for the genesis block, the 'hash' of each block should start with two zeros ('00')"
+  );
 
   // validate block hash
   const recreatedHash = await __helpers.generateHash(
@@ -520,13 +504,11 @@ for (let i = 1; i < blockchain.length; i++) {
       JSON.stringify(transactions) +
       JSON.stringify(smartContracts)
   );
-  if (recreatedHash != hash) {
-    assert(
-      false,
-      "Except for the genesis block, the 'hash' of each block should be able to be recreated with 'sha256(nonce + previousHash + JSON.stringify(transactions) + JSON.stringify(smartContracts)).toString()'"
-    );
-  }
-
+  assert.equal(
+    hash,
+    recreatedHash,
+    "Except for the genesis block, the 'hash' of each block should be able to be recreated with 'sha256(nonce + previousHash + JSON.stringify(transactions) + JSON.stringify(smartContracts)).toString()'"
+  );
   // loop over transactions
   for (let j = 0; j < transactions.length; j++) {
     // validate transaction signatures
@@ -541,17 +523,15 @@ for (let i = 1; i < blockchain.length; i++) {
         signature
       );
 
-      if (!validSignature) {
-        assert(
-          false,
-          'All transaction signatures should be able to be verified with keyPair.verify(hash, signature)'
-        );
-      }
+      assert.isTrue(
+        validSignature,
+        'All transaction signatures should be able to be verified with keyPair.verify(hash, signature)'
+      );
     }
   }
 }
 
-assert(blockchain.length > 0);
+assert.isNotEmpty(blockchain);
 ```
 
 ### --before-all--
