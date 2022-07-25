@@ -1,6 +1,6 @@
 target
 node_modules
-.env
+.freeCodeCamp/.env
 Cargo.lock
 build-a-web3-client-side-package-for-your-dapp/fixture/data/tmp/**/*
 !.gitkeep
