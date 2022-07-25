@@ -96,11 +96,16 @@ await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
 await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
 const blockchain = await __helpers.getJsonFile(`${testFolder}/blockchain.json`);
 
-assert(
-  blockchain.length === 1 &&
-    blockchain[0].hash == '0' &&
-    blockchain[0].previousHash == null,
-  "Running 'node init-blockchain.js' should create the suggested genesis block"
+assert.equal(blockchain.length, 1, 'The blockchain should have one block');
+assert.equal(
+  blockchain[0].hash,
+  '0',
+  "The genesis block should have a hash of '0'"
+);
+assert.equal(
+  blockchain[0].previousHash,
+  null,
+  'The genesis block should have a previousHash of null'
 );
 ```
 
@@ -118,9 +123,11 @@ const transactions = await __helpers.getJsonFile(
   `${testFolder}/transactions.json`
 );
 
-assert(
-  Array.isArray(transactions) && transactions.length == 0,
-  "Running 'node init-blockchain.js' should empty the 'transactions.json array'"
+assert.isArray(transactions, 'The transactions should be an array');
+assert.equal(
+  transactions.length,
+  0,
+  'The transactions should be an empty array'
 );
 ```
 
@@ -139,8 +146,9 @@ const publicKeyFromPrivate = await __helpers.getPublicKeyFromPrivate(
   privateKey
 );
 
-assert(
-  publicKeyFromPrivate == publicKey,
+assert.equal(
+  publicKeyFromPrivate,
+  publicKey,
   "Generating a wallet should add the name to 'wallets.json' with 'privateKey' and 'publicKey' values that are a matching keypair"
 );
 ```
@@ -160,11 +168,15 @@ const transactions = await __helpers.getJsonFile(
 );
 const latestTransaction = transactions[transactions.length - 1];
 
-assert(
-  !latestTransaction.buyerAddress &&
-    latestTransaction.price == 40 &&
-    latestTransaction.sellerAddress == wallets.user_xyz123.publicKey,
-  'Generating a wallet should add the correct transaction for that wallet'
+assert.notExists(
+  latestTransaction.buyerAddress,
+  'The buyerAddress should be `null` or `undefined`'
+);
+assert.equal(latestTransaction.price, 40, 'The price should be `40`');
+assert.equal(
+  latestTransaction.sellerAddress,
+  wallets.user_xyz123.publicKey,
+  'The sellerAddress should be the public key of the new wallet'
 );
 ```
 
@@ -198,41 +210,60 @@ const recreatedHash = await __helpers.generateHash(
   nonce + previousHash + JSON.stringify(transactions)
 );
 
-assert(
-  blockchain1.length + 1 === blockchain2.length,
-  "Mining a block should add an object to the 'blockchain.json' array"
+assert.equal(
+  blockchain1.length,
+  blockchain2.length - 1,
+  'The blockchain should have one more block than before'
 );
 
-assert(
-  currentBlock.hasOwnProperty('hash') &&
-    currentBlock.hasOwnProperty('previousHash') &&
-    currentBlock.hasOwnProperty('nonce') &&
-    currentBlock.hasOwnProperty('transactions'),
-  "The new block should have 'hash', 'previousHash', 'nonce', and 'transactions' properties"
+assert.property(
+  currentBlock,
+  'hash',
+  "The new block should have a 'hash' property"
+);
+assert.property(
+  currentBlock,
+  'previousHash',
+  "The new block should have a 'previousHash' property"
+);
+assert.property(
+  currentBlock,
+  'nonce',
+  "The new block should have a 'nonce' property"
+);
+assert.property(
+  currentBlock,
+  'transactions',
+  "The new block should have a 'transactions' property"
 );
 
-assert(
-  currentBlock.hash.startsWith('00'),
+assert.match(
+  currentBlock.hash,
+  /^00/,
   "The 'hash' of the new block should start with two zeros ('00')"
 );
 
-assert(
-  currentBlock.hash === recreatedHash,
+assert.equal(
+  currentBlock.hash,
+  recreatedHash,
   "The 'hash' of the new block should be able to be recreated with 'sha256(nonce + previousHash + JSON.stringify(transactions)).toString()'"
 );
 
-assert(
-  currentBlock.previousHash === previousBlock.hash,
+assert.equal(
+  currentBlock.previousHash,
+  previousBlock.hash,
   "The 'previousHash' of the new block should match the 'hash' of the block before it"
 );
 
-assert(
-  typeof currentBlock.nonce === 'number',
+assert.typeOf(
+  currentBlock.nonce,
+  'number',
   "The 'nonce' of the new block should be a number"
 );
 
-assert(
-  JSON.stringify(transactions1) === JSON.stringify(transactions),
+assert.equal(
+  JSON.stringify(transactions1),
+  JSON.stringify(transactions),
   "The 'transactions' of the new block should match what was in 'transactions.json' before the block was mined"
 );
 ```
@@ -261,8 +292,12 @@ const transactions = await __helpers.getJsonFile(
   `${testFolder}/transactions.json`
 );
 
-assert(
-  Array.isArray(transactions) && transactions.length == 0,
+assert.isArray(
+  transactions,
+  'After you mine a block, your `transactions.json` file should be an array'
+);
+assert.isEmpty(
+  transactions,
   'After you mine a block, your `transactions.json` file should be an empty array'
 );
 ```
@@ -301,35 +336,56 @@ const recreatedSignature = await __helpers.generateSignature(
   buyerAddress + price + itemBought
 );
 
-assert(
-  transactions1.length + 1 == transactions2.length,
+assert.equal(
+  transactions1.length + 1,
+  transactions2.length,
   "Buying an item should add an object to the 'transactions.json' array"
 );
 
-assert(
-  lastTransaction.hasOwnProperty('buyerAddress') &&
-    lastTransaction.hasOwnProperty('sellerAddress') &&
-    lastTransaction.hasOwnProperty('price') &&
-    lastTransaction.hasOwnProperty('itemBought') &&
-    lastTransaction.hasOwnProperty('signature'),
-  "The new transaction should have 'buyerAddress', 'sellerAddress', 'price', 'itemBought', and 'signature' properties"
+assert.property(
+  lastTransaction,
+  'buyerAddress',
+  "The new transaction should have a 'buyerAddress' property"
+);
+assert.property(
+  lastTransaction,
+  'sellerAddress',
+  "The new transaction should have a 'sellerAddress' property"
+);
+assert.property(
+  lastTransaction,
+  'price',
+  "The new transaction should have a 'price' property"
+);
+assert.property(
+  lastTransaction,
+  'itemBought',
+  "The new transaction should have a 'itemBought' property"
+);
+assert.property(
+  lastTransaction,
+  'signature',
+  "The new transaction should have a 'signature' property"
 );
 
-assert(
-  buyerAddress == publicKey,
+assert.equal(
+  buyerAddress,
+  publicKey,
   "The 'buyerAddress' should be the matching public key for the private key entered"
 );
 assert.isNull(sellerAddress, "The 'sellerAddress' should be 'null'");
 
-assert(price == 10, "The 'price' should be the price of the item bought");
+assert.equal(price, 10, "The 'price' should be the price of the item bought");
 
-assert(
-  itemBought == 'icon',
+assert.equal(
+  itemBought,
+  'icon',
   "The 'itemBought' should be the name of the item bought"
 );
 
-assert(
-  signature == recreatedSignature,
+assert.equal(
+  signature,
+  recreatedSignature,
   "The 'signature' should be able to be recreated with 'keyPair.sign(buyerAddress + price + itemBought).toDER('hex')'"
 );
 ```
@@ -359,8 +415,9 @@ const transactions = await __helpers.getJsonFile(
   `${testFolder}/transactions.json`
 );
 
-assert(
-  transactions.length === 2,
+assert.equal(
+  transactions.length,
+  2,
   "You should not be able to buy an item if you don't have the funds"
 );
 ```
@@ -405,39 +462,61 @@ const recreatedSignature = await __helpers.generateSignature(
   sellerAddress + price + itemSold
 );
 
-assert(
-  transactions1.length + 1 == transactions2.length,
+assert.equal(
+  transactions1.length + 1,
+  transactions2.length,
   "Selling an item should add an object to the 'transactions.json' array"
 );
 
-assert(
-  lastTransaction.hasOwnProperty('buyerAddress') &&
-    lastTransaction.hasOwnProperty('sellerAddress') &&
-    lastTransaction.hasOwnProperty('price') &&
-    lastTransaction.hasOwnProperty('itemSold') &&
-    lastTransaction.hasOwnProperty('signature'),
-  "The new transaction should have 'buyerAddress', 'sellerAddress', 'price', 'itemSold', and 'signature' properties"
+assert.property(
+  lastTransaction,
+  'buyerAddress',
+  "The new transaction should have a 'buyerAddress' property"
+);
+assert.property(
+  lastTransaction,
+  'sellerAddress',
+  "The new transaction should have a 'sellerAddress' property"
+);
+assert.property(
+  lastTransaction,
+  'price',
+  "The new transaction should have a 'price' property"
+);
+assert.property(
+  lastTransaction,
+  'itemSold',
+  "The new transaction should have a 'itemSold' property"
+);
+assert.property(
+  lastTransaction,
+  'signature',
+  "The new transaction should have a 'signature' property"
 );
 
 assert.isNull(buyerAddress, "The 'buyerAddress' should be 'null'");
 
-assert(
-  sellerAddress == publicKey,
+assert.equal(
+  sellerAddress,
+  publicKey,
   "The 'sellerAddress' should be the matching public key for the private key entered"
 );
 
-assert(
-  price == 5,
+assert.equal(
+  price,
+  5,
   "The 'price' should be 5 coins less than the purchase price of the item"
 );
 
-assert(
-  itemSold == 'icon',
+assert.equal(
+  itemSold,
+  'icon',
   "The 'itemSold' should be the name of the item sold"
 );
 
-assert(
-  signature == recreatedSignature,
+assert.equal(
+  signature,
+  recreatedSignature,
   "The 'signature' should be able to be recreated with 'keyPair.sign(sellerAddress + price + itemSold).toDER('hex')'"
 );
 ```
@@ -464,8 +543,9 @@ const transactions = await __helpers.getJsonFile(
   `${testFolder}/transactions.json`
 );
 
-assert(
-  transactions.length === 1,
+assert.equal(
+  transactions.length,
+  1,
   "You should not be able to sell an item if you don't have that item"
 );
 ```
@@ -482,8 +562,9 @@ walletNames.forEach(name => {
   }
 });
 
-assert(
-  walletNames.length >= 3,
+assert.isAtLeast(
+  walletNames.length,
+  3,
   "You should have at least three wallets in 'wallets.json'"
 );
 ```
@@ -495,8 +576,10 @@ Your blockchain should have at least 10 blocks
 const blockchain = await __helpers.getJsonFile(
   `${projectFolder}/blockchain.json`
 );
-assert(
-  Array.isArray(blockchain) && blockchain.length >= 10,
+assert.isArray(blockchain, 'Your blockchain should be an array');
+assert.isAtLeast(
+  blockchain.length,
+  10,
   'You should have at least 10 blocks in your blockchain'
 );
 ```
@@ -511,8 +594,9 @@ const blockchain = await __helpers.getJsonFile(
 const numberOfTransactions = blockchain.reduce((total, block) => {
   return block.transactions ? total + block.transactions.length : total;
 }, 0);
-assert(
-  numberOfTransactions >= 20,
+assert.isAtLeast(
+  numberOfTransactions,
+  20,
   'You should have at least 20 transactions in your blockchain'
 );
 ```
@@ -536,8 +620,9 @@ for (let i = 0; i < blockchain.length; i++) {
   }
 }
 
-assert(
-  signedTransactions >= 10,
+assert.isAtLeast(
+  signedTransactions,
+  10,
   'You should have at least 10 signed transactions in your blockchain'
 );
 ```
@@ -556,31 +641,28 @@ for (let i = 1; i < blockchain.length; i++) {
   const { hash, previousHash, nonce, transactions = [] } = blockchain[i];
 
   // validate previous hash
-  if (previousHash !== previousBlock.hash) {
-    assert(
-      false,
-      "Except for the genesis block, the 'previousHash' value of each block should match the 'hash' of the block before it"
-    );
-  }
+  assert.equal(
+    previousHash,
+    previousBlock.hash,
+    "Except for the genesis block, the 'previousHash' value of each block should match the 'hash' of the block before it"
+  );
 
   // validate hash format
-  if (!hash.startsWith('00')) {
-    assert(
-      false,
-      "Except for the genesis block, the 'hash' of each block should start with two zeros ('00')"
-    );
-  }
+  assert.match(
+    hash,
+    /^00/,
+    "Except for the genesis block, the 'hash' of each block should start with two zeros ('00')"
+  );
 
   // validate block hash
   const recreatedHash = await __helpers.generateHash(
     nonce + previousHash + JSON.stringify(transactions)
   );
-  if (recreatedHash != hash) {
-    assert(
-      false,
-      "Except for the genesis block, the 'hash' of each block should be able to be recreated with 'sha256(nonce + previousHash + JSON.stringify(transactions)).toString()'"
-    );
-  }
+  assert.equal(
+    recreatedHash,
+    hash,
+    "Except for the genesis block, the 'hash' of each block should be able to be recreated with 'sha256(nonce + previousHash + JSON.stringify(transactions)).toString()'"
+  );
 
   // loop over transactions
   for (let j = 0; j < transactions.length; j++) {
@@ -596,12 +678,10 @@ for (let i = 1; i < blockchain.length; i++) {
         signature
       );
 
-      if (!validSignature) {
-        assert(
-          false,
-          'All buy transaction signatures should be able to be verified with keyPair.verify(buyerAddress + price + itemBought, signature)'
-        );
-      }
+      assert.isTrue(
+        validSignature,
+        'All buy transaction signatures should be able to be verified with keyPair.verify(buyerAddress + price + itemBought, signature)'
+      );
     }
 
     // validate sell signatures
@@ -616,17 +696,15 @@ for (let i = 1; i < blockchain.length; i++) {
         signature
       );
 
-      if (!validSignature) {
-        assert(
-          false,
-          'All sell transaction signatures should be able to be verified with keyPair.verify(sellerAddress + price + itemSold, signature)'
-        );
-      }
+      assert.isTrue(
+        validSignature,
+        'All sell transaction signatures should be able to be verified with keyPair.verify(sellerAddress + price + itemSold, signature)'
+      );
     }
   }
 }
 
-assert(blockchain.length > 0);
+assert.isNotEmpty(blockchain);
 ```
 
 ### --before-all--
