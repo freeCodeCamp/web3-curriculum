@@ -32,8 +32,8 @@ _Note: You need to run the tests from within the library directory._
   - `clickers` which is a `Vec<String>`
 - Your library should export a struct named `Context` with the following field:
   - `base_account` which is an `Account`
-- You should start a node using `npm run start:scr`
-  - You should deploy your smart contract using `npm run deploy:scr`
+- You should start a node using `node node/start-node.js`
+  - You should deploy your smart contract using `node node/deploy.js <path_to_your_pkg_directory>`
   - You should open the served content at port `3001` in your browser
     - You should use the UI to add at least 3 clickers to your contract state
 
@@ -95,13 +95,13 @@ const { stdout } = await __helpers.getCommandOutput(
 assert.match(stdout, /test result: ok/);
 ```
 
-You should start a node using `npm run start:scr`.
+You should start a node using `node node/start-node.js`
 
 ```js
 
 ```
 
-You should deploy your smart contract using `npm run deploy:scr`.
+You should deploy your smart contract using `node node/deploy.js <path_to_your_pkg_directory>`
 
 ```js
 
