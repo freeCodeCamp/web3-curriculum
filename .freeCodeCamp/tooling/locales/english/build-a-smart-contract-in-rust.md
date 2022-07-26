@@ -95,6 +95,24 @@ const { stdout } = await __helpers.getCommandOutput(
 assert.match(stdout, /test result: ok/);
 ```
 
+You should start a node using `npm run start:scr`.
+
+```js
+
+```
+
+You should deploy your smart contract using `npm run deploy:scr`.
+
+```js
+
+```
+
+You should add at least 3 different clickers to your contract state using the UI.
+
+```js
+
+```
+
 ### --before-all--
 
 ```js
