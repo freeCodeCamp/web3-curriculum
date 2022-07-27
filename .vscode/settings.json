@@ -15,6 +15,7 @@
     ".prettierignore": true,
     ".prettierrc": true,
     ".vscode": true,
+    "node_modules": true,
     "package.json": true,
     "package-lock.json": true,
     "LICENSE": true,
