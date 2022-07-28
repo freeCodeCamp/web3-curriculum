@@ -32,6 +32,7 @@ export const Landing = () => {
   useEffect(() => {
     socket.onopen = function (_event) {
       sock(Events.CONNECT);
+      location.reload();
     };
     socket.onmessage = function (event) {
       const parsedData: { event: keyof typeof handle; data: any } = parse(
