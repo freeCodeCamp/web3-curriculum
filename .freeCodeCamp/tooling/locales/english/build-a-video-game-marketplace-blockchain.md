@@ -102,9 +102,8 @@ assert.equal(
   '0',
   "The genesis block should have a hash of '0'"
 );
-assert.equal(
+assert.isNull(
   blockchain[0].previousHash,
-  null,
   'The genesis block should have a previousHash of null'
 );
 ```
@@ -168,9 +167,9 @@ const transactions = await __helpers.getJsonFile(
 );
 const latestTransaction = transactions[transactions.length - 1];
 
-assert.notExists(
+assert.isNull(
   latestTransaction.buyerAddress,
-  'The buyerAddress should be `null` or `undefined`'
+  'The buyerAddress should be `null`'
 );
 assert.equal(latestTransaction.price, 40, 'The price should be `40`');
 assert.equal(
@@ -644,14 +643,14 @@ for (let i = 1; i < blockchain.length; i++) {
   assert.equal(
     previousHash,
     previousBlock.hash,
-    "Except for the genesis block, the 'previousHash' value of each block should match the 'hash' of the block before it"
+    `The 'previousHash' of block ${i+1} should match the 'hash' of block ${i}`
   );
 
   // validate hash format
   assert.match(
     hash,
     /^00/,
-    "Except for the genesis block, the 'hash' of each block should start with two zeros ('00')"
+    `The 'hash' of block ${i+1} should start with two zeros ('00')`
   );
 
   // validate block hash
@@ -661,7 +660,7 @@ for (let i = 1; i < blockchain.length; i++) {
   assert.equal(
     recreatedHash,
     hash,
-    "Except for the genesis block, the 'hash' of each block should be able to be recreated with 'sha256(nonce + previousHash + JSON.stringify(transactions)).toString()'"
+    `The 'hash' of block ${i+1} should be able to be recreated with 'sha256(nonce + previousHash + JSON.stringify(transactions)).toString()'`
   );
 
   // loop over transactions
@@ -680,7 +679,7 @@ for (let i = 1; i < blockchain.length; i++) {
 
       assert.isTrue(
         validSignature,
-        'All buy transaction signatures should be able to be verified with keyPair.verify(buyerAddress + price + itemBought, signature)'
+        `The buy signature on transaction ${j+1} of block ${i+1} should be able to be verified with 'keyPair.verify(buyerAddress + price + itemBought, signature)'`
       );
     }
 
@@ -698,7 +697,7 @@ for (let i = 1; i < blockchain.length; i++) {
 
       assert.isTrue(
         validSignature,
-        'All sell transaction signatures should be able to be verified with keyPair.verify(sellerAddress + price + itemSold, signature)'
+        `The sell signature on transaction ${j+1} of block ${i+1} should be able to be verified with 'keyPair.verify(sellerAddress + price + itemSold, signature)'`
       );
     }
   }

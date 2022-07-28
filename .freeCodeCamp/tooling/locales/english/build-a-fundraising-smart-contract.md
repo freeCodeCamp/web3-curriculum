@@ -67,7 +67,7 @@ const initialState = await __helpers.getJsonFile(
   `${projectFolder}/fundraising-contract/initial-state.json`
 );
 
-assert.inlcude(initialState, { status: 'open', description: 'Smart contract' });
+assert.include(initialState, { status: 'open', description: 'Smart contract' });
 ```
 
 Your `fundraising-contract` should be deployed and mined to the blockchain
@@ -97,7 +97,7 @@ You should have a `get-description.js` file in your contract folder
 const fileExists = await __helpers.fileExists(
   `${projectFolder}/fundraising-contract/get-description.js`
 );
-assert.exists(fileExists);
+assert.isTrue(fileExists);
 ```
 
 Running the `get-description.js` function in your deployed contract should console log only the `description` from current state object of the contract like this: `Here's the description of the fundraising-contract: <description_here>`
@@ -144,7 +144,7 @@ You should have an `update-description.js` file in your contract folder
 const fileExists = await __helpers.fileExists(
   `${projectContractFolder}/update-description.js`
 );
-assert.exists(fileExists);
+assert.isTrue(fileExists);
 ```
 
 Running the `update-description.js` function in your deployed contract, with a string as the argument, should update the `description` property in your contract state to the argument
@@ -176,9 +176,7 @@ await __helpers.runCommand(
   { cwd: testFolder }
 );
 const contract = await __helpers.getContract(contractAddress, testFolder);
-assert.deepNestedInclude(contract, {
-  state: { description: 'New description' }
-});
+assert.deepNestedInclude(contract.state, { description: 'New description' });
 ```
 
 Running the commands to deploy your contract and send it the 150 tokens before the seventh block is mined should create a transaction that sends all the funds donated from the contract to the address of the contract creator
@@ -224,7 +222,7 @@ const lastTransaction = transactions[transactions.length - 1];
 
 assert.deepNestedInclude(lastTransaction, {
   fromAddress: contractAddress,
-  toAddress: wallets['You'].publicKey,
+  toAddress: wallets['Me'].publicKey,
   amount: 200
 });
 ```
@@ -266,7 +264,7 @@ await __helpers.runCommand(
 );
 const contract = await __helpers.getContract(contractAddress, testFolder);
 
-assert.deepNestedInclude(contract, { state: { status: 'closed' } });
+assert.deepNestedInclude(contract.state, { status: 'closed' });
 ```
 
 Running the commands to deploy your contract and mine seven blocks before the 150 tokens are raised should create a transaction for each donation it received, sending the donation back to the original donor
@@ -374,7 +372,7 @@ const contractWallets = await __helpers.getJsonFile(
 const contractAddress = contractWallets['fundraising-contract'].publicKey;
 const contract = await __helpers.getContract(contractAddress, testFolder);
 
-assert.deepNestedInclude(contract, { state: { status: 'closed' } });
+assert.deepNestedInclude(contract.state, { status: 'closed' });
 ```
 
 Your blockchain should have at least six blocks
@@ -433,7 +431,7 @@ assert.isAtLeast(
   150,
   'There should be at least 150 tokens sent to your contract address'
 );
-assert.exists(
+assert.isTrue(
   txToCreator,
   'There should be a single transaction sending all the raised funds to the address of the contract creator'
 );
@@ -456,11 +454,9 @@ const contract = await __helpers.getContract(
   false
 );
 
-assert.deepNestedInclude(contract, {
-  state: {
-    status: 'closed',
-    description: 'Smart contract to raise funds for my start up.'
-  }
+assert.deepNestedInclude(contract.state, {
+  status: 'closed',
+  description: 'Smart contract to raise funds for my start up.'
 });
 ```
 
@@ -487,14 +483,14 @@ for (let i = 1; i < blockchain.length; i++) {
   assert.equal(
     previousHash,
     previousBlock.hash,
-    "Except for the genesis block, the 'previousHash' value of each block should match the 'hash' of the block before it"
+    `The 'previousHash' of block ${i+1} should match the 'hash' of block ${i}`
   );
 
   // validate hash format
   assert.match(
     hash,
     /^00/,
-    "Except for the genesis block, the 'hash' of each block should start with two zeros ('00')"
+    `The 'hash' of block ${i+1} should start with two zeros ('00')`
   );
 
   // validate block hash
@@ -507,7 +503,7 @@ for (let i = 1; i < blockchain.length; i++) {
   assert.equal(
     hash,
     recreatedHash,
-    "Except for the genesis block, the 'hash' of each block should be able to be recreated with 'sha256(nonce + previousHash + JSON.stringify(transactions) + JSON.stringify(smartContracts)).toString()'"
+    `The 'hash' of block ${i+1} should be able to be recreated with 'sha256(nonce + previousHash + JSON.stringify(transactions) + JSON.stringify(smartContracts)).toString()'`
   );
   // loop over transactions
   for (let j = 0; j < transactions.length; j++) {
@@ -525,7 +521,7 @@ for (let i = 1; i < blockchain.length; i++) {
 
       assert.isTrue(
         validSignature,
-        'All transaction signatures should be able to be verified with keyPair.verify(hash, signature)'
+        `The signature on transaction ${j+1} of block ${i+1} should be able to be verified with 'keyPair.verify(hash, signature)'`
       );
     }
   }
