@@ -70,7 +70,7 @@ export function getLessonHintsAndTests(lesson) {
   const testsString = lesson.trim().split(new RegExp(NEXT_MARKER))?.[2];
   const hintsAndTestsArr = [];
   const hints = testsString?.match(/^(.*?)$(?=\n+```js)/gm).filter(Boolean);
-  const tests = testsString.match(/(?<=```js\n).*?(?=\n```)/gms);
+  const tests = testsString.match(/(?<=```js\n).*?(?=```)/gms);
 
   if (hints?.length) {
     for (let i = 0; i < hints.length; i++) {
@@ -164,5 +164,5 @@ export function isForceFlag(seed) {
  * @returns {string} The stripped codeblock
  */
 export function extractStringFromCode(code) {
-  return code.replace(/.*?```[a-z]+\n(.*?)\n```/s, '$1');
+  return code.replace(/.*?```[a-z]+\n(.*?)```/s, '$1');
 }

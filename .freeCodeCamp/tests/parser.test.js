@@ -43,7 +43,7 @@ try {
   assert.equal(lessonHintsAndTests[0][0], 'Test text with many words.');
   assert.equal(
     lessonHintsAndTests[0][1],
-    "// First test code\nconst a = 'test';"
+    "// First test code\nconst a = 'test';\n"
   );
   assert.equal(
     lessonHintsAndTests[1][0],
@@ -51,16 +51,16 @@ try {
   );
   assert.equal(
     lessonHintsAndTests[1][1],
-    "const a = 'test2';\n// Second test code;"
+    "const a = 'test2';\n// Second test code;\n"
   );
 
   const lessonSeed = getLessonSeed(lesson);
 
   const beforeAll = getBeforeAll(lesson);
-  assert.equal(beforeAll, "global.__beforeAll = 'before-all';\n\n");
+  assert.equal(beforeAll, "global.__beforeAll = 'before-all';\n\n\n");
 
   const beforeEach = getBeforeEach(lesson);
-  assert.equal(beforeEach, "global.__beforeEach = 'before-each';");
+  assert.equal(beforeEach, "global.__beforeEach = 'before-each';\n");
 
   const commands = getCommands(lessonSeed);
 
@@ -94,7 +94,7 @@ try {
   assert.equal(lessonHintsAndTests[0][0], 'Test text at top.');
   assert.equal(
     lessonHintsAndTests[0][1],
-    '// First test no space\n// No code?\n'
+    '// First test no space\n// No code?\n\n'
   );
   assert.equal(
     lessonHintsAndTests[1][0],
@@ -102,13 +102,13 @@ try {
   );
   assert.equal(
     lessonHintsAndTests[1][1],
-    "// Too many spaces?\nconst a = 'test2';"
+    "// Too many spaces?\nconst a = 'test2';\n"
   );
 
   const lessonSeed = getLessonSeed(lesson);
 
   const beforeAll = getBeforeAll(lesson);
-  assert.equal(beforeAll, "global.__beforeAll = 'before-all';");
+  assert.equal(beforeAll, "global.__beforeAll = 'before-all';\n");
 
   const beforeEach = getBeforeEach(lesson);
 
@@ -125,13 +125,13 @@ try {
   let stringFromCode = extractStringFromCode(`\`\`\`js
 const a = 1;
 \`\`\``);
-  assert.equal(stringFromCode, 'const a = 1;');
+  assert.equal(stringFromCode, 'const a = 1;\n');
   stringFromCode = extractStringFromCode(`\`\`\`js
 const a = 1;
 // comment
 \`\`\`
 `);
-  assert.equal(stringFromCode, 'const a = 1;\n// comment\n');
+  assert.equal(stringFromCode, 'const a = 1;\n// comment\n\n');
 } catch (e) {
   throw error(e);
 }
