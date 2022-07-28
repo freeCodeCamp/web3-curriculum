@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="shortcut icon" href="#" type="image/x-icon" />
+    <title>freeCodeCamp: Web3</title>
+  </head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0a0a23;
+      color: rgb(230, 232, 233);
+      display: flex;
+      flex-direction: column;
+    }
+    section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+    label {
+      margin-bottom: 1rem;
+    }
+    button {
+      background-color: #feac32;
+      background-image: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        from(#fecc4c),
+        to(#ffac33)
+      );
+      background-image: linear-gradient(#fecc4c, #ffac33);
+      border-color: #feac32;
+      border-width: 3px;
+      color: #0a0a23 !important;
+      font-size: 1.2rem;
+    }
+    button:hover {
+      cursor: pointer;
+      background-color: #fecc4c;
+      border-color: #f1a02a;
+    }
+  </style>
+  <body>
+    <section>
+      <h2>Contract</h2>
+      <p id="total-clicks"></p>
+      <ul id="clickers"></ul>
+    </section>
+    <section>
+      <h2>Your Public Address</h2>
+      <div>Available Addresses:</div>
+      <ul>
+        <li>ahmad</li>
+        <li>mrugesh</li>
+        <li>quincy</li>
+        <li>tom</li>
+      </ul>
+      <label>
+        Address:
+        <input type="text" id="address" placeholder="ahmad" />
+      </label>
+      <button id="click">Add Click</button>
+    </section>
+  </body>
+  <script src="index.js" type="module"></script>
+</html>

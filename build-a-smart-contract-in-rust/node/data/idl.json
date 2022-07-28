@@ -1,0 +1,13 @@
+{
+  "id": 0,
+  "instructions": [
+    {
+      "handle": "set_click",
+      "args": ["string"]
+    },
+    {
+      "handle": "get_contract_account",
+      "args": []
+    }
+  ]
+}
