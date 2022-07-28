@@ -25,6 +25,9 @@ export async function getProjectTitle(file) {
   });
   readable.close();
   const proj = firstLine.replace('# ', '').split(' - ');
+  if (!proj[0] || !proj[1]) {
+    throw new Error('Invalid project title. See example format.');
+  }
   return { projectTopic: proj[0], currentProject: proj[1] };
 }
 
