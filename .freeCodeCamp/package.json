@@ -41,6 +41,7 @@
     "babel-plugin-prismjs": "^2.1.0",
     "css-loader": "6.7.1",
     "dotenv-webpack": "^7.1.0",
+    "file-loader": "^6.2.0",
     "html-webpack-plugin": "5.5.0",
     "nodemon": "2.0.16",
     "os-browserify": "^0.3.0",

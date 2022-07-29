@@ -14,3 +14,11 @@ marked.setOptions({
 export function parseMarkdown(markdown: string) {
   return marked.parse(markdown, { gfm: true });
 }
+
+export function parse(objOrString: any) {
+  if (typeof objOrString === 'string') {
+    return JSON.parse(objOrString);
+  } else {
+    return JSON.stringify(objOrString);
+  }
+}

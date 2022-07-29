@@ -1,8 +1,8 @@
-import Loader from './loader';
+import { Loader } from './loader';
 import { TestType } from '../types';
 import { parseMarkdown } from '../utils';
 
-const Test = ({ testText, passed, isLoading, testId }: TestType) => {
+export const Test = ({ testText, passed, isLoading, testId }: TestType) => {
   return (
     <li className='test'>
       <span className={passed ? 'passed' : 'failed'}>
@@ -15,5 +15,3 @@ const Test = ({ testText, passed, isLoading, testId }: TestType) => {
     </li>
   );
 };
-
-export default Test;
