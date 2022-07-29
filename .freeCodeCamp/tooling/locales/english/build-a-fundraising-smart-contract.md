@@ -48,17 +48,14 @@ Fulfill the user stories below, pass all the tests, and finish the project.
 
 Bonus: Create a file in your contract to destroy the contract (change its state to "closed" and refund all donations)
 
-Hints:
-There's an `example-contract` for you to play with. To see what it can do, keep an eye on your `.json` files and run these commands:
+**Hints:** Do this first, it will help you understand how a contract works. There's an `example-contract` for you to play with. To see what it can do, keep an eye on your `.json` files and run these commands:
 
 1. `node init-blockchain.js` to re-initialize the blockchain files
-1. `node deploy-contract.js example-contract <a_private_key_from_wallets.json>` to deploy the example contract. It will add an address for it in `contract-addresses.json` and add the contract to the contract pool (`smart-contracts.json`)
-1. `node mine-block.js` to mine the next block and add the contract to the blockchain (`blockchain.json`). You will see a message from the contract running it's `on-new-block.js` file
-1. `node add-transaction.js <private_key_from_wallets.json> <example_contract_address> 0` to send a transaction to the contract. The contract will run the `on-transaction.js` file and display a message
-1. `node run-contract.js <example_contract_address> get-favorite-number.js` to get the state of the `example-contract`
+1. `node deploy-contract.js example-contract <a_private_key_from_wallets.json>` to deploy the example contract. It will add an address for it in `contract-wallets.json` and add the contract to the contract pool (`smart-contracts.json`)
+1. `node mine-block.js` to mine the next block and add the contract to the blockchain (`blockchain.json`)
+1. `node add-transaction.js <private_key_from_wallets.json> <example_contract_address> 0` to send a transaction to the contract
+1. `node run-contract.js <example_contract_address> get-favorite-number.js` to see the current `favoriteNumber` of the contract
 1. `node run-contract.js <example_contract_address> set-favorite-number.js 11` to update the value of `favoriteNumber` in the contract state
-
-You should do this first, it will help you understand how a contract works.
 
 **Note:** Some of the tests may not pass if your contract doesn't have the functionality needed to run that test.
 
