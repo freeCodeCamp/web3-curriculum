@@ -6,6 +6,7 @@ import { promisify } from 'util';
 import elliptic from 'elliptic';
 import { join, dirname } from 'path';
 import fs from 'fs';
+import WebSocket, { WebSocketServer } from 'ws';
 
 const execute = promisify(exec);
 const ec = new elliptic.ec('p192');
@@ -101,11 +102,12 @@ async function copyProjectFiles(projectFolder, testsFolder, arrayOfFiles = []) {
   if (!projectFolder || !testsFolder || arrayOfFiles.length === 0) {
     throw Error('Cannot copy project files');
   }
+  console.log('attempting to copy files...');
 
   arrayOfFiles.forEach(file => {
     fs.copyFileSync(
       `${projectFolder}/${file}`,
-      `${projectFolder}/${testsFolder}/${file}`
+      `${testsFolder}/${file}`
     );
   });
 }
@@ -146,6 +148,7 @@ async function getPublicKeyFromPrivate(privateKey) {
   return publicKey;
 }
 
+// used in fundraising contract project
 async function getContract(contractAddress, cwd, includePool = true) {
   // get the latest contract state from the blockchain
   const blockchain = await getJsonFile(`${cwd}/blockchain.json`);
@@ -188,6 +191,90 @@ async function getContract(contractAddress, cwd, includePool = true) {
   return latestContract.hasOwnProperty('address') ? latestContract : null;
 }
 
+// for p2p network project
+async function canConnectToSocket(address) {
+  return await new Promise(resolve => {
+    const socket = new WebSocket(address, { shouldKeepAlive: false });
+    socket.on('open', () => {
+      socket.close();
+      resolve(true)
+    });
+    socket.on('error', () => resolve(false));
+  });
+}
+
+async function p2pTest3() {
+  return await new Promise(resolve => {
+    const server = new WebSocketServer({ port: 4103 });
+
+    server.on('connection', externalSocket => {
+      externalSocket.close();
+      server.close();
+      resolve(true);
+    });
+
+    server.on('error', () => server.close());
+
+    const socket = new WebSocket('ws://localhost:4001', { shouldKeepAlive: false });
+    socket.on('open', () => {
+      socket.send(JSON.stringify({ type: 'HANDSHAKE', data: ['ws://localhost:4103'] }));
+      socket.close();
+    });
+
+    socket.on('error', () => resolve());
+  });
+}
+
+async function startSocketServerAndHandshake({ myPort: port, theirAddress = 'ws://localhost:4001' }) {
+  return await new Promise(resolve => {
+    const address = `ws://localhost:${port}`;
+
+    const server = new WebSocketServer({ port });
+    server.on('connection', externalSocket => {
+      externalSocket.on('message', messageString => {
+        const message = JSON.parse(messageString);
+
+        if (message.hasOwnProperty('type') && message.type === 'HANDSHAKE') {
+          externalSocket.close();
+          server.close();
+          resolve(message);
+        } else {
+          externalSocket.close();
+          server.close();
+        }
+      });
+    });
+
+    server.on('error', () => server.close());
+
+    const socket = new WebSocket(theirAddress, { shouldKeepAlive: false });
+    socket.on('open', () => {
+      socket.send(JSON.stringify({ type: 'HANDSHAKE', data: [address] }));
+      socket.close();
+    });
+
+    socket.on('error', () => resolve());
+  });
+}
+
+// need to shut down socket servers so the ports are open for next test run
+async function closeSocketServer(address) {
+  return await new Promise(resolve => {
+    const socket = new WebSocket(address, { shouldKeepAlive: false });
+
+    socket.on('open', () => {
+      socket.send(JSON.stringify({ type: 'CLOSE' }));
+      socket.close();
+      resolve();
+    });
+
+    socket.on('error', () => {
+      socket.close();
+      resolve();
+    });
+  });
+}
+
 const __helpers = {
   getDirectory,
   isFileOpen,
@@ -206,7 +293,11 @@ const __helpers = {
   generateSignature,
   validateSignature,
   getPublicKeyFromPrivate,
-  getContract
+  getContract,
+  canConnectToSocket,
+  p2pTest3,
+  startSocketServerAndHandshake,
+  closeSocketServer
 };
 
 export default __helpers;

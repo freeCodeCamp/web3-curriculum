@@ -8,7 +8,7 @@ interface HeadingProps {
   goToPreviousLesson?: F<void, void>;
 }
 
-const Heading = ({
+export const Heading = ({
   topic,
   title,
   lessonNumber,
@@ -40,5 +40,3 @@ const LessonNumber = ({ lessonNumber }: { lessonNumber: number }) => {
     </>
   );
 };
-
-export default Heading;

@@ -23,7 +23,7 @@ import {
 import logover, { error, warn, debug, info } from 'logover';
 import { join } from 'path';
 logover({
-  level: process.env.NODE_ENV === 'production' ? 'warn' : 'debug'
+  level: process.env.NODE_ENV === 'production' ? 'info' : 'debug'
 });
 
 export default async function runTests(ws, project) {
@@ -81,14 +81,16 @@ export default async function runTests(ws, project) {
           testId: i
         });
       } catch (e) {
-        if (!e instanceof AssertionError) {
-          warn(e);
+        if (!(e instanceof AssertionError)) {
+          error(e);
         }
-        const consoleError = `${i + 1}) ${hint}\n\`\`\`json\n${JSON.stringify(
+        const consoleError = `<details>\n<summary>${
+          i + 1
+        }) ${hint}</summary>\n\n\`\`\`json\n${JSON.stringify(
           e,
           null,
           2
-        )}\n\`\`\``;
+        )}\n\`\`\`\n\n</details>`;
         updateConsole(ws, consoleError);
         updateTest(ws, {
           passed: false,

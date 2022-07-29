@@ -2,7 +2,7 @@ interface DescriptionProps {
   description: string;
 }
 
-const Description = ({ description }: DescriptionProps) => {
+export const Description = ({ description }: DescriptionProps) => {
   return (
     <section
       id='description'
@@ -10,5 +10,3 @@ const Description = ({ description }: DescriptionProps) => {
     ></section>
   );
 };
-
-export default Description;

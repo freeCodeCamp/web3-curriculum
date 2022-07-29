@@ -4,15 +4,19 @@
 
 ### --description--
 
-You need to create and deploy a smart contract on this blockchain to raise funds for your startup. The goal is to raise 150 tokens before the seventh block is mined.
+You need to create and deploy a smart contract to this blockchain that raises funds for your startup. The goal is to raise 150 tokens before the seventh block is mined.
 
-You are started with some boilerplate code and files, you should not need to change any of the boilerplate code. The `fundraising-contract` folder is where you need to create your smart contract. The `initial-state.json` file is the initial state of an object your contract will store. All the `.js` files in that folder will be files the contract can run. The `on-transaction.js` file will run immediately after a transaction is sent to the address of your contract. The `on-new-block.js` file will run immediately after a new block is mined. Note: contract files will only run if its `status` variable is set to `open`.
+You are started with some boilerplate code and files in the `build-a-fundraising-smart-contract` folder, you should not need to change any of the boilerplate code. The `fundraising-contract` folder is the only place you need to write code. All the files in there are part of your contract.
 
-The only two helper functions your contract files can use are `addTransaction(<private_key_of_contract>, <public_key_of_recipient>, <amount>)` and `updateContractState(<contract_address>, <new_state>)`. They are already added in your contract starter files. Note that the import path is relative to the root of the project, not the contract folder.
+The `initial-state.json` file is the initial state of an object your contract will store. All the `.js` files in that folder will be files the contract can run. The `on-transaction.js` file will run immediately after a transaction is sent to the address of your contract. The `on-new-block.js` file will run immediately after a new block is mined. Note: contract files will only run if its `status` variable is set to `open`.
 
-There's a number of variables that will be passed to your contract files, the ones available in `on-trasction.js` and `on-new-block.js` are already defined there. The variables in `other.js` are what is available to use any other `.js` files in your contract.
+The only two helper functions your contract files can use are `addTransaction(<private_key_of_contract>, <public_key_of_recipient>, <amount>)` and `updateContractState(<contract_address>, <new_state>)`. They are already added in your contract starter files.
 
-After you code your contract, deploy it by running `node deploy-contract.js <contract_folder> <private_key_of_creator>`. It will create an address for the contract in `contract-wallets.json`, put the contract itself in `smart-contracts.json`, and get added to the blockchain (`blockchain.json`) the next time you mine a block (run `node mine-block.js`). After it's deployed, you can run the contract files with `node run-contract.js <address_of_contract> <file_to_run> <optional_arguments>`. Note: All terminal commands must be run from the projects folder.
+There's a number of variables that will be passed to your contract files, the ones available in `on-transaction.js` and `on-new-block.js` are already defined there. The variables in `other-files.js` are what is available to use any other `.js` files you create for your contract.
+
+Deploy your smart contract by running `node deploy-contract.js <contract_folder> <private_key_of_creator>`. It will create an address for the contract in `contract-wallets.json`, put the contract itself in `smart-contracts.json`, and get added to the blockchain (`blockchain.json`) the next time you mine a block (run `node mine-block.js`).
+
+After it's deployed, you can run the contract files with `node run-contract.js <address_of_contract> <file_to_run> <optional_arguments>`. **Note:** Run your terminal commands from the `build-a-fundraising-smart-contract` folder. 
 
 Mining a block creates a rewards transaction with a random address from `wallets.json` as the receiver.
 
@@ -22,9 +26,7 @@ Fulfill the user stories below, pass all the tests, and finish the project.
 
 1. The initial state object of your contract should have a `status` set to `open`, and a `description` set to `Smart contract`. Add as many other properties as you need to fulfill the goal of your contract
 
-1. You should complete and deploy the `fundraising-contract` to the blockchain so that it takes donations to try and raise 150 tokens
-
-1. Your contract should have a `get-description.js` file that uses `console.log` to print the `description` from the current state object of the contract like this: `Here's the description of the fundraising-contract: <description_here>`
+1. Your contract should have a `get-description.js` file that uses `console.log` to print the `description` from the current state object of the contract like this: `Here's the description of the fundraising contract: <description_here>`
 
 1. Your contract should have an `update-description.js` file that updates the description variable stored in the contract state to whatever argument is passed to it
 
@@ -38,23 +40,24 @@ Fulfill the user stories below, pass all the tests, and finish the project.
 
 1. The final state object of your contract should have a `status` property set to `closed` and a `description` property set to `Smart contract to raise funds for my start up.`
 
+1. You should deploy the `fundraising-contract` to the blockchain
+
 1. Your blockchain should have at least six blocks
 
 1. Your blockchain should be valid, that includes all the `hash`, `previousHash`, `nonce`, and transaction `signature` values
 
-Bonus: Create a file in your contract to destroy the contract (change its state to "closed" and refund all previous donations)
+Bonus: Create a file in your contract to destroy the contract (change its state to "closed" and refund all donations)
 
-Hints:
-There's an `example-contract` for you to play with. To see what it can do, keep an eye on your `.json` files and run these commands:
+**Hints:** Do this first, it will help you understand how a contract works. There's an `example-contract` for you to play with. To see what it can do, keep an eye on your `.json` files and run these commands:
 
 1. `node init-blockchain.js` to re-initialize the blockchain files
-1. `node deploy-contract.js example-contract <a_private_key_from_wallets.json>` to deploy the example contract. It will add an address for it in `contract-addresses.json` and add the contract to the contract pool (`smart-contracts.json`)
-1. `node mine-block.js` to mine the next block and add the contract to the blockchain (`blockchain.json`). You will see a message from the contract running it's `on-new-block.js` file
-1. `node add-transaction.js <private_key_from_wallets.json> <example_contract_address> 0` to send a transaction to the contract. The contract will run the `on-transaction.js` file and display a message
-1. `node run-contract.js <example_contract_address> get-state.js` to get the state of the `example-contract`
+1. `node deploy-contract.js example-contract <a_private_key_from_wallets.json>` to deploy the example contract. It will add an address for it in `contract-wallets.json` and add the contract to the contract pool (`smart-contracts.json`)
+1. `node mine-block.js` to mine the next block and add the contract to the blockchain (`blockchain.json`)
+1. `node add-transaction.js <private_key_from_wallets.json> <example_contract_address> 0` to send a transaction to the contract
+1. `node run-contract.js <example_contract_address> get-favorite-number.js` to see the current `favoriteNumber` of the contract
 1. `node run-contract.js <example_contract_address> set-favorite-number.js 11` to update the value of `favoriteNumber` in the contract state
 
-Note: Some of the tests may not pass if the tests before them don't.
+**Note:** Some of the tests may not pass if your contract doesn't have the functionality needed to run the test.
 
 ### --tests--
 
@@ -62,57 +65,28 @@ Your `initial-state.json` file should have a `status` property set to `open` and
 
 ```js
 // test 1
-//root/projectFolder
-//
 const initialState = await __helpers.getJsonFile(
   `${projectFolder}/fundraising-contract/initial-state.json`
 );
 
-assert(
-  initialState.status === 'open',
-  "Your 'initial-state.json' file should have a 'status' property that set to 'open'"
-);
-assert(
-  initialState.description === 'Smart contract',
-  "Your 'initial-state.json' file should have a 'description' property set to 'Smart contract'"
-);
-```
-
-Your `fundraising-contract` should be deployed and mined to the blockchain
-
-```js
-// test 2
-const contractWallets = await __helpers.getJsonFile(
-  `${projectFolder}/contract-wallets.json`
-);
-const contractAddress =
-  contractWallets[
-    Object.keys(contractWallets).find(key => /fundraising-contract/g.test(key))
-  ]?.publicKey || null;
-const contract = await __helpers.getContract(
-  contractAddress,
-  projectFolder,
-  false
-);
-
-assert(!!contract);
+assert.include(initialState, { status: 'open', description: 'Smart contract' });
 ```
 
 You should have a `get-description.js` file in your contract folder
 
 ```js
-// test 3
+// test 2
 const fileExists = await __helpers.fileExists(
   `${projectFolder}/fundraising-contract/get-description.js`
 );
-assert(!!fileExists);
+assert.isTrue(fileExists);
 ```
 
-Running the `get-description.js` function in your deployed contract should console log only the `description` from current state object of the contract like this: `Here's the description of the fundraising-contract: <description_here>`
+Running the `get-description.js` function in your deployed contract should console log only the `description` from current state object of the contract like this: `Here's the description of the fundraising contract: <description_here>`
 
 ```js
-// test 4
-const testFolder = `${testsFolder}/test4`;
+// test 3
+const testFolder = `${testsFolder}/test3`;
 const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
@@ -142,24 +116,24 @@ const re = new RegExp(
   'g'
 );
 
-assert(re.test(output.stdout));
+assert.match(output.stdout, re);
 ```
 
 You should have an `update-description.js` file in your contract folder
 
 ```js
-// test 5
+// test 4
 const fileExists = await __helpers.fileExists(
   `${projectContractFolder}/update-description.js`
 );
-assert(!!fileExists);
+assert.isTrue(fileExists);
 ```
 
 Running the `update-description.js` function in your deployed contract, with a string as the argument, should update the `description` property in your contract state to the argument
 
 ```js
-// test 6
-const testFolder = `${testsFolder}/test6`;
+// test 5
+const testFolder = `${testsFolder}/test5`;
 const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
@@ -184,14 +158,14 @@ await __helpers.runCommand(
   { cwd: testFolder }
 );
 const contract = await __helpers.getContract(contractAddress, testFolder);
-assert(contract.state.description === 'New description');
+assert.deepNestedInclude(contract.state, { description: 'New description' });
 ```
 
-Running the commands to deploy your contract and send it the 150 tokens before the seventh block is mined should create a transaction that sends all the funds donated from the contract to the address of the contract creator
+Running the commands to deploy your contract and sending it the 150 tokens before the seventh block is mined should create a transaction that sends all the funds donated from the contract to the address of the contract creator
 
 ```js
-// test 7
-const testFolder = `${testsFolder}/test7`;
+// test 6
+const testFolder = `${testsFolder}/test6`;
 const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
@@ -228,22 +202,18 @@ const transactions = await __helpers.getJsonFile(
 );
 const lastTransaction = transactions[transactions.length - 1];
 
-assert(
-  lastTransaction.fromAddress === contractAddress &&
-    lastTransaction.toAddress === wallets['Me'].publicKey,
-  'After raising the funding goal, your contract should add a transaction, from itself, to the contract creator'
-);
-assert(
-  lastTransaction.amount === 200,
-  'After raising the funding goal, your contract should add a transaction with the total amount raised'
-);
+assert.deepNestedInclude(lastTransaction, {
+  fromAddress: contractAddress,
+  toAddress: wallets['Me'].publicKey,
+  amount: 200
+});
 ```
 
 Running the above commands should set the `status` variable of your contract state to `closed`
 
 ```js
-// test 8
-const testFolder = `${testsFolder}/test8`;
+// test 7
+const testFolder = `${testsFolder}/test7`;
 const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
@@ -276,17 +246,14 @@ await __helpers.runCommand(
 );
 const contract = await __helpers.getContract(contractAddress, testFolder);
 
-assert(
-  contract.state.status === 'closed',
-  "After raising the funding goal, the 'status' property in your contract state should be set to 'closed'"
-);
+assert.deepNestedInclude(contract.state, { status: 'closed' });
 ```
 
 Running the commands to deploy your contract and mine seven blocks before the 150 tokens are raised should create a transaction for each donation it received, sending the donation back to the original donor
 
 ```js
-// test 9
-const testFolder = `${testsFolder}/test9`;
+// test 8
+const testFolder = `${testsFolder}/test8`;
 const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
@@ -349,8 +316,12 @@ const iTx = transactions.find(
     tx.amount === 44
 );
 
-assert(
-  youTx && iTx,
+assert.exists(
+  youTx,
+  "If your contract hasn't raised its goal after the seventh block is mined, it should add a transaction for each donation it received to send the funds back to the address that donated it"
+);
+assert.exists(
+  iTx,
   "If your contract hasn't raised its goal after the seventh block is mined, it should add a transaction for each donation it received to send the funds back to the address that donated it"
 );
 ```
@@ -358,8 +329,8 @@ assert(
 Running the above commands should set the `status` variable of your contract state to `closed`
 
 ```js
-// test 10
-const testFolder = `${testsFolder}/test10`;
+// test 9
+const testFolder = `${testsFolder}/test9`;
 const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
@@ -383,10 +354,27 @@ const contractWallets = await __helpers.getJsonFile(
 const contractAddress = contractWallets['fundraising-contract'].publicKey;
 const contract = await __helpers.getContract(contractAddress, testFolder);
 
-assert(
-  contract.state.status === 'closed',
-  "If your contract hasn't raised its goal after the seventh block is mined, the 'status' property in your contract state should be set to 'closed'"
+assert.deepNestedInclude(contract.state, { status: 'closed' });
+```
+
+Your `fundraising-contract` should be deployed and mined to the blockchain
+
+```js
+// test 10
+const contractWallets = await __helpers.getJsonFile(
+  `${projectFolder}/contract-wallets.json`
 );
+const contractAddress =
+  contractWallets[
+    Object.keys(contractWallets).find(key => /fundraising-contract/g.test(key))
+  ]?.publicKey || null;
+const contract = await __helpers.getContract(
+  contractAddress,
+  projectFolder,
+  false
+);
+
+assert.exists(contract);
 ```
 
 Your blockchain should have at least six blocks
@@ -396,7 +384,7 @@ Your blockchain should have at least six blocks
 const blockchain = await __helpers.getJsonFile(
   `${projectFolder}/blockchain.json`
 );
-assert(blockchain.length >= 6);
+assert.isAtLeast(blockchain.length, 6);
 ```
 
 Your contract should have had at least 150 tokens sent to it, and it should have added a transaction sending all the tokens to the contract creator address
@@ -440,12 +428,13 @@ for (let i = 1; i < blockchain.length; i++) {
   }
 }
 
-assert(
-  raised >= 150,
+assert.isAtLeast(
+  raised,
+  150,
   'There should be at least 150 tokens sent to your contract address'
 );
-assert(
-  !!txToCreator,
+assert.isTrue(
+  txToCreator,
   'There should be a single transaction sending all the raised funds to the address of the contract creator'
 );
 ```
@@ -467,15 +456,10 @@ const contract = await __helpers.getContract(
   false
 );
 
-assert(
-  contract.state.status === 'closed',
-  "Your current contract state should have a 'status' of 'closed'"
-);
-assert(
-  contract.state.description ===
-    'Smart contract to raise funds for my start up.',
-  "Your current contract state should have a 'description' of 'Smart contract to raise funds for my start up.'"
-);
+assert.deepNestedInclude(contract.state, {
+  status: 'closed',
+  description: 'Smart contract to raise funds for my start up.'
+});
 ```
 
 All the hashes and signatures on your blockchain should be valid
@@ -498,20 +482,18 @@ for (let i = 1; i < blockchain.length; i++) {
   } = blockchain[i];
 
   // validate previous hash
-  if (previousHash !== previousBlock.hash) {
-    assert(
-      false,
-      "Except for the genesis block, the 'previousHash' value of each block should match the 'hash' of the block before it"
-    );
-  }
+  assert.equal(
+    previousHash,
+    previousBlock.hash,
+    `The 'previousHash' of block ${i+1} should match the 'hash' of block ${i}`
+  );
 
   // validate hash format
-  if (!hash.startsWith('00')) {
-    assert(
-      false,
-      "Except for the genesis block, the 'hash' of each block should start with two zeros ('00')"
-    );
-  }
+  assert.match(
+    hash,
+    /^00/,
+    `The 'hash' of block ${i+1} should start with two zeros ('00')`
+  );
 
   // validate block hash
   const recreatedHash = await __helpers.generateHash(
@@ -520,13 +502,11 @@ for (let i = 1; i < blockchain.length; i++) {
       JSON.stringify(transactions) +
       JSON.stringify(smartContracts)
   );
-  if (recreatedHash != hash) {
-    assert(
-      false,
-      "Except for the genesis block, the 'hash' of each block should be able to be recreated with 'sha256(nonce + previousHash + JSON.stringify(transactions) + JSON.stringify(smartContracts)).toString()'"
-    );
-  }
-
+  assert.equal(
+    hash,
+    recreatedHash,
+    `The 'hash' of block ${i+1} should be able to be recreated with 'sha256(nonce + previousHash + JSON.stringify(transactions) + JSON.stringify(smartContracts)).toString()'`
+  );
   // loop over transactions
   for (let j = 0; j < transactions.length; j++) {
     // validate transaction signatures
@@ -541,17 +521,15 @@ for (let i = 1; i < blockchain.length; i++) {
         signature
       );
 
-      if (!validSignature) {
-        assert(
-          false,
-          'All transaction signatures should be able to be verified with keyPair.verify(hash, signature)'
-        );
-      }
+      assert.isTrue(
+        validSignature,
+        `The signature on transaction ${j+1} of block ${i+1} should be able to be verified with 'keyPair.verify(hash, signature)'`
+      );
     }
   }
 }
 
-assert(blockchain.length > 0);
+assert.isNotEmpty(blockchain);
 ```
 
 ### --before-all--

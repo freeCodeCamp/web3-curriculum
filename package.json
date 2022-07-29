@@ -15,6 +15,9 @@
     "crypto-js": "^4.1.1",
     "elliptic": "^6.5.4",
     "express": "^4.18.1",
-    "logover": "^1.3.3"
+    "express-async-handler": "^1.2.0",
+    "logover": "^1.3.1",
+    "dotenv": "^16.0.1",
+    "ws": "^8.8.0"
   }
 }

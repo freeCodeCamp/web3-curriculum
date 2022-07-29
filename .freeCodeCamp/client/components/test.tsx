@@ -1,14 +1,17 @@
-import Loader from './loader';
+import { Loader } from './loader';
 import { TestType } from '../types';
+import { parseMarkdown } from '../utils';
 
-const Test = ({ testText, passed, isLoading }: TestType) => {
+export const Test = ({ testText, passed, isLoading, testId }: TestType) => {
   return (
-    <li>
+    <li className='test'>
       <span className={passed ? 'passed' : 'failed'}>
-        {isLoading ? <Loader size={'20'} /> : passed ? '✓' : '✗'} {testText}
+        {testId + 1}) {isLoading ? <Loader size={'20'} /> : passed ? '✓' : '✗'}{' '}
       </span>
+      <div
+        style={{ display: 'inline' }}
+        dangerouslySetInnerHTML={{ __html: parseMarkdown(testText) }}
+      ></div>
     </li>
   );
 };
-
-export default Test;

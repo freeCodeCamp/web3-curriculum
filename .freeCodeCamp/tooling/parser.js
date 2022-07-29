@@ -25,6 +25,9 @@ export async function getProjectTitle(file) {
   });
   readable.close();
   const proj = firstLine.replace('# ', '').split(' - ');
+  if (!proj[0] || !proj[1]) {
+    throw new Error('Invalid project title. See example format.');
+  }
   return { projectTopic: proj[0], currentProject: proj[1] };
 }
 
@@ -67,7 +70,7 @@ export function getLessonHintsAndTests(lesson) {
   const testsString = lesson.trim().split(new RegExp(NEXT_MARKER))?.[2];
   const hintsAndTestsArr = [];
   const hints = testsString?.match(/^(.*?)$(?=\n+```js)/gm).filter(Boolean);
-  const tests = testsString.match(/(?<=```js\n).*?(?=\n```)/gms);
+  const tests = testsString.match(/(?<=```js\n).*?(?=```)/gms);
 
   if (hints?.length) {
     for (let i = 0; i < hints.length; i++) {
@@ -161,5 +164,5 @@ export function isForceFlag(seed) {
  * @returns {string} The stripped codeblock
  */
 export function extractStringFromCode(code) {
-  return code.replace(/.*?```[a-z]+\n(.*?)\n```/s, '$1');
+  return code.replace(/.*?```[a-z]+\n(.*?)```/s, '$1');
 }

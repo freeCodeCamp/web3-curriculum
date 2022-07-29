@@ -19,7 +19,8 @@
       {
         "open": true,
         "url": "http://localhost:8080",
-        "showLoader": true
+        "showLoader": true,
+        "timeout": 20000
       }
     ]
   }

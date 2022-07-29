@@ -1,3 +1,3 @@
 const blockchainLength = process.env.BLOCKCHAIN_LENGTH;
 
-console.log(`'example-contract' noticed that block number ${blockchainLength} is being mined.`)
+console.log(`Block number ${blockchainLength} is being mined. 'example-contract' is running its 'on-new-block.js' file`);
