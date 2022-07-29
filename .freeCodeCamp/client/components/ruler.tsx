@@ -4,8 +4,6 @@ const rulerStyle = {
   backgroundColor: '#ccc',
   margin: '0 auto'
 };
-const Ruler = () => {
+export const Ruler = () => {
   return <div style={rulerStyle}></div>;
 };
-
-export default Ruler;

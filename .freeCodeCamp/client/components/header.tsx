@@ -3,7 +3,7 @@ import { ProjectI } from '../types';
 interface HeaderProps {
   updateProject: (project: ProjectI | null) => void;
 }
-const Header = ({ updateProject }: HeaderProps) => {
+export const Header = ({ updateProject }: HeaderProps) => {
   function returnToLanding() {
     updateProject(null);
   }
@@ -19,5 +19,3 @@ const Header = ({ updateProject }: HeaderProps) => {
     </header>
   );
 };
-
-export default Header;

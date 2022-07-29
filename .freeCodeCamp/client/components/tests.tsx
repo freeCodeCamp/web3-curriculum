@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { TestType } from '../types';
-import Test from './test';
+import { Test } from './test';
 
-interface ProjectTestsProps {
+interface TestsProps {
   tests: TestType[];
 }
 
-const ProjectTests = ({ tests }: ProjectTestsProps) => {
+export const Tests = ({ tests }: TestsProps) => {
   const [won, setWon] = useState(false);
 
   useEffect(() => {
@@ -42,5 +42,3 @@ const Congratulations = () => {
     </li>
   );
 };
-
-export default ProjectTests;
