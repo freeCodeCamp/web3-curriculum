@@ -32,10 +32,8 @@ _Note: You need to run the tests from within the library directory._
   - `clickers` which is a `Vec<String>`
 - Your library should export a struct named `Context` with the following field:
   - `base_account` which is an `Account`
-- You should start a node using `node node/start-node.js`
-  - You should deploy your smart contract using `node node/deploy.js <path_to_your_pkg_directory>`
-  - You should open the served content at port `3001` in your browser
-    - You should use the UI to add at least 3 clickers to your contract state
+- You should deploy your smart contract using `node node/deploy.js <path_to_your_pkg_directory>`
+  - You should run `node node/smart-contract.js <contract_id> set_click <clicker_name>` to add at least 3 clickers to the contract
 
 **Useful Resources:**
 
@@ -95,22 +93,39 @@ const { stdout } = await __helpers.getCommandOutput(
 assert.match(stdout, /test result: ok/);
 ```
 
-You should start a node using `node node/start-node.js`
+You should deploy your smart contract using `node node/deploy.js <path_to_your_pkg_directory>`.
 
 ```js
-
+const blockchain = await fs.readFile(
+  join(__projectLoc, 'data/blockchain.json'),
+  'utf8'
+);
+console.debug(blockchain);
+assert.equal(blockchain[1].smartContracts.length, 1);
 ```
 
-You should deploy your smart contract using `node node/deploy.js <path_to_your_pkg_directory>`
+You should add at least 3 different clickers to your contract state.
 
 ```js
-
-```
-
-You should add at least 3 different clickers to your contract state using the UI.
-
-```js
-
+const blockchain = await fs.readFile(
+  join(__projectLoc, 'data/blockchain.json'),
+  'utf8'
+);
+console.debug(blockchain);
+const smartContract = blockchain
+  .reverse()
+  .find(b => b.smartContracts.length > 0);
+assert.exists(smartContract, 'Smart contract not found');
+assert.isAtLeast(
+  smartContract.state.base_account.clickers.length,
+  3,
+  'Not enough clickers'
+);
+assert.isAtLeast(
+  smartContract.state.base_account.total_clicks,
+  3,
+  'Not enough total_clicks'
+);
 ```
 
 ### --before-all--
