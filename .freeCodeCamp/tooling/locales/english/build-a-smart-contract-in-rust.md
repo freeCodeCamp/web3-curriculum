@@ -96,22 +96,24 @@ assert.match(stdout, /test result: ok/);
 You should deploy your smart contract using `node node/deploy.js <path_to_your_pkg_directory>`.
 
 ```js
-const blockchain = await fs.readFile(
-  join(__projectLoc, 'data/blockchain.json'),
-  'utf8'
+const blockchain = JSON.parse(
+  await __helpers.getFile(`${__projectLoc}/node/data/blockchain.json`)
 );
-console.debug(blockchain);
+assert.exists(blockchain, 'Could not find blockchain');
+assert.isAtLeast(
+  blockchain.length,
+  2,
+  'Expected blockchain to contain at least 2 blocks'
+);
 assert.equal(blockchain[1].smartContracts.length, 1);
 ```
 
 You should add at least 3 different clickers to your contract state.
 
 ```js
-const blockchain = await fs.readFile(
-  join(__projectLoc, 'data/blockchain.json'),
-  'utf8'
+const blockchain = JSON.parse(
+  await __helpers.getFile(`${__projectLoc}/node/data/blockchain.json`)
 );
-console.debug(blockchain);
 const smartContract = blockchain
   .reverse()
   .find(b => b.smartContracts.length > 0);
