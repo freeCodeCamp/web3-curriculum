@@ -4,7 +4,7 @@
     "title": "Learn Digital Ledgers by Building a Blockchain",
     "dashedName": "learn-digital-ledgers-by-building-a-blockchain",
     "isIntegrated": false,
-    "description": "Placeholder description of project until Tom can think of a clever one.",
+    "description": "In this course, you will learn how to build a blockchain from scratch using JavaScript.",
     "isPublic": false,
     "currentLesson": 1
   },
@@ -13,7 +13,7 @@
     "title": "Learn Proof of Work by Building a Block Miner",
     "dashedName": "learn-proof-of-work-by-building-a-blockchain",
     "isIntegrated": false,
-    "description": "Placeholder description of project until Tom can think of a clever one.",
+    "description": "In this course, you will learn how to use the SHA-256 hashing algorithm make your blockchain more secure.",
     "isPublic": false,
     "currentLesson": 1
   },
@@ -22,7 +22,7 @@
     "title": "Learn Digital Signatures by Buiding a Wallet",
     "dashedName": "learn-digital-signatures-by-building-a-wallet",
     "isIntegrated": false,
-    "description": "Placeholder description of project until Tom can think of a clever one.",
+    "description": "In this course, you will learn how to generate and use keypairs so you can veryify users and transactions.",
     "isPublic": false,
     "currentLesson": 1
   },
@@ -31,25 +31,25 @@
     "title": "Build a Video Game Marketplace Blockchain",
     "dashedName": "build-a-video-game-marketplace-blockchain",
     "isIntegrated": true,
-    "description": "Placeholder description of project until Tom can think of a clever one.",
+    "description": "In this integrated project, you will build a blockchain where you can buy and sell items for a video game.",
     "isPublic": true,
     "currentLesson": 1
   },
   {
     "id": 4,
-    "title": "Learn X by Building Y",
-    "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
+    "title": "Learn Smart Contracts by Building a Car Loan Contract",
+    "dashedName": "learn-smart-contracts-by-building-a-car-loan-contract",
     "isIntegrated": false,
-    "description": "Placeholder description of project until Tom can think of a clever one.",
+    "description": "In this course, you will learn about immutable digital agreements by building a smart contract for a car loan.",
     "isPublic": false,
     "currentLesson": 1
   },
   {
     "id": 5,
-    "title": "Learn Y by Building X",
-    "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
+    "title": "Learn NFT's by Building a Set of Concert Tickets",
+    "dashedName": "learn-nfts-by-building-a-set-of-concert-tickets",
     "isIntegrated": false,
-    "description": "Placeholder description of project until Tom can think of a clever one.",
+    "description": "In this course, you will learn about digital ownership on the blockchain by building a set of concert tickets.",
     "isPublic": false,
     "currentLesson": 1
   },
@@ -58,14 +58,14 @@
     "title": "Build a Fundraising Smart Contract",
     "dashedName": "build-a-fundraising-smart-contract",
     "isIntegrated": true,
-    "description": "Placeholder description of project until Tom can think of a clever one.",
+    "description": "In this integrated project, you will create and deploy a smart contract to raise funds for your start-up.",
     "isPublic": true,
     "currentLesson": 1
   },
   {
     "id": 7,
-    "title": "Learn X by Building Y",
-    "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
+    "title": "Learn Websockets by Building a Chat App",
+    "dashedName": "learn-websockets-by-building-a-chat-app",
     "isIntegrated": false,
     "description": "To be decided...",
     "isPublic": false,
@@ -73,8 +73,8 @@
   },
   {
     "id": 8,
-    "title": "Learn Y by Building X",
-    "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
+    "title": "Learn Distributed Networks by Building Distributed Chat App",
+    "dashedName": "learn-distributed-networks-by-building-a-distributed-chat-app",
     "isIntegrated": false,
     "description": "To be decided...",
     "isPublic": false,
@@ -85,7 +85,7 @@
     "title": "Build a Peer-to-Peer Network",
     "dashedName": "build-a-peer-to-peer-network",
     "isIntegrated": true,
-    "description": "Peer-to-peer networking, but you build it.",
+    "description": "In this integrated project, you will build distributed peer-to-peer network for your blockchain.",
     "isPublic": true,
     "currentLesson": 1
   },
