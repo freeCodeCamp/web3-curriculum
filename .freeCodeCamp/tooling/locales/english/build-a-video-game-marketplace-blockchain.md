@@ -4,9 +4,9 @@
 
 ### --description--
 
-You need to create a blockchain for a video game marketplace where you can buy items from and sell items to the game.
+For this project, you need to create a blockchain for a video game marketplace where you can buy items from and sell items to the game.
 
-You are started with some boilerplate code and files, you should not need to change any of the boilerplate code.
+Work within the `build-a-video-game-marketplace` folder, where you are started with some boilerplate code and files. You should not need to change any of the boilerplate code.
 
 The `.json` files will store information about your blockchain, there are functions in `blockchain-helpers.js` for reading from and writing to them. You will need to look at those to see what arguments they need and what they do. They are already included in the files where you need them.
 
@@ -301,7 +301,7 @@ assert.isEmpty(
 );
 ```
 
-Running `node buy-item.js <address-privateKey> <item>` should add a transaction at the end of the `transactions.json` array with the correct `buyerAddress`, `sellerAddress`, `price`, `itemBought`, `hash`, and `signature` properties.
+Running `node buy-item.js <address-privateKey> <item>` should add a transaction at the end of the `transactions.json` array with the correct `buyerAddress`, `sellerAddress`, `price`, `itemBought`, and `signature` properties.
 
 ```js
 // test 7
@@ -421,7 +421,7 @@ assert.equal(
 );
 ```
 
-Running `node sell-item.js <address-privateKey> <item>` should add a transaction at the end of the `transactions.json` array with the correct `buyerAddress`, `sellerAddress`, `price`, `itemSold`, `hash`, and `signature` properties
+Running `node sell-item.js <address-privateKey> <item>` should add a transaction at the end of the `transactions.json` array with the correct `buyerAddress`, `sellerAddress`, `price`, `itemSold`, and `signature` properties
 
 ```js
 // test 9
