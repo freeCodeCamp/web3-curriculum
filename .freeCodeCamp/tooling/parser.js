@@ -117,6 +117,18 @@ export function getBeforeEach(lesson) {
 }
 
 /**
+ * Gets the command/script to run after running the lesson tests
+ * @param {string} lesson - The lesson content
+ * @returns {string} The command to run after running the lesson tests
+ */
+export function getAfterAll(lesson) {
+  const sections = lesson.trim().split(NEXT_MARKER);
+  const afterAll = sections.find(section => section.startsWith('after-all'));
+  const afterAllCommand = extractStringFromCode(afterAll ?? '');
+  return afterAllCommand ?? '';
+}
+
+/**
  * Gets any commands of the lesson seed. If none is found, returns an empty array.
  * @param {string} seed - The seed content
  * @returns {string[]} The commands of the lesson in order

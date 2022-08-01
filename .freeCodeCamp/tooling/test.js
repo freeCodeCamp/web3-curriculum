@@ -7,7 +7,8 @@ import {
   getLessonHintsAndTests,
   getLessonFromFile,
   getBeforeAll,
-  getBeforeEach
+  getBeforeEach,
+  getAfterAll
 } from './parser.js';
 
 import { t, LOCALE } from './t.js';
@@ -40,6 +41,7 @@ export default async function runTests(ws, project) {
     const lesson = await getLessonFromFile(projectFile, lessonNumber);
     const beforeAll = getBeforeAll(lesson);
     const beforeEach = getBeforeEach(lesson);
+    const afterAll = getAfterAll(lesson);
 
     if (beforeAll) {
       try {
@@ -116,6 +118,14 @@ export default async function runTests(ws, project) {
     } catch (e) {
       debug(e);
       updateHints(ws, e);
+    }
+    if (afterAll) {
+      try {
+        await eval(`(async () => {${afterAll}})()`);
+      } catch (e) {
+        error('--after-all-- hook failed to run:');
+        error(e);
+      }
     }
   } catch (e) {
     debug(await t('tests-error'));

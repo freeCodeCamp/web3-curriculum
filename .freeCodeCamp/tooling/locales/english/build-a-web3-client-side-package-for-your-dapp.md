@@ -45,12 +45,14 @@ transfer({from, to, amount}: {from?: string; to: string; amount: number;}): Prom
 Your package should export a class with the handle `Web3`.
 
 ```js
+// 1
 assert.exists(Web3);
 ```
 
 Your `Web3` class should have a `provider` property that is an instance of `URL` constructed from the initialiser argument.
 
 ```js
+// 2
 const web3 = new Web3('http://localhost:3001');
 assert.instanceOf(web3.provider, URL);
 assert.equal(web3.provider.href, 'http://localhost:3001/');
@@ -59,6 +61,7 @@ assert.equal(web3.provider.href, 'http://localhost:3001/');
 Your `Web3` class should have a `setClientAddress` method that takes a `string` as an argument and sets the `address` property of the class to the argument. _Other tests depend on this API_
 
 ```js
+// 3
 const web3 = new Web3('http://localhost:3001');
 assert.isFunction(web3.setClientAddress);
 web3.setClientAddress('Tom_the_tomnificent');
@@ -68,6 +71,7 @@ assert.equal(web3.address, 'Tom_the_tomnificent');
 Your `Web3` class should have an asynchronous method with the handle `call`.
 
 ```js
+// 4
 const web3 = new Web3('http://localhost:3001');
 assert.isFunction(web3.call);
 ```
@@ -75,6 +79,7 @@ assert.isFunction(web3.call);
 The `call` method should make a `POST /call-smart-contract` request to the `href` of `this.provider`.
 
 ```js
+// 5
 const rpc = {
   method: 'get_contract_account',
   args: [],
@@ -95,6 +100,7 @@ assert(
 The `POST /call-smart-contract` request should have a body including the JSON stringified version of the RPC object literal.
 
 ```js
+// 6
 const rpc = {
   method: 'test_6',
   args: [],
@@ -113,6 +119,7 @@ assert.deepInclude(test?.body, { ...rpc });
 The `POST /call-smart-contract` request should have a `Content-Type` header set to `application/json`.
 
 ```js
+// 7
 const rpc = {
   method: 'test_7',
   args: [],
@@ -130,6 +137,7 @@ assert.deepInclude(test.headers, { 'content-type': 'application/json' });
 The `POST /call-smart-contract` request should have a body including the JSON stringified version of `{address: this.address}`.
 
 ```js
+// 8
 const rpc = {
   method: 'test_8',
   args: [],
@@ -154,6 +162,7 @@ assert.deepInclude(test?.body, { address: 'fcc_test_8' });
 The `call` method should return a promise that resolves with the object literal of the response body.
 
 ```js
+// 9
 const rpc = {
   method: 'get_contract_account',
   args: [],
@@ -172,6 +181,7 @@ assert.deepEqual(response, { total_clicks: 0, clickers: [] });
 If the response body contains an `error` property, `call` throws an `Error` with the value of the `error` property.
 
 ```js
+// 10
 const web3 = new Web3('http://localhost:3001');
 try {
   await web3.call({ test: 'todo' });
@@ -187,6 +197,7 @@ try {
 Your `Web3` class should have an asynchronous method with the handle `initSmartContract`.
 
 ```js
+// 11
 const web3 = new Web3('http://localhost:3001');
 assert.isFunction(web3.initSmartContract);
 ```
@@ -194,6 +205,7 @@ assert.isFunction(web3.initSmartContract);
 The `initSmartContract` method should return an object literal including a `set_click` property, when called with the example `idl`.
 
 ```js
+// 12
 const web3 = new Web3('http://localhost:3001');
 const smartContract = web3.initSmartContract(
   (
@@ -210,6 +222,7 @@ assert.exists(smartContract.set_click);
 The `initSmartContract` method should return an object literal including a `get_contract_account` property, when called with the example `idl`.
 
 ```js
+// 13
 const web3 = new Web3('http://localhost:3001');
 const smartContract = web3.initSmartContract(
   (
@@ -226,6 +239,7 @@ assert.exists(smartContract.get_contract_account);
 The `set_click` property should be a function.
 
 ```js
+// 14
 const web3 = new Web3('http://localhost:3001');
 const smartContract = web3.initSmartContract(
   (
@@ -241,6 +255,7 @@ assert.isFunction(smartContract.set_click);
 The `get_contract_account` property should be a function.
 
 ```js
+// 15
 const web3 = new Web3('http://localhost:3001');
 const smartContract = web3.initSmartContract(
   (
@@ -256,6 +271,7 @@ assert.isFunction(smartContract.get_contract_account);
 The `set_click` function should validate that one argument of type `string` is passed, when called. Validation is done by throwing an `Error` if the argument is not a string.
 
 ```js
+// 16
 const web3 = new Web3('http://localhost:3001');
 const smartContract = web3.initSmartContract(
   (
@@ -288,6 +304,7 @@ try {
 The `set_click` function should return a promise that resolves with the result of calling `this.call` with `{method: "set_click", args: ["test"], id: 0}`.
 
 ```js
+// 17
 const web3 = new Web3('http://localhost:3001');
 const smartContract = web3.initSmartContract(
   (
@@ -308,6 +325,7 @@ assert.deepEqual(res, {
 The `get_contract_account` function should return a promise that resolves with the result of calling `this.call` with `{method: "get_contract_account", args: [], id: 0}`.
 
 ```js
+// 18
 const web3 = new Web3('http://localhost:3001');
 const smartContract = web3.initSmartContract(
   (
@@ -326,6 +344,7 @@ assert.deepEqual(res, { total_clicks: 0, clickers: [] });
 Your `Web3` class should have an asynchronous method with the handle `getBalance`.
 
 ```js
+// 19
 const web3 = new Web3('http://localhost:3001');
 assert.isFunction(web3.getBalance);
 ```
@@ -333,6 +352,7 @@ assert.isFunction(web3.getBalance);
 The `getBalance` method should make a `POST /get-balance` request to the `href` of `this.provider`.
 
 ```js
+// 20
 const web3 = new Web3('http://localhost:3001');
 try {
   await web3.getBalance('shaun');
@@ -344,6 +364,7 @@ assert.isTrue(tests.some(t => t.url === '/get-balance'));
 The `POST /get-balance` request should have a body including the JSON stringified version of `{address}`.
 
 ```js
+// 21
 const web3 = new Web3('http://localhost:3001');
 web3.setClientAddress('Tom_the_tomnificent');
 try {
@@ -357,6 +378,7 @@ assert.deepInclude(test?.body, { address: 'fcc_test_14' });
 The `POST /get-balance` request should fallback to the `this.address` if no address is provided.
 
 ```js
+// 22
 const web3 = new Web3('http://localhost:3001');
 web3.setClientAddress('fcc_test_15');
 try {
@@ -370,6 +392,7 @@ assert.deepInclude(test?.body, { address: 'fcc_test_15' });
 The `POST /get-balance` request should have a `Content-Type` header set to `application/json`.
 
 ```js
+// 23
 const web3 = new Web3('http://localhost:3001');
 try {
   await web3.getBalance('fcc_test_16');
@@ -382,6 +405,7 @@ assert.deepInclude(test?.headers, { 'content-type': 'application/json' });
 The `getBalance` method should return a promise that resolves with the object literal of the response body.
 
 ```js
+// 24
 const web3 = new Web3('http://localhost:3001');
 let response;
 try {
@@ -393,6 +417,7 @@ assert.equal(response, 1_000_000_000_000_000_000);
 If the response body contains an `error` property, `getBalance` throws an `Error` with the value of the `error` property.
 
 ```js
+// 25
 const web3 = new Web3('http://localhost:3001');
 try {
   await web3.getBalance();
@@ -408,6 +433,7 @@ try {
 Your `Web3` class should have an asynchronous method with the handle `transfer`.
 
 ```js
+// 26
 const web3 = new Web3('http://localhost:3001');
 assert.isFunction(web3.transfer);
 ```
@@ -415,6 +441,7 @@ assert.isFunction(web3.transfer);
 The `transfer` method should make a `POST /transfer` request to the `href` of `this.provider`.
 
 ```js
+// 27
 const _t = {
   from: 'shaun',
   to: 'tom',
@@ -431,6 +458,7 @@ assert.isTrue(tests.some(t => t.url === '/transfer'));
 The `POST /transfer` request should have a `Content-Type` header set to `application/json`.
 
 ```js
+// 28
 const _t = {
   from: 'shaun',
   to: 'tom',
@@ -448,6 +476,7 @@ assert.deepInclude(test?.headers, { 'content-type': 'application/json' });
 The `POST /transfer` request should have a body including the JSON stringified version of `{from, to, amount}`.
 
 ```js
+// 29
 const _t = {
   from: 'from_address',
   to: 'to_address',
@@ -466,6 +495,7 @@ assert.deepEqual(test?.body, _t);
 The `transfer` method should return a promise that resolves with the object literal of the response body.
 
 ```js
+// 30
 const _t = {
   from: 'shaun',
   to: 'tom',
@@ -482,6 +512,7 @@ assert.equal(response, 'success');
 If the response body contains an `error` property, `transfer` throws an `Error` with the value of the `error` property.
 
 ```js
+// 31
 const web3 = new Web3('http://localhost:3001');
 try {
   await web3.transfer({ amount: 10 });
@@ -500,7 +531,29 @@ try {
 ### --before-all--
 
 ```js
-await fetch('http://localhost:3001/tests', { method: 'DELETE' });
+// Stop and start node in background
+const { spawn } = await import('child_process');
+const _node = spawn('node', ['node/provider.js'], {
+  cwd: '../build-a-web3-client-side-package-for-your-dapp'
+});
+
+// _node.on('close', (code, signal) => {
+//   console.log(`child process terminated due to receipt of signal ${signal}`);
+// });
+
+// _node.on('error', err => {
+//   console.log('E: ', err);
+// });
+
+// _node.stdout.on('data', data => {
+//   console.log('stdout: ' + data);
+// });
+// _node.stderr.on('data', data => {
+//   console.log('stderr: ' + data);
+// });
+
+global._node = _node;
+
 const Web3 = (
   await import(
     '../../build-a-web3-client-side-package-for-your-dapp/web3/index.js'
@@ -508,6 +561,15 @@ const Web3 = (
 ).default;
 delete global.Web3;
 global.Web3 = Web3;
+```
+
+### --after-all--
+
+```js
+// Kill node process
+const _t = global._node.kill();
+debug('killing node process...', _t);
+delete global._node;
 ```
 
 ## --fcc-end--
