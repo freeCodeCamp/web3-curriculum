@@ -6,15 +6,15 @@
 
 You will be building a client-side package in the form of a class that can be used to interact with a Web3 provider.
 
-**Instruction**: Start the node server, by running `npm run test` in a free terminal.
+**Instruction**:
 
 This class has been started off for you in `web3/index.js`.
 
 The `fixture/` directory should **not** be altered.
 
-An example provider exists in `fixture/provider.js`.<br />
-An example client using your `Web3` package exists in `fixture/client/`. You can view the client at `http://localhost:3001/`.<br />
-An example _IDL_ exists in `fixture/data/idl.json`.
+An example provider exists in `node/provider.js`.<br />
+An example client using your `Web3` package exists in `client/`. You can view the client at `http://localhost:3001/`.<br />
+An example _IDL_ exists in `node/idl.json`.
 
 **User Stories:**
 

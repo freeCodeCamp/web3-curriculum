@@ -1,14 +1,15 @@
 import { writeFile, readFile } from 'fs/promises';
-import { error } from 'logover';
+import { join } from 'path';
+import { error, info } from 'logover';
 import sha256 from 'crypto-js/sha256.js';
 
 export async function writeBlockchain(blockchain) {
   const blockchainString = JSON.stringify(blockchain, null, 2);
-  await writeFile('node/data/blockchain.json', blockchainString);
+  await writeFile('node/blockchain.json', blockchainString);
 }
 
 export async function readBlockchain() {
-  const blockchainString = await readFile('node/data/blockchain.json');
+  const blockchainString = await readFile('node/blockchain.json');
   return JSON.parse(blockchainString);
 }
 
@@ -65,7 +66,7 @@ export async function mineBlock(smartContracts) {
 }
 
 export async function deploySmartContract() {
-  const relPathToPkg = './smart-contract/pkg';
+  const relPathToPkg = 'node/pkg/build_a_smart_contract_in_rust.js';
 
   try {
     const pathToPkg = join('..', relPathToPkg);

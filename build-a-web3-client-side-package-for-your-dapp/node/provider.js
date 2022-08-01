@@ -1,6 +1,6 @@
 import express from 'express';
 import { info, error } from 'logover';
-import { deploySmartContract, initialiseBlockchain } from './utils';
+import { deploySmartContract, initialiseBlockchain } from './utils.js';
 
 info('Starting provider...');
 
@@ -10,13 +10,6 @@ app.use(express.json());
 app.use(express.static('../client'));
 
 const _tests = [];
-
-try {
-  await init();
-} catch (e) {
-  error('Unable to initialise blockchain:\n');
-  throw new Error(e);
-}
 
 app.post('/call-smart-contract', async (req, res) => {
   _tests.push({ body: req.body, url: req.url, headers: req.headers });
