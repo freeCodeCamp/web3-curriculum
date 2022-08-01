@@ -6,7 +6,7 @@
 
 For this project, you need to create a blockchain for a video game marketplace where you can buy items from and sell items to the game.
 
-Work within the `build-a-video-game-marketplace` folder. In there, you are started with some boilerplate code and files. You should not need to change any of the boilerplate code.
+Work within the `build-a-video-game-marketplace` folder, where you are started with some boilerplate code and files. You should not need to change any of the boilerplate code.
 
 The `.json` files will store information about your blockchain, there are functions in `blockchain-helpers.js` for reading from and writing to them. You will need to look at those to see what arguments they need and what they do. They are already included in the files where you need them.
 
