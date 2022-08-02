@@ -4,7 +4,7 @@
 
 ### --description--
 
-You will build a Smart Contract using Rust.
+For this project, you need to create and deploy Smart Contract using Rust that keeps track of how many users have clicked a button on your web page.
 
 You are started with Rust library consisting of all the unit and integration tests you are expected to pass. The boilerplate already contains the necessary crates to complete the user stories, but you will need to import them.
 
