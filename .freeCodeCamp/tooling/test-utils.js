@@ -12,7 +12,7 @@ const execute = promisify(exec);
 const ec = new elliptic.ec('p192');
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const ROOT = join(__dirname, '..');
+const ROOT = join(__dirname, '../..');
 
 async function getDirectory(path) {
   const files = await readdir(`${ROOT}/${path}`);
@@ -85,10 +85,13 @@ async function getFile(path) {
 }
 
 async function fileExists(path) {
-  return fs.existsSync(path);
+  return fs.existsSync(join(ROOT, path));
 }
 
-async function copyDirectory(folderToCopy, destinationFolder) {
+async function copyDirectory(folderToCopyPath, destinationFolderPath) {
+  const folderToCopy = join(ROOT, folderToCopyPath);
+  const destinationFolder = join(ROOT, destinationFolderPath);
+
   if (!fs.existsSync(destinationFolder)) {
     fs.mkdirSync(destinationFolder);
   }
@@ -98,11 +101,13 @@ async function copyDirectory(folderToCopy, destinationFolder) {
   });
 }
 
-async function copyProjectFiles(projectFolder, testsFolder, arrayOfFiles = []) {
+async function copyProjectFiles(projectFolderPath, testsFolderPath, arrayOfFiles = []) {
+  const projectFolder = join(ROOT, projectFolderPath);
+  const testsFolder = join(ROOT, testsFolderPath);
+
   if (!projectFolder || !testsFolder || arrayOfFiles.length === 0) {
     throw Error('Cannot copy project files');
   }
-  console.log('attempting to copy files...');
 
   arrayOfFiles.forEach(file => {
     fs.copyFileSync(
@@ -112,17 +117,20 @@ async function copyProjectFiles(projectFolder, testsFolder, arrayOfFiles = []) {
   });
 }
 
-async function runCommand(command, options) {
-  execSync(command, options);
+async function runCommand(command, path) {
+  execSync(command, {
+    cwd: join(ROOT, path),
+    shell: '/bin/bash'
+  });
 }
 
-async function getJsonFile(file) {
-  const fileString = fs.readFileSync(file);
+async function getJsonFile(filePath) {
+  const fileString = fs.readFileSync(join(ROOT, filePath));
   return JSON.parse(fileString);
 }
 
 async function writeJsonFile(path, content) {
-  fs.writeFileSync(path, JSON.stringify(content, null, 2));
+  fs.writeFileSync(join(ROOT, path), JSON.stringify(content, null, 2));
 }
 
 async function generateHash(content) {
