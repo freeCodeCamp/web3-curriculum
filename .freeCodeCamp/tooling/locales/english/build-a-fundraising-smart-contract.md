@@ -82,7 +82,7 @@ const fileExists = await __helpers.fileExists(
 assert.isTrue(fileExists);
 ```
 
-Running the `get-description.js` function in your deployed contract should console log only the `description` from current state object of the contract like this: `Here's the description of the fundraising contract: <description_here>`
+Running the `get-description.js` function in your deployed contract should console log the `description` from current state object of the contract like this: `Here's the description of the fundraising contract: <description_here>`
 
 ```js
 // test 3
@@ -91,14 +91,14 @@ const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
 
-await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand('node init-blockchain.js', testFolder);
 const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
 const privateKey = wallets['Me'].privateKey;
 await __helpers.runCommand(
   `node deploy-contract.js fundraising-contract ${privateKey}`,
-  { cwd: testFolder }
+  testFolder
 );
-await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
+await __helpers.runCommand(`node mine-block.js`, testFolder);
 const contractWallets = await __helpers.getJsonFile(
   `${testFolder}/contract-wallets.json`
 );
@@ -138,14 +138,14 @@ const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
 
-await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand('node init-blockchain.js', testFolder);
 const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
 const privateKey = wallets['Me'].privateKey;
 await __helpers.runCommand(
   `node deploy-contract.js fundraising-contract ${privateKey}`,
-  { cwd: testFolder }
+  testFolder
 );
-await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
+await __helpers.runCommand(`node mine-block.js`, testFolder);
 const contractWallets = await __helpers.getJsonFile(
   `${testFolder}/contract-wallets.json`
 );
@@ -155,7 +155,7 @@ const contractAddress =
   ]?.publicKey || null;
 await __helpers.runCommand(
   `node run-contract.js ${contractAddress} update-description.js "New description"`,
-  { cwd: testFolder }
+  testFolder
 );
 const contract = await __helpers.getContract(contractAddress, testFolder);
 assert.deepNestedInclude(contract.state, { description: 'New description' });
@@ -170,11 +170,11 @@ const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
 
-await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand('node init-blockchain.js', testFolder);
 const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
 await __helpers.runCommand(
   `node deploy-contract.js fundraising-contract ${wallets['Me'].privateKey}`,
-  { cwd: testFolder }
+  testFolder
 );
 
 const tx = [
@@ -185,7 +185,7 @@ const tx = [
   }
 ];
 await __helpers.writeJsonFile(`${testFolder}/transactions.json`, tx);
-await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
+await __helpers.runCommand(`node mine-block.js`, testFolder);
 
 const contractWallets = await __helpers.getJsonFile(
   `${testFolder}/contract-wallets.json`
@@ -194,7 +194,7 @@ const contractWallets = await __helpers.getJsonFile(
 const contractAddress = contractWallets['fundraising-contract']?.publicKey;
 await __helpers.runCommand(
   `node add-transaction.js ${wallets['You'].privateKey} ${contractAddress} 200`,
-  { cwd: testFolder }
+  testFolder
 );
 
 const transactions = await __helpers.getJsonFile(
@@ -218,11 +218,11 @@ const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
 
-await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand('node init-blockchain.js', testFolder);
 const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
 await __helpers.runCommand(
   `node deploy-contract.js fundraising-contract ${wallets['Me'].privateKey}`,
-  { cwd: testFolder }
+  testFolder
 );
 
 const tx = [
@@ -233,7 +233,7 @@ const tx = [
   }
 ];
 await __helpers.writeJsonFile(`${testFolder}/transactions.json`, tx);
-await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
+await __helpers.runCommand(`node mine-block.js`, testFolder);
 
 const contractWallets = await __helpers.getJsonFile(
   `${testFolder}/contract-wallets.json`
@@ -242,7 +242,7 @@ const contractWallets = await __helpers.getJsonFile(
 const contractAddress = contractWallets['fundraising-contract']?.publicKey;
 await __helpers.runCommand(
   `node add-transaction.js ${wallets['You'].privateKey} ${contractAddress} 200`,
-  { cwd: testFolder }
+  testFolder
 );
 const contract = await __helpers.getContract(contractAddress, testFolder);
 
@@ -258,11 +258,11 @@ const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
 
-await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand('node init-blockchain.js', testFolder);
 const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
 await __helpers.runCommand(
   `node deploy-contract.js fundraising-contract ${wallets['Me'].privateKey}`,
-  { cwd: testFolder }
+  testFolder
 );
 
 const tx = [
@@ -279,7 +279,7 @@ const tx = [
 ];
 
 await __helpers.writeJsonFile(`${testFolder}/transactions.json`, tx);
-await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
+await __helpers.runCommand(`node mine-block.js`, testFolder);
 
 const contractWallets = await __helpers.getJsonFile(
   `${testFolder}/contract-wallets.json`
@@ -287,17 +287,17 @@ const contractWallets = await __helpers.getJsonFile(
 const contractAddress = contractWallets['fundraising-contract'].publicKey;
 await __helpers.runCommand(
   `node add-transaction.js ${wallets['You'].privateKey} ${contractAddress} 27`,
-  { cwd: testFolder }
+  testFolder
 );
 await __helpers.runCommand(
   `node add-transaction.js ${wallets['I'].privateKey} ${contractAddress} 44`,
-  { cwd: testFolder }
+  testFolder
 );
-await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
-await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
-await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
-await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
-await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
+await __helpers.runCommand(`node mine-block.js`, testFolder);
+await __helpers.runCommand(`node mine-block.js`, testFolder);
+await __helpers.runCommand(`node mine-block.js`, testFolder);
+await __helpers.runCommand(`node mine-block.js`, testFolder);
+await __helpers.runCommand(`node mine-block.js`, testFolder);
 
 const transactions = await __helpers.getJsonFile(
   `${testFolder}/transactions.json`
@@ -335,18 +335,18 @@ const testContractFolder = `${testFolder}/fundraising-contract`;
 await __helpers.copyDirectory(projectContractFolder, testContractFolder);
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
 
-await __helpers.runCommand('node init-blockchain.js', { cwd: testFolder });
+await __helpers.runCommand('node init-blockchain.js', testFolder);
 const wallets = await __helpers.getJsonFile(`${testFolder}/wallets.json`);
 await __helpers.runCommand(
   `node deploy-contract.js fundraising-contract ${wallets['Me'].privateKey}`,
-  { cwd: testFolder }
+  testFolder
 );
-await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
-await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
-await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
-await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
-await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
-await __helpers.runCommand(`node mine-block.js`, { cwd: testFolder });
+await __helpers.runCommand(`node mine-block.js`, testFolder);
+await __helpers.runCommand(`node mine-block.js`, testFolder);
+await __helpers.runCommand(`node mine-block.js`, testFolder);
+await __helpers.runCommand(`node mine-block.js`, testFolder);
+await __helpers.runCommand(`node mine-block.js`, testFolder);
+await __helpers.runCommand(`node mine-block.js`, testFolder);
 
 const contractWallets = await __helpers.getJsonFile(
   `${testFolder}/contract-wallets.json`
@@ -535,7 +535,7 @@ assert.isNotEmpty(blockchain);
 ### --before-all--
 
 ```js
-global.root = '..';
+global.root = '.';
 global.projectFolder = `${root}/build-a-fundraising-smart-contract`;
 global.projectContractFolder = `${projectFolder}/fundraising-contract`;
 global.testsFolder = `${projectFolder}/.tests`;
