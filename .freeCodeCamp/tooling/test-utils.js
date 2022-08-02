@@ -48,7 +48,6 @@ async function getTerminalOutput() {
  * @returns {{stdout, stderr}}
  */
 async function getCommandOutput(command, path = '') {
-  console.log('TEST: !!!!! ', ROOT, path);
   const cmdOut = await execute(command, {
     cwd: join(ROOT, path),
     shell: '/bin/bash'
