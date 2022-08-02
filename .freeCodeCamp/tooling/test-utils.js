@@ -12,7 +12,7 @@ const execute = promisify(exec);
 const ec = new elliptic.ec('p192');
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const ROOT = join(__dirname, '..');
+const ROOT = join(__dirname, '../..');
 
 async function getDirectory(path) {
   const files = await readdir(`${ROOT}/${path}`);
@@ -105,10 +105,7 @@ async function copyProjectFiles(projectFolder, testsFolder, arrayOfFiles = []) {
   console.log('attempting to copy files...');
 
   arrayOfFiles.forEach(file => {
-    fs.copyFileSync(
-      `${projectFolder}/${file}`,
-      `${testsFolder}/${file}`
-    );
+    fs.copyFileSync(`${projectFolder}/${file}`, `${testsFolder}/${file}`);
   });
 }
 
@@ -197,7 +194,7 @@ async function canConnectToSocket(address) {
     const socket = new WebSocket(address, { shouldKeepAlive: false });
     socket.on('open', () => {
       socket.close();
-      resolve(true)
+      resolve(true);
     });
     socket.on('error', () => resolve(false));
   });
@@ -215,9 +212,13 @@ async function p2pTest3() {
 
     server.on('error', () => server.close());
 
-    const socket = new WebSocket('ws://localhost:4001', { shouldKeepAlive: false });
+    const socket = new WebSocket('ws://localhost:4001', {
+      shouldKeepAlive: false
+    });
     socket.on('open', () => {
-      socket.send(JSON.stringify({ type: 'HANDSHAKE', data: ['ws://localhost:4103'] }));
+      socket.send(
+        JSON.stringify({ type: 'HANDSHAKE', data: ['ws://localhost:4103'] })
+      );
       socket.close();
     });
 
@@ -225,7 +226,10 @@ async function p2pTest3() {
   });
 }
 
-async function startSocketServerAndHandshake({ myPort: port, theirAddress = 'ws://localhost:4001' }) {
+async function startSocketServerAndHandshake({
+  myPort: port,
+  theirAddress = 'ws://localhost:4001'
+}) {
   return await new Promise(resolve => {
     const address = `ws://localhost:${port}`;
 
