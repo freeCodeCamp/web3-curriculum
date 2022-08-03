@@ -10,10 +10,10 @@ You will be building a client-side package in the form of a class that can be us
 
 This class has been started off for you in `web3/index.js`.
 
-The `fixture/` directory should **not** be altered.
+The `node/` directory should **not** be altered.
 
 An example provider exists in `node/provider.js`.<br />
-An example client using your `Web3` package exists in `client/`. You can view the client at `http://localhost:3001/`.<br />
+An example client using your `Web3` package exists in `client/`.<br />
 An example _IDL_ exists in `node/idl.json`.
 
 **User Stories:**
@@ -24,21 +24,35 @@ Your `Web3` class should have the following methods:
 setClientAddress(address: string): void
 ```
 
+- `setClientAddress` should set the class `address` property to the given address.
+
 ```ts
 call(rpcCall: Record<string, any>): Promise<Record<string, any>>
 ```
+
+- `call` should accept an RPC call object literal, and return a promise that resolves with the result of the RPC call.
 
 ```ts
 initSmartContract(idl: Record<string, any>): Promise<Record<string, any>>
 ```
 
+- `initSmartContract` should accept an IDL object literal, and return a promise that resolves with the contract instance.
+
 ```ts
 getBalance(address?: string): Promise<number>
 ```
 
+- `getBalance` should accept an address, and return a promise that resolves with the balance of the given address.
+
 ```ts
 transfer({from, to, amount}: {from?: string; to: string; amount: number;}): Promise<Record<string, any>>
 ```
+
+- `transfer` should accept an object literal with the following properties:
+  - `from`: the address to send the funds from.
+  - `to`: the address to send the funds to.
+  - `amount`: the amount of funds to send.
+- `transfer` should return a promise that resolves with the result of the transfer.
 
 ### --tests--
 
