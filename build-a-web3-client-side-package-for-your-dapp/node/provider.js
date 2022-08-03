@@ -1,13 +1,17 @@
 import express from 'express';
 import { info, error } from 'logover';
-import { deploySmartContract, initialiseBlockchain } from './utils.js';
+import {
+  deploySmartContract,
+  initialiseBlockchain,
+  transfer,
+  getAccount
+} from './utils.js';
 
 info('Starting provider...');
 
 const app = express();
 
 app.use(express.json());
-app.use(express.static('../client'));
 
 const _tests = [];
 
@@ -42,7 +46,7 @@ app.post('/get-balance', async (req, res) => {
     return;
   }
 
-  const balance = await getBalance(address);
+  const balance = (await getAccount(address))?.balance;
   if (!balance) {
     return res.status(404).json({ error: 'Account not found' });
   }
@@ -59,7 +63,7 @@ app.post('/transfer', async (req, res) => {
     });
     return;
   }
-  await addTransaction(transfer(from, to, amount));
+  await transfer({ from, to, amount });
   res.json({ result: 'success' });
 });
 
