@@ -33,10 +33,31 @@ call(rpcCall: Record<string, any>): Promise<Record<string, any>>
 - `call` should accept an RPC call object literal, and return a promise that resolves with the result of the RPC call.
 
 ```ts
-initSmartContract(idl: Record<string, any>): Promise<Record<string, any>>
+initSmartContract(idl: Record<string, any>): Record<string, any>>
 ```
 
-- `initSmartContract` should accept an IDL object literal, and return a promise that resolves with the contract instance.
+- `initSmartContract` should accept an IDL object literal, and return the contract instance of callable methods.
+- Here is an example of the input and its output:
+
+```js
+const IDL = {
+  id: 20,
+  instructions: [
+    {
+      handle: 'getFavouriteNumber',
+      args: ['string']
+    },
+    {
+      handle: 'setFavouriteNumber',
+      args: ['string', 'number']
+    }
+  ]
+};
+const smartContract = initSmartContract(IDL);
+await setFavouriteNumber('my_address', 24);
+const favouriteNumber = await getFavouriteNumber('my_address');
+assert.equal(favouriteNumber, 24);
+```
 
 ```ts
 getBalance(address?: string): Promise<number>
@@ -53,6 +74,10 @@ transfer({from, to, amount}: {from?: string; to: string; amount: number;}): Prom
   - `to`: the address to send the funds to.
   - `amount`: the amount of funds to send.
 - `transfer` should return a promise that resolves with the result of the transfer.
+
+**Notes**:
+
+An _IDL_ describes a contract's interface. Specifically, it describes the callable methods on a contract, as well as the expected types of its parameters.
 
 ### --tests--
 
