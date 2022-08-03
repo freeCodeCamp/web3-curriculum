@@ -35,11 +35,11 @@ export async function callSmartContract(id, functionHandle, functionArgs) {
     const smartContract = (await import(contract.pathToPkg)).default;
     const res = smartContract[functionHandle](contract.state, ...functionArgs);
     contract.state = res;
-    await mineBlock([contract]);
+    await mineBlock({ smartContracts: [contract] });
   }
 }
 
-export async function mineBlock(smartContracts) {
+export async function mineBlock({ smartContracts = [], accounts = [] }) {
   const blockchain = await readBlockchain();
   const previousBlock = blockchain[blockchain.length - 1];
 
@@ -58,7 +58,8 @@ export async function mineBlock(smartContracts) {
     hash,
     previousHash: previousBlock.hash,
     nonce,
-    smartContracts
+    smartContracts,
+    accounts
   };
 
   blockchain.push(newBlock);
@@ -77,7 +78,7 @@ export async function deploySmartContract() {
       state: initialised,
       id: 0
     };
-    await mineBlock([smartContract]);
+    await mineBlock({ smartContracts: [smartContract] });
     info(`Smart contract deployed with id: ${smartContract.id}`);
   } catch (e) {
     error('Unable to deploy smart contract: ');
@@ -89,9 +90,41 @@ export async function initialiseBlockchain() {
   const genesisBlock = {
     hash: 0,
     previousHash: null,
-    smartContracts: []
+    smartContracts: [],
+    accounts: [
+      {
+        address: 'program_account',
+        balance: 1_000_000_000
+      }
+    ]
   };
 
   const blockchain = [genesisBlock];
   await writeBlockchain(blockchain);
+}
+
+export async function transfer({ from, to, amount }) {
+  const fromAccount = await getAccount(from);
+  const toAccount = await getAccount(to);
+  if (fromAccount.balance < amount) {
+    warn(
+      `'${fromAccount.address}' has insufficient funds: ${fromAccount.balance} < ${amount}`
+    );
+  }
+  fromAccount.balance -= amount;
+  toAccount.balance += amount;
+  await mineBlock({ accounts: [fromAccount, toAccount] });
+}
+
+export async function getAccount(address) {
+  const blockchain = await readBlockchain();
+  let account = null;
+  for (const block of blockchain.reverse()) {
+    for (const account of block.accounts) {
+      if (account.address === address) {
+        return account;
+      }
+    }
+  }
+  return account;
 }
