@@ -16,7 +16,7 @@ When you think you are done, run at least three nodes that all connect to each o
 
 1. Your `index.js` should create a web socket server listening on the port in its `.env` file
 
-1. When a web socket server starts, it should attempt to open a socket connection to all the addresses in `known-peers.json` array. Use the predefined `knownPeers` variable
+1. When a web socket server starts, it should attempt to open a socket connection to all the addresses in the `known-peers.json` array. Use the predefined `knownPeers` variable
 
 1. Whenever a socket connection to a server is established, it should send a message that is a stringified JSON object of `{ type: 'HANDSHAKE', data: <array> }` to it. `data` should be an array of addresses that your server is connected to, including the server's own address
 
