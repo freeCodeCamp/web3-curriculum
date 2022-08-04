@@ -8,7 +8,9 @@ You will be building a client-side package in the form of a class that can be us
 
 **Instruction**:
 
-This class has been started off for you in `web3/index.js`.
+You should work entirely within the `build-a-web3-client-side-package-for-your-dapp/` directory.
+
+You have been given boilerplate in `web3/index.js`.
 
 The `node/` directory should **not** be altered.
 
