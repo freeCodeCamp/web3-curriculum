@@ -208,41 +208,22 @@ async function canConnectToSocket(address) {
   });
 }
 
-async function p2pTest3() {
-  return await new Promise(resolve => {
-    const server = new WebSocketServer({ port: 4103 });
-
-    server.on('connection', externalSocket => {
-      externalSocket.close();
-      server.close();
-      resolve(true);
-    });
-
-    server.on('error', () => server.close());
-
-    const socket = new WebSocket('ws://localhost:4001', {
-      shouldKeepAlive: false
-    });
-    socket.on('open', () => {
-      socket.send(
-        JSON.stringify({ type: 'HANDSHAKE', data: ['ws://localhost:4103'] })
-      );
-      socket.close();
-    });
-
-    socket.on('error', () => resolve());
-  });
-}
-
 async function startSocketServerAndHandshake({
   myPort: port,
-  theirAddress = 'ws://localhost:4001'
+  theirAddress = 'ws://localhost:4001',
+  connectOnly = false
 }) {
   return await new Promise(resolve => {
     const address = `ws://localhost:${port}`;
 
     const server = new WebSocketServer({ port });
     server.on('connection', externalSocket => {
+      if (connectOnly) {
+        externalSocket.close();
+        server.close();
+        resolve(true);
+      }
+
       externalSocket.on('message', messageString => {
         const message = JSON.parse(messageString);
 
@@ -257,6 +238,11 @@ async function startSocketServerAndHandshake({
       });
     });
 
+    setTimeout(() => {
+      server.close();
+      resolve();
+    }, 5000);
+
     server.on('error', () => server.close());
 
     const socket = new WebSocket(theirAddress, { shouldKeepAlive: false });
@@ -266,24 +252,6 @@ async function startSocketServerAndHandshake({
     });
 
     socket.on('error', () => resolve());
-  });
-}
-
-// need to shut down socket servers so the ports are open for next test run
-async function closeSocketServer(address) {
-  return await new Promise(resolve => {
-    const socket = new WebSocket(address, { shouldKeepAlive: false });
-
-    socket.on('open', () => {
-      socket.send(JSON.stringify({ type: 'CLOSE' }));
-      socket.close();
-      resolve();
-    });
-
-    socket.on('error', () => {
-      socket.close();
-      resolve();
-    });
   });
 }
 
@@ -307,9 +275,7 @@ const __helpers = {
   getPublicKeyFromPrivate,
   getContract,
   canConnectToSocket,
-  p2pTest3,
-  startSocketServerAndHandshake,
-  closeSocketServer
+  startSocketServerAndHandshake
 };
 
 export default __helpers;
