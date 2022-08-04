@@ -8,7 +8,7 @@ For this project, you need to create a distrubuted peer-to-peer network in the `
 
 To build the project, use the imported `WebSocket` and `WebSocketServer` variables to create a Web Socket server in the `index.js` file that listens for incoming socket connections and creates a socket connection to all the other nodes on the network.
 
-To test if your nodes are connecting to each other, run `node clone-node.js` from the `build-a-peer-to-peer-network` folder to clone your `node-1`. It will use the next available folder number and the `PORT` in its `.env` file will correspond to that. e.g. The first time you clone a node, it will create a `node-2` folder with `4002` set as the `PORT`. After that, go into each of your `node-x` folders in their own terminal and run `node index.js` to start each of the servers. If you want to make changes to your node after that, you can run `node delete-nodes.js` to delete all the nodes except `node-1`, then make your changes to `node-1`, and clone it again.
+To test if your nodes are connecting to each other, run `node clone-node.js` to clone your `node-1`. It will use the next available folder number, and the `PORT` in its `.env` file will correspond to that. e.g. The first time you clone a node, it will create a `node-2` folder with `4002` set as the `PORT`. After that, go into each of your `node-x` folders in their own terminal and run `node index.js` to start each of the servers. If you want to make changes to your node after that, you can run `node delete-nodes.js` to delete all the nodes except `node-1`, then make your changes to `node-1`, and clone it again.
 
 When you think you are done, run at least three nodes that all connect to each other.
 
