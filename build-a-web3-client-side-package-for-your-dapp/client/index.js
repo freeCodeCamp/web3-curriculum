@@ -1,20 +1,21 @@
-import Web3 from "../web3/index.js";
-import idl from "../fixture/data/idl.json" assert { type: "json" };
+import Web3 from '../web3/index.js';
+import idl from '../fixture/data/idl.json' assert { type: 'json' };
 
-const web3 = new Web3("http://localhost:3001");
-web3.setClientAddress("tom"); // For default;
+const web3 = new Web3('http://localhost:3001');
+web3.setClientAddress('tom'); // For default;
 
+// Use the imported IDL to create a new smart contract instance.
 const smartContract = web3.initSmartContract(idl);
 
-const btn = document.getElementById("click");
-const address = document.getElementById("address");
+const btn = document.getElementById('click');
+const address = document.getElementById('address');
 
-btn.addEventListener("click", handleClick);
+btn.addEventListener('click', handleClick);
 
-address.addEventListener("change", setClientAddress);
+address.addEventListener('change', setClientAddress);
 
-const totalClicks = document.getElementById("total-clicks");
-const clickers = document.getElementById("clickers");
+const totalClicks = document.getElementById('total-clicks');
+const clickers = document.getElementById('clickers');
 
 function setClientAddress(e) {
   web3.setClientAddress(e.target.value);
@@ -30,12 +31,12 @@ async function handleClick() {
 }
 
 async function refreshContract() {
-  clickers.innerHTML = "";
+  clickers.innerHTML = '';
   const contractState = await smartContract.get_contract_account();
   console.log(contractState);
   totalClicks.innerText = `Total clicks: ${contractState.total_clicks}`;
   for (const clicker of contractState.clickers) {
-    const clickerEl = document.createElement("li");
+    const clickerEl = document.createElement('li');
     clickerEl.innerText = clicker;
     clickers.appendChild(clickerEl);
   }
