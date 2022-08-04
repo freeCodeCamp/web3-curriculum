@@ -1,15 +1,15 @@
-import { writeFile, readFile } from 'fs/promises';
+import { writeFileSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { error, info } from 'logover';
 import sha256 from 'crypto-js/sha256.js';
 
 export async function writeBlockchain(blockchain) {
   const blockchainString = JSON.stringify(blockchain, null, 2);
-  await writeFile('node/blockchain.json', blockchainString);
+  writeFileSync('node/blockchain.json', blockchainString, 'utf8');
 }
 
 export async function readBlockchain() {
-  const blockchainString = await readFile('node/blockchain.json');
+  const blockchainString = readFileSync('node/blockchain.json', 'utf8');
   return JSON.parse(blockchainString);
 }
 
@@ -29,13 +29,16 @@ export async function callSmartContract(id, functionHandle, functionArgs) {
   const contract = await getSmartContract(id);
 
   if (!contract) {
-    error(`Smart contract with id ${id} not found`);
-    process.exit(1);
+    error(`Smart contract with id '${id}' not found`);
+    throw new Error(`Smart contract with id '${id}' not found`);
   } else {
     const smartContract = (await import(contract.pathToPkg)).default;
     const res = smartContract[functionHandle](contract.state, ...functionArgs);
-    contract.state = res;
-    await mineBlock({ smartContracts: [contract] });
+    if (functionHandle.startsWith('set')) {
+      contract.state = res;
+      await mineBlock({ smartContracts: [contract] });
+    }
+    return res;
   }
 }
 
@@ -50,7 +53,10 @@ export async function mineBlock({ smartContracts = [], accounts = [] }) {
   while (!hash.startsWith('0'.repeat(difficulty))) {
     nonce++;
     hash = sha256(
-      nonce + previousBlock.hash + JSON.stringify(smartContracts)
+      nonce +
+        previousBlock.hash +
+        JSON.stringify(smartContracts) +
+        JSON.stringify(accounts)
     ).toString();
   }
 
@@ -95,6 +101,14 @@ export async function initialiseBlockchain() {
       {
         address: 'program_account',
         balance: 1_000_000_000
+      },
+      {
+        address: 'shaun',
+        balance: 1_000
+      },
+      {
+        address: 'tom',
+        balance: 1_000
       }
     ]
   };
@@ -106,6 +120,10 @@ export async function initialiseBlockchain() {
 export async function transfer({ from, to, amount }) {
   const fromAccount = await getAccount(from);
   const toAccount = await getAccount(to);
+  if (!fromAccount || !toAccount) {
+    error(`Accounts not found: ${from} and ${to}`);
+    throw new Error(`Accounts not found: ${from} and ${to}`);
+  }
   if (fromAccount.balance < amount) {
     warn(
       `'${fromAccount.address}' has insufficient funds: ${fromAccount.balance} < ${amount}`

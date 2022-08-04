@@ -4,7 +4,8 @@ import {
   deploySmartContract,
   initialiseBlockchain,
   transfer,
-  getAccount
+  getAccount,
+  callSmartContract
 } from './utils.js';
 
 info('Starting provider...');
@@ -63,8 +64,13 @@ app.post('/transfer', async (req, res) => {
     });
     return;
   }
-  await transfer({ from, to, amount });
-  res.json({ result: 'success' });
+  try {
+    await transfer({ from, to, amount });
+    res.json({ result: 'success' });
+  } catch (e) {
+    error(e);
+    res.status(400).json({ error: e.message });
+  }
 });
 
 app.get('/tests', (req, res) => {

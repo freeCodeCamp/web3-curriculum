@@ -229,7 +229,7 @@ try {
   if (e instanceof AssertionError) {
     throw e;
   }
-  assert.equal(e.message, 'Smart contract not found');
+  assert.equal(e.message, "Smart contract with id 'undefined' not found");
 }
 ```
 
@@ -450,7 +450,7 @@ let response;
 try {
   response = await web3.getBalance('shaun');
 } catch (e) {}
-assert.equal(response, 1_000_000_000_000_000_000);
+assert.equal(response, 1_000);
 ```
 
 If the response body contains an `error` property, `getBalance` throws an `Error` with the value of the `error` property.
@@ -576,20 +576,20 @@ const _node = spawn('node', ['node/provider.js'], {
   cwd: '../build-a-web3-client-side-package-for-your-dapp'
 });
 
-// _node.on('close', (code, signal) => {
-//   console.log(`child process terminated due to receipt of signal ${signal}`);
-// });
+_node.on('close', (code, signal) => {
+  console.log(`child process terminated due to receipt of signal ${signal}`);
+});
 
-// _node.on('error', err => {
-//   console.log('E: ', err);
-// });
+_node.on('error', err => {
+  console.log('E: ', err);
+});
 
-// _node.stdout.on('data', data => {
-//   console.log('stdout: ' + data);
-// });
-// _node.stderr.on('data', data => {
-//   console.log('stderr: ' + data);
-// });
+_node.stdout.on('data', data => {
+  console.log('stdout: ' + data);
+});
+_node.stderr.on('data', data => {
+  console.log('stderr: ' + data);
+});
 
 global._node = _node;
 
