@@ -379,7 +379,7 @@ const smartContract = web3.initSmartContract(
 const prom = smartContract.get_contract_account();
 assert.instanceOf(prom, Promise);
 const res = await prom;
-assert.deepEqual(res, { total_clicks: 0, clickers: [] });
+assert.deepEqual(res, { total_clicks: 1, clickers: ['test'] });
 ```
 
 Your `Web3` class should have an asynchronous method with the handle `getBalance`.
@@ -578,22 +578,26 @@ const _node = spawn('node', ['node/provider.js'], {
   cwd: '../build-a-web3-client-side-package-for-your-dapp'
 });
 
-_node.on('close', (code, signal) => {
-  console.log(`child process terminated due to receipt of signal ${signal}`);
+await new Promise(resolve => {
+  setTimeout(() => {
+    resolve();
+  }, 2000);
 });
 
-_node.on('error', err => {
-  console.log('E: ', err);
-});
+// _node.on('close', (code, signal) => {
+//   console.log(`child process terminated due to receipt of signal ${signal}`);
+// });
 
-_node.stdout.on('data', data => {
-  console.log('stdout: ' + data);
-});
-_node.stderr.on('data', data => {
-  console.log('stderr: ' + data);
-});
+// _node.on('error', err => {
+//   console.log('E: ', err);
+// });
 
-global._node = _node;
+// _node.stdout.on('data', data => {
+//   console.log('stdout: ' + data);
+// });
+// _node.stderr.on('data', data => {
+//   console.log('stderr: ' + data);
+// });
 
 const Web3 = (
   await import(
@@ -602,6 +606,7 @@ const Web3 = (
 ).default;
 delete global.Web3;
 global.Web3 = Web3;
+global._node = _node;
 ```
 
 ### --after-all--
@@ -610,7 +615,6 @@ global.Web3 = Web3;
 // Kill node process
 const _t = _node.kill();
 debug('killing node process...', _t);
-delete global._node;
 ```
 
 ## --fcc-end--

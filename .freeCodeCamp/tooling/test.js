@@ -118,13 +118,14 @@ export default async function runTests(ws, project) {
     } catch (e) {
       debug(e);
       updateHints(ws, e);
-    }
-    if (afterAll) {
-      try {
-        await eval(`(async () => {${afterAll}})()`);
-      } catch (e) {
-        error('--after-all-- hook failed to run:');
-        error(e);
+    } finally {
+      if (afterAll) {
+        try {
+          await eval(`(async () => {${afterAll}})()`);
+        } catch (e) {
+          error('--after-all-- hook failed to run:');
+          error(e);
+        }
       }
     }
   } catch (e) {
