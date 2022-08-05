@@ -599,11 +599,15 @@ await new Promise(resolve => {
 //   console.log('stderr: ' + data);
 // });
 
-const Web3 = (
-  await import(
-    '../../build-a-web3-client-side-package-for-your-dapp/web3/index.js'
-  )
-).default;
+const web3Path =
+  '../../build-a-web3-client-side-package-for-your-dapp/web3/index.js';
+async function importSansCache(p) {
+  const cacheBustingModulePath = `${p}?update=${Date.now()}`;
+  return (await import(cacheBustingModulePath)).default;
+}
+
+const Web3 = await importSansCache(web3Path);
+
 delete global.Web3;
 global.Web3 = Web3;
 global._node = _node;

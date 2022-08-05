@@ -11,7 +11,7 @@ import {
   getAfterAll
 } from './parser.js';
 
-import { t, LOCALE } from './t.js';
+import { LOCALE } from './t.js';
 import { PATH, setProjectConfig } from './env.js';
 import runLesson from './lesson.js';
 import {
@@ -45,7 +45,9 @@ export default async function runTests(ws, project) {
 
     if (beforeAll) {
       try {
+        debug('Starting: --before-all-- hook');
         await eval(`(async () => {${beforeAll}})()`);
+        debug('Finished: --before-all-- hook');
       } catch (e) {
         error('--before-all-- hook failed to run:');
         error(e);
@@ -66,9 +68,11 @@ export default async function runTests(ws, project) {
     const testPromises = hintsAndTestsArr.map(async ([hint, test], i) => {
       if (beforeEach) {
         try {
+          debug('Starting: --before-each-- hook');
           const _beforeEachOut = await eval(
             `(async () => { ${beforeEach} })();`
           );
+          debug('Finished: --before-each-- hook');
         } catch (e) {
           error('--before-each-- hook failed to run:');
           error(e);
@@ -108,7 +112,6 @@ export default async function runTests(ws, project) {
     try {
       const passed = await Promise.all(testPromises);
       if (passed) {
-        debug(await t('lesson-correct', { lessonNumber }));
         setProjectConfig(project.dashedName, {
           currentLesson: lessonNumber + 1
         });
@@ -116,12 +119,13 @@ export default async function runTests(ws, project) {
         updateHints(ws, '');
       }
     } catch (e) {
-      debug(e);
       updateHints(ws, e);
     } finally {
       if (afterAll) {
         try {
+          debug('Starting: --after-all-- hook');
           await eval(`(async () => {${afterAll}})()`);
+          debug('Finished: --after-all-- hook');
         } catch (e) {
           error('--after-all-- hook failed to run:');
           error(e);
@@ -129,8 +133,8 @@ export default async function runTests(ws, project) {
       }
     }
   } catch (e) {
-    debug(await t('tests-error'));
-    error(e);
+    error('Test Error: ');
+    debug(e);
   } finally {
     toggleLoaderAnimation(ws);
   }

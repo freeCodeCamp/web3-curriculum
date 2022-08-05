@@ -48,11 +48,15 @@ async function getTerminalOutput() {
  * @returns {{stdout, stderr}}
  */
 async function getCommandOutput(command, path = '') {
-  const cmdOut = await execute(command, {
-    cwd: join(ROOT, path),
-    shell: '/bin/bash'
-  });
-  return cmdOut;
+  try {
+    const cmdOut = await execute(command, {
+      cwd: join(ROOT, path),
+      shell: '/bin/bash'
+    });
+    return cmdOut;
+  } catch (err) {
+    return err;
+  }
 }
 
 /**
@@ -101,7 +105,11 @@ async function copyDirectory(folderToCopyPath, destinationFolderPath) {
   });
 }
 
-async function copyProjectFiles(projectFolderPath, testsFolderPath, arrayOfFiles = []) {
+async function copyProjectFiles(
+  projectFolderPath,
+  testsFolderPath,
+  arrayOfFiles = []
+) {
   const projectFolder = join(ROOT, projectFolderPath);
   const testsFolder = join(ROOT, testsFolderPath);
 
