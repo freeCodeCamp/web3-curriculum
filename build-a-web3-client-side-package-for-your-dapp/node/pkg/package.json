@@ -1,0 +1,11 @@
+{
+  "name": "build-a-smart-contract-in-rust",
+  "version": "0.1.0",
+  "files": [
+    "build_a_smart_contract_in_rust_bg.wasm",
+    "build_a_smart_contract_in_rust.js",
+    "build_a_smart_contract_in_rust.d.ts"
+  ],
+  "main": "build_a_smart_contract_in_rust.js",
+  "types": "build_a_smart_contract_in_rust.d.ts"
+}
