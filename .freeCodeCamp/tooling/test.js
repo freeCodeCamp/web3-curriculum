@@ -110,15 +110,27 @@ export default async function runTests(ws, project) {
     });
 
     try {
-      const passed = await Promise.all(testPromises);
+      const result = await Promise.allSettled(testPromises);
+      const passed = result.every(r => r.status === 'fulfilled');
       if (passed) {
-        setProjectConfig(project.dashedName, {
-          currentLesson: lessonNumber + 1
-        });
-        runLesson(ws, project);
-        updateHints(ws, '');
+        if (!project.isIntegrated) {
+          await setProjectConfig(project.dashedName, {
+            currentLesson: lessonNumber + 1
+          });
+          runLesson(ws, project);
+          updateHints(ws, '');
+        }
+      } else {
+        updateHints(
+          ws,
+          result
+            .filter(r => r.status === 'rejected')
+            .map(r => r.value)
+            .join('\n')
+        );
       }
     } catch (e) {
+      // TODO: This should not ever run...
       updateHints(ws, e);
     } finally {
       if (afterAll) {
