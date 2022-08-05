@@ -32,13 +32,17 @@ setClientAddress(address: string): void
 call(rpcCall: Record<string, any>): Promise<Record<string, any>>
 ```
 
-- `call` should accept an RPC call object literal, and return a promise that resolves with the result of the RPC call.
+- `call` should accept an RPC call object literal.
+- `call` should make a `POST /call-smart-contract` to the `href` of the `provider` property.
+  - The `body` of the `POST` should be the RPC call object literal and the `address` property of the `Web3` class.
+- `call` should return the `result` property of the `HTTP` response, or throw an error if the response contains an `error` property.
 
 ```ts
 initSmartContract(idl: Record<string, any>): Record<string, any>>
 ```
 
 - `initSmartContract` should accept an IDL object literal, and return the contract instance of callable methods.
+  - The callable methods should return a promise resolving to the result of the `call` method.
 - Here is an example of the input and its output:
 
 ```js
@@ -66,6 +70,9 @@ getBalance(address?: string): Promise<number>
 ```
 
 - `getBalance` should accept an address, and return a promise that resolves with the balance of the given address.
+- `getBalance` should make a `POST /get-balance` to the `href` of the `provider` property.
+  - The `body` of the `POST` should be the `address` parameter, if one exists, or the `address` property of the `Web3` class.
+- `getBalance` should return the `result` property of the `HTTP` response, or throw an error if the response contains an `error` property.
 
 ```ts
 transfer({from, to, amount}: {from?: string; to: string; amount: number;}): Promise<Record<string, any>>
@@ -76,6 +83,9 @@ transfer({from, to, amount}: {from?: string; to: string; amount: number;}): Prom
   - `to`: the address to send the funds to.
   - `amount`: the amount of funds to send.
 - `transfer` should return a promise that resolves with the result of the transfer.
+- `transfer` should make a `POST /transfer` to the `href` of the `provider` property.
+  - The `body` of the `POST` should be the function parameter.
+- `transfer` should return the `result` property of the `HTTP` response, or throw an error if the response contains an `error` property.
 
 **Notes**:
 
