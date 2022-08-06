@@ -139,10 +139,10 @@ nav > button:hover {
 .project-output-content {
   background-color: black;
   color: white;
-  width: 100%;
+  /* width: 100%; */
   height: fit-content;
   min-height: 100px;
-  padding: 1rem 2rem;
+  padding: 1rem;
   margin-top: 0;
   text-align: left;
 }
@@ -231,8 +231,12 @@ nav {
   color: white;
   height: fit-content;
   min-height: 100px;
-  padding: 1rem 2rem;
+  /* padding: 1rem 2rem; */
   margin-top: 0;
   text-align: left;
   overflow: auto;
+}
+
+details > summary > p {
+  display: inline;
 }
