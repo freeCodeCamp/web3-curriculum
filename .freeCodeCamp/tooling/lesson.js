@@ -15,14 +15,14 @@ import {
   updateTests,
   updateProject
 } from './client-socks.js';
-import { PATH, readEnv } from './env.js';
+import { ROOT, readEnv } from './env.js';
 import seedLesson from './seed.js';
 
 async function runLesson(ws, project) {
   const locale = LOCALE === 'undefined' ? 'english' : LOCALE ?? 'english';
   const projectFile = join(
-    PATH,
-    'tooling/locales',
+    ROOT,
+    '.freeCodeCamp/tooling/locales',
     locale,
     project.dashedName + '.md'
   );
