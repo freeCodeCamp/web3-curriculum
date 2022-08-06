@@ -101,7 +101,14 @@ const App = () => {
 
   function updateConsole({ cons }: { cons: ConsoleError }) {
     // Insert cons in array at index `id`
-    setCons(prev => [...prev.slice(0, cons.id), cons, ...prev.slice(cons.id)]);
+    setCons(prev => {
+      const sorted = [
+        ...prev.slice(0, cons.id),
+        cons,
+        ...prev.slice(cons.id)
+      ].filter(Boolean);
+      return sorted;
+    });
   }
 
   function resetTests() {
