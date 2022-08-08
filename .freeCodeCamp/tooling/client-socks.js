@@ -1,5 +1,3 @@
-import projects from '../config/projects.json' assert { type: 'json' };
-
 export function toggleLoaderAnimation(ws) {
   ws.send(parse({ event: 'toggle-loader-animation' }));
 }

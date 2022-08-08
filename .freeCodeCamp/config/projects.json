@@ -94,7 +94,7 @@
     "title": "Learn Proof of Stake Consensus by Completing a Web3 Game",
     "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
     "isIntegrated": false,
-    "description": "Complete the boilerplate given to you, and play the game.",
+    "description": "In this course, you will learn about Proof of Stake Consensus by completing the boilerplate given to you, and playing the Web3 game.",
     "isPublic": false,
     "currentLesson": 1
   },
@@ -103,7 +103,7 @@
     "title": "Learn RPC and IDLs by Building a dApp",
     "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
     "isIntegrated": false,
-    "description": "Remote Procedural Calls and Interface Description Languages are an integral part of most decentralised blockchains.",
+    "description": "In this course, you will learn about Remote Procedural Calls and Interface Description Languages which are an integral part of most decentralised blockchains.",
     "isPublic": false,
     "currentLesson": 1
   },
@@ -112,7 +112,7 @@
     "title": "Build a Web3 Client-Side Package for Your dApp",
     "dashedName": "build-a-web3-client-side-package-for-your-dapp",
     "isIntegrated": true,
-    "description": "Put your new Web3 knowledge to the test, by developing a package for use by client-side dApps.",
+    "description": "In this integrated project, you will put your new Web3 knowledge to the test, by developing a package for use by client-side dApps.",
     "isPublic": true,
     "currentLesson": 1
   },
@@ -130,7 +130,7 @@
     "title": "Learn Intermediate Rust by Building a Blockchain",
     "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
     "isIntegrated": false,
-    "description": "You have learnt how to build a blockchain. Now, you will learn Rust by building a blockchain using Rust and WASM.",
+    "description": "In this course, you will learn Rust by building a blockchain using Rust.",
     "isPublic": false,
     "currentLesson": 1
   },
@@ -139,7 +139,7 @@
     "title": "Learn Smart Contracts by Building a Dumb Contract in Rust",
     "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
     "isIntegrated": false,
-    "description": "You know a bit about smart contracts, but now you will learn how to use WASM with Rust to compile your code into byte code, store it on your blockchain, and run it.",
+    "description": "In this course, you will learn how to use WASM with Rust to compile your code into byte code, store it on your blockchain, and run it.",
     "isPublic": false,
     "currentLesson": 1
   },
@@ -148,7 +148,7 @@
     "title": "Build a Smart Contract in Rust",
     "dashedName": "build-a-smart-contract-in-rust",
     "isIntegrated": true,
-    "description": "With all this Rustacean knowledge, you can now build a smart contract to store and run on your blockchain.",
+    "description": "In this integrated project, you will build a smart contract to store and run on your blockchain.",
     "isPublic": true,
     "currentLesson": 1
   }

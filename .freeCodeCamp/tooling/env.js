@@ -1,7 +1,10 @@
 import { readFile, writeFile } from 'fs/promises';
-import { join } from 'path';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-export const PATH = '.';
+export const ROOT = join(__dirname, '../..');
 
 export async function readEnv() {
   let meta = {
@@ -9,7 +12,7 @@ export async function readEnv() {
     LOCALE: 'english'
   };
   try {
-    const META = await readFile(`${PATH}/.env`, 'utf8');
+    const META = await readFile(join(ROOT, '.freeCodeCamp/.env'), 'utf8');
     const metaArr = META.split('\n').filter(Boolean);
     const new_meta = metaArr.reduce((meta, line) => {
       const [key, value] = line.split('=');
@@ -26,7 +29,7 @@ export async function updateEnv(obj) {
   // TODO: Maybe not completely overwrite the file?
   const env = { ...(await readEnv()), ...obj };
   await writeFile(
-    `${PATH}/.env`,
+    join(ROOT, '.freeCodeCamp/.env'),
     Object.entries(env).reduce((acc, [key, value]) => {
       return `${acc}\n${key}=${value}`;
     }, '')
@@ -35,7 +38,7 @@ export async function updateEnv(obj) {
 
 export async function getProjectConfig(project) {
   const projects = (
-    await import('../config/projects.json', {
+    await import(join(ROOT, '.freeCodeCamp/config/projects.json'), {
       assert: { type: 'json' }
     })
   ).default;
@@ -56,7 +59,7 @@ export async function getProjectConfig(project) {
 
 export async function setProjectConfig(project, config = {}) {
   const projects = (
-    await import('../config/projects.json', {
+    await import(join(ROOT, '.freeCodeCamp/config/projects.json'), {
       assert: { type: 'json' }
     })
   ).default;
@@ -67,5 +70,8 @@ export async function setProjectConfig(project, config = {}) {
   const updatedProjects = projects.map(p =>
     p.dashedName === project ? updatedProject : p
   );
-  await writeFile(join(PATH, '../config/projects.json'), updatedProjects);
+  await writeFile(
+    join(ROOT, '.freeCodeCamp/config/projects.json'),
+    updatedProjects
+  );
 }
