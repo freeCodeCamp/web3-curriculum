@@ -1,39 +1,38 @@
 import { readFile, readdir } from 'fs/promises';
 import { exec, execSync } from 'child_process';
 import sha256 from 'crypto-js/sha256.js';
-import { fileURLToPath } from 'url';
 import { promisify } from 'util';
 import elliptic from 'elliptic';
-import { join, dirname } from 'path';
+import { join } from 'path';
 import fs from 'fs';
+import { ROOT } from './env.js';
 import WebSocket, { WebSocketServer } from 'ws';
 
-const execute = promisify(exec);
-const ec = new elliptic.ec('p192');
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const ROOT = join(__dirname, '../..');
+// ---------------
+// GENERIC HELPERS
+// ---------------
 
+const execute = promisify(exec);
+
+/**
+ * Get the contents of a directory
+ * @param {string} path Path relative to root of working directory
+ * @returns {string[]} An array of file names
+ */
 async function getDirectory(path) {
-  const files = await readdir(`${ROOT}/${path}`);
+  const files = await readdir(join(ROOT, path));
   return files;
 }
 
 /**
- * Checks if file is open in VSCode editor
- * @param {string} path Path to file
- * @returns {boolean}
+ * Get the `.logs/.terminal-out.log` file contents, or `throw` if not found
+ * @returns {string} The `.terminal-out.log` file contents
  */
-async function isFileOpen(path) {
-  // TODO: Probably not possible
-  await new Promise(resolve => setTimeout(resolve, 10000));
-  return true;
-}
-
 async function getTerminalOutput() {
   const pathToTerminalLogs = join(ROOT, '.logs/.terminal-out.log');
   const terminalLogs = await readFile(pathToTerminalLogs, 'utf8');
 
+  // TODO: Throwing is probably an anti-pattern?
   if (!terminalLogs) {
     throw new Error('No terminal logs found');
   }
@@ -44,7 +43,7 @@ async function getTerminalOutput() {
 /**
  * Returns the output of a command called from a given path
  * @param {string} command
- * @param {string} path Path relative to root
+ * @param {string} path Path relative to root of working directory
  * @returns {{stdout, stderr}}
  */
 async function getCommandOutput(command, path = '') {
@@ -60,7 +59,9 @@ async function getCommandOutput(command, path = '') {
 }
 
 /**
- * TODO
+ * Get the `.logs/.bash_history.log` file contents, or `throw` is not found
+ * @param {number?} howManyBack The `nth` log from the history
+ * @returns {string}
  */
 async function getLastCommand(howManyBack = 0) {
   const pathToBashLogs = join(ROOT, '.logs/.bash_history.log');
@@ -76,22 +77,41 @@ async function getLastCommand(howManyBack = 0) {
   return lastLog;
 }
 
-// TODO: Do not return whole file
+/**
+ * Get the `.logs/.cwd.log` file contents
+ * @returns {string}
+ */
 async function getCWD() {
+  // TODO: Do not return whole file?
   const pathToCWD = join(ROOT, '.logs/.cwd.log');
   const cwd = await readFile(pathToCWD, 'utf8');
   return cwd;
 }
 
+/**
+ * Get a file from the given `path`
+ * @param {string} path Path relative to root of working directory
+ * @returns {string}
+ */
 async function getFile(path) {
   const file = await readFile(join(ROOT, path), 'utf8');
   return file;
 }
 
+/**
+ * Check if given path exists
+ * @param {string} path Path relative to root of working directory
+ * @returns {boolean}
+ */
 async function fileExists(path) {
   return fs.existsSync(join(ROOT, path));
 }
 
+/**
+ * Copy the contents of a directory from one location to another
+ * @param {string} folderToCopyPath Path to folder to copy relative to root
+ * @param {string} destinationFolderPath Path to folder destination relative to root
+ */
 async function copyDirectory(folderToCopyPath, destinationFolderPath) {
   const folderToCopy = join(ROOT, folderToCopyPath);
   const destinationFolder = join(ROOT, destinationFolderPath);
@@ -122,6 +142,11 @@ async function copyProjectFiles(
   });
 }
 
+/**
+ *
+ * @param {string} command Command string to run
+ * @param {string} path Path relative to root to run command in
+ */
 async function runCommand(command, path) {
   execSync(command, {
     cwd: join(ROOT, path),
@@ -129,14 +154,30 @@ async function runCommand(command, path) {
   });
 }
 
+/**
+ *
+ * @param {string} filePath Path to JSON file relative to root
+ * @returns {object} `JSON.parse` file contents
+ */
 async function getJsonFile(filePath) {
   const fileString = fs.readFileSync(join(ROOT, filePath));
   return JSON.parse(fileString);
 }
 
+/**
+ *
+ * @param {string} path Path to JSON file relative to root
+ * @param {any} content Stringifiable content to write to `path`
+ */
 async function writeJsonFile(path, content) {
   fs.writeFileSync(join(ROOT, path), JSON.stringify(content, null, 2));
 }
+
+// ------------------
+// BLOCKCHAIN HELPERS
+// ------------------
+
+const ec = new elliptic.ec('p192');
 
 async function generateHash(content) {
   const hash = sha256(content).toString();
@@ -160,6 +201,10 @@ async function getPublicKeyFromPrivate(privateKey) {
   const publicKey = keyPair.getPublic('hex');
   return publicKey;
 }
+
+// ----------------------------------------------------------
+// TODO: @moT01 should move these into their respective files
+// ----------------------------------------------------------
 
 // used in fundraising contract project
 async function getContract(contractAddress, cwd, includePool = true) {
@@ -265,7 +310,6 @@ async function startSocketServerAndHandshake({
 
 const __helpers = {
   getDirectory,
-  isFileOpen,
   getFile,
   fileExists,
   getTerminalOutput,

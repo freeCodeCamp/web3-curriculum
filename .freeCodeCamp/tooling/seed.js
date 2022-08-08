@@ -7,7 +7,7 @@ import {
   getFilesWithSeed
 } from './parser.js';
 import { LOCALE } from './t.js';
-import { PATH } from './env.js';
+import { ROOT } from './env.js';
 import { writeFile } from 'fs/promises';
 import { promisify } from 'util';
 import { exec } from 'child_process';
@@ -18,8 +18,8 @@ export default async function seedLesson(ws, project) {
   const lessonNumber = project.currentLesson;
   const locale = LOCALE === 'undefined' ? 'english' : LOCALE ?? 'english';
   const projectFile = join(
-    PATH,
-    'tooling/locales',
+    ROOT,
+    '.freeCodeCamp/tooling/locales',
     locale,
     project.dashedName + '.md'
   );
