@@ -47,12 +47,17 @@ async function getTerminalOutput() {
  * @returns {{stdout, stderr}}
  */
 async function getCommandOutput(command, path = '') {
-  const cmdOut = await execute(command, {
-    cwd: join(ROOT, path),
-    shell: '/bin/bash'
-  });
-  return cmdOut;
+  try {
+    const cmdOut = await execute(command, {
+      cwd: join(ROOT, path),
+      shell: '/bin/bash'
+    });
+    return cmdOut;
+  } catch (err) {
+    return err;
+  }
 }
+
 /**
  * Get the `.logs/.bash_history.log` file contents, or `throw` is not found
  * @param {number?} howManyBack The `nth` log from the history
@@ -116,19 +121,10 @@ async function copyDirectory(folderToCopyPath, destinationFolderPath) {
   }
 
   fs.readdirSync(folderToCopy).forEach(file => {
-    fs.copyFileSync(
-      join(ROOT, folderToCopy, file),
-      join(ROOT, destinationFolder, file)
-    );
+    fs.copyFileSync(`${folderToCopy}/${file}`, `${destinationFolder}/${file}`);
   });
 }
 
-/**
- *
- * @param {string} projectFolderPath Path to project folder relative to root
- * @param {string} testsFolderPath Path to `tests` folder relative to root
- * @param {string[]} arrayOfFiles Name of files to copy
- */
 async function copyProjectFiles(
   projectFolderPath,
   testsFolderPath,
@@ -142,10 +138,7 @@ async function copyProjectFiles(
   }
 
   arrayOfFiles.forEach(file => {
-    fs.copyFileSync(
-      join(ROOT, projectFolder, file),
-      join(ROOT, testsFolder, file)
-    );
+    fs.copyFileSync(`${projectFolder}/${file}`, `${testsFolder}/${file}`);
   });
 }
 

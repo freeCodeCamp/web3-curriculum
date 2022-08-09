@@ -1,8 +1,3 @@
-import logover, { error } from "../node_modules/logover/lib/index.js";
-logover({
-  level: "debug",
-});
-
 export default class Web3 {
   constructor(provider) {
     this.provider = new URL(provider);

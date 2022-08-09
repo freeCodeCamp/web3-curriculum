@@ -57,6 +57,11 @@ export async function getProjectConfig(project) {
   return { ...defaultConfig, ...proj };
 }
 
+/**
+ *
+ * @param {string} project Project dashed name
+ * @param {object} config Config properties to set
+ */
 export async function setProjectConfig(project, config = {}) {
   const projects = (
     await import(join(ROOT, '.freeCodeCamp/config/projects.json'), {

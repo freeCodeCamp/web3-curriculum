@@ -1,0 +1,24 @@
+[
+  {
+    "hash": 0,
+    "previousHash": null,
+    "smartContracts": []
+  },
+  {
+    "hash": "00161fee4858f91023cfcd249ec4cbe551186fadd8d9fa1c9770980cb792921a",
+    "previousHash": 0,
+    "nonce": 138,
+    "smartContracts": [
+      {
+        "pathToPkg": "../node/pkg/build_a_smart_contract_in_rust.js",
+        "state": {
+          "base_account": {
+            "total_clicks": 0,
+            "clickers": []
+          }
+        },
+        "id": 0
+      }
+    ]
+  }
+]

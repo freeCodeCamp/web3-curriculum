@@ -7,10 +7,11 @@ import {
   getLessonHintsAndTests,
   getLessonFromFile,
   getBeforeAll,
-  getBeforeEach
+  getBeforeEach,
+  getAfterAll
 } from './parser.js';
 
-import { t, LOCALE } from './t.js';
+import { LOCALE } from './t.js';
 import { ROOT, setProjectConfig } from './env.js';
 import runLesson from './lesson.js';
 import {
@@ -40,10 +41,13 @@ export default async function runTests(ws, project) {
     const lesson = await getLessonFromFile(projectFile, lessonNumber);
     const beforeAll = getBeforeAll(lesson);
     const beforeEach = getBeforeEach(lesson);
+    const afterAll = getAfterAll(lesson);
 
     if (beforeAll) {
       try {
+        debug('Starting: --before-all-- hook');
         await eval(`(async () => {${beforeAll}})()`);
+        debug('Finished: --before-all-- hook');
       } catch (e) {
         error('--before-all-- hook failed to run:');
         error(e);
@@ -64,9 +68,11 @@ export default async function runTests(ws, project) {
     const testPromises = hintsAndTestsArr.map(async ([hint, test], i) => {
       if (beforeEach) {
         try {
+          debug('Starting: --before-each-- hook');
           const _beforeEachOut = await eval(
             `(async () => { ${beforeEach} })();`
           );
+          debug('Finished: --before-each-- hook');
         } catch (e) {
           error('--before-each-- hook failed to run:');
           error(e);
@@ -99,22 +105,43 @@ export default async function runTests(ws, project) {
     });
 
     try {
-      const passed = await Promise.all(testPromises);
+      const result = await Promise.allSettled(testPromises);
+      const passed = result.every(r => r.status === 'fulfilled');
       if (passed) {
-        debug(await t('lesson-correct', { lessonNumber }));
-        setProjectConfig(project.dashedName, {
-          currentLesson: lessonNumber + 1
-        });
-        runLesson(ws, project);
-        updateHints(ws, '');
+        if (!project.isIntegrated) {
+          await setProjectConfig(project.dashedName, {
+            currentLesson: lessonNumber + 1
+          });
+          runLesson(ws, project);
+          updateHints(ws, '');
+        }
+      } else {
+        updateHints(
+          ws,
+          result
+            .filter(r => r.status === 'rejected')
+            .map(r => r.value)
+            .join('\n')
+        );
       }
     } catch (e) {
-      debug(e);
+      // TODO: This should not ever run...
       updateHints(ws, e);
+    } finally {
+      if (afterAll) {
+        try {
+          debug('Starting: --after-all-- hook');
+          await eval(`(async () => {${afterAll}})()`);
+          debug('Finished: --after-all-- hook');
+        } catch (e) {
+          error('--after-all-- hook failed to run:');
+          error(e);
+        }
+      }
     }
   } catch (e) {
-    debug(await t('tests-error'));
-    error(e);
+    error('Test Error: ');
+    debug(e);
   } finally {
     toggleLoaderAnimation(ws);
   }
