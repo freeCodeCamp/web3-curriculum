@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Loader } from './loader';
-import { TestType } from '../types';
+import { ConsoleError, TestType } from '../types';
 import { Tests } from './tests';
 import { Console } from './console';
 import { Hints } from './hints';
@@ -9,7 +9,7 @@ interface OutputProps {
   isLoading: boolean;
   hints?: string;
   tests: TestType[];
-  cons: string;
+  cons: ConsoleError[];
 }
 
 export const Output = ({ isLoading, hints, tests, cons }: OutputProps) => {

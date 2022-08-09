@@ -12,7 +12,7 @@ import {
 } from './parser.js';
 
 import { LOCALE } from './t.js';
-import { PATH, setProjectConfig } from './env.js';
+import { ROOT, setProjectConfig } from './env.js';
 import runLesson from './lesson.js';
 import {
   toggleLoaderAnimation,
@@ -32,8 +32,8 @@ export default async function runTests(ws, project) {
   toggleLoaderAnimation(ws);
   const lessonNumber = project.currentLesson;
   const projectFile = join(
-    PATH,
-    'tooling/locales',
+    ROOT,
+    '.freeCodeCamp/tooling/locales',
     locale,
     project.dashedName + '.md'
   );
@@ -90,13 +90,8 @@ export default async function runTests(ws, project) {
         if (!(e instanceof AssertionError)) {
           error(e);
         }
-        const consoleError = `<details>\n<summary>${
-          i + 1
-        }) ${hint}</summary>\n\n\`\`\`json\n${JSON.stringify(
-          e,
-          null,
-          2
-        )}\n\`\`\`\n\n</details>`;
+        const consoleError = { id: i, hint, error: e };
+
         updateConsole(ws, consoleError);
         updateTest(ws, {
           passed: false,

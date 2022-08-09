@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { Suspense, useState, useEffect } from 'react';
-import { Events, ProjectI, TestType } from './types/index';
+import { ConsoleError, Events, ProjectI, TestType } from './types/index';
 import { Loader } from './components/loader';
 import { Landing } from './templates/landing';
 import { Project } from './templates/project';
@@ -26,7 +26,7 @@ const App = () => {
   const [description, setDescription] = useState('');
   const [tests, setTests] = useState<TestType[]>([]);
   const [hints, setHints] = useState('');
-  const [cons, setCons] = useState('');
+  const [cons, setCons] = useState<ConsoleError[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [alertCamper, setAlertCamper] = useState<null | string>(null);
 
@@ -98,8 +98,17 @@ const App = () => {
   function updateHints({ hints }: { hints: string }) {
     setHints(parseMarkdown(hints));
   }
-  function updateConsole({ cons }: { cons: string }) {
-    setCons(prev => prev + '\n\n' + parseMarkdown(cons));
+
+  function updateConsole({ cons }: { cons: ConsoleError }) {
+    // Insert cons in array at index `id`
+    setCons(prev => {
+      const sorted = [
+        ...prev.slice(0, cons.id),
+        cons,
+        ...prev.slice(cons.id)
+      ].filter(Boolean);
+      return sorted;
+    });
   }
 
   function resetTests() {
@@ -109,7 +118,7 @@ const App = () => {
   function resetState() {
     setTests([]);
     setHints('');
-    setCons('');
+    setCons([]);
   }
 
   function toggleLoaderAnimation() {
@@ -117,7 +126,7 @@ const App = () => {
   }
 
   function runTests() {
-    setCons('');
+    setCons([]);
     sock(Events.RUN_TESTS);
   }
   function resetProject() {

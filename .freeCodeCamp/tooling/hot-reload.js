@@ -4,13 +4,14 @@ import { readEnv, getProjectConfig, ROOT } from './env.js';
 import runLesson from './lesson.js';
 import runTests from './test.js';
 import { watch } from 'chokidar';
+import { join } from 'path';
 const { CURRENT_PROJECT } = await readEnv();
 const { testPollingRate, runTestsOnWatch } = await getProjectConfig(
   CURRENT_PROJECT
 );
 
 function hotReload(ws) {
-  console.log(`Watching for file changes on ${curriculumFolder}`);
+  console.log(`Watching for file changes on ${ROOT}`);
   let isWait = false;
   let isClearConsole = false;
 
