@@ -84,13 +84,8 @@ export default async function runTests(ws, project) {
         if (!(e instanceof AssertionError)) {
           error(e);
         }
-        const consoleError = `<details>\n<summary>${
-          i + 1
-        }) ${hint}</summary>\n\n\`\`\`json\n${JSON.stringify(
-          e,
-          null,
-          2
-        )}\n\`\`\`\n\n</details>`;
+        const consoleError = { id: i, hint, error: e };
+
         updateConsole(ws, consoleError);
         updateTest(ws, {
           passed: false,

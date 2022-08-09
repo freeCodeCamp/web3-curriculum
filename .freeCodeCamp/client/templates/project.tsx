@@ -1,6 +1,6 @@
 import { Description } from '../components/description';
 import { Heading } from '../components/heading';
-import { F, ProjectI, TestType } from '../types';
+import { ConsoleError, F, ProjectI, TestType } from '../types';
 import { Ruler } from '../components/ruler';
 import { Controls } from '../components/controls';
 import { Output } from '../components/output';
@@ -17,7 +17,7 @@ export interface ProjectProps {
   description: string;
   tests: TestType[];
   hints: string;
-  cons: string;
+  cons: ConsoleError[];
   project: ProjectI;
 }
 

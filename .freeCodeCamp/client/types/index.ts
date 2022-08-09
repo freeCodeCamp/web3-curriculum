@@ -30,3 +30,9 @@ export interface ProjectI {
   isIntegrated: boolean;
   isPublic: boolean;
 }
+
+export interface ConsoleError {
+  id: number;
+  hint: string;
+  error: string;
+}
