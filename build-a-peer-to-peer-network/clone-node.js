@@ -26,7 +26,6 @@ while (!nodeCreated) {
     });
 
     writeFileSync(`${newNode}/.env`, `PORT=${4000 + nextNode}`);
-    writeFileSync(`${newNode}/connected-addresses.json`, '[]');
 
     nodeCreated = true;
     console.log(`${newNode} created`);
