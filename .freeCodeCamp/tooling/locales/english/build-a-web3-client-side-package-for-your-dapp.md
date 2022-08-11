@@ -60,8 +60,8 @@ const IDL = {
   ]
 };
 const smartContract = initSmartContract(IDL);
-await setFavouriteNumber('my_address', 24);
-const favouriteNumber = await getFavouriteNumber('my_address');
+await smartContract.setFavouriteNumber('my_address', 24);
+const favouriteNumber = await smartContract.getFavouriteNumber('my_address');
 assert.equal(favouriteNumber, 24);
 ```
 
