@@ -4,7 +4,7 @@
 
 ### --description--
 
-You will be building a client-side package in the form of a class that can be used to interact with a Web3 provider.
+You will be building a client-side package in the form of a class that can be used to interact with a Web3 provider. The Web3 provider is a REST API your package will be making requests to in the form of _RPC_ calls.
 
 **Instruction**:
 
@@ -20,29 +20,33 @@ An example _IDL_ exists in `node/idl.json`.
 
 **User Stories:**
 
-Your `Web3` class should have the following methods:
+Your `Web3` class should implement the following methods:
 
 ```ts
 setClientAddress(address: string): void
 ```
 
-- `setClientAddress` should set the class `address` property to the given address.
+1. `setClientAddress` should set the class `address` property to the given address.
 
 ```ts
 call(rpcCall: Record<string, any>): Promise<Record<string, any>>
 ```
 
-- `call` should accept an RPC call object literal.
-- `call` should make a `POST /call-smart-contract` to the `href` of the `provider` property.
-  - The `body` of the `POST` should be the RPC call object literal and the `address` property of the `Web3` class.
-- `call` should return the `result` property of the `HTTP` response, or throw an error if the response contains an `error` property.
+2. `call` should accept an RPC call object literal.
+3. `call` should make a `POST /call-smart-contract` to the `href` of the `provider` property.
+
+- The `body` of the `POST` should be the RPC call object literal and the `address` property of the `Web3` class.
+
+4. `call` should return the `result` property of the `HTTP` response, or throw an error if the response contains an `error` property.
 
 ```ts
 initSmartContract(idl: Record<string, any>): Record<string, any>>
 ```
 
-- `initSmartContract` should accept an IDL object literal, and return the contract instance of callable methods.
-  - The callable methods should return a promise resolving to the result of the `call` method.
+5. `initSmartContract` should accept an IDL object literal, and return the contract instance of callable methods.
+
+- The callable methods should return a promise resolving to the result of the `call` method.
+
 - Here is an example of the input and its output:
 
 ```js
@@ -69,27 +73,37 @@ assert.equal(favouriteNumber, 24);
 getBalance(address?: string): Promise<number>
 ```
 
-- `getBalance` should accept an address, and return a promise that resolves with the balance of the given address.
-- `getBalance` should make a `POST /get-balance` to the `href` of the `provider` property.
-  - The `body` of the `POST` should be the `address` parameter, if one exists, or the `address` property of the `Web3` class.
-- `getBalance` should return the `result` property of the `HTTP` response, or throw an error if the response contains an `error` property.
+6. `getBalance` should accept an address, and return a promise that resolves with the balance of the given address.
+7. `getBalance` should make a `POST /get-balance` to the `href` of the `provider` property.
+
+- The `body` of the `POST` should be the `address` parameter, if one exists, or the `address` property of the `Web3` class.
+
+8. `getBalance` should return the `result` property of the `HTTP` response, or throw an error if the response contains an `error` property.
 
 ```ts
 transfer({from, to, amount}: {from?: string; to: string; amount: number;}): Promise<Record<string, any>>
 ```
 
-- `transfer` should accept an object literal with the following properties:
-  - `from`: the address to send the funds from.
-  - `to`: the address to send the funds to.
-  - `amount`: the amount of funds to send.
-- `transfer` should return a promise that resolves with the result of the transfer.
-- `transfer` should make a `POST /transfer` to the `href` of the `provider` property.
-  - The `body` of the `POST` should be the function parameter.
-- `transfer` should return the `result` property of the `HTTP` response, or throw an error if the response contains an `error` property.
+9. `transfer` should accept an object literal with the following properties:
+
+- `from`: the address to send the funds from.
+- `to`: the address to send the funds to.
+- `amount`: the amount of funds to send.
+
+10. `transfer` should return a promise that resolves with the result of the transfer.
+11. `transfer` should make a `POST /transfer` to the `href` of the `provider` property.
+
+- The `body` of the `POST` should be the function parameter.
+
+12. `transfer` should return the `result` property of the `HTTP` response, or throw an error if the response contains an `error` property.
 
 **Notes**:
 
 An _IDL_ describes a contract's interface. Specifically, it describes the callable methods on a contract, as well as the expected types of its parameters.
+
+The `URL` API is useful for constructing the URLs for the requests:
+
+- https://developer.mozilla.org/en-US/docs/Web/API/URL/URL
 
 ### --tests--
 
@@ -210,7 +224,7 @@ assert.exists(test);
 assert.deepInclude(test?.body, { address: 'fcc_test_8' });
 ```
 
-The `call` method should return a promise that resolves with the object literal of the response body.
+The `call` method should return a promise that resolves with the `result` property of the response body.
 
 ```js
 // 9
@@ -453,7 +467,7 @@ const test = tests.find(t => t.body?.address === 'fcc_test_16');
 assert.deepInclude(test?.headers, { 'content-type': 'application/json' });
 ```
 
-The `getBalance` method should return a promise that resolves with the object literal of the response body.
+The `getBalance` method should return a promise that resolves with the `result` property of the response body.
 
 ```js
 // 24
@@ -543,7 +557,7 @@ const test = tests.find(t => t.body?.from === 'from_address');
 assert.deepEqual(test?.body, _t);
 ```
 
-The `transfer` method should return a promise that resolves with the object literal of the response body.
+The `transfer` method should return a promise that resolves with the `result` property of the response body.
 
 ```js
 // 30
