@@ -47,7 +47,7 @@ initSmartContract(idl: Record<string, any>): Record<string, any>>
 
 - The callable methods should return a promise resolving to the result of the `call` method.
 
-6. Here is an example of the input and its output:
+- Here is an example of the input and its output:
 
 ```js
 const IDL = {
@@ -73,35 +73,37 @@ assert.equal(favouriteNumber, 24);
 getBalance(address?: string): Promise<number>
 ```
 
-7. `getBalance` should accept an address, and return a promise that resolves with the balance of the given address.
-8. `getBalance` should make a `POST /get-balance` to the `href` of the `provider` property.
+6. `getBalance` should accept an address, and return a promise that resolves with the balance of the given address.
+7. `getBalance` should make a `POST /get-balance` to the `href` of the `provider` property.
 
 - The `body` of the `POST` should be the `address` parameter, if one exists, or the `address` property of the `Web3` class.
 
-9. `getBalance` should return the `result` property of the `HTTP` response, or throw an error if the response contains an `error` property.
+8. `getBalance` should return the `result` property of the `HTTP` response, or throw an error if the response contains an `error` property.
 
 ```ts
 transfer({from, to, amount}: {from?: string; to: string; amount: number;}): Promise<Record<string, any>>
 ```
 
-10. `transfer` should accept an object literal with the following properties:
+9. `transfer` should accept an object literal with the following properties:
 
 - `from`: the address to send the funds from.
 - `to`: the address to send the funds to.
 - `amount`: the amount of funds to send.
 
-11. `transfer` should return a promise that resolves with the result of the transfer.
-12. `transfer` should make a `POST /transfer` to the `href` of the `provider` property.
+10. `transfer` should return a promise that resolves with the result of the transfer.
+11. `transfer` should make a `POST /transfer` to the `href` of the `provider` property.
 
 - The `body` of the `POST` should be the function parameter.
 
-13. `transfer` should return the `result` property of the `HTTP` response, or throw an error if the response contains an `error` property.
+12. `transfer` should return the `result` property of the `HTTP` response, or throw an error if the response contains an `error` property.
 
 **Notes**:
 
 An _IDL_ describes a contract's interface. Specifically, it describes the callable methods on a contract, as well as the expected types of its parameters.
 
-The [`URL`](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) API is useful for constructing the URLs for the requests.
+The `URL` API is useful for constructing the URLs for the requests:
+
+- https://developer.mozilla.org/en-US/docs/Web/API/URL/URL
 
 ### --tests--
 
