@@ -1,11 +1,11 @@
 {
   "extensions": [
     "dbaeumer.vscode-eslint",
-    "freeCodeCamp.freecodecamp-courses@1.4.3",
+    "freeCodeCamp.freecodecamp-courses@1.5.0",
     "freeCodeCamp.freecodecamp-dark-vscode-theme"
   ],
-  "forwardPorts": [3000],
+  "forwardPorts": [8080],
   "workspaceFolder": "/workspace/web3-curriculum",
-  "dockerFile": "../.freeCodeCamp/Dockerfile",
+  "dockerFile": "../Dockerfile",
   "context": ".."
 }

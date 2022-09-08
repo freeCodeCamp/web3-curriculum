@@ -1,6 +1,6 @@
 // This file handles creating the Git curriculum branches
 import { join } from 'path';
-import { PATH, readEnv, updateEnv } from '../env.js';
+import { getState, setState } from '../env.js';
 import {
   getCommands,
   getFilesWithSeed,
@@ -19,7 +19,7 @@ import {
 const PROJECT_LIST = ['project-1'];
 
 for (const project of PROJECT_LIST) {
-  await updateEnv({ CURRENT_PROJECT: project });
+  await setState({ currentProject: project });
   try {
     await deleteBranch(project);
     await buildProject();
@@ -35,13 +35,17 @@ for (const project of PROJECT_LIST) {
 console.log('✅ Successfully built all projects');
 
 async function buildProject() {
-  const { CURRENT_PROJECT } = await readEnv();
-  const FILE = join(`${PATH}/tooling/locales/english/${CURRENT_PROJECT}.md`);
+  const { currentProject } = await getState();
+  const FILE = join(
+    ROOT,
+    freeCodeCampConfig.curriculum.locales['english'],
+    project.dashedName + '.md'
+  );
 
   try {
     await initCurrentProjectBranch();
   } catch (e) {
-    console.error('🔴 Failed to create a branch for ', CURRENT_PROJECT);
+    console.error('🔴 Failed to create a branch for ', currentProject);
     throw new Error(e);
   }
 
@@ -49,7 +53,7 @@ async function buildProject() {
   let lesson = await getLessonFromFile(FILE, lessonNumber);
   if (!lesson) {
     return Promise.reject(
-      new Error(`🔴 No lesson found for ${CURRENT_PROJECT}`)
+      new Error(`🔴 No lesson found for ${currentProject}`)
     );
   }
   while (lesson) {

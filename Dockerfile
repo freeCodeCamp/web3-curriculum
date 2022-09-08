@@ -47,3 +47,5 @@ RUN npm config set prefix '~/.npm-global'
 # Configure course-specific environment
 COPY . .
 WORKDIR ${HOMEDIR}
+
+RUN cd ${HOMEDIR} && npm install

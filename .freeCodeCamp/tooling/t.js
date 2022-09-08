@@ -1,15 +1,12 @@
-import { readEnv, ROOT } from './env.js';
-
-export const LOCALE = await readEnv('.meta').LOCALE;
+import { getState } from './env.js';
 
 export async function t(key, args = {}, forceLangToUse) {
-  const loc = await readEnv().LOCALE;
+  const { locale: loc } = await getState();
   // Get key from ./locales/{locale}/comments.json
   // Read file and parse JSON
-  const locale =
-    forceLangToUse ?? loc === 'undefined' ? 'english' : loc ?? 'english';
+  const locale = forceLangToUse ?? loc;
   const comments = import(
-    join(ROOT, `.freeCodeCamp/tooling/locales/${locale}/comments.json`),
+    `.freeCodeCamp/tooling/locales/${locale}/comments.json`,
     {
       assert: { type: 'json' }
     }

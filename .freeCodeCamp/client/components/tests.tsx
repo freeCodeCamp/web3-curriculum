@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { TestType } from '../types';
+import { Congratulations } from './congratulations';
 import { Test } from './test';
 
 interface TestsProps {
@@ -32,13 +33,5 @@ export const Tests = ({ tests }: TestsProps) => {
         ))
       )}
     </ul>
-  );
-};
-
-const Congratulations = () => {
-  return (
-    <li className='test'>
-      <span className='passed'>🎉 Congratulations! You passed all tests.</span>
-    </li>
   );
 };
