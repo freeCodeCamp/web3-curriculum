@@ -15,6 +15,12 @@
     ".prettierignore": false,
     ".prettierrc": false,
     ".vscode": false,
+    "bash": false,
+    "config": false,
+    "curriculum": false,
+    "tooling": false,
+    "Dockerfile": false,
+    "freecodecamp.conf.json": false,
     "node_modules": false,
     "package.json": false,
     "package-lock.json": false,
@@ -35,7 +41,11 @@
     "bash": {
       "path": "bash",
       "icon": "terminal-bash",
-      "args": ["--init-file", "./bash/sourcerer.sh"]
+      "args": [
+        "--init-file",
+        "./bash/sourcerer.sh"
+      ]
     }
-  }
+  },
+  "workbench.colorTheme": "freeCodeCamp Dark Theme"
 }

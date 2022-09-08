@@ -1,7 +1,7 @@
 {
   "path": ".",
   "scripts": {
-    "develop-course": "NODE_ENV=development nodemon --watch ./tooling/ --ignore ./config/ .freeCodeCamp/tooling/server.js",
+    "develop-course": "NODE_ENV=development node ./.freeCodeCamp/tooling/server.js",
     "run-course": "NODE_ENV=production node ./.freeCodeCamp/tooling/server.js",
     "test": {
       "functionName": "handleMessage",
@@ -33,7 +33,7 @@
       "favicon": "./client/assets/fcc_primary_small.svg"
     },
     "landing": {
-      "description": "For these courses, you will use your local development environment to complete interactive tutorials and build projects.\nThese courses start off with basic cryptographic concepts. Using Nodejs, you will learn everything from cryptographic hash functions to building your own blockchain.\nNext, you will learn about different consensus mechanisms.\nFinally, you will learn Rust, and WASM in the context of a blockchain.",
+      "description": "For these courses, you will use your local development environment to complete interactive tutorials and build projects.\n\nThese courses start off with basic cryptographic concepts. Using Nodejs, you will learn everything from cryptographic hash functions to building your own blockchain.\n\nNext, you will learn about different consensus mechanisms.\n\nFinally, you will learn Rust, and WASM in the context of a blockchain.",
       "faq-link": "#",
       "faq-text": "Link to FAQ related to course"
     }
