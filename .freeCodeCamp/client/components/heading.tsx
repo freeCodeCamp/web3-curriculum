@@ -16,15 +16,24 @@ export const Heading = ({
   goToPreviousLesson
 }: HeadingProps) => {
   return (
-    <nav>
+    <nav className='heading'>
       {goToPreviousLesson && (
-        <button onClick={() => goToPreviousLesson()}>&lt;</button>
+        <button
+          className='previous-lesson-btn'
+          onClick={() => goToPreviousLesson()}
+        >
+          &larr;
+        </button>
       )}
       <h1 id='project-heading'>
         {topic} - {title}
         {lessonNumber && <LessonNumber lessonNumber={lessonNumber} />}
       </h1>
-      {goToNextLesson && <button onClick={() => goToNextLesson()}>&gt;</button>}
+      {goToNextLesson && (
+        <button className='next-lesson-btn' onClick={() => goToNextLesson()}>
+          &rarr;
+        </button>
+      )}
     </nav>
   );
 };

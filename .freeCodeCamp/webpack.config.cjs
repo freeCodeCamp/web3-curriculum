@@ -1,21 +1,23 @@
 const path = require('path');
 const { DefinePlugin } = require('webpack');
-const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './client/index.tsx',
+  entry: path.join(__dirname, 'client/index.tsx'),
   devtool: 'inline-source-map',
   mode: process.env.NODE_ENV || 'development',
   devServer: {
     compress: true,
     port: 9000
   },
+  watch: process.env.NODE_ENV === 'development',
+  watchOptions: {
+    ignored: ['**/node_modules', 'config']
+  },
   module: {
     rules: [
       {
         test: /\.(js|jsx|tsx|ts)$/,
-        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -46,7 +48,6 @@ module.exports = {
       },
       {
         test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
         use: ['ts-loader']
       },
       {
@@ -81,7 +82,6 @@ module.exports = {
       'process.env.GITPOD_WORKSPACE_URL': JSON.stringify(
         process.env.GITPOD_WORKSPACE_URL
       )
-    }),
-    new Dotenv()
+    })
   ]
 };

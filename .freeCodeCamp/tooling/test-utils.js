@@ -1,50 +1,97 @@
 import { readFile, readdir } from 'fs/promises';
 import { exec, execSync } from 'child_process';
-import sha256 from 'crypto-js/sha256.js';
 import { promisify } from 'util';
-import elliptic from 'elliptic';
 import { join } from 'path';
 import fs from 'fs';
 import { ROOT } from './env.js';
-import WebSocket, { WebSocketServer } from 'ws';
 
 // ---------------
 // GENERIC HELPERS
 // ---------------
+const PATH_TERMINAL_OUT = join(ROOT, '.logs/.terminal-out.log');
+const PATH_BASH_HISTORY = join(ROOT, '.logs/.bash_history.log');
+const PATH_CWD = join(ROOT, '.logs/.cwd.log');
 
-const execute = promisify(exec);
+/**
+ * Get the `.logs/.terminal-out.log` file contents, or `throw` if not found
+ * @returns {Promise<string>} The `.terminal-out.log` file contents
+ */
+async function getTerminalOutput() {
+  const terminalLogs = await readFile(PATH_TERMINAL_OUT, 'utf8');
+  if (!terminalLogs) {
+    throw new Error(`Could not find ${PATH_TERMINAL_OUT}`);
+  }
+  return terminalLogs;
+}
+
+/**
+ * Get the `.logs/.bash_history.log` file contents
+ * @returns {Promise<string>}
+ */
+async function getBashHistory() {
+  const bashHistory = await readFile(PATH_BASH_HISTORY, 'utf8');
+  if (!bashHistory) {
+    throw new Error(`Could not find ${PATH_CWD}`);
+  }
+  return bashHistory;
+}
+
+/**
+ * Get the `.logs/.bash_history.log` file contents, or `throw` is not found
+ * @param {number?} howManyBack The `nth` log from the history
+ * @returns {Promise<string>}
+ */
+async function getLastCommand(howManyBack = 0) {
+  const bashLogs = await getBashHistory();
+
+  const logs = bashLogs.split('\n').filter(l => l !== '');
+  const lastLog = logs[logs.length - howManyBack - 1];
+
+  return lastLog;
+}
+
+/**
+ * Get the `.logs/.cwd.log` file contents
+ * @returns {Promise<string>}
+ */
+async function getCWD() {
+  const cwd = await readFile(PATH_CWD, 'utf8');
+  if (!cwd) {
+    throw new Error(`Could not find ${PATH_CWD}`);
+  }
+  return cwd;
+}
+
+/**
+ * Get the `.logs/.cwd.log` file contents, or `throw` is not found
+ * @param {number} howManyBack The `nth` log from the current working directory history
+ * @returns {Promise<string>}
+ */
+async function getLastCWD(howManyBack = 0) {
+  const currentWorkingDirectory = await getCWD();
+
+  const logs = currentWorkingDirectory.split('\n').filter(l => l !== '');
+  const lastLog = logs[logs.length - howManyBack - 1];
+
+  return lastLog;
+}
 
 /**
  * Get the contents of a directory
  * @param {string} path Path relative to root of working directory
- * @returns {string[]} An array of file names
+ * @returns {Promise<string[]>} An array of file names
  */
 async function getDirectory(path) {
   const files = await readdir(join(ROOT, path));
   return files;
 }
 
-/**
- * Get the `.logs/.terminal-out.log` file contents, or `throw` if not found
- * @returns {string} The `.terminal-out.log` file contents
- */
-async function getTerminalOutput() {
-  const pathToTerminalLogs = join(ROOT, '.logs/.terminal-out.log');
-  const terminalLogs = await readFile(pathToTerminalLogs, 'utf8');
-
-  // TODO: Throwing is probably an anti-pattern?
-  if (!terminalLogs) {
-    throw new Error('No terminal logs found');
-  }
-
-  return terminalLogs;
-}
-
+const execute = promisify(exec);
 /**
  * Returns the output of a command called from a given path
  * @param {string} command
  * @param {string} path Path relative to root of working directory
- * @returns {{stdout, stderr}}
+ * @returns {Promise<{stdout, stderr}>}
  */
 async function getCommandOutput(command, path = '') {
   try {
@@ -59,39 +106,9 @@ async function getCommandOutput(command, path = '') {
 }
 
 /**
- * Get the `.logs/.bash_history.log` file contents, or `throw` is not found
- * @param {number?} howManyBack The `nth` log from the history
- * @returns {string}
- */
-async function getLastCommand(howManyBack = 0) {
-  const pathToBashLogs = join(ROOT, '.logs/.bash_history.log');
-  const bashLogs = await readFile(pathToBashLogs, 'utf8');
-
-  if (!bashLogs) {
-    throw new Error(`Could not find ${pathToBashLogs}`);
-  }
-
-  const logs = bashLogs.split('\n');
-  const lastLog = logs[logs.length - howManyBack - 2];
-
-  return lastLog;
-}
-
-/**
- * Get the `.logs/.cwd.log` file contents
- * @returns {string}
- */
-async function getCWD() {
-  // TODO: Do not return whole file?
-  const pathToCWD = join(ROOT, '.logs/.cwd.log');
-  const cwd = await readFile(pathToCWD, 'utf8');
-  return cwd;
-}
-
-/**
  * Get a file from the given `path`
  * @param {string} path Path relative to root of working directory
- * @returns {string}
+ * @returns {Promise<string>}
  */
 async function getFile(path) {
   const file = await readFile(join(ROOT, path), 'utf8');
@@ -103,7 +120,7 @@ async function getFile(path) {
  * @param {string} path Path relative to root of working directory
  * @returns {boolean}
  */
-async function fileExists(path) {
+function fileExists(path) {
   return fs.existsSync(join(ROOT, path));
 }
 
@@ -112,7 +129,7 @@ async function fileExists(path) {
  * @param {string} folderToCopyPath Path to folder to copy relative to root
  * @param {string} destinationFolderPath Path to folder destination relative to root
  */
-async function copyDirectory(folderToCopyPath, destinationFolderPath) {
+function copyDirectory(folderToCopyPath, destinationFolderPath) {
   const folderToCopy = join(ROOT, folderToCopyPath);
   const destinationFolder = join(ROOT, destinationFolderPath);
 
@@ -125,7 +142,7 @@ async function copyDirectory(folderToCopyPath, destinationFolderPath) {
   });
 }
 
-async function copyProjectFiles(
+function copyProjectFiles(
   projectFolderPath,
   testsFolderPath,
   arrayOfFiles = []
@@ -147,7 +164,7 @@ async function copyProjectFiles(
  * @param {string} command Command string to run
  * @param {string} path Path relative to root to run command in
  */
-async function runCommand(command, path) {
+function runCommand(command, path) {
   execSync(command, {
     cwd: join(ROOT, path),
     shell: '/bin/bash'
@@ -159,7 +176,7 @@ async function runCommand(command, path) {
  * @param {string} filePath Path to JSON file relative to root
  * @returns {object} `JSON.parse` file contents
  */
-async function getJsonFile(filePath) {
+function getJsonFile(filePath) {
   const fileString = fs.readFileSync(join(ROOT, filePath));
   return JSON.parse(fileString);
 }
@@ -169,165 +186,59 @@ async function getJsonFile(filePath) {
  * @param {string} path Path to JSON file relative to root
  * @param {any} content Stringifiable content to write to `path`
  */
-async function writeJsonFile(path, content) {
+function writeJsonFile(path, content) {
   fs.writeFileSync(join(ROOT, path), JSON.stringify(content, null, 2));
 }
 
-// ------------------
-// BLOCKCHAIN HELPERS
-// ------------------
+/**
+ * @typedef ControlWrapperOptions
+ * @type {object}
+ * @property {number} timeout
+ * @property {number} stepSize
+ */
 
-const ec = new elliptic.ec('p192');
-
-async function generateHash(content) {
-  const hash = sha256(content).toString();
-  return hash;
-}
-
-async function generateSignature(privateKey, content) {
-  const keyPair = ec.keyFromPrivate(privateKey, 'hex');
-  const signature = keyPair.sign(content).toDER('hex');
-  return signature;
-}
-
-async function validateSignature(publicKey, content, signature) {
-  const keyPair = ec.keyFromPublic(publicKey, 'hex');
-  const verifiedSignature = keyPair.verify(content, signature);
-  return verifiedSignature;
-}
-
-async function getPublicKeyFromPrivate(privateKey) {
-  const keyPair = ec.keyFromPrivate(privateKey, 'hex');
-  const publicKey = keyPair.getPublic('hex');
-  return publicKey;
-}
-
-// ----------------------------------------------------------
-// TODO: @moT01 should move these into their respective files
-// ----------------------------------------------------------
-
-// used in fundraising contract project
-async function getContract(contractAddress, cwd, includePool = true) {
-  // get the latest contract state from the blockchain
-  const blockchain = await getJsonFile(`${cwd}/blockchain.json`);
-  const latestContract = blockchain.reduce((currentContract, nextBlock) => {
-    if (nextBlock.smartContracts) {
-      nextBlock.smartContracts.forEach(contract => {
-        if (contract.address === contractAddress) {
-          // first occurrence of contract
-          if (!currentContract.hasOwnProperty('address')) {
-            Object.keys(contract).forEach(
-              key => (currentContract[key] = contract[key])
-            );
-
-            // contract found and added, only update state after that
-          } else if (contract.hasOwnProperty('state')) {
-            currentContract.state = contract.state;
-          }
+/**
+ * Wraps a function in an interval to retry until it succeeds
+ * @param {callback} cb Callback to wrap
+ * @param {ControlWrapperOptions} options Options to pass to `ControlWrapper`
+ * @returns {Promise<any>} Returns the result of the callback or `null`
+ */
+async function controlWrapper(cb, { timeout = 10000, stepSize = 250 }) {
+  return new Promise((resolve, reject) => {
+    const interval = setInterval(async () => {
+      try {
+        const response = await cb();
+        if (response) {
+          clearInterval(interval);
+          resolve(response);
         }
-      });
-    }
-    return currentContract;
-  }, {});
-
-  if (includePool) {
-    // add contract pool to latest contract state
-    const smartContracts = await getJsonFile(`${cwd}/smart-contracts.json`);
-    smartContracts.forEach(contract => {
-      if (contract.address === contractAddress) {
-        if (!latestContract.hasOwnProperty('address')) {
-          Object.keys(contract).forEach(
-            key => (latestContract[key] = contract[key])
-          );
-        } else if (latestContract.hasOwnProperty('state')) {
-          latestContract.state = contract.state;
-        }
+      } catch (e) {
+        console.log(e);
       }
-    });
-  }
-
-  return latestContract.hasOwnProperty('address') ? latestContract : null;
-}
-
-// for p2p network project
-async function canConnectToSocket(address) {
-  return await new Promise(resolve => {
-    const socket = new WebSocket(address, { shouldKeepAlive: false });
-    socket.on('open', () => {
-      socket.close();
-      resolve(true);
-    });
-    socket.on('error', () => resolve(false));
-  });
-}
-
-async function startSocketServerAndHandshake({
-  myPort: port,
-  theirAddress = 'ws://localhost:4001',
-  connectOnly = false
-}) {
-  return await new Promise(resolve => {
-    const address = `ws://localhost:${port}`;
-
-    const server = new WebSocketServer({ port });
-    server.on('connection', externalSocket => {
-      if (connectOnly) {
-        externalSocket.close();
-        server.close();
-        resolve(true);
-      }
-
-      externalSocket.on('message', messageString => {
-        const message = JSON.parse(messageString);
-
-        if (message.hasOwnProperty('type') && message.type === 'HANDSHAKE') {
-          externalSocket.close();
-          server.close();
-          resolve(message);
-        } else {
-          externalSocket.close();
-          server.close();
-        }
-      });
-    });
-
+    }, stepSize);
     setTimeout(() => {
-      server.close();
-      resolve();
-    }, 5000);
-
-    server.on('error', () => server.close());
-
-    const socket = new WebSocket(theirAddress, { shouldKeepAlive: false });
-    socket.on('open', () => {
-      socket.send(JSON.stringify({ type: 'HANDSHAKE', data: [address] }));
-      socket.close();
-    });
-
-    socket.on('error', () => resolve());
+      clearInterval(interval);
+      reject(null);
+    }, timeout);
   });
 }
 
 const __helpers = {
-  getDirectory,
-  getFile,
-  fileExists,
-  getTerminalOutput,
-  getCommandOutput,
-  getLastCommand,
-  getCWD,
+  controlWrapper,
   copyDirectory,
   copyProjectFiles,
-  runCommand,
+  fileExists,
+  getBashHistory,
+  getCommandOutput,
+  getCWD,
+  getDirectory,
+  getFile,
   getJsonFile,
-  writeJsonFile,
-  generateHash,
-  generateSignature,
-  validateSignature,
-  getPublicKeyFromPrivate,
-  getContract,
-  canConnectToSocket,
-  startSocketServerAndHandshake
+  getLastCommand,
+  getLastCWD,
+  getTerminalOutput,
+  runCommand,
+  writeJsonFile
 };
 
 export default __helpers;

@@ -124,5 +124,7 @@ for i in $(ls -A $HOME/.bashrc.d/); do source $HOME/.bashrc.d/$i; done
 
 # freeCodeCamp - Needed for most tests to work
 
-PROMPT_COMMAND='>| /workspace/web3-curriculum/.logs/.terminal-out.log && cat /workspace/web3-curriculum/.logs/.temp.log >| /workspace/web3-curriculum/.logs/.terminal-out.log && truncate -s 0 /workspace/web3-curriculum/.logs/.temp.log; echo $PWD >> /workspace/web3-curriculum/.logs/.cwd; history -a /workspace/web3-curriculum/.logs/.bash_history'
-exec > >(tee -ia /workspace/web3-curriculum/.logs/.temp.log) 2>&1
+WD=/workspace/web3-curriculum
+
+PROMPT_COMMAND='>| $WD/.logs/.terminal-out.log && cat $WD/.logs/.temp.log >| $WD/.logs/.terminal-out.log && truncate -s 0 $WD/.logs/.temp.log; echo $PWD >> $WD/.logs/.cwd.log; history -a $WD/.logs/.bash_history.log'
+exec > >(tee -ia $WD/.logs/.temp.log) 2>&1

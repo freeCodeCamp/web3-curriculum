@@ -1,25 +1,16 @@
-/* nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.heading > button {
+  background-color: var(--dark-blue);
+  margin: 0 0.5rem;
+  color: var(--light-1);
+  font-size: 1.35rem;
+  -webkit-text-stroke: medium;
 }
 
-nav > button {
-  background-color: var(--dark-3);
-  color: rgb(230, 230, 230);
-  font-size: 1.8rem;
-  font-weight: bold;
-  width: 50px;
-  height: 100%;
-  padding: 0.5rem;
-  cursor: pointer;
-  outline: none;
-  margin: 0 1rem;
-}
-nav > button:hover {
+.heading > button:hover {
   background-color: var(--light-blue);
-  color: var(--dark-3);
-} */
+  color: var(--dark-blue);
+  cursor: pointer;
+}
 
 #project-heading {
   font-size: 1.5rem;
@@ -66,17 +57,6 @@ nav > button:hover {
     color: none;
   }
 }
-
-/* #description {
-  margin: 0 auto;
-  width: 80%;
-  text-align: left;
-}
-
-#description > pre {
-  background-color: black !important;
-  padding: 1rem;
-} */
 
 .project-controls {
   display: flex;
@@ -231,7 +211,6 @@ nav {
   color: white;
   height: fit-content;
   min-height: 100px;
-  /* padding: 1rem 2rem; */
   margin-top: 0;
   text-align: left;
   overflow: auto;

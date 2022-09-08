@@ -8,6 +8,7 @@
     ".devcontainer": true,
     ".editorconfig": true,
     ".freeCodeCamp": true,
+    ".git": true,
     ".gitignore": true,
     ".gitpod.Dockerfile": true,
     ".gitpod.yml": true,
@@ -15,6 +16,12 @@
     ".prettierignore": true,
     ".prettierrc": true,
     ".vscode": true,
+    "bash": true,
+    "config": true,
+    "curriculum": true,
+    "tooling": true,
+    "Dockerfile": true,
+    "freecodecamp.conf.json": true,
     "node_modules": true,
     "package.json": true,
     "package-lock.json": true,
@@ -30,5 +37,16 @@
     "learn-proof-of-stake-consensus-by-completing-a-web3-game": true,
     "learn-smart-contracts-by-building-a-dumb-contract": true,
     "learn-websockets-by-building-a-blockchain-explorer": true
-  }
+  },
+  "terminal.integrated.profiles.linux": {
+    "bash": {
+      "path": "bash",
+      "icon": "terminal-bash",
+      "args": [
+        "--init-file",
+        "./bash/sourcerer.sh"
+      ]
+    }
+  },
+  "workbench.colorTheme": "freeCodeCamp Dark Theme"
 }

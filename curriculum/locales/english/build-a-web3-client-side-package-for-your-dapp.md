@@ -599,7 +599,7 @@ try {
 // Stop and start node in background
 const { spawn } = await import('child_process');
 const _node = spawn('node', ['node/provider.js'], {
-  cwd: '../build-a-web3-client-side-package-for-your-dapp'
+  cwd: './build-a-web3-client-side-package-for-your-dapp'
 });
 
 await new Promise(resolve => {

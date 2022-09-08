@@ -8,22 +8,26 @@ import {
   getLessonSeed,
   isForceFlag
 } from './parser.js';
-import { LOCALE } from './t.js';
 import {
   updateDescription,
   updateProjectHeading,
   updateTests,
   updateProject
 } from './client-socks.js';
-import { ROOT, readEnv } from './env.js';
+import { ROOT, getState, getProjectConfig, freeCodeCampConfig } from './env.js';
 import seedLesson from './seed.js';
 
-async function runLesson(ws, project) {
-  const locale = LOCALE === 'undefined' ? 'english' : LOCALE ?? 'english';
+/**
+ * Runs the lesson from the `project` config.
+ * @param {WebSocket} ws WebSocket connection to the client
+ * @param {object} projectDashedName Project dashed-name
+ */
+async function runLesson(ws, projectDashedName) {
+  const project = await getProjectConfig(projectDashedName);
+  const { locale } = await getState();
   const projectFile = join(
     ROOT,
-    '.freeCodeCamp/tooling/locales',
-    locale,
+    freeCodeCampConfig.curriculum.locales[locale],
     project.dashedName + '.md'
   );
   const lessonNumber = project.currentLesson;
@@ -32,7 +36,6 @@ async function runLesson(ws, project) {
 
   updateProject(ws, project);
 
-  const { SEED_EVERY_LESSON } = await readEnv();
   if (!project.isIntegrated) {
     const hintsAndTestsArr = getLessonHintsAndTests(lesson);
     updateTests(
@@ -54,8 +57,8 @@ async function runLesson(ws, project) {
   const isForce = isForceFlag(seed);
   // force flag overrides seed flag
   if (
-    (SEED_EVERY_LESSON === 'true' && !isForce) ||
-    (SEED_EVERY_LESSON !== 'true' && isForce)
+    (project.seedEveryLesson && !isForce) ||
+    (!project.seedEveryLesson && isForce)
   ) {
     await seedLesson(ws, project, lessonNumber);
   }

@@ -1,7 +1,7 @@
 // This file handles the fetching/parsing of the Git status of the project
 import { promisify } from 'util';
 import { exec } from 'child_process';
-import { readEnv, updateEnv } from '../env.js';
+import { getState, setState } from '../env.js';
 const execute = promisify(exec);
 
 /**
@@ -35,10 +35,10 @@ export async function commit(lessonNumber) {
  * @returns {Promise<void>}
  */
 export async function initCurrentProjectBranch() {
-  const { CURRENT_PROJECT } = await readEnv();
+  const { currentProject } = await getState();
   try {
     const { stdout, stderr } = await execute(
-      `git checkout -b ${CURRENT_PROJECT}`
+      `git checkout -b ${currentProject}`
     );
     // SILlY GIT PUTS A BRANCH SWITCH INTO STDERR!!!
     // if (stderr) {
@@ -56,10 +56,10 @@ export async function initCurrentProjectBranch() {
  * @returns {Promise<string>}
  */
 export async function getCommitHashByNumber(number) {
-  const { LAST_KNOWN_LESSON_WITH_HASH, CURRENT_PROJECT } = await readEnv();
+  const { lastKnownLessonWithHash, currentProject } = await getState();
   try {
     const { stdout, stderr } = await execute(
-      `git log origin/${CURRENT_PROJECT} --oneline --grep="(${number})" --`
+      `git log origin/${currentProject} --oneline --grep="(${number})" --`
     );
     if (stderr) {
       throw new Error(stderr);
@@ -67,9 +67,9 @@ export async function getCommitHashByNumber(number) {
     const hash = stdout.match(/\w+/)?.[0];
     // This keeps track of the latest known commit in case there are no commits from one lesson to the next
     if (!hash) {
-      return getCommitHashByNumber(LAST_KNOWN_LESSON_WITH_HASH);
+      return getCommitHashByNumber(lastKnownLessonWithHash);
     }
-    await updateEnv({ LAST_KNOWN_LESSON_WITH_HASH: number });
+    await setState({ lastKnownLessonWithHash: number });
     return hash;
   } catch (e) {
     throw new Error(e);
@@ -132,16 +132,16 @@ export async function setFileSystemToLessonNumber(lessonNumber) {
  * @returns {Promise<void>}
  */
 export async function pushProject() {
-  const { CURRENT_PROJECT } = await readEnv();
+  const { currentProject } = await getState();
   try {
     const { stdout, stderr } = await execute(
-      `git push origin ${CURRENT_PROJECT} --force`
+      `git push origin ${currentProject} --force`
     );
     // if (stderr) {
     //   throw new Error(stderr);
     // }
   } catch (e) {
-    console.error('🔴 Failed to push project ', CURRENT_PROJECT);
+    console.error('🔴 Failed to push project ', currentProject);
     return Promise.reject(e);
   }
   return Promise.resolve();
