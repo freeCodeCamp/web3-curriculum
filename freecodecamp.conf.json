@@ -19,7 +19,7 @@
         "open": true,
         "url": "http://localhost:8080",
         "showLoader": true,
-        "timeout": 20000
+        "timeout": 10000
       }
     ]
   },

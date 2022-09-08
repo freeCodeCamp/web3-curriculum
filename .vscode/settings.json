@@ -41,10 +41,7 @@
     "bash": {
       "path": "bash",
       "icon": "terminal-bash",
-      "args": [
-        "--init-file",
-        "./bash/sourcerer.sh"
-      ]
+      "args": ["--init-file", "./bash/sourcerer.sh"]
     }
   },
   "workbench.colorTheme": "freeCodeCamp Dark Theme"
