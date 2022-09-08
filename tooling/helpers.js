@@ -1,4 +1,4 @@
-import __helpers from '../.freeCodeCamp/tooling/test-utils';
+import __helpers from '../.freeCodeCamp/tooling/test-utils.js';
 import sha256 from 'crypto-js/sha256.js';
 import elliptic from 'elliptic';
 import WebSocket, { WebSocketServer } from 'ws';
@@ -54,7 +54,9 @@ export async function getContract(contractAddress, cwd, includePool = true) {
 
   if (includePool) {
     // add contract pool to latest contract state
-    const smartContracts = await getJsonFile(`${cwd}/smart-contracts.json`);
+    const smartContracts = await __helpers.getJsonFile(
+      `${cwd}/smart-contracts.json`
+    );
     smartContracts.forEach(contract => {
       if (contract.address === contractAddress) {
         if (!latestContract.hasOwnProperty('address')) {
