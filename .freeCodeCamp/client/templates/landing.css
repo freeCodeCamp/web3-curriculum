@@ -14,16 +14,27 @@
 }
 
 .block-btn {
-  background-color: var(--dark-2);
+  text-align: left;
+  background-color: var(--dark-1);
   color: var(--light-2);
+  padding: 14px;
   width: 100%;
   height: 100%;
+  border: none;
   min-height: 40px;
+  max-width: 750px;
+}
+
+.block-btn p {
+  color: var(--light-3);
 }
 
 .block-btn:hover {
   cursor: pointer;
   background-color: var(--dark-3);
+}
+.tags-row{
+  display: flex;
 }
 
 .tag {

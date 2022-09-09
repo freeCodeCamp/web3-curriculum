@@ -1,4 +1,5 @@
 import { ProjectI } from '../types';
+import FreeCodeCampLogo from '../assets/fcc_primary_large';
 
 interface HeaderProps {
   updateProject: (project: ProjectI | null) => void;
@@ -10,11 +11,7 @@ export const Header = ({ updateProject }: HeaderProps) => {
   return (
     <header>
       <button className='header-btn' onClick={returnToLanding}>
-        <img
-          src='https://raw.githubusercontent.com/freeCodeCamp/cdn/main/build/platform/universal/fcc_primary.svg'
-          id='logo'
-          alt='freeCodeCamp logo'
-        />
+        <FreeCodeCampLogo />
       </button>
     </header>
   );

@@ -22,7 +22,7 @@ export const Heading = ({
           className='previous-lesson-btn'
           onClick={() => goToPreviousLesson()}
         >
-          &larr;
+          {'<'}
         </button>
       )}
       <h1 id='project-heading'>
@@ -31,7 +31,7 @@ export const Heading = ({
       </h1>
       {goToNextLesson && (
         <button className='next-lesson-btn' onClick={() => goToNextLesson()}>
-          &rarr;
+          {'>'}
         </button>
       )}
     </nav>

@@ -1,19 +1,28 @@
+
+.container {
+  max-width: 750px;
+  margin: auto;
+  padding: 20px;
+}
+
+
 .heading > button {
-  background-color: var(--dark-blue);
-  margin: 0 0.5rem;
+  background-color: transparent;
   color: var(--light-1);
   font-size: 1.35rem;
+  border:none;
+  min-height: 50px;
   -webkit-text-stroke: medium;
 }
 
 .heading > button:hover {
-  background-color: var(--light-blue);
-  color: var(--dark-blue);
+  background-color: var(--dark-4);
   cursor: pointer;
 }
 
 #project-heading {
   font-size: 1.5rem;
+  width:100%;
 }
 
 #lesson-number {
@@ -60,34 +69,40 @@
 
 .project-controls {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 80%;
-  margin: 1rem auto;
-  padding: 1rem;
+  width: 100%;
+  margin: 40 0;
+  justify-content: space-between;
 }
 .project-controls > button {
-  width: 30%;
-  margin: 0 auto;
+  width: 48%;
   height: 100%;
-  background-image: linear-gradient(var(--light-yellow), var(--dark-yellow));
-  border-width: 3px;
-  border-color: var(--dark-yellow);
+  background-color: var(--dark-2);
+  border: 1px solid var(--light-2);
   font-size: 1.2rem;
   font-weight: bold;
-  color: var(--dark-1);
+  color: var(--light-2);
   cursor: pointer;
   padding: 0.5rem;
 }
+
 .project-controls > button:hover {
-  background-image: none;
-  background-color: var(--light-yellow);
+  background-color: var(--dark-4);
+}
+
+button.secondary-cta{
+  background-color: rgb(14, 116, 184);
+}
+
+button.secondary-cta:hover{
+  background-color: rgb(0, 101, 169);
 }
 
 .project-output {
-  max-width: 95%;
-  margin: 1rem;
   overflow-x: hidden;
+}
+
+.project-output ul {
+  padding-left:0px;
 }
 .project-output > ul {
   display: flex;
@@ -96,25 +111,12 @@
   width: 100%;
   align-items: center;
   margin-bottom: 0;
+  border-bottom: 1px solid var(--dark-4);
 }
 .project-output > ul > li {
   list-style: none;
 }
-.output-btn {
-  background-color: var(--dark-3);
-  color: var(--light-1);
-  font-size: 1.5rem;
-}
-.output-btn:hover {
-  background-color: var(--light-blue);
-  color: var(--dark-3);
-  cursor: pointer;
-}
-.output-btn:disabled {
-  background-color: var(--light-blue);
-  color: var(--dark-3);
-  cursor: default;
-}
+
 
 .project-output-content {
   background-color: black;
@@ -135,12 +137,12 @@ nav {
 
 #description {
   margin: 0 auto;
-  width: 80%;
+  width: 100%;
   text-align: left;
 }
 
 #description > pre {
-  background-color: black !important;
+  background-color: var(--dark-1);
   padding: 1rem;
 }
 
@@ -149,35 +151,8 @@ nav {
   margin: 1.3em 0;
 }
 
-.project-controls {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 80%;
-  margin: 1rem auto;
-  padding: 1rem;
-}
-.project-controls > button {
-  width: 30%;
-  margin: 0 auto;
-  height: 100%;
-  background-image: linear-gradient(var(--light-yellow), var(--dark-yellow));
-  border-width: 3px;
-  border-color: var(--dark-yellow);
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: var(--dark-1);
-  cursor: pointer;
-  padding: 0.5rem;
-}
-.project-controls > button:hover {
-  background-image: none;
-  background-color: var(--light-yellow);
-}
-
 .project-output {
-  max-width: 95%;
-  margin: 1rem;
+
   overflow-x: hidden;
 }
 .project-output > ul {
@@ -191,23 +166,26 @@ nav {
   list-style: none;
 }
 .output-btn {
-  background-color: var(--dark-3);
+  background-color: transparent;
   color: var(--light-1);
-  font-size: 1.5rem;
+  margin-bottom: -1px;
+  border: 1px solid transparent;
+  padding: 10px 18px;
 }
 .output-btn:hover {
-  background-color: var(--light-blue);
-  color: var(--dark-3);
+  background-color: var(--dark-1);
   cursor: pointer;
 }
 .output-btn:disabled {
-  background-color: var(--light-blue);
-  color: var(--dark-3);
+  background-color: var(--dark-1);
+  color: var(--light-2);
   cursor: default;
+  border: 1px solid var(--dark-4);
+  border-bottom-color: var(--dark-1);
 }
 
 .project-output-content {
-  background-color: black;
+  background-color: var(--dark-1);
   color: white;
   height: fit-content;
   min-height: 100px;

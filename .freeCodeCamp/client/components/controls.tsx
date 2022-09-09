@@ -8,7 +8,9 @@ interface ControlsProps {
 export const Controls = ({ runTests, resetProject }: ControlsProps) => {
   return (
     <section className='project-controls'>
-      <button onClick={() => runTests()}>Run Tests</button>
+      <button className='secondary-cta' onClick={() => runTests()}>
+        Run Tests
+      </button>
       {resetProject && (
         <button onClick={() => resetProject()}>Reset Step</button>
       )}
