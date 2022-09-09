@@ -3,6 +3,7 @@
   --dark-2: #1b1b32;
   --dark-3: #2a2a40;
   --dark-4: #3b3b4f;
+  --mid: #858591;
   --light-1: #ffffff;
   --light-2: #f5f6f7;
   --light-3: #dfdfe2;
@@ -17,22 +18,31 @@
   --dark-blue: #002ead;
   --dark-green: #00471b;
 }
+
+@font-face {
+  font-family: 'Lato';
+  src: url('./assets/Lato-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}
+
 * {
-  color: white;
+  color: var(--light-2);
   line-height: 2.2ch;
 }
 body {
-  background-color: var(--dark-1);
+  background-color: var(--dark-2);
   margin: 0;
   text-align: center;
-  font-family: monospace;
-  font-size: 1.1rem;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
 }
 
 header {
   width: 100%;
-  height: 55px;
-  background-color: var(--dark-2);
+  height: 38px;
+  background-color: var(--dark-1);
   display: flex;
   justify-content: center;
 }
@@ -40,13 +50,16 @@ header {
 .header-btn {
   all: unset;
 }
+button{
+  font-family: inherit;
+}
 .header-btn:hover {
   cursor: pointer;
 }
 
 #logo {
-  width: 350px;
-  height: 42px;
+  width: auto;
+  height: 38px;
   max-height: 100%;
   background-color: var(--dark-1);
   padding: 0.4rem;
@@ -54,6 +67,10 @@ header {
   margin: 0 auto;
   padding-left: 20px;
   padding-right: 20px;
+}
+
+p {
+  font-size: 16px;
 }
 
 .loader {

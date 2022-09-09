@@ -1,7 +1,6 @@
 import { Description } from '../components/description';
 import { Heading } from '../components/heading';
 import { ConsoleError, F, ProjectI, TestType } from '../types';
-import { Ruler } from '../components/ruler';
 import { Controls } from '../components/controls';
 import { Output } from '../components/output';
 import './project.css';
@@ -37,35 +36,33 @@ export const Project = ({
 }: ProjectProps) => {
   return (
     <>
-      <Heading
-        {...(project.isIntegrated
-          ? { topic, title: project.title }
-          : {
-              goToNextLesson,
-              goToPreviousLesson,
-              topic,
-              title: project.title,
-              lessonNumber
-            })}
-      />
+      <div className='container'>
+        <Heading
+          {...(project.isIntegrated
+            ? { topic, title: project.title }
+            : {
+                goToNextLesson,
+                goToPreviousLesson,
+                topic,
+                title: project.title,
+                lessonNumber
+              })}
+        />
 
-      <Ruler />
+        <Description description={description} />
 
-      <Description description={description} />
+        <Controls
+          {...(project.isIntegrated
+            ? { runTests }
+            : { runTests, resetProject })}
+        />
 
-      <Ruler />
-
-      <Controls
-        {...(project.isIntegrated ? { runTests } : { runTests, resetProject })}
-      />
-
-      <Ruler />
-
-      <Output
-        {...(project.isIntegrated
-          ? { isLoading, tests, cons }
-          : { isLoading, hints, tests, cons })}
-      />
+        <Output
+          {...(project.isIntegrated
+            ? { isLoading, tests, cons }
+            : { isLoading, hints, tests, cons })}
+        />
+      </div>
     </>
   );
 };
