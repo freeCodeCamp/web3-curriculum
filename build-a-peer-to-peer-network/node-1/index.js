@@ -11,5 +11,5 @@ const MY_ADDRESS = `ws://localhost:${MY_PORT}`;
 const transactions = getTransactions();
 const openedSockets = [];
 const connectedAddresses = [];
-const attempingToConnectAddresses = [];
+const attemptingToConnectAddresses = [];
 // Add your code below

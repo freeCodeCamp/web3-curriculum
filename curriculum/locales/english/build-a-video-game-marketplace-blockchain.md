@@ -32,7 +32,7 @@ Many of the files are finished for you. You only need to add code in the `init-b
 
 1. When you generate a wallet, it should push an object to the end of the `transactions.json` array. The object should have a `buyerAddress` property of `null`, a `sellerAddress` property that is the public key of the new wallet, and a `price` property of `40` (number). This is the game giving you some coins for buying items
 
-1. Running `node mine-block.js` should add an object at the end of the `blockchain.json` array with `hash`, `previousHash`, `nonce`, and `transactions` properties. The `hash` should be created using the defined `sha256` variable by concatenating the `nonce`, the hash of the previous block, and a stringified version of whatever is in the `transactions.json` file (`nonce + previousHash + JSON.stringify(transactions.json)`). The `previousHash` should be the `hash` of the last block on the chain, the `nonce` should be the number used to find the hash, and the transactions should be whatever is currently in the `transactions.json` file in JSON format.
+1. Running `node mine-block.js` should add an object at the end of the `blockchain.json` array with `hash`, `previousHash`, `nonce`, and `transactions` properties. The `hash` should be created using the defined `sha256` variable by concatenating the `nonce`, the hash of the previous block, and a stringified version of whatever is in the `transactions.json` file (`nonce + previousHash + JSON.stringify(transactions)`). The `previousHash` should be the `hash` of the last block on the chain, the `nonce` should be the number used to find the hash, and the transactions should be whatever is currently in the `transactions.json` file in JSON format.
 
 1. The `hash` of each mined block should start with at least two zeros (`00`). Hint: Increment your `nonce` to search for hash values until you find one
 
@@ -289,7 +289,7 @@ assert.isEmpty(
 );
 ```
 
-Running `node buy-item.js <address-privateKey> <item>` should add a transaction at the end of the `transactions.json` array with the correct `buyerAddress`, `sellerAddress`, `price`, `itemBought`, and `signature` properties.
+Running `node buy-item.js <address-privateKey> <item>` should add a transaction at the end of the `transactions.json` array with the correct `buyerAddress`, `sellerAddress`, `price`, `itemBought`, and `signature` properties. Note: You may need to pass the balance check test right below this for this to pass
 
 ```js
 // test 7
@@ -399,7 +399,7 @@ assert.equal(
 );
 ```
 
-Running `node sell-item.js <address-privateKey> <item>` should add a transaction at the end of the `transactions.json` array with the correct `buyerAddress`, `sellerAddress`, `price`, `itemSold`, and `signature` properties
+Running `node sell-item.js <address-privateKey> <item>` should add a transaction at the end of the `transactions.json` array with the correct `buyerAddress`, `sellerAddress`, `price`, `itemSold`, and `signature` properties. Note: You may need to pass the item check test right below this for this to pass
 
 ```js
 // test 9
