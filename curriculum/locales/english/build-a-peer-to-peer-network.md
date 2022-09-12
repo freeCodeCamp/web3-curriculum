@@ -47,15 +47,15 @@ Hints:
 How to work with a Web Socket Server:
 
 - `const myServer = new WebSocketServer({ port })` to create a server listening on the given port
-- `myServer.on('connection', socket => {}` runs when a socket connects to your server
-- `socket.on('message', dataString => {}` runs when a socket sends a message to your server. Nest it within the `connection` function
+- `myServer.on('connection', socket => {})` runs when a socket connects to your server
+- `socket.on('message', dataString => {})` runs when a socket sends a message to your server. Nest it within the `connection` function
 
 How to work with Sockets:
 
 - `const socket = new WebSocket(address)` to attempt to connect to a server at the given address
-- `socket.on('open', () => {}` runs when a connection to a server has been established
-- `socket.on('close', () => {}` runs when a socket connection is terminated (connected server gets closed)
-- `socket.on('error', () => {}` runs if a connection to server cannot be established
+- `socket.on('open', () => {})` runs when a connection to a server has been established
+- `socket.on('close', () => {})` runs when a socket connection is terminated (connected server gets closed)
+- `socket.on('error', () => {})` runs if a connection to server cannot be established
 - `socket.send('data')` to send information to a server
 
 Note: Some of the tests may not pass if the tests before them don't.
