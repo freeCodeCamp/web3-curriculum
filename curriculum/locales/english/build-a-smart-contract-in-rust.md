@@ -27,6 +27,8 @@ _Note: You need to run the tests from within the library directory._
   - This function accepts a `JsValue` with the `Context` type
   - This function also accepts a `String` as the second argument which is the address of the user who clicked the button
 - Your smart contract exports a `get_contract_account` function that returns `Result<JsValue, JsError>`
+  - This function accepts a `JsValue` with the `Context` type
+  - This function returns an `Account` wrapped in a `JsValue`
 - Your library should export a struct named `Account` with the following fields:
   - `total_clicks` which is a `u64`
   - `clickers` which is a `Vec<String>`
@@ -47,6 +49,7 @@ _Note: You need to run the tests from within the library directory._
 
 - You can wrap a value in a `JsValue` using `JsValue::from_serde`
 - You can serialize a `JsValue` using the `.into_serde()` method
+- Build your smart contract with `nodejs` as the target
 
 ### --tests--
 
@@ -63,7 +66,6 @@ assert.match(stdout, /test result: ok/);
 Your smart contract should pass all `initialise` integration tests.
 
 ```js
-// Execute `wasm-pack test --firefox --headless -- --test mine_block`, and pipe output to tests client
 const { stdout } = await __helpers.getCommandOutput(
   'wasm-pack test --firefox --headless -- --test initialise',
   __projectLoc
@@ -74,7 +76,6 @@ assert.match(stdout, /test result: ok/);
 Your smart contract should pass all `set_click` integration tests.
 
 ```js
-// Execute `wasm-pack test --firefox --headless -- --test mine_block`, and pipe output to tests client
 const { stdout } = await __helpers.getCommandOutput(
   'wasm-pack test --firefox --headless -- --test set_click',
   __projectLoc
@@ -85,7 +86,6 @@ assert.match(stdout, /test result: ok/);
 Your smart contract should pass all `get_contract_account` integration tests.
 
 ```js
-// Execute `wasm-pack test --firefox --headless -- --test mine_block`, and pipe output to tests client
 const { stdout } = await __helpers.getCommandOutput(
   'wasm-pack test --firefox --headless -- --test get_contract_account',
   __projectLoc
@@ -116,7 +116,7 @@ const blockchain = JSON.parse(
 );
 const smartContract = blockchain
   .reverse()
-  .find(b => b.smartContracts.length > 0);
+  .find(b => b.smartContracts.length > 0)?.smartContracts?.[0];
 assert.exists(smartContract, 'Smart contract not found');
 assert.isAtLeast(
   smartContract.state.base_account.clickers.length,
