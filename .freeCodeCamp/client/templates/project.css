@@ -1,16 +1,14 @@
-
 .container {
   max-width: 750px;
   margin: auto;
   padding: 20px;
 }
 
-
 .heading > button {
   background-color: transparent;
   color: var(--light-1);
   font-size: 1.35rem;
-  border:none;
+  border: none;
   min-height: 50px;
   -webkit-text-stroke: medium;
 }
@@ -22,7 +20,7 @@
 
 #project-heading {
   font-size: 1.5rem;
-  width:100%;
+  width: 100%;
 }
 
 #lesson-number {
@@ -30,40 +28,19 @@
   width: 2rem;
 }
 
-.sparkle {
+.fade-in {
   animation-duration: 1s;
-  animation-name: sparkle;
+  animation-name: fade-in;
 }
 
-@keyframes sparkle {
+@keyframes fade-in {
   0% {
-    outline-color: var(--dark-purple);
-    outline-style: dotted;
-    outline-size: 3px;
-    font-size: 0.3em;
-    color: rgb(255, 0, 0);
-  }
-  20% {
-    outline-color: var(--light-purple);
-    color: rgb(251, 255, 0);
-  }
-  40% {
-    outline-style: dotted;
-    outline-color: var(--light-blue);
-    color: rgb(0, 255, 0);
-  }
-  60% {
-    outline-color: var(--light-green);
-    color: rgb(0, 162, 255);
-  }
-  80% {
-    outline-color: var(--light-yellow);
-    color: rgb(174, 0, 255);
+    opacity: 0;
+    color: var(--dark-blue);
   }
   100% {
-    font-size: 1em;
-    outline-style: none;
-    color: none;
+    opacity: 100;
+    color: var(--light-2);
   }
 }
 
@@ -89,11 +66,11 @@
   background-color: var(--dark-4);
 }
 
-button.secondary-cta{
+button.secondary-cta {
   background-color: rgb(14, 116, 184);
 }
 
-button.secondary-cta:hover{
+button.secondary-cta:hover {
   background-color: rgb(0, 101, 169);
 }
 
@@ -102,7 +79,7 @@ button.secondary-cta:hover{
 }
 
 .project-output ul {
-  padding-left:0px;
+  padding-left: 0px;
 }
 .project-output > ul {
   display: flex;
@@ -116,7 +93,6 @@ button.secondary-cta:hover{
 .project-output > ul > li {
   list-style: none;
 }
-
 
 .project-output-content {
   background-color: black;
@@ -152,7 +128,6 @@ nav {
 }
 
 .project-output {
-
   overflow-x: hidden;
 }
 .project-output > ul {

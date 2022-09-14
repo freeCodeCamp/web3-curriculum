@@ -10,10 +10,10 @@ import {
 import { Loader } from './components/loader';
 import { Landing } from './templates/landing';
 import { Project } from './templates/project';
-import { Alert } from './components/alert';
 import { parseMarkdown, parse } from './utils/index';
 import { Header } from './components/header';
 import './styles.css';
+import { E44o5 } from './components/error';
 
 let socket: WebSocket;
 if (process.env.GITPOD_WORKSPACE_URL) {
@@ -52,9 +52,7 @@ const App = () => {
       handle[parsedData.event]?.(parsedData.data);
     };
     socket.onclose = function (_event) {
-      setAlertCamper(
-        'freeCodeCamp development server has stopped. Please restart the server: 1) Open the Command Palette 2) Run `freeCodeCamp: Run Course`'
-      );
+      setAlertCamper('Client has disconnected from local server');
     };
 
     return () => {
@@ -166,10 +164,18 @@ const App = () => {
     sock(Events.GO_TO_PREVIOUS_LESSON);
   }
 
+  if (alertCamper) {
+    return (
+      <>
+        <Header updateProject={updateProject} />
+        <E44o5 text={alertCamper} />
+      </>
+    );
+  }
+
   return (
     <>
       <Suspense fallback={<Loader />}>
-        {alertCamper && <Alert text={alertCamper} />}
         <Header updateProject={updateProject} />
         {project ? (
           <Project

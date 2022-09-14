@@ -127,7 +127,7 @@ const handle = {
 const wss = new WebSocketServer({ server });
 
 wss.on('connection', function connection(ws) {
-  hotReload(ws);
+  hotReload(ws, freeCodeCampConfig.hotReload.ignore);
   ws.on('message', function message(data) {
     const parsedData = parseBuffer(data);
     handle[parsedData.event]?.(ws, parsedData);

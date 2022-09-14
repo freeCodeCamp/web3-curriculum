@@ -50,7 +50,7 @@ header {
 .header-btn {
   all: unset;
 }
-button{
+button {
   font-family: inherit;
 }
 .header-btn:hover {
@@ -172,4 +172,13 @@ code {
 
 details {
   padding-bottom: 1rem;
+}
+
+.e44o5 > ul,
+.e44o5 > ol {
+  display: inline-block;
+}
+
+.e44o5 > ol > li {
+  text-align: left;
 }
