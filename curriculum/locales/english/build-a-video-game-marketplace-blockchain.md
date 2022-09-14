@@ -289,7 +289,7 @@ assert.isEmpty(
 );
 ```
 
-Running `node buy-item.js <address-privateKey> <item>` should add a transaction at the end of the `transactions.json` array with the correct `buyerAddress`, `sellerAddress`, `price`, `itemBought`, and `signature` properties. Note: You may need to pass the balance check test right below this for this to pass
+Running `node buy-item.js <address-privateKey> <item>` should add a transaction at the end of the `transactions.json` array with the correct `buyerAddress`, `sellerAddress`, `price`, `itemBought`, and `signature` properties. Note: You may need to pass the balance check test right below this (test 8) for this to pass
 
 ```js
 // test 7
@@ -399,7 +399,7 @@ assert.equal(
 );
 ```
 
-Running `node sell-item.js <address-privateKey> <item>` should add a transaction at the end of the `transactions.json` array with the correct `buyerAddress`, `sellerAddress`, `price`, `itemSold`, and `signature` properties. Note: You may need to pass the item check test right below this for this to pass
+Running `node sell-item.js <address-privateKey> <item>` should add a transaction at the end of the `transactions.json` array with the correct `buyerAddress`, `sellerAddress`, `price`, `itemSold`, and `signature` properties. Note: You may need to pass the item check test right below this (test 10) for this to pass
 
 ```js
 // test 9
