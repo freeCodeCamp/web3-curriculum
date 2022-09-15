@@ -1,5 +1,6 @@
 {
   "path": ".",
+  "version": "0.1.0",
   "scripts": {
     "develop-course": "NODE_ENV=development node ./.freeCodeCamp/tooling/server.js",
     "run-course": "NODE_ENV=production node ./.freeCodeCamp/tooling/server.js",

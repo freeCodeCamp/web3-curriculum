@@ -9,21 +9,20 @@ const { testPollingRate, runTestsOnWatch } = await getProjectConfig(
   currentProject
 );
 
-function hotReload(ws) {
+const defaultPathsToIgnore = [
+  '.logs/.temp.log',
+  'config/',
+  '/node_modules/',
+  '.git',
+  '/target/',
+  '/test-ledger/'
+];
+
+function hotReload(ws, pathsToIgnore = defaultPathsToIgnore) {
   console.log(`Watching for file changes on ${ROOT}`);
   let isWait = false;
   let testsRunning = false;
   let isClearConsole = false;
-
-  // TODO: Migrate list to config
-  const pathsToIgnore = [
-    '.logs/.temp.log',
-    'config/',
-    '/node_modules/',
-    '.git',
-    '/target/',
-    '/test-ledger/'
-  ];
 
   watch(ROOT, {
     ignoreInitial: true

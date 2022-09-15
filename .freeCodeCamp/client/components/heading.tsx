@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { F } from '../types';
 
 interface HeadingProps {
@@ -15,6 +16,13 @@ export const Heading = ({
   goToNextLesson,
   goToPreviousLesson
 }: HeadingProps) => {
+  const [anim, setAnim] = useState('');
+
+  useEffect(() => {
+    setAnim('fade-in');
+    setTimeout(() => setAnim(''), 1000);
+  }, [lessonNumber]);
+
   return (
     <nav className='heading'>
       {goToPreviousLesson && (
@@ -25,9 +33,9 @@ export const Heading = ({
           {'<'}
         </button>
       )}
-      <h1 id='project-heading'>
+      <h1 id='project-heading' className={anim}>
         {topic} - {title}
-        {lessonNumber && <LessonNumber lessonNumber={lessonNumber} />}
+        {lessonNumber && ' - Lesson ' + lessonNumber}
       </h1>
       {goToNextLesson && (
         <button className='next-lesson-btn' onClick={() => goToNextLesson()}>
@@ -35,17 +43,5 @@ export const Heading = ({
         </button>
       )}
     </nav>
-  );
-};
-
-const LessonNumber = ({ lessonNumber }: { lessonNumber: number }) => {
-  return (
-    <>
-      {' '}
-      - Lesson{' '}
-      <span id='lesson-number' className='sparkle'>
-        {lessonNumber}
-      </span>
-    </>
   );
 };
