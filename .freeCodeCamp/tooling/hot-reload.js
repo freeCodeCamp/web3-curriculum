@@ -4,10 +4,7 @@ import { getState, getProjectConfig, ROOT } from './env.js';
 import runLesson from './lesson.js';
 import runTests from './test.js';
 import { watch } from 'chokidar';
-const { currentProject } = await getState();
-const { testPollingRate, runTestsOnWatch } = await getProjectConfig(
-  currentProject
-);
+import { logover } from './logger.js';
 
 const defaultPathsToIgnore = [
   '.logs/.temp.log',
@@ -19,7 +16,7 @@ const defaultPathsToIgnore = [
 ];
 
 function hotReload(ws, pathsToIgnore = defaultPathsToIgnore) {
-  console.log(`Watching for file changes on ${ROOT}`);
+  logover.info(`Watching for file changes on ${ROOT}`);
   let isWait = false;
   let testsRunning = false;
   let isClearConsole = false;
@@ -31,20 +28,25 @@ function hotReload(ws, pathsToIgnore = defaultPathsToIgnore) {
   }).on('all', async (event, name) => {
     if (name && !pathsToIgnore.find(p => name.includes(p))) {
       if (isWait) return;
-      isWait = setTimeout(() => {
-        isWait = false;
-      }, testPollingRate);
-
       const { currentProject } = await getState();
       if (!currentProject) {
         return;
       }
+
+      const { testPollingRate, runTestsOnWatch } = await getProjectConfig(
+        currentProject
+      );
+      isWait = setTimeout(() => {
+        isWait = false;
+      }, testPollingRate);
+
       if (isClearConsole) {
         console.clear();
       }
+
       await runLesson(ws, currentProject);
       if (runTestsOnWatch && !testsRunning) {
-        console.log(`Watcher: ${event} - ${name}`);
+        logover.debug(`Watcher: ${event} - ${name}`);
         testsRunning = true;
         await runTests(ws, currentProject);
         testsRunning = false;

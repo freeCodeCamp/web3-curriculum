@@ -2,6 +2,7 @@
 import { promisify } from 'util';
 import { exec } from 'child_process';
 import { getState, setState } from '../env.js';
+import { logover } from '../logger.js';
 const execute = promisify(exec);
 
 /**
@@ -21,7 +22,7 @@ export async function commit(lessonNumber) {
       `git add . && git commit --allow-empty -m "(${lessonNumber})"`
     );
     if (stderr) {
-      console.error('🔴 Failed to commit lesson: ', lessonNumber);
+      logover.error('Failed to commit lesson: ', lessonNumber);
       throw new Error(stderr);
     }
   } catch (e) {
@@ -141,7 +142,7 @@ export async function pushProject() {
     //   throw new Error(stderr);
     // }
   } catch (e) {
-    console.error('🔴 Failed to push project ', currentProject);
+    logover.error('Failed to push project ', currentProject);
     return Promise.reject(e);
   }
   return Promise.resolve();
@@ -176,16 +177,16 @@ export async function deleteBranch(branch) {
   if (!isBranchExists) {
     return Promise.resolve();
   }
-  console.warn('🟠 Deleting branch ', branch);
+  logover.warn('Deleting branch ', branch);
   try {
     await checkoutMain();
     const { stdout, stderr } = await execute(`git branch -D ${branch}`);
-    console.log(stdout);
+    logover.info(stdout);
     // if (stderr) {
     //   throw new Error(stderr);
     // }
   } catch (e) {
-    console.error('🔴 Failed to delete branch: ', branch);
+    logover.error('Failed to delete branch: ', branch);
     return Promise.reject(e);
   }
   return Promise.resolve();

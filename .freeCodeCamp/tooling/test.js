@@ -26,11 +26,8 @@ import {
   updateConsole,
   updateHints
 } from './client-socks.js';
-import logover, { error, warn, debug, info } from 'logover';
 import { join } from 'path';
-logover({
-  level: process.env.NODE_ENV === 'production' ? 'info' : 'debug'
-});
+import { logover } from './logger.js';
 
 let __helpers = __helpers_c;
 
@@ -58,12 +55,12 @@ export default async function runTests(ws, projectDashedName) {
 
     if (beforeAll) {
       try {
-        debug('Starting: --before-all-- hook');
+        logover.debug('Starting: --before-all-- hook');
         await eval(`(async () => {${beforeAll}})()`);
-        debug('Finished: --before-all-- hook');
+        logover.debug('Finished: --before-all-- hook');
       } catch (e) {
-        error('--before-all-- hook failed to run:');
-        error(e);
+        logover.error('--before-all-- hook failed to run:');
+        logover.error(e);
       }
     }
     // toggleLoaderAnimation(ws);
@@ -82,14 +79,14 @@ export default async function runTests(ws, projectDashedName) {
     const testPromises = hintsAndTestsArr.map(async ([hint, testCode], i) => {
       if (beforeEach) {
         try {
-          debug('Starting: --before-each-- hook');
+          logover.debug('Starting: --before-each-- hook');
           const _beforeEachOut = await eval(
             `(async () => { ${beforeEach} })();`
           );
-          debug('Finished: --before-each-- hook');
+          logover.debug('Finished: --before-each-- hook');
         } catch (e) {
-          error('--before-each-- hook failed to run:');
-          error(e);
+          logover.error('--before-each-- hook failed to run:');
+          logover.error(e);
         }
       }
       try {
@@ -102,7 +99,7 @@ export default async function runTests(ws, projectDashedName) {
         });
       } catch (e) {
         if (!(e instanceof AssertionError)) {
-          error(e);
+          logover.error(e);
         }
 
         const testState = {
@@ -146,17 +143,17 @@ export default async function runTests(ws, projectDashedName) {
     } finally {
       if (afterAll) {
         try {
-          debug('Starting: --after-all-- hook');
+          logover.debug('Starting: --after-all-- hook');
           await eval(`(async () => {${afterAll}})()`);
-          debug('Finished: --after-all-- hook');
+          logover.debug('Finished: --after-all-- hook');
         } catch (e) {
-          error('--after-all-- hook failed to run:');
-          error(e);
+          logover.error('--after-all-- hook failed to run:');
+          logover.error(e);
         }
       }
     }
   } catch (e) {
-    error('Test Error: ');
-    debug(e);
+    logover.error('Test Error: ');
+    logover.error(e);
   }
 }

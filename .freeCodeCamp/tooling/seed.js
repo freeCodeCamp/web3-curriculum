@@ -10,6 +10,7 @@ import { ROOT, getState, freeCodeCampConfig } from './env.js';
 import { writeFile } from 'fs/promises';
 import { promisify } from 'util';
 import { exec } from 'child_process';
+import { logover } from './logger.js';
 const execute = promisify(exec);
 
 export default async function seedLesson(ws, project) {
@@ -32,7 +33,7 @@ export default async function seedLesson(ws, project) {
     await runSeed(filesWithSeed);
   } catch (e) {
     // TODO: Add error to UI explaining error
-    console.error(e);
+    logover.error(e);
   }
 }
 
@@ -45,7 +46,7 @@ export async function runCommands(commands) {
   for (const command of commands) {
     const { stdout, stderr } = await execute(command);
     if (stderr) {
-      console.error(stderr);
+      logover.error(stderr);
       return Promise.reject(stderr);
     }
   }
