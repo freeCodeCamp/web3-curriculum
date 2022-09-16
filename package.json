@@ -12,7 +12,7 @@
   "author": "Shaun Hamilton",
   "type": "module",
   "dependencies": {
-    "@freecodecamp/freecodecamp-os": "^1.6.1",
+    "@freecodecamp/freecodecamp-os": "^1.6.2",
     "crypto-js": "4.1.1",
     "dotenv": "16.0.2",
     "elliptic": "6.5.4",

@@ -1,5 +1,4 @@
 import { cp } from 'fs/promises';
-import { warn } from 'logover';
 import { join } from 'path';
 
 const ROOT = process.env.INIT_CWD || process.cwd();
@@ -17,6 +16,6 @@ async function copyDotFreeCodeCampToRoot() {
       }
     );
   } catch (e) {
-    warn(e);
+    console.warn(e);
   }
 }

@@ -1,5 +1,6 @@
 import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
+import { logover } from './logger.js';
 
 export const ROOT = process.env.INIT_CWD || process.cwd();
 
@@ -24,7 +25,7 @@ export async function getState() {
     );
     return { ...defaultState, ...state };
   } catch (err) {
-    console.error(err);
+    logover.error(err);
   }
   return defaultState;
 }

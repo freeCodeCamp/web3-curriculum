@@ -15,6 +15,7 @@ import {
   initCurrentProjectBranch,
   pushProject
 } from './gitterizer.js';
+import { logover } from '../logger.js';
 
 const PROJECT_LIST = ['project-1'];
 
@@ -24,15 +25,15 @@ for (const project of PROJECT_LIST) {
     await deleteBranch(project);
     await buildProject();
   } catch (e) {
-    console.error('🔴 Failed to build project: ', project);
+    logover.error('Failed to build project: ', project);
     await deleteBranch(project);
     throw new Error(e);
   } finally {
     await checkoutMain();
-    console.log('✅ Successfully built project: ', project);
+    logover.info('✅ Successfully built project: ', project);
   }
 }
-console.log('✅ Successfully built all projects');
+logover.info('✅ Successfully built all projects');
 
 async function buildProject() {
   const { currentProject } = await getState();
@@ -45,7 +46,7 @@ async function buildProject() {
   try {
     await initCurrentProjectBranch();
   } catch (e) {
-    console.error('🔴 Failed to create a branch for ', currentProject);
+    logover.error('🔴 Failed to create a branch for ', currentProject);
     throw new Error(e);
   }
 
@@ -66,7 +67,7 @@ async function buildProject() {
         await runCommands(commands);
         await runSeed(filesWithSeed);
       } catch (e) {
-        console.error('🔴 Failed to run seed for lesson: ', lessonNumber);
+        logover.error('🔴 Failed to run seed for lesson: ', lessonNumber);
         throw new Error(e);
       }
     }

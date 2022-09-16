@@ -4,6 +4,8 @@ import { promisify } from 'util';
 import { join } from 'path';
 import fs from 'fs';
 import { ROOT } from './env.js';
+import { logover } from './logger.js';
+import { Logger } from 'logover';
 
 // ---------------
 // GENERIC HELPERS
@@ -213,7 +215,7 @@ async function controlWrapper(cb, { timeout = 10000, stepSize = 250 }) {
           resolve(response);
         }
       } catch (e) {
-        console.log(e);
+        logover.error(e);
       }
     }, stepSize);
     setTimeout(() => {
@@ -222,6 +224,8 @@ async function controlWrapper(cb, { timeout = 10000, stepSize = 250 }) {
     }, timeout);
   });
 }
+
+const logoverHelp = new Logger({ level: 'debug' });
 
 const __helpers = {
   controlWrapper,
@@ -237,6 +241,7 @@ const __helpers = {
   getLastCommand,
   getLastCWD,
   getTerminalOutput,
+  logover: logoverHelp,
   runCommand,
   writeJsonFile
 };

@@ -9,7 +9,6 @@ import {
   setState,
   getConfig
 } from './env.js';
-import logover, { debug, error, warn } from 'logover';
 
 import { WebSocketServer } from 'ws';
 import runLesson from './lesson.js';
@@ -23,9 +22,8 @@ import {
 import hotReload from './hot-reload.js';
 import { hideAll, showFile, showAll } from './utils.js';
 import { join } from 'path';
-logover({
-  level: process.env.NODE_ENV === 'production' ? 'info' : 'debug'
-});
+import { logover } from './logger.js';
+
 const freeCodeCampConfig = await getConfig();
 
 const app = express();
@@ -94,7 +92,7 @@ async function handleSelectProject(ws, data) {
   // for the case where the Camper has navigated to the landing page.
   await setState({ currentProject: selectedProject?.dashedName ?? null });
   if (!selectedProject && !data?.data?.id) {
-    warn('Selected project does not exist: ', data);
+    logover.warn('Selected project does not exist: ', data);
     return ws.send(parse({ data: { event: data.event }, event: 'RESPONSE' }));
   }
 
@@ -110,7 +108,7 @@ async function handleSelectProject(ws, data) {
 }
 
 const server = app.listen(8080, () => {
-  console.log('Listening on port 8080');
+  logover.info('Listening on port 8080');
 });
 
 const handle = {
