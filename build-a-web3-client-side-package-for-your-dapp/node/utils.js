@@ -1,7 +1,9 @@
 import { writeFileSync, readFileSync } from 'fs';
 import { join } from 'path';
-import { error, info } from 'logover';
+import { Logger } from 'logover';
 import sha256 from 'crypto-js/sha256.js';
+
+const logover = new Logger({ level: 'debug' });
 
 /**
  * Synchronously overwrites `blockchain` to `node/blockchain.json`
@@ -51,7 +53,7 @@ export async function callSmartContract(id, functionHandle, functionArgs) {
   const contract = getSmartContract(id);
 
   if (!contract) {
-    error(`Smart contract with id '${id}' not found`);
+    logover.error(`Smart contract with id '${id}' not found`);
     throw new Error(`Smart contract with id '${id}' not found`);
   } else {
     const smartContract = (await import(contract.pathToPkg)).default;
@@ -115,9 +117,9 @@ export async function deploySmartContract() {
       id: 0
     };
     mineBlock({ smartContracts: [smartContract] });
-    info(`Smart contract deployed with id: ${smartContract.id}`);
+    logover.info(`Smart contract deployed with id: ${smartContract.id}`);
   } catch (e) {
-    error('Unable to deploy smart contract: ');
+    logover.error('Unable to deploy smart contract: ');
     throw new Error(e);
   }
 }
@@ -160,11 +162,11 @@ export function transfer({ from, to, amount }) {
   const fromAccount = getAccount(from);
   const toAccount = getAccount(to);
   if (!fromAccount || !toAccount) {
-    error(`Accounts not found: ${from} and ${to}`);
+    logover.error(`Accounts not found: ${from} and ${to}`);
     throw new Error(`Accounts not found: ${from} and ${to}`);
   }
   if (fromAccount.balance < amount) {
-    warn(
+    logover.warn(
       `'${fromAccount.address}' has insufficient funds: ${fromAccount.balance} < ${amount}`
     );
   }
