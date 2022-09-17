@@ -1,5 +1,5 @@
 import express from 'express';
-import { info, error } from 'logover';
+import { Logger } from 'logover';
 import {
   deploySmartContract,
   initialiseBlockchain,
@@ -8,7 +8,9 @@ import {
   callSmartContract
 } from './utils.js';
 
-info('Starting provider...');
+const logover = new Logger({ level: 'debug' });
+
+logover.info('Starting provider...');
 
 const app = express();
 
@@ -31,7 +33,7 @@ app.post('/call-smart-contract', async (req, res) => {
     const result = await callSmartContract(id, method, args, address);
     res.json({ result });
   } catch (e) {
-    error(e);
+    logover.error(e);
     res.status(500).json({ error: e.message });
   }
 });
@@ -85,7 +87,7 @@ app.delete('/tests', (req, res) => {
 const PORT = 3001;
 
 app.listen(PORT, () => {
-  info(`Provider listening on port ${PORT}`);
+  logover.info(`Provider listening on port ${PORT}`);
 });
 
 // ----------------------

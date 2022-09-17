@@ -63,7 +63,8 @@ const IDL = {
     }
   ]
 };
-const smartContract = initSmartContract(IDL);
+const web3 = new Web3();
+const smartContract = web3.initSmartContract(IDL);
 await smartContract.setFavouriteNumber('my_address', 24);
 const favouriteNumber = await smartContract.getFavouriteNumber('my_address');
 assert.equal(favouriteNumber, 24);
@@ -87,6 +88,7 @@ transfer({from, to, amount}: {from?: string; to: string; amount: number;}): Prom
 9. `transfer` should accept an object literal with the following properties:
 
 - `from`: the address to send the funds from.
+  - If this is not provided, the `address` property of the `Web3` class should be used.
 - `to`: the address to send the funds to.
 - `amount`: the amount of funds to send.
 
@@ -599,7 +601,8 @@ try {
 // Stop and start node in background
 const { spawn } = await import('child_process');
 const _node = spawn('node', ['node/provider.js'], {
-  cwd: './build-a-web3-client-side-package-for-your-dapp'
+  cwd: './build-a-web3-client-side-package-for-your-dapp',
+  stdio: 'ignore'
 });
 
 await new Promise(resolve => {
@@ -642,7 +645,7 @@ global._node = _node;
 ```js
 // Kill node process
 const _t = _node.kill();
-debug('killing node process...', _t);
+logover.debug('killing node process...', _t);
 ```
 
 ## --fcc-end--
