@@ -20,7 +20,7 @@
         "open": true,
         "url": "http://localhost:8080",
         "showLoader": true,
-        "timeout": 10000
+        "timeout": 4000
       }
     ]
   },
@@ -36,7 +36,7 @@
     "landing": {
       "description": "For these courses, you will use your local development environment to complete interactive tutorials and build projects.\n\nThese courses start off with basic cryptographic concepts. Using Nodejs, you will learn everything from cryptographic hash functions to building your own blockchain.\n\nNext, you will learn about different consensus mechanisms.\n\nFinally, you will learn Rust, and WASM in the context of a blockchain.",
       "faq-link": "#",
-      "faq-text": "Link to FAQ related to course"
+      "faq-text": "https://github.com/freeCodeCamp/web3-curriculum/issues"
     }
   },
   "config": {

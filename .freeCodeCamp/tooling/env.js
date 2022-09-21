@@ -72,10 +72,10 @@ export async function getProjectConfig(project) {
 
 /**
  *
- * @param {string} project Project dashed name
+ * @param {string} projectDashedName Project dashed name
  * @param {object} config Config properties to set
  */
-export async function setProjectConfig(project, config = {}) {
+export async function setProjectConfig(projectDashedName, config = {}) {
   const projects = JSON.parse(
     await readFile(
       join(ROOT, freeCodeCampConfig.config['projects.json']),
@@ -84,12 +84,12 @@ export async function setProjectConfig(project, config = {}) {
   );
 
   const updatedProject = {
-    ...projects.find(p => p.dashedName === project),
+    ...projects.find(p => p.dashedName === projectDashedName),
     ...config
   };
 
   const updatedProjects = projects.map(p =>
-    p.dashedName === project ? updatedProject : p
+    p.dashedName === projectDashedName ? updatedProject : p
   );
 
   await writeFile(

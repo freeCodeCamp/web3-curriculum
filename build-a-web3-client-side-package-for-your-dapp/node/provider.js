@@ -70,7 +70,7 @@ app.post('/transfer', async (req, res) => {
     await transfer({ from, to, amount });
     res.json({ result: 'success' });
   } catch (e) {
-    error(e);
+    logover.error(e);
     res.status(400).json({ error: e.message });
   }
 });

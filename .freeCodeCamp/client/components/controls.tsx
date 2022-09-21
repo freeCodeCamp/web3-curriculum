@@ -12,7 +12,13 @@ export const Controls = ({ runTests, resetProject }: ControlsProps) => {
         Run Tests
       </button>
       {resetProject && (
-        <button onClick={() => resetProject()}>Reset Step</button>
+        <button
+          onClick={() => resetProject()}
+          disabled={true}
+          style={{ cursor: 'not-allowed' }}
+        >
+          Reset Step
+        </button>
       )}
     </section>
   );

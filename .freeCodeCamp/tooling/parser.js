@@ -178,3 +178,15 @@ export function isForceFlag(seed) {
 export function extractStringFromCode(code) {
   return code.replace(/.*?```[a-z]+\n(.*?)```/s, '$1');
 }
+
+/**
+ * Return the total number of lessons for a given project
+ * @param {string} file - The relative path to the english locale file
+ * @returns {Promise<number>} The stripped codeblock
+ */
+export async function getTotalLessons(file) {
+  const fileContent = await readFile(file, 'utf-8');
+  const lessonNumbers = fileContent.match(/## \d+/g);
+  const numberOfLessons = lessonNumbers.length;
+  return numberOfLessons;
+}

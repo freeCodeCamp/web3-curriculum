@@ -9,6 +9,7 @@
     ".editorconfig": true,
     ".freeCodeCamp": true,
     ".git": true,
+    ".github": true,
     ".gitignore": true,
     ".gitpod.Dockerfile": true,
     ".gitpod.yml": true,
@@ -44,10 +45,7 @@
     "bash": {
       "path": "bash",
       "icon": "terminal-bash",
-      "args": [
-        "--init-file",
-        "./bash/sourcerer.sh"
-      ]
+      "args": ["--init-file", "./bash/sourcerer.sh"]
     }
   },
   "workbench.colorTheme": "freeCodeCamp Dark Theme"

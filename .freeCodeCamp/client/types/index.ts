@@ -30,6 +30,8 @@ export interface ProjectI {
   description: string;
   isIntegrated: boolean;
   isPublic: boolean;
+  currentLesson: number;
+  numberOfLessons: number;
 }
 
 export type ConsoleError = {

@@ -6,7 +6,8 @@
     "isIntegrated": false,
     "description": "In this course, you will learn how to build a blockchain from scratch using JavaScript.",
     "isPublic": false,
-    "currentLesson": 1
+    "currentLesson": 1,
+    "numberOfLessons": 1
   },
   {
     "id": 1,
@@ -15,7 +16,8 @@
     "isIntegrated": false,
     "description": "In this course, you will learn how to use the SHA-256 hashing algorithm make your blockchain more secure.",
     "isPublic": false,
-    "currentLesson": 1
+    "currentLesson": 1,
+    "numberOfLessons": 1
   },
   {
     "id": 2,
@@ -24,7 +26,8 @@
     "isIntegrated": false,
     "description": "In this course, you will learn how to generate and use keypairs so you can veryify users and transactions.",
     "isPublic": false,
-    "currentLesson": 1
+    "currentLesson": 1,
+    "numberOfLessons": 1
   },
   {
     "id": 3,
@@ -33,7 +36,8 @@
     "isIntegrated": true,
     "description": "In this integrated project, you will build a blockchain where you can buy and sell items for a video game.",
     "isPublic": true,
-    "currentLesson": 1
+    "currentLesson": 1,
+    "numberOfLessons": 1
   },
   {
     "id": 4,
@@ -42,7 +46,8 @@
     "isIntegrated": false,
     "description": "In this course, you will learn about immutable digital agreements by building a smart contract for a car loan.",
     "isPublic": false,
-    "currentLesson": 1
+    "currentLesson": 1,
+    "numberOfLessons": 1
   },
   {
     "id": 5,
@@ -51,7 +56,8 @@
     "isIntegrated": false,
     "description": "In this course, you will learn about digital ownership on the blockchain by building a set of concert tickets.",
     "isPublic": false,
-    "currentLesson": 1
+    "currentLesson": 1,
+    "numberOfLessons": 1
   },
   {
     "id": 6,
@@ -60,7 +66,8 @@
     "isIntegrated": true,
     "description": "In this integrated project, you will create and deploy a smart contract to raise funds for your start-up.",
     "isPublic": true,
-    "currentLesson": 1
+    "currentLesson": 1,
+    "numberOfLessons": 1
   },
   {
     "id": 7,
@@ -69,7 +76,8 @@
     "isIntegrated": false,
     "description": "To be decided...",
     "isPublic": false,
-    "currentLesson": 1
+    "currentLesson": 1,
+    "numberOfLessons": 1
   },
   {
     "id": 8,
@@ -78,7 +86,8 @@
     "isIntegrated": false,
     "description": "To be decided...",
     "isPublic": false,
-    "currentLesson": 1
+    "currentLesson": 1,
+    "numberOfLessons": 1
   },
   {
     "id": 9,
@@ -87,7 +96,8 @@
     "isIntegrated": true,
     "description": "In this integrated project, you will build distributed peer-to-peer network for your blockchain.",
     "isPublic": true,
-    "currentLesson": 1
+    "currentLesson": 1,
+    "numberOfLessons": 1
   },
   {
     "id": 10,
@@ -96,16 +106,18 @@
     "isIntegrated": false,
     "description": "In this course, you will learn about Proof of Stake Consensus by completing the boilerplate given to you, and playing the Web3 game.",
     "isPublic": false,
-    "currentLesson": 1
+    "currentLesson": 1,
+    "numberOfLessons": 1
   },
   {
     "id": 11,
     "title": "Learn RPC and IDLs by Building a dApp",
-    "dashedName": "learn-proof-of-stake-consensus-by-completing-a-web3-game",
+    "dashedName": "learn-rpc-and-idls-by-building-a-dapp",
     "isIntegrated": false,
     "description": "In this course, you will learn about Remote Procedural Calls and Interface Description Languages which are an integral part of most decentralised blockchains.",
     "isPublic": false,
-    "currentLesson": 1
+    "currentLesson": 1,
+    "numberOfLessons": 1
   },
   {
     "id": 12,
@@ -114,7 +126,8 @@
     "isIntegrated": true,
     "description": "In this integrated project, you will put your new Web3 knowledge to the test, by developing a package for use by client-side dApps.",
     "isPublic": true,
-    "currentLesson": 1
+    "currentLesson": 1,
+    "numberOfLessons": 1
   },
   {
     "id": 13,
@@ -123,25 +136,28 @@
     "isIntegrated": false,
     "description": "Did someone say 'Rust'!?",
     "isPublic": false,
-    "currentLesson": 1
+    "currentLesson": 1,
+    "numberOfLessons": 1
   },
   {
     "id": 14,
     "title": "Learn Intermediate Rust by Building a Blockchain",
-    "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
+    "dashedName": "learn-intermediate-rust-by-building-a-blockchain",
     "isIntegrated": false,
     "description": "In this course, you will learn Rust by building a blockchain using Rust.",
     "isPublic": false,
-    "currentLesson": 1
+    "currentLesson": 1,
+    "numberOfLessons": 2
   },
   {
     "id": 15,
     "title": "Learn Smart Contracts by Building a Dumb Contract in Rust",
-    "dashedName": "lean-intermediate-rust-by-building-a-blockchain",
+    "dashedName": "learn-smart-contracts-by-building-a-dumb-contract-in-rust",
     "isIntegrated": false,
     "description": "In this course, you will learn how to use WASM with Rust to compile your code into byte code, store it on your blockchain, and run it.",
     "isPublic": false,
-    "currentLesson": 1
+    "currentLesson": 1,
+    "numberOfLessons": 1
   },
   {
     "id": 16,
@@ -150,6 +166,7 @@
     "isIntegrated": true,
     "description": "In this integrated project, you will build a smart contract to store and run on your blockchain.",
     "isPublic": true,
-    "currentLesson": 1
+    "currentLesson": 1,
+    "numberOfLessons": 1
   }
 ]
