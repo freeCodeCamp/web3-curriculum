@@ -13,6 +13,7 @@ import { Logger } from 'logover';
 const PATH_TERMINAL_OUT = join(ROOT, '.logs/.terminal-out.log');
 const PATH_BASH_HISTORY = join(ROOT, '.logs/.bash_history.log');
 const PATH_CWD = join(ROOT, '.logs/.cwd.log');
+const PATH_TEMP = join(ROOT, '.logs/.temp.log');
 
 /**
  * Get the `.logs/.terminal-out.log` file contents, or `throw` if not found
@@ -24,6 +25,18 @@ async function getTerminalOutput() {
     throw new Error(`Could not find ${PATH_TERMINAL_OUT}`);
   }
   return terminalLogs;
+}
+
+/**
+ * Get the `.logs/.temp.log` file contents, or `throw` if not found
+ * @returns {Promise<string>} The `.temp.log` file contents
+ */
+async function getTemp() {
+  const tempLogs = await readFile(PATH_TEMP, 'utf8');
+  if (!tempLogs) {
+    throw new Error(`Could not find ${PATH_TEMP}`);
+  }
+  return tempLogs;
 }
 
 /**
@@ -240,6 +253,7 @@ const __helpers = {
   getJsonFile,
   getLastCommand,
   getLastCWD,
+  getTemp,
   getTerminalOutput,
   logover: logoverHelp,
   runCommand,

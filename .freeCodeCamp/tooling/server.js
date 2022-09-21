@@ -23,8 +23,11 @@ import hotReload from './hot-reload.js';
 import { hideAll, showFile, showAll } from './utils.js';
 import { join } from 'path';
 import { logover } from './logger.js';
+import { getTotalLessons } from './parser.js';
 
 const freeCodeCampConfig = await getConfig();
+
+await updateProjectConfig();
 
 const app = express();
 
@@ -177,5 +180,23 @@ async function addToRaceQueue(filepath, cb) {
   if (isFileFree) {
     RACING_FILES.add(filepath);
     cb();
+  }
+}
+
+async function updateProjectConfig() {
+  const projects = JSON.parse(
+    await readFile(
+      join(ROOT, freeCodeCampConfig.config['projects.json']),
+      'utf-8'
+    )
+  );
+  for (const project of projects) {
+    const projectFilePath = join(
+      ROOT,
+      freeCodeCampConfig.curriculum.locales['english'],
+      project.dashedName + '.md'
+    );
+    const numberOfLessons = (await getTotalLessons(projectFilePath)) || 1;
+    await setProjectConfig(project.dashedName, { numberOfLessons });
   }
 }

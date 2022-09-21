@@ -13,11 +13,15 @@ export const Block = ({
   description,
   isIntegrated,
   isPublic,
+  numberOfLessons,
+  currentLesson,
   sock
 }: BlockProps) => {
   function selectProject() {
     sock(Events.SELECT_PROJECT, { id });
   }
+
+  const lessonsCompleted = currentLesson - 1;
   return (
     <li className='block'>
       <button
@@ -39,7 +43,15 @@ export const Block = ({
         </div>
 
         <h2>{title}</h2>
-        <p>{description}</p>
+        <div className='block-info'>
+          <p>{description}</p>
+          <span aria-hidden='true'>
+            {lessonsCompleted}/{numberOfLessons}
+          </span>
+          <span className='sr-only'>
+            {lessonsCompleted} of {numberOfLessons} lessons completed
+          </span>
+        </div>
       </button>
     </li>
   );
