@@ -6,5 +6,5 @@ title: '[BUG]: '
 
 ### Issue/Experience
 
-### Output of `node tooling/camper-info.js`
+### Output of running `node tooling/camper-info.js` from the workspace root
 
