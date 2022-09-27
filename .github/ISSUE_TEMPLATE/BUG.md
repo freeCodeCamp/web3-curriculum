@@ -4,10 +4,7 @@ about: Report a bug with the platform/content
 title: '[BUG]: '
 ---
 
-### Project
-
-### Lesson Number
-
 ### Issue/Experience
 
-### Code and Screenshots
+### Output of running `node tooling/camper-info.js` from the workspace root
+
