@@ -32,6 +32,7 @@ export interface ProjectI {
   isPublic: boolean;
   currentLesson: number;
   numberOfLessons: number;
+  isResetEnabled?: boolean;
 }
 
 export type ConsoleError = {

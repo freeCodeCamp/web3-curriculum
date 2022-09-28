@@ -174,13 +174,17 @@ details {
   padding-bottom: 1rem;
 }
 
-.e44o5 > ul,
-.e44o5 > ol {
+.e44o5 {
+  text-align: left;
+}
+
+.e44o5 ul,
+.e44o5 ol {
   display: inline-block;
 }
 
-.e44o5 > ol > li {
-  text-align: left;
+.e44o5 li {
+  padding: 8px;
 }
 
 .block-info {

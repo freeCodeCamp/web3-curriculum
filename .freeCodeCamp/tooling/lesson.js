@@ -54,13 +54,15 @@ async function runLesson(ws, projectDashedName) {
   updateDescription(ws, description);
 
   const seed = getLessonSeed(lesson);
-  const isForce = isForceFlag(seed);
-  // force flag overrides seed flag
-  if (
-    (project.seedEveryLesson && !isForce) ||
-    (!project.seedEveryLesson && isForce)
-  ) {
-    await seedLesson(ws, project, lessonNumber);
+  if (seed) {
+    const isForce = isForceFlag(seed);
+    // force flag overrides seed flag
+    if (
+      (project.seedEveryLesson && !isForce) ||
+      (!project.seedEveryLesson && isForce)
+    ) {
+      await seedLesson(ws, project, lessonNumber);
+    }
   }
 }
 
