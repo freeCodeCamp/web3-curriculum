@@ -4,7 +4,8 @@ import {
   getLessonFromFile,
   getLessonSeed,
   getCommands,
-  getFilesWithSeed
+  getFilesWithSeed,
+  seedToIterator
 } from './parser.js';
 import { ROOT, getState, freeCodeCampConfig } from './env.js';
 import { writeFile } from 'fs/promises';
@@ -54,10 +55,22 @@ export async function runCommands(commands) {
 }
 
 /**
+ * Runs the given command
+ * @param {string} command - Commands to run
+ */
+export async function runCommand(command, path = '.') {
+  const cmdOut = await execute(command, {
+    cwd: join(ROOT, path),
+    shell: '/bin/bash'
+  });
+  return cmdOut;
+}
+
+/**
  * Runs the given array of files with seed
  * @param {[string, string][]} filesWithSeed - [[filePath, fileSeed]]
  */
-export async function runSeed(filesWithSeed) {
+export async function runSeedDeprecated(filesWithSeed) {
   try {
     for (const [filePath, fileSeed] of filesWithSeed) {
       const filePathWithRoot = `${filePath}`;
@@ -67,4 +80,31 @@ export async function runSeed(filesWithSeed) {
     return Promise.reject(e);
   }
   return Promise.resolve();
+}
+/**
+ * Runs the given array of files with seed
+ */
+export async function runSeed(fileSeed, filePath, projectPath) {
+  const path = join(ROOT, projectPath, filePath);
+  await writeFile(path, fileSeed);
+}
+
+export async function runLessonSeed(seed, currentProject, lessonNumber) {
+  const seedGenerator = seedToIterator(seed);
+  try {
+    for (const cmdOrFile of seedGenerator) {
+      if (typeof cmdOrFile === 'string') {
+        const { stdout, stderr } = await runCommand(cmdOrFile, currentProject);
+        if (stdout || stderr) {
+          logover.debug(stdout, stderr);
+        }
+      } else {
+        const { filePath, fileSeed } = cmdOrFile;
+        await runSeed(fileSeed, filePath, currentProject);
+      }
+    }
+  } catch (e) {
+    logover.error('Failed to run seed for lesson: ', lessonNumber);
+    throw new Error(e);
+  }
 }

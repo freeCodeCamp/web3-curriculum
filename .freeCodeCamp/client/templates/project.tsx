@@ -43,6 +43,7 @@ export const Project = ({
             : {
                 goToNextLesson,
                 goToPreviousLesson,
+                numberOfLessons: project.numberOfLessons,
                 topic,
                 title: project.title,
                 lessonNumber
@@ -54,7 +55,11 @@ export const Project = ({
         <Controls
           {...(project.isIntegrated
             ? { runTests }
-            : { runTests, resetProject })}
+            : {
+                runTests,
+                resetProject,
+                isResetEnabled: project.isResetEnabled
+              })}
         />
 
         <Output

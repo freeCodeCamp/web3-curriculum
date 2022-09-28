@@ -1,11 +1,16 @@
-import { F } from '../types';
+import { F, ProjectI } from '../types';
 
 interface ControlsProps {
   runTests: F<void, void>;
   resetProject?: F<void, void>;
+  isResetEnabled?: ProjectI['isResetEnabled'];
 }
 
-export const Controls = ({ runTests, resetProject }: ControlsProps) => {
+export const Controls = ({
+  runTests,
+  resetProject,
+  isResetEnabled
+}: ControlsProps) => {
   return (
     <section className='project-controls'>
       <button className='secondary-cta' onClick={() => runTests()}>
@@ -13,9 +18,9 @@ export const Controls = ({ runTests, resetProject }: ControlsProps) => {
       </button>
       {resetProject && (
         <button
+          disabled={!isResetEnabled}
+          style={isResetEnabled ? {} : { cursor: 'not-allowed' }}
           onClick={() => resetProject()}
-          disabled={true}
-          style={{ cursor: 'not-allowed' }}
         >
           Reset Step
         </button>

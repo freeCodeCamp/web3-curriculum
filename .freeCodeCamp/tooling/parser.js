@@ -4,8 +4,12 @@ import { createReadStream } from 'fs';
 import { createInterface } from 'readline';
 
 const DESCRIPTION_MARKER = '### --description--';
+const TEST_MARKER = '### --tests--';
 const SEED_MARKER = '### --seed--';
-const NEXT_MARKER = `### --`;
+const BEFORE_ALL_MARKER = '### --before-all--';
+const AFTER_ALL_MARKER = '### --after-all--';
+const BEFORE_EACH_MARKER = '### --before-each--';
+const NEXT_MARKER_REG = `\n###? --`;
 const CMD_MARKER = '#### --cmd--';
 const FILE_MARKER_REG = '(?<=#### --")[^"]+(?="--)';
 
@@ -52,13 +56,11 @@ export async function getLessonFromFile(file, lessonNumber = 1) {
 /**
  * Gets the description of the lesson
  * @param {string} lesson - The lesson content
- * @returns {string} The description of the lesson
+ * @returns {string | null} The description of the lesson
  */
 export function getLessonDescription(lesson) {
-  const description = lesson.match(
-    new RegExp(`${DESCRIPTION_MARKER}\n(.*?)\n(?=${NEXT_MARKER})`, 's')
-  )?.[1];
-  return description;
+  const description = parseMarker(DESCRIPTION_MARKER, lesson);
+  return description ?? null;
 }
 
 /**
@@ -67,7 +69,7 @@ export function getLessonDescription(lesson) {
  * @returns {[string, string]} An array of [hint, test]
  */
 export function getLessonHintsAndTests(lesson) {
-  const testsString = lesson.trim().split(new RegExp(NEXT_MARKER))?.[2];
+  const testsString = parseMarker(TEST_MARKER, lesson);
   const hintsAndTestsArr = [];
   const hints = testsString?.match(/^(.*?)$(?=\n+```js)/gm).filter(Boolean);
   const tests = testsString.match(/(?<=```js\n).*?(?=```)/gms);
@@ -81,39 +83,37 @@ export function getLessonHintsAndTests(lesson) {
 }
 
 /**
- * Gets the seed of the lesson. If none is found, returns `''`.
+ * Gets the seed of the lesson. If none is found, returns `null`.
  * @param {string} lesson - The lesson content
- * @returns {string} The seed of the lesson
+ * @returns {string | null} The seed of the lesson
  */
 export function getLessonSeed(lesson) {
-  const seed = lesson.match(new RegExp(`${SEED_MARKER}\n(.*)`, 's'))?.[1];
-  return seed ?? '';
+  const seed = parseMarker(SEED_MARKER, lesson);
+  return seed ?? null;
 }
 
 /**
  * Gets the command/script to run before running the lesson tests
  * @param {string} lesson - The lesson content
- * @returns {string} The command to run before running the lesson tests
+ * @returns {string | null} The command to run before running the lesson tests
  */
 export function getBeforeAll(lesson) {
-  const sections = lesson.trim().split(NEXT_MARKER);
-  const beforeAll = sections.find(section => section.startsWith('before-all'));
-  const beforeAllCommand = extractStringFromCode(beforeAll ?? '');
-  return beforeAllCommand ?? '';
+  const beforeAll = parseMarker(BEFORE_ALL_MARKER, lesson);
+  if (!beforeAll) return null;
+  const beforeAllCommand = extractStringFromCode(beforeAll);
+  return beforeAllCommand ?? null;
 }
 
 /**
  * Gets the command/script to run before running each lesson test
  * @param {string} lesson - The lesson content
- * @returns {string} The command to run before running each lesson test
+ * @returns {string | null} The command to run before running each lesson test
  */
 export function getBeforeEach(lesson) {
-  const sections = lesson.trim().split(NEXT_MARKER);
-  const beforeEach = sections.find(section =>
-    section.startsWith('before-each')
-  );
-  const beforeEachCommand = extractStringFromCode(beforeEach ?? '');
-  return beforeEachCommand ?? '';
+  const beforeEach = parseMarker(BEFORE_EACH_MARKER, lesson);
+  if (!beforeEach) return null;
+  const beforeEachCommand = extractStringFromCode(beforeEach);
+  return beforeEachCommand ?? null;
 }
 
 /**
@@ -122,10 +122,10 @@ export function getBeforeEach(lesson) {
  * @returns {string} The command to run after running the lesson tests
  */
 export function getAfterAll(lesson) {
-  const sections = lesson.trim().split(NEXT_MARKER);
-  const afterAll = sections.find(section => section.startsWith('after-all'));
-  const afterAllCommand = extractStringFromCode(afterAll ?? '');
-  return afterAllCommand ?? '';
+  const afterAll = parseMarker(AFTER_ALL_MARKER, lesson);
+  if (!afterAll) return null;
+  const afterAllCommand = extractStringFromCode(afterAll);
+  return afterAllCommand ?? null;
 }
 
 /**
@@ -151,7 +151,6 @@ export function getFilesWithSeed(seed) {
   const filePaths = seed.match(new RegExp(FILE_MARKER_REG, 'gsm'));
   const fileSeeds = files?.map(file => extractStringFromCode(file)?.trim());
 
-  // console.log(filePaths, fileSeeds, files);
   const pathAndSeedArr = [];
   if (filePaths?.length) {
     for (let i = 0; i < filePaths.length; i++) {
@@ -176,7 +175,7 @@ export function isForceFlag(seed) {
  * @returns {string} The stripped codeblock
  */
 export function extractStringFromCode(code) {
-  return code.replace(/.*?```[a-z]+\n(.*?)```/s, '$1');
+  return code.replace(/.*?```[a-z]+\n(.*?)```.*/s, '$1');
 }
 
 /**
@@ -189,4 +188,41 @@ export async function getTotalLessons(file) {
   const lessonNumbers = fileContent.match(/## \d+/g);
   const numberOfLessons = lessonNumbers.length;
   return numberOfLessons;
+}
+
+/**
+ * Returns the content within the given marker of the lesson
+ * @param {string} marker
+ * @param {string} lesson
+ * @returns {string | undefined} content or `undefined`
+ */
+function parseMarker(marker, lesson) {
+  const mat = lesson.match(
+    new RegExp(`${marker}\n(((?!${NEXT_MARKER_REG}).)*\n?)`, 's')
+  );
+  return mat?.[1];
+}
+
+/**
+ * Returns a generator on the seed for ordered execution
+ * @param {string} seed The lesson seed
+ */
+export function* seedToIterator(seed) {
+  const sections = seed.match(new RegExp(`#### --(((?!#### --).)*\n?)`, 'sg'));
+  for (const section of sections) {
+    const isFile = section.match(
+      new RegExp(`#### --"([^"]+)"--\n(.*?\`\`\`\n)`, 's')
+    );
+    const isCMD = section.match(new RegExp(`#### --cmd--\n(.*?\`\`\`\n)`, 's'));
+    if (isFile) {
+      const filePath = isFile[1];
+      const fileSeed = extractStringFromCode(isFile[2])?.trim();
+
+      yield { filePath, fileSeed };
+    } else if (isCMD) {
+      yield extractStringFromCode(isCMD[1])?.trim();
+    } else {
+      throw new Error('Seed is malformed');
+    }
+  }
 }
