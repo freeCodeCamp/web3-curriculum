@@ -1,3 +1,2139 @@
 # Web3 - Learn Digital Ledgers by Building a Blockchain
 
 ## 1
+
+### --description--
+
+You will work in the `learn-digital-ledgers-by-building-a-blockchain` folder for this project. Open a bash terminal and use `cd` to change into it.
+
+The tests should run automatically. If they don't, close any open **bash** terminals, open a new one, and try again.
+
+### --tests--
+
+You should run `cd learn-digital-ledgers-by-building-a-blockchain`
+
+```js
+assert(false);
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 2
+
+### --description--
+
+For this project, you will be creating a blockchain from scratch using JavaScript. Use the `touch` command to create an `init-blockchain.js` file. This will used to initialize your blockchain.
+
+### --tests--
+
+`init-blockchain.js` should exist in your `learn-digital-ledgers-by-building-a-blockchain` directory
+
+```js
+const folder = await __helpers.getDirectory('.');
+assert(folder.includes('init-blockchain.js'));
+```
+
+You should use `touch init-blockchain.js` in the terminal to create the file
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'touch init-blockchain.js');
+```
+
+### --seed--
+
+#### --cmd--
+
+## 3
+
+### --description--
+
+Open your new `init-blockchain.js` file and create a `genesisBlock` variable. Make it a `const` and give it a value of an empty object.
+
+### --tests--
+
+You should have `const genesisBlock = {}` in your `init-blockchain.js` file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 4
+
+### --description--
+
+This object will be the first block in your blockchain, also known as the "genesis block". Each block has `hash` property to identify the block. Add that property to your object and give it a value of `0` (zero/string).
+
+### --tests--
+
+You should have a `hash: "0"` property in your `genesisBlock` object
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 5
+
+### --description--
+
+Each block also has a `previousHash` property that is the `hash` of block before it. Add a `previousHash` property to your genesis block. Since this is the first block, there isn't a previous block to get a hash from so use `null` as the value.
+
+### --tests--
+
+You should have a `previousHash: null` property in your `genesisBlock` object
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 6
+
+### --description--
+
+Below your object, create a `const blockchain` variable. Make an array containing only your genesis block.
+
+### --tests--
+
+You should have `const blockchain = [genesisBlock];` at the bottom of your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 7
+
+### --description--
+
+At the bottom of your file, log your `blockchain` variable to the console so you can see what it looks like.
+
+### --tests--
+
+You should have `console.log(blockchain);` at the bottom of your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 8
+
+### --description--
+
+In the terminal, run `node init-blockchain.js` to run the file and see your blockchain.
+
+### --tests--
+
+You should run `node init-blockchain.js` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node init-blockchain.js');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 9
+
+### --description--
+
+Your blockchain has its first block, but the data isn't saved anywhere. Use `touch` in the terminal to create a `blockchain-helpers.js` file. This have some helper functions for reading and writing your blockchain to a file.
+
+### --tests--
+
+`blockchain-helpers.js` should exist in your `learn-digital-ledgers-by-building-a-blockchain` directory
+
+```js
+const folder = await __helpers.getDirectory('.');
+assert(folder.includes('blockchain-helpers.js'));
+```
+
+You should use `touch blockchain-helpers.js` in the terminal to create the file
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'touch blockchain-helpers.js');
+```
+
+### --seed--
+
+#### --cmd--
+
+## 10
+
+### --description--
+
+Open your new `blockchain-helpers.js` file and import `{ writeFileSync }` from the `fs` module so you can write to files.
+
+### --tests--
+
+You should have `import { writeFileSync } from 'fs';` in your `blockchain-helpers.js` file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 11
+
+### --description--
+
+Below your import, add an empty `writeBlockchain` function that takes a `blockchain` parameter. Add `export` in front of the function so you can import it elsewhere.
+
+### --tests--
+
+You should have `export function writeBlockchain(blockchain) {}` at the bottom of your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 12
+
+### --description--
+
+The `blockchain` parameter will be what you logged to the console (JSON format). You want to strigify and format it so you can write it to a file. In your `writeBlockchain` function, create a `const blockchainString` variable. Use `JSON.stringify` to set its value to a strified version of the `blockchain` argument. Add `null` and `2`, in that order, as arguments to the `stringify` call to format the string.
+
+### --tests--
+
+You should have `const blockchainString = JSON.stringify(blockchain, null, 2);` in your `writeBlockchain` function
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 13
+
+### --description--
+
+`writeFileSync` needs two arguments, a destination, and the content. Below your `blockchainString` variable, use `writeFileSync` to write the string to `./blockchain.json`.
+
+### --tests--
+
+You should have `writeFileSync('./blockchain.json', blochchainString);` at the bottom of your `writeBlockchain` function
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 14
+
+### --description--
+
+The function should be working. Go back to your `init-blockchain` file and import the function at the top.
+Back in `init-blockchain.js`...
+
+### --tests--
+
+You should have `import { writeBlockchain } from 'blockchain-helpers.js';` at the top of your `init-blockchain.js` file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 15
+
+### --description--
+
+At the bottom of the file, call your `writeBlockchain` function, passing it the `blockchain` variable.
+
+### --tests--
+
+You should add `writeBlockchain(blockchain);` at the bottom of your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 16
+
+### --description--
+
+Remove the console log you added earlier.
+
+### --tests--
+
+You should not have any `console.log` calls in your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 17
+
+### --description--
+
+Run the command to initialize your blockchain again to see if it's working.
+
+### --tests--
+
+You should run `node init-blockchain.js` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node init-blockchain.js');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+You should have a `blockchain.json` as a result of running the command
+
+```js
+assert(false);
+```
+
+The `blockchain.json` should contain an array with your `genesisBlock` as its only item
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 18
+
+### --description--
+
+Back in your `blockchain-helpers.js` file, import `readFileSync` next to your other import so you can make another function to read the blockchain file.
+
+### --tests--
+
+You should have `import { writeFileSync, readFileSync } from 'fs';` at the top of your `blockchain-helpers.js` file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 19
+
+### --description--
+
+Below your `writeBlockchain` function, create an empty `getBlockchain` function and export it like you did with the other one. It doesn't need any parameters.
+
+### --tests--
+
+You should have `export function getBlockchain() {}` at the bottom of your `blockchain-helpers.js` file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 20
+
+### --description--
+
+In your `getBlockchain` function, create a `const blockchainFile` variable that uses `readFileSync` to get the info from your blockchain JSON file.
+
+### --tests--
+
+You should have `const blockchainFile = readFileSync('./blockchain.json')` in your `getBlockchain` function
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 21
+
+### --description--
+
+Below that, create a `const blockchain` variable and parse `blockchainFile` into JSON.
+
+### --tests--
+
+You should have `const blockchain = JSON.parse(blockchainFile);` at the bottom of your `getBlockchain` function
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 22
+
+### --description--
+
+Return the `blockchain` JSON from the function.
+
+### --tests--
+
+You should have `return blockchain;` at the bottom of your `getBlockchain` function
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 23
+
+### --description--
+
+Next, you will create a way to add more blocks to your chain. Use `touch` in the terminal to create `add-block.js`
+
+### --tests--
+
+`add-block.js` should exist in your `learn-digital-ledgers-by-building-a-blockchain` directory
+
+```js
+const folder = await __helpers.getDirectory('.');
+assert(folder.includes('add-block.js'));
+```
+
+You should use `touch add-block.js` in the terminal to create the file
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'touch add-block.js');
+```
+
+### --seed--
+
+#### --cmd--
+
+## 24
+
+### --description--
+
+In your new `add-block.js` file, import your `getBlockchain` function at the top.
+
+### --tests--
+
+You should have `import { getBlockchain } from './blockchain-helpers.js';` in your `add-block.js` file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 25
+
+### --description--
+
+Below that, create a `const blockchain` variable and set the value to the result of calling your `getBlockchain` function.
+
+### --tests--
+
+You should have `const blockchain = getBlockchain();` at the bottom of your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 26
+
+### --description--
+
+Log your `blockchain` variable to the console to make sure it's working.
+
+### --tests--
+
+You should have `console.log(blockchain);` at the bottom of your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 27
+
+### --description--
+
+In the terminal, run `node add-block.js`. It should output what's in your `blockchain.json` file.
+
+### --tests--
+
+You should run `node add-block.js` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node add-block.js');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 28
+
+### --description--
+
+It's working. Create a `const newBlock` variable and set it to an empty object. This will be for new blocks that get added to your blockchain.
+
+### --tests--
+
+You should have `const newBlock = {};` at the bottom of your `add-block.js` file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 29
+
+### --description--
+
+Add a `hash` property to your new block for its identifier. Use `Math.random` and `toString` to make it a random number that is a string.
+
+### --tests--
+
+You should have `"hash": Math.random().toString()` in your `newBlock` object
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 30
+
+### --description--
+
+You need to get the `hash` of the previous block for the `previousHash` property of your new block. Above your `newBlock` variable, create a `const previousBlock` variable and set it to the last block of `blockchain` (`blockchain.length - 1`).
+
+### --tests--
+
+You should have `const previousBlock = blockchain[blockchain.length - 1];` in your file above the `const newBlock`
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 31
+
+### --description--
+
+Add a `previousHash` property to your `newBlock` object. Set the value to the `hash` of the `previousBlock`.
+
+### --tests--
+
+You should have a `"previousHash": previousBlock.hash` property in your `newBlock` object
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 32
+
+### --description--
+
+Below your `newBlock` and above the log, push the new block to your blockchain.
+
+### --tests--
+
+You should have `blockchain.push(newBlock);` in your file between the `newBlock` and `console.log`
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 33
+
+### --description--
+
+Make sure the `console.log` is at the bottom, then run your file in the terminal with `node add-block.js`.
+
+### --tests--
+
+You should run `node add-block.js` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node add-block.js');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 34
+
+### --description--
+
+You have successfully added a second block to your blockchain, but the data is not being saved. Impot your `writeBlockchain` function at the top of your `add-block.js` file next to the other import so you can write it to the file.
+
+### --tests--
+
+You should have `import { getBlockchain, writeBlockchain } from 'blockchain-helpers.js';` at the top of your `add-block.js` file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 35
+
+### --description--
+
+At the bottom of the file, write your new blockchain so it saves.
+
+### --tests--
+
+You should have `writeBlockchain(blockchain)` at the bottom of your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 36
+
+### --description--
+
+Comment out the `console.log` with a single line comment so you can run the file and see if it works.
+
+### --tests--
+
+You should have `// console.log(blockchain)` in your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 37
+
+### --description--
+
+Run your `add-block.js` file in the terminal to add a new block.
+
+### --tests--
+
+You should run `node add-block.js` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node add-block.js');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+You should have two blocks in your `blockchain.json` file
+
+```js
+assert(false)
+```
+
+### --seed--
+
+#### --cmd--
+
+## 38
+
+### --description--
+
+Add two more blocks to your blockchain.
+
+### --tests--
+
+You should run `node add-block.js` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node add-block.js');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+You should have four blocks in your `blockchain.json` file
+
+```js
+assert(false)
+```
+
+### --seed--
+
+#### --cmd--
+
+## 39
+
+### --description--
+
+Your blockchain is working. Next, you will create a way to make sure it's valid. In your `blockchain-helpers.js` file, export a new empty `isValidChain` function below the others.
+
+### --tests--
+
+You should have `export function isValidChain() {}` at the bottom of your `blockchain-helpers.js` file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 40
+
+### --description--
+
+You will loop over all the blocks in the blockchain and make sure they have the correct properties. First, create a `const blockchain` variable in your new function, use the `getBlockchain` function to set its value to the blockchain.
+
+### --tests--
+
+You should have `const blockchain = getBlockchain();` in your `isValidChain` function
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 41
+
+### --description--
+
+Below the variable you just created, add an empty `for` loop, using `let i = 1` to initialize it, that loops over the `blockchain` array. You won't need to validate the first block so you can start with `i` as `1`.
+
+### --tests--
+
+You should have `for (let i = 1; i < blockchain.length; i++) {}` at the bottom of your `isValidChain` function
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 42
+
+### --description--
+
+On each block, you need to make sure the `previousHash` is matches the block before it. Add a `const previousBlock` variable in your for loop that is set to the block before the current one in the loop (`blockchain[i - 1]`).
+
+### --tests--
+
+You should have `const previousBlock = blockchain[i - 1];` in your `for` loop
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 43
+
+### --description--
+
+You should be able to get the `hash` of the previous block using that. Create a new `const` that destructs `previousHash` from the current block in the loop.
+
+TASK: add `const { previousHash } = blockchain[i];`
+
+### --tests--
+
+You should have `const { previousHash } = blockchain[i];` in your `for` loop
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 44
+
+### --description--
+
+Add an empty `if` condition that checks if the `previousHash` is not strictly equal to the `hash` of the previous block.
+
+### --tests--
+
+You should have `if (previousHash !== previousBlock.hash) {}` in your `for` loop
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 45
+
+### --description--
+
+If the hashes aren't equal, return `false`.
+
+### --tests--
+
+You should have `return false` in your `if` condition
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 46
+
+### --description--
+
+Below your loop, after you have checked all the blocks, return `true` since you didn't find any mismatched hash values.
+
+### --tests--
+
+You should have `return true` at the bottom of your `isValidChain` function
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 47
+
+### --description--
+
+Next, you are going to create a small file to run that function. Use `touch` in the terminal to create `validate-chain.js`.
+
+### --tests--
+
+`validate-chain.js` should exist in your `learn-digital-ledgers-by-building-a-blockchain` directory
+
+```js
+const folder = await __helpers.getDirectory('.');
+assert(folder.includes('validate-chain.js'));
+```
+
+You should use `touch validate-chain.js` in the terminal to create the file
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'touch validate-chain.js');
+```
+
+### --seed--
+
+#### --cmd--
+
+## 48
+
+### --description--
+
+Open your new `validate-chain.js` file and import the `isValidChain` function you just created at the top.
+In `validate-chain.js`...
+
+### --tests--
+
+You should have `import { isValidChain } from 'blockchain-helpers.js'` at the top of your `validate-chain.js` file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 49
+
+### --description--
+
+Add an `if` condition that runs your `isValidChain` function. Log `Chain is valid` to the console if it's true.
+
+### --tests--
+
+You should have `if (isValidChain()) { console.log('Chain is valid') }` in your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 50
+
+### --description--
+
+Add an `else` area that logs `Chain is not valid` to the console if the condition is false.
+
+
+### --tests--
+
+You should have `else { console.log('Chain is not valid') }` as part of your `if` condition
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 51
+
+### --description--
+
+Run your file to see if your chain is valid.
+
+### --tests--
+
+You should run `node validate-chain.js` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node validate-chain.js');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 52
+
+### --description--
+
+It appears to be working. In your `blockchain.json` file, change the hash of the genesis block from `0` to `1`.
+
+### --tests--
+
+The first object in the `blockchain.json` array should have a `hash` value of `1` (one/string)
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 53
+
+### --description--
+
+Run your validation file again.
+
+### --tests--
+
+You should run `node validate-chain.js` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node validate-chain.js');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 54
+
+### --description--
+
+Since you manually changed the `hash` of a block, the `previousHash` property doesn't match it anymore, making your chain invalid. Change the `hash` of your genesis block back to `0`.
+
+### --tests--
+
+The first object in the `blockchain.json` array should have a `hash` value of `0` (zero/string)
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 55
+
+### --description--
+
+Run the validation file again.
+
+### --tests--
+
+You should run `node validate-chain.js` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node validate-chain.js');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 56
+
+### --description--
+
+Okay, your chain is valid again. Back in `add-block.js`, add a `data` property to your `newBlock`. This will be for adding transaction information to a block.
+
+
+### --tests--
+
+Your `newBlock` object should have a `"data": {}` property
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 57
+
+### --description--
+
+In the `data` object, add a `fromAddress` property equal to `process.argv[2]`. This will be an argument you pass in the command line when you run the `add-block.js` file
+
+### --tests--
+
+You should have `fromAddress: process.argv[2]` in your `data` object
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 58
+
+### --description--
+
+Add a `toAddress` property to the object that is the next command line argument, `process.argv[3]`.
+
+### --tests--
+
+You should have a `toAddress: process.argv[3]` property at the bottom of your `data` object
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 59
+
+### --description--
+
+Lastly, add an `amount` to the object. Make it the next command line argument, but parse it as an integer this time since it will be a number.
+
+### --tests--
+
+You should have a `amount: parseInt(process.argv[4])` property at the bottom of your `data` object
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 60
+
+### --description--
+
+Comment out your `writeBlockchain` call so you can see if this is working before you write to the file.
+
+### --tests--
+
+You should have `// writeBlockchain(blockchain);` in your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 61
+
+### --description--
+
+Uncomment the log to the console.
+
+### --tests--
+
+You should have `console.log(blockchain);` that is not commented out in your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 62
+
+### --description--
+
+Run your `add-block.js` file, give it three arguments, `Me`, `You`, and `10`. 
+
+### --tests--
+
+You should run `node add-block.js Me You 10` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node add-block.js Me You 10');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 63
+
+### --description--
+
+It looks like it's working. The last block that was logged to the console has a `data` object with the transaction information. Remove the `console.log` statement from the `add-block.js` file.
+
+### --tests--
+
+You should not have a `console.log` statement in your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 64
+
+### --description--
+
+Uncomment the `writeBlockchain` call.
+
+### --tests--
+
+You should have `writeBlockchain(blockchain);` that is not commented out in your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 65
+
+### --description--
+
+Run the command add the block again, give it the same three arguments.
+
+### --tests--
+
+You should run `node add-block.js Me You 10` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node add-block.js Me You 10');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+Your `blockchain.json` file should have five objects in it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 66
+
+### --description--
+
+Add another block that sends `20` from `Me` to `You`.
+
+### --tests--
+
+You should run `node add-block.js Me You 20` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node add-block.js Me You 20');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+Your `blockchain.json` file should have six objects in it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 67
+
+### --description--
+
+Add one more that sends `30` from `Me` to `You`.
+
+### --tests--
+
+You should run `node add-block.js Me You 30` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node add-block.js Me You 30');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+Your `blockchain.json` file should have six objects in it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 68
+
+### --description--
+
+Validate your chain to make sure nothing has broken.
+
+### --tests--
+
+You should run `node validate-chain.js` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node validate-chain.js');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 69
+
+### --description--
+
+Transactions aren't stored usually stored on the blockchain right away, they go into a waiting area known as a transaction pool until a new block is added. You will create this next. In your `blockchain-helpers.js` export a new `writeTransactions` function. Give it a parameter of `transactions` and leave the function empty to start.
+
+### --tests--
+
+You should have `export function writeTransactions(transactions) {}` in your `blockchain-helpers.js` file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 70
+
+### --description--
+
+This will be the same as the `writeBlockchain` function, except it will write to a different file. In your new function, create a `const transactionsString` variable. Set the value to a stringified version of the `transaction` argument. Format it using `null` and `2` like you did for the `writeBlockchain` function.
+
+
+### --tests--
+
+You should have `const transactionsString = JSON.stringify(transactions, null, 2);` in your `writeTransactions` function
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 71
+
+### --description--
+
+Use `writeFileSync` in the function to write that string to `transactions.json`.
+
+### --tests--
+
+You should have `writeFileSync('./transactions.json', transactionsString);` at the bottom of your `writeTransactions` function.
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 72
+
+### --description--
+
+Transactions will be created separately from blocks. In the terminal, use `touch` to create an `add-transaction.js` file.
+
+### --tests--
+
+`add-transaction.js` should exist in your `learn-digital-ledgers-by-building-a-blockchain` directory
+
+```js
+const folder = await __helpers.getDirectory('.');
+assert(folder.includes('add-transaction.js'));
+```
+
+You should use `touch add-transaction.js` in the terminal to create the file
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'touch add-transactions.js');
+```
+
+### --seed--
+
+#### --cmd--
+
+## 73
+
+### --description--
+
+At the top of your new file, import the `writeTransactions` function you created.
+
+### --tests--
+
+You should have `import { writeTransactions } from 'blockchain-helpers.js';` in your `add-transaction.js` file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 74
+
+### --description--
+
+A transaction will consist of the same three pieces of information as the `data` object you created; who it's from, who its to, and an amount. They will be passed in through the command line. Create a `const fromAddress` variable set to the first command line argument.
+
+### --tests--
+
+You should have `const fromAddress = process.argv[2]` at the bottom of your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 75
+
+### --description--
+
+Similarly, create a `toAddress` variable set to the second command line argument.
+
+### --tests--
+
+You should have `const toAddress = process.argv[3]` at the bottom of your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 76
+
+### --description--
+
+Lastly, add an `amount` variable set to the third command line argument. Parse it as an integer like you did in the `data` object.
+
+### --tests--
+
+You should have `const amount = parseInt(process.argv[4])` at the bottom of your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 77
+
+### --description--
+
+Now you can create the transaction. Add a `const newTransaction` variable set to an empty object.
+
+### --tests--
+
+You should have `const newTransaction = {}` in your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 78
+
+### --description--
+
+Add the three properties to the new transaction.
+
+### --tests--
+
+Your transaction object should have a `fromAddress` property
+
+```js
+assert(false);
+```
+
+Your transaction object should have a `toAddress` property
+
+```js
+assert(false);
+```
+
+Your transaction object should have an `amount` property
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 79
+
+### --description--
+
+Add a new `const transactions` variable and set it to an array with your `newTransaction` in it.
+
+### --tests--
+
+You should have `const transactions = [newTransaction];` in your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 80
+
+### --description--
+
+Use your `writeTransactions` function to write the transactions to the `transactions.json` file.
+
+### --tests--
+
+You should have `writeTransactions(transactions);` at the bottom of your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 81
+
+### --description--
+
+Run your `add-transaction.js` file in the terminal and give it `You`, `Me`, and `5` as command line arguments.
+
+### --tests--
+
+You should run `node add-transaction.js You Me 5` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node add-transaction.js You Me 5');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 82
+
+### --description--
+
+Open up your `transactions.json` file to see the transaction. Add another transaction, but send 15 this time.
+
+### --tests--
+
+You should run `node add-transaction.js You Me 15` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node add-transaction.js You Me 15');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 83
+
+### --description--
+
+The transactions are being overwritten. You need to get the existing transactions and add to them like you did with the blocks. In your `blockchain-helpers.js` file, export a new `getTransactions` function.
+
+### --tests--
+
+You should have `export function getTransactions() {}` in your `blockchain-helpers.js` file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 84
+
+### --description--
+
+Add a `const transacationsFile` in the function. Use the imported `readFileSync` to set its value to what's in the `transactions.json` file.
+
+### --tests--
+
+You should have `const transactionsFile = readFileSync('./transactions.json');` in your `getTransactions` function
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 85
+
+### --description--
+
+Add a `const transactions` variable below that. Parse the `transactionsFile` into JSON and set its value to the new variable.
+
+### --tests--
+
+You should have `const transactions = JSON.parse(transactionsFile);` at the bottom of your `getTransactions` function
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 86
+
+### --description--
+
+Return the transactions from the function.
+
+### --tests--
+
+You should have `return transactions;` at the bottom of your `getTransactions` function
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 87
+
+### --description--
+
+Back in the `add-transaction.js` file, add your new function to the imports at the top with the rest of the imports.
+
+### --tests--
+
+You should import `getTransactions` at the top of your `add-transaction.js` file with the rest of the imports
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 88
+
+### --description--
+
+Remove the `transactions` variable and value from the file.
+
+### --tests--
+
+You should not have a `transactions` variable in your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 89
+
+### --description--
+
+At the top of the file, add a new `const transactions` variable and use the `getTransactions` function to set its value to what's in the JSON file.
+
+### --tests--
+
+You should have `const transactions = getTransactions();` in your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 90
+
+### --description--
+
+Below your `newTransaction`, `push` it to the `transactions` array.
+
+### --tests--
+
+You should have `transactions.push(newTransaction);` at the bottom of your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 91
+
+### --description--
+
+Now the transactions should accumulate in the file. Add a new transactions using the command line. Send `25` tokens from `You` to `Me`.
+
+### --tests--
+
+You should run `node add-transaction.js You Me 25` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node add-transaction.js You Me 25');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 92
+
+### --description--
+
+It works. Add another one that sends `35` tokens to the same addresses.
+
+### --tests--
+
+You should run `node add-transaction.js You Me 35` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node add-transaction.js You Me 35');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 93
+
+### --description--
+
+Now that the transactions are in the transaction pool, you need to add all the transactions to a block when a new one gets added. In your `add-block.js` file, import the `getTransactions` and `writeTransctions` functions at the top with the rest of the imports.
+
+### --tests--
+
+You should import `getTransactions` at the top of the `add-block.js` with the rest of the imports
+
+```js
+assert(false);
+```
+
+You should import `writeTransactions` at the top of the `add-block.js` with the rest of the imports
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 94
+
+### --description--
+
+Add a `const transactions` variable in the `add-block.js` file. Use the `getTransactions` function to set its value to what's in the transactions JSON file.
+
+### --tests--
+
+You should have `const transactions = getTransactions();` in your `add-block.js` file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 95
+
+### --description--
+
+Remove the `data` property and value from the `newBlock` object.
+
+### --tests--
+
+Your `newBlock` object should not have a `data` property or value
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 96
+
+### --description--
+
+Add `transactions` as a proprty in the `newBlock` object. This will just add exactly what's in the transaction pool to the block.
+
+### --tests--
+
+Your `newBlock` should have a `transactions` property
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 97
+
+### --description--
+
+At the bottom, use your `writeTransactions` function to write an empty array to the `transactions.json` file.
+
+### --tests--
+
+You should have `writeTransctions([]);` at the bottom of your file
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 98
+
+### --description--
+
+Run your `add-blocks.js` with no arguments to add a new block.
+
+### --tests--
+
+You should run `node add-block.js` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node add-block.js');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 99
+
+### --description--
+
+The new block was added with all the transactions. Add a new transaction that sends `2` tokens from `Me` to `You`.
+
+### --tests--
+
+You should run `node add-transaction.js You Me 2` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node add-transaction.js You Me 2');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 100
+
+### --description--
+
+Add another one that sends `4` this time.
+TASK: run `node add-transaction.js Me You 4`
+
+### --tests--
+
+You should run `node add-transaction.js You Me 4` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node add-transaction.js You Me 4');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 101
+
+### --description--
+
+Add one more that sends `6`.
+
+### --tests--
+
+You should run `node add-transaction.js You Me 6` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node add-transaction.js You Me 6');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 102
+
+### --description--
+
+Add a new block.
+
+### --tests--
+
+You should run `node add-block.js` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node add-block.js');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
+
+## 103
+
+### --description--
+
+TASK: This is the last step. Validate your chain one more time. When you are done, feel free to add some more transactions and blocks with your commands.
+
+### --tests--
+
+You should run `node validate-chain.js` in the terminal
+
+```js
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand === 'node validate-chain.js');
+```
+
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
+
+```js
+assert(false);
+```
+
+### --seed--
+
+#### --cmd--
