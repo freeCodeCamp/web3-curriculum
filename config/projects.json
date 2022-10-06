@@ -7,7 +7,7 @@
     "description": "In this course, you will learn how to build a blockchain from scratch using JavaScript.",
     "isPublic": true,
     "currentLesson": 1,
-    "numberOfLessons": 1
+    "runTestsOnWatch": true
   },
   {
     "id": 1,
@@ -17,7 +17,7 @@
     "description": "In this course, you will learn how to use the SHA-256 hashing algorithm make your blockchain more secure.",
     "isPublic": false,
     "currentLesson": 1,
-    "numberOfLessons": 1
+    "runTestsOnWatch": true
   },
   {
     "id": 2,
@@ -27,7 +27,7 @@
     "description": "In this course, you will learn how to generate and use keypairs so you can veryify users and transactions.",
     "isPublic": false,
     "currentLesson": 1,
-    "numberOfLessons": 1
+    "runTestsOnWatch": true
   },
   {
     "id": 3,

@@ -4,22 +4,27 @@
 
 ### --description--
 
-You will work in the `learn-digital-ledgers-by-building-a-blockchain` folder for this project. Open a bash terminal and use `cd` to change into it.
+For this project, you will work in the `learn-digital-ledgers-by-building-a-blockchain` folder. Open a bash terminal and use `cd` to change into it.
 
-The tests should run automatically. If they don't, close any open **bash** terminals, open a new one, and try again.
+The tests should run automatically. If they don't, close any open **bash** terminals, open a new one, and run the command again.
 
 ### --tests--
 
-You should run `cd learn-digital-ledgers-by-building-a-blockchain`
+You should use the change directory (`cd`) command in the terminal
 
 ```js
-assert(false);
+await new Promise(res => setTimeout(res, 1000));
+const lastCommand = await __helpers.getLastCommand();
+assert.match(lastCommand, /^\s*cd/);
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal
 
 ```js
-assert(false);
+await new Promise(res => setTimeout(res, 1000));
+const cwdFile = await __helpers.getCWD();
+const cwd = cwdFile.split('\n').filter(Boolean).pop();
+assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 ```
 
 ### --seed--
@@ -30,22 +35,24 @@ assert(false);
 
 ### --description--
 
-For this project, you will be creating a blockchain from scratch using JavaScript. Use the `touch` command to create an `init-blockchain.js` file. This will used to initialize your blockchain.
+You will be creating a blockchain from scratch using JavaScript. Use the `touch` command in the terminal to create an `init-blockchain.js` file. This will used to initialize your blockchain.
 
 ### --tests--
 
 `init-blockchain.js` should exist in your `learn-digital-ledgers-by-building-a-blockchain` directory
 
 ```js
-const folder = await __helpers.getDirectory('.');
-assert(folder.includes('init-blockchain.js'));
+await new Promise(res => setTimeout(res, 1000));
+const folder = await __helpers.getDirectory('learn-digital-ledgers-by-building-a-blockchain');
+assert.include(folder, 'init-blockchain.js');
 ```
 
 You should use `touch init-blockchain.js` in the terminal to create the file
 
 ```js
+await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert(lastCommand === 'touch init-blockchain.js');
+assert.equal(lastCommand.trim(), 'touch init-blockchain.js');
 ```
 
 ### --seed--
@@ -56,14 +63,16 @@ assert(lastCommand === 'touch init-blockchain.js');
 
 ### --description--
 
-Open your new `init-blockchain.js` file and create a `genesisBlock` variable. Make it a `const` and give it a value of an empty object.
+Open your new `init-blockchain.js` file and create a `const genesisBlock` variable. Give it a value of an empty object to start.
 
 ### --tests--
 
 You should have `const genesisBlock = {}` in your `init-blockchain.js` file
 
 ```js
-assert(false);
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/init-blockchain.js');
+assert.match(fileContents, /^\s*const\s+genesisBlock\s*=\s*{\s*}\s*;?\s*$/);
 ```
 
 ### --seed--
@@ -74,14 +83,16 @@ assert(false);
 
 ### --description--
 
-This object will be the first block in your blockchain, also known as the "genesis block". Each block has `hash` property to identify the block. Add that property to your object and give it a value of `0` (zero/string).
+This object will be the first block in your blockchain, also known as the genesis block. Each block has `hash` property to identify the block. Add that property to your object and give it a value of `0` (zero/string).
 
 ### --tests--
 
 You should have a `hash: "0"` property in your `genesisBlock` object
 
 ```js
-assert(false);
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/init-blockchain.js');
+assert.match(fileContents, /^\s*const\s+genesisBlock\s*=\s*{\s*(|'|")hash\1\s*:\s*("|'|`)0\2\s*}\s*;?\s*$/);
 ```
 
 ### --seed--
@@ -96,10 +107,12 @@ Each block also has a `previousHash` property that is the `hash` of block before
 
 ### --tests--
 
-You should have a `previousHash: null` property in your `genesisBlock` object
+You should have a `previousHash: null` property at the bottom of your `genesisBlock` object
 
 ```js
-assert(false);
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/init-blockchain.js');
+assert.match(fileContents, /^\s*const\s+genesisBlock\s*=\s*{\s*(|'|")hash\1\s*:\s*("|'|`)0\2\s*,\s*(|'|")previousHash\3\s*:\s*null\s*}\s*;?\s*$/);
 ```
 
 ### --seed--
@@ -110,14 +123,16 @@ assert(false);
 
 ### --description--
 
-Below your object, create a `const blockchain` variable. Make an array containing only your genesis block.
+Below your object, create a `const blockchain` variable. Make it an array containing only your genesis block.
 
 ### --tests--
 
 You should have `const blockchain = [genesisBlock];` at the bottom of your file
 
 ```js
-assert(false);
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/init-blockchain.js');
+assert.match(fileContents, /const\s+blockchain\s*=\s*\[\s*genesisBlock\s*\]\s*;?\s*$/);
 ```
 
 ### --seed--
@@ -135,7 +150,9 @@ At the bottom of your file, log your `blockchain` variable to the console so you
 You should have `console.log(blockchain);` at the bottom of your file
 
 ```js
-assert(false);
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/init-blockchain.js');
+assert.match(fileContents, /console\s*\.\s*log\s*\(\s*blockchain\s*\)\s*;?\s*$/);
 ```
 
 ### --seed--
@@ -146,21 +163,25 @@ assert(false);
 
 ### --description--
 
-In the terminal, run `node init-blockchain.js` to run the file and see your blockchain.
+In the terminal, enter `node init-blockchain.js` to run the file and see your blockchain.
 
 ### --tests--
 
 You should run `node init-blockchain.js` in the terminal
 
 ```js
+await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert(lastCommand === 'node init-blockchain.js');
+assert.equal(lastCommand.trim(), 'node init-blockchain.js');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
 
 ```js
-assert(false);
+await new Promise(res => setTimeout(res, 1000));
+const cwdFile = await __helpers.getCWD();
+const cwd = cwdFile.split('\n').filter(Boolean).pop();
+assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 ```
 
 ### --seed--
@@ -171,22 +192,24 @@ assert(false);
 
 ### --description--
 
-Your blockchain has its first block, but the data isn't saved anywhere. Use `touch` in the terminal to create a `blockchain-helpers.js` file. This have some helper functions for reading and writing your blockchain to a file.
+Your blockchain has its first block, but the data isn't saved anywhere. Use `touch` in the terminal to create a `blockchain-helpers.js` file. This will have some helper functions for reading and writing your blockchain to a file.
 
 ### --tests--
 
 `blockchain-helpers.js` should exist in your `learn-digital-ledgers-by-building-a-blockchain` directory
 
 ```js
-const folder = await __helpers.getDirectory('.');
-assert(folder.includes('blockchain-helpers.js'));
+await new Promise(res => setTimeout(res, 1000));
+const folder = await __helpers.getDirectory('learn-digital-ledgers-by-building-a-blockchain');
+assert.include(folder, 'blockchain-helpers.js');
 ```
 
 You should use `touch blockchain-helpers.js` in the terminal to create the file
 
 ```js
+await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert(lastCommand === 'touch blockchain-helpers.js');
+assert.equal(lastCommand.trim(), 'touch blockchain-helpers.js');
 ```
 
 ### --seed--
@@ -204,7 +227,9 @@ Open your new `blockchain-helpers.js` file and import `{ writeFileSync }` from t
 You should have `import { writeFileSync } from 'fs';` in your `blockchain-helpers.js` file
 
 ```js
-assert(false);
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js');
+assert.match(fileContents, /^\s*import\s*{\s*writeFileSync\s*}\s*from\s*('|")fs\1\s*;?\s*$/);
 ```
 
 ### --seed--
@@ -222,7 +247,9 @@ Below your import, add an empty `writeBlockchain` function that takes a `blockch
 You should have `export function writeBlockchain(blockchain) {}` at the bottom of your file
 
 ```js
-assert(false);
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js');
+assert.match(fileContents, /export\s*function\s*writeBlockchain\s*\(\s*blockchain\s*\)\s*{\s*}\s*;?\s*$/);
 ```
 
 ### --seed--
@@ -233,14 +260,16 @@ assert(false);
 
 ### --description--
 
-The `blockchain` parameter will be what you logged to the console (JSON format). You want to strigify and format it so you can write it to a file. In your `writeBlockchain` function, create a `const blockchainString` variable. Use `JSON.stringify` to set its value to a strified version of the `blockchain` argument. Add `null` and `2`, in that order, as arguments to the `stringify` call to format the string.
+The `blockchain` parameter will be what you logged to the console (JSON). You want to strigify and format it so you can write it to a file. In your `writeBlockchain` function, create a `const blockchainString` variable. Use `JSON.stringify` to set its value to a stringified version of the `blockchain` argument. Add `null` and `2`, in that order, as arguments to the `stringify` call to format the string with two spaces.
 
 ### --tests--
 
 You should have `const blockchainString = JSON.stringify(blockchain, null, 2);` in your `writeBlockchain` function
 
 ```js
-assert(false);
+await new Promise(res => setTimeout(res, 1000));
+const { writeBlockchain } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(writeBlockchain.toString(), /{\s*const\s+blockchainString\s*=\s*JSON\s*\.\s*stringify\s*\(\s*blockchain\s*,\s*null\s*,\s*2\s*\)\s*;?\s*}\s*;?\s*$/);
 ```
 
 ### --seed--
@@ -258,7 +287,9 @@ assert(false);
 You should have `writeFileSync('./blockchain.json', blochchainString);` at the bottom of your `writeBlockchain` function
 
 ```js
-assert(false);
+await new Promise(res => setTimeout(res, 1000));
+const { writeBlockchain } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(writeBlockchain.toString(), /writeFileSync\s*\(('|")(\.\/)?blockchain\.json\1\s*,\s*blockchainString\s*\)\s*;?\s*}\s*;?\s*$/);
 ```
 
 ### --seed--
