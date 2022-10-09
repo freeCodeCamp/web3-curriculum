@@ -6,6 +6,7 @@ import fs from 'fs';
 import { ROOT } from './env.js';
 import { logover } from './logger.js';
 import { Logger } from 'logover';
+import { parse as acornParse} from 'acorn';
 
 // ---------------
 // GENERIC HELPERS
@@ -238,6 +239,10 @@ async function controlWrapper(cb, { timeout = 10000, stepSize = 250 }) {
   });
 }
 
+async function parseJs(jsString) {
+  return acornParse(jsString, {ecmaVersion: 2020});
+}
+
 const logoverHelp = new Logger({ level: 'debug' });
 
 const __helpers = {
@@ -257,7 +262,8 @@ const __helpers = {
   getTerminalOutput,
   logover: logoverHelp,
   runCommand,
-  writeJsonFile
+  writeJsonFile,
+  parseJs
 };
 
 export default __helpers;
