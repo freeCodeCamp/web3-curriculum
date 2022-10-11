@@ -741,7 +741,7 @@ assert.match(fileContents, /blockchain\s*\.\s*push\s*\(\s*newBlock\s*\)\s*;?\s*$
 
 ### --description--
 
-Move your `console.log` statement to the bottom, then run your file in the terminal with `node add-block.js`.
+Move your `console.log` statement to the bottom.
 
 ### --tests--
 
@@ -752,6 +752,18 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
 assert.match(fileContents, /console\s*\.\s*log\s*\(\s*blockchain\s*\)\s*;?\s*$/);
 ```
+
+### --seed--
+
+#### --cmd--
+
+## 34
+
+### --description--
+
+Run your file in the terminal with `node add-block.js`.
+
+### --tests--
 
 You should run `node add-block.js` in the terminal
 
@@ -781,7 +793,7 @@ assert(false);
 
 #### --cmd--
 
-## 34
+## 35
 
 ### --description--
 
@@ -801,7 +813,7 @@ assert.match(fileContents, /^\s*import\s*{\s*(getBlockchain\s*,\s*writeBlockchai
 
 #### --cmd--
 
-## 35
+## 36
 
 ### --description--
 
@@ -821,7 +833,7 @@ assert.match(fileContents, /writeBlockchain\s*\(\s*blockchain\s*\)\s*;?\s*$/);
 
 #### --cmd--
 
-## 36
+## 37
 
 ### --description--
 
@@ -841,7 +853,7 @@ assert.match(fileContents, /\/\/[ \t]*console\s*\.\s*log\s*\(\s*blockchain\s*\)/
 
 #### --cmd--
 
-## 37
+## 38
 
 ### --description--
 
@@ -879,7 +891,7 @@ assert.lengthOf(fileContents, 2);
 
 #### --cmd--
 
-## 38
+## 39
 
 ### --description--
 
@@ -917,7 +929,7 @@ assert.lengthOf(fileContents, 4);
 
 #### --cmd--
 
-## 39
+## 40
 
 ### --description--
 
@@ -937,7 +949,7 @@ assert.isFunction(isValidChain);
 
 #### --cmd--
 
-## 40
+## 41
 
 ### --description--
 
@@ -957,7 +969,7 @@ assert.match(isValidChain.toString(), /const\s+blockchain\s*=\s*getBlockchain\s*
 
 #### --cmd--
 
-## 41
+## 42
 
 ### --description--
 
@@ -977,7 +989,7 @@ assert.match(isValidChain.toString(), /for\s*\(let\s+i\s*=\s*1\s*;\s*i\s*<\s*blo
 
 #### --cmd--
 
-## 42
+## 43
 
 ### --description--
 
@@ -997,7 +1009,7 @@ assert.match(isValidChain.toString(), /[\s\S]*for[\s\S]*{\s*const\s+previousBloc
 
 #### --cmd--
 
-## 43
+## 44
 
 ### --description--
 
@@ -1017,7 +1029,7 @@ assert.match(isValidChain.toString(), /[\s\S]*for[\s\S]*{[\s\S]*const\s*{\s*prev
 
 #### --cmd--
 
-## 44
+## 45
 
 ### --description--
 
@@ -1037,7 +1049,7 @@ assert.match(isValidChain.toString(), /[\s\S]*for[\s\S]*{[\s\S]*if\s*\(\s*previo
 
 #### --cmd--
 
-## 45
+## 46
 
 ### --description--
 
@@ -1057,7 +1069,7 @@ assert.match(isValidChain.toString(), /[\s\S]*if[\s\S]*{\s*return\s+false\s*;?\s
 
 #### --cmd--
 
-## 46
+## 47
 
 ### --description--
 
@@ -1077,7 +1089,7 @@ assert.match(isValidChain.toString(), /return\s+true\s*;?\s*}\s*;?\s*$/);
 
 #### --cmd--
 
-## 47
+## 48
 
 ### --description--
 
@@ -1105,7 +1117,7 @@ assert.equal(lastCommand.trim(), 'touch validate-chain.js');
 
 #### --cmd--
 
-## 48
+## 49
 
 ### --description--
 
@@ -1126,7 +1138,7 @@ assert.match(fileContents, /^\s*import\s*{\s*isValidChain\s*}\s*from\s*("|')\.\/
 
 #### --cmd--
 
-## 49
+## 50
 
 ### --description--
 
@@ -1146,7 +1158,7 @@ assert.match(fileContents, /if\s*\(\s*isValidChain\s*\(\s*\)\s*\)\s*{\s*console\
 
 #### --cmd--
 
-## 50
+## 51
 
 ### --description--
 
@@ -1167,7 +1179,7 @@ assert.match(fileContents, /}\s*else\s*{\s*console\s*\.log\s*\(\s*('|"|`)Chain i
 
 #### --cmd--
 
-## 51
+## 52
 
 ### --description--
 
@@ -1196,7 +1208,7 @@ assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 
 #### --cmd--
 
-## 52
+## 53
 
 ### --description--
 
@@ -1217,7 +1229,7 @@ assert.include(fileContents[0], { hash: "1" });
 
 #### --cmd--
 
-## 53
+## 54
 
 ### --description--
 
@@ -1246,7 +1258,7 @@ assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 
 #### --cmd--
 
-## 54
+## 55
 
 ### --description--
 
@@ -1267,7 +1279,7 @@ assert.include(fileContents[0], { hash: "0" });
 
 #### --cmd--
 
-## 55
+## 56
 
 ### --description--
 
@@ -1296,7 +1308,7 @@ assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 
 #### --cmd--
 
-## 56
+## 57
 
 ### --description--
 
@@ -1321,7 +1333,7 @@ assert.equal(value, 'ObjectExpression');
 
 #### --cmd--
 
-## 57
+## 58
 
 ### --description--
 
@@ -1341,7 +1353,7 @@ assert.match(fileContents, /newBlock[\s\S]*data[\s\S]*{\s*("|')fromAddress\1\s*:
 
 #### --cmd--
 
-## 58
+## 59
 
 ### --description--
 
@@ -1361,7 +1373,7 @@ assert.match(fileContents, /newBlock[\s\S]*data[\s\S]*{[\s\S]*("|')toAddress\1\s
 
 #### --cmd--
 
-## 59
+## 60
 
 ### --description--
 
@@ -1381,7 +1393,7 @@ assert.match(fileContents, /newBlock[\s\S]*data[\s\S]*{[\s\S]*("|')amount\1\s*:\
 
 #### --cmd--
 
-## 60
+## 61
 
 ### --description--
 
@@ -1401,7 +1413,7 @@ assert.match(fileContents, /\/\/\s*writeBlockchain\s*\(blockchain\s*\)/);
 
 #### --cmd--
 
-## 61
+## 62
 
 ### --description--
 
@@ -1421,7 +1433,7 @@ assert.match(fileContents, /^\s*console\s*\.\s*log\s*\(\s*blockchain\s*\)\s*;?\s
 
 #### --cmd--
 
-## 62
+## 63
 
 ### --description--
 
@@ -1450,7 +1462,7 @@ assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 
 #### --cmd--
 
-## 63
+## 64
 
 ### --description--
 
@@ -1470,7 +1482,7 @@ assert.notMatch(fileContents, /console/);
 
 #### --cmd--
 
-## 64
+## 65
 
 ### --description--
 
@@ -1490,7 +1502,7 @@ assert.match(fileContents, /^\s*writeBlockchain\s*\(\s*blockchain\s*\)\s*;?\s*$/
 
 #### --cmd--
 
-## 65
+## 66
 
 ### --description--
 
@@ -1528,7 +1540,7 @@ assert.lengthOf(fileContents, 5);
 
 #### --cmd--
 
-## 66
+## 67
 
 ### --description--
 
@@ -1566,7 +1578,7 @@ assert.lengthOf(fileContents, 6);
 
 #### --cmd--
 
-## 67
+## 68
 
 ### --description--
 
@@ -1604,7 +1616,7 @@ assert.lengthOf(fileContents, 7);
 
 #### --cmd--
 
-## 68
+## 69
 
 ### --description--
 
@@ -1633,7 +1645,7 @@ assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 
 #### --cmd--
 
-## 69
+## 70
 
 ### --description--
 
@@ -1654,7 +1666,7 @@ assert.match(writeTransactions.toString(), /writeTransactions\s*\(\s*transaction
 
 #### --cmd--
 
-## 70
+## 71
 
 ### --description--
 
@@ -1675,7 +1687,7 @@ assert.match(writeTransactions.toString(), /{\s*const\s+transactionsString\s*=\s
 
 #### --cmd--
 
-## 71
+## 72
 
 ### --description--
 
@@ -1695,7 +1707,7 @@ assert.match(writeTransactions.toString(), /writeFileSync\s*\(('|")\.\/transacti
 
 #### --cmd--
 
-## 72
+## 73
 
 ### --description--
 
@@ -1723,7 +1735,7 @@ assert.equal(lastCommand.trim(), 'touch add-transaction.js');
 
 #### --cmd--
 
-## 73
+## 74
 
 ### --description--
 
@@ -1743,7 +1755,7 @@ assert.match(fileContents, /^\s*import\s*{\s*writeTransactions\s*}\s*from\s*("|'
 
 #### --cmd--
 
-## 74
+## 75
 
 ### --description--
 
@@ -1763,7 +1775,7 @@ assert.match(fileContents, /const\s*fromAddress\s*=\s*process\s*\.\s*argv\s*\[\s
 
 #### --cmd--
 
-## 75
+## 76
 
 ### --description--
 
@@ -1783,7 +1795,7 @@ assert.match(fileContents, /const\s*toAddress\s*=\s*process\s*\.\s*argv\s*\[\s*3
 
 #### --cmd--
 
-## 76
+## 77
 
 ### --description--
 
@@ -1803,7 +1815,7 @@ assert.match(fileContents, /const\s*amount\s*=\s*parseInt\s*\(\s*process\s*\.\s*
 
 #### --cmd--
 
-## 77
+## 78
 
 ### --description--
 
@@ -1823,7 +1835,7 @@ assert.match(fileContents, /const\s*newTransaction\s*=\s*{\s*}\s*;?\s*$/);
 
 #### --cmd--
 
-## 78
+## 79
 
 ### --description--
 
@@ -1865,7 +1877,7 @@ assert.equal(value, 'amount');
 
 #### --cmd--
 
-## 79
+## 80
 
 ### --description--
 
@@ -1885,7 +1897,7 @@ assert.match(fileContents, /const\s*transactions\s*=\s*\[\s*newTransaction\s*\]\
 
 #### --cmd--
 
-## 80
+## 81
 
 ### --description--
 
@@ -1905,7 +1917,7 @@ assert.match(fileContents, /writeTransactions\s*\(\s*transactions\s*\)\s*;?\s*$/
 
 #### --cmd--
 
-## 81
+## 82
 
 ### --description--
 
@@ -1934,7 +1946,7 @@ assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 
 #### --cmd--
 
-## 82
+## 83
 
 ### --description--
 
@@ -1963,7 +1975,7 @@ assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 
 #### --cmd--
 
-## 83
+## 84
 
 ### --description--
 
@@ -1983,7 +1995,7 @@ assert.isFunction(getTransactions);
 
 #### --cmd--
 
-## 84
+## 85
 
 ### --description--
 
@@ -2003,7 +2015,7 @@ assert.match(getTransactions.toString(), /const\s+transactionsFile\s*=\s*readFil
 
 #### --cmd--
 
-## 85
+## 86
 
 ### --description--
 
@@ -2023,7 +2035,7 @@ assert.match(getTransactions.toString(), /const\s+transactions\s*=\s*JSON\s*\.\s
 
 #### --cmd--
 
-## 86
+## 87
 
 ### --description--
 
@@ -2043,7 +2055,7 @@ assert.match(getTransactions.toString(), /return\s+transactions\s*;?\s*}\s*$/);
 
 #### --cmd--
 
-## 87
+## 88
 
 ### --description--
 
@@ -2057,25 +2069,6 @@ You should import `getTransactions` at the top of your `add-transaction.js` file
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-transaction.js');
 assert.match(fileContents, /^\s*import\s*{\s*(writeTransactions\s*,\s*getTransactions|getTransactions\s*,\s*writeTransactions)\s*}\s*from\s*('|")\.\/blockchain-helpers\.js\2\s*;?/);
-```
-
-### --seed--
-
-#### --cmd--
-
-## 88
-
-### --description--
-
-Remove this step
-
-### --tests--
-
-Remove
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(true);
 ```
 
 ### --seed--
