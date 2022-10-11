@@ -240,7 +240,7 @@ async function controlWrapper(cb, { timeout = 10000, stepSize = 250 }) {
 }
 
 async function parseJs(jsString) {
-  return acornParse(jsString, {ecmaVersion: 2020});
+  return acornParse(jsString, { ecmaVersion: 2020, sourceType: 'module' });
 }
 
 const logoverHelp = new Logger({ level: 'debug' });
