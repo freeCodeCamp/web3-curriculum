@@ -35,7 +35,7 @@ assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 
 ### --description--
 
-You will be creating a blockchain from scratch using JavaScript. Use the `touch` command in the terminal to create an `init-blockchain.js` file. This will used to initialize your blockchain.
+You will be creating a blockchain from scratch using JavaScript. Use the `touch` command in the terminal to create an `init-blockchain.js` file. This will be used to initialize your blockchain.
 
 ### --tests--
 
@@ -52,7 +52,7 @@ You should use `touch init-blockchain.js` in the terminal to create the file
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'touch init-blockchain.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'touch init-blockchain.js');
 ```
 
 ### --seed--
@@ -172,7 +172,7 @@ You should run `node init-blockchain.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node init-blockchain.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node init-blockchain.js');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -209,7 +209,7 @@ You should use `touch blockchain-helpers.js` in the terminal to create the file
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'touch blockchain-helpers.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'touch blockchain-helpers.js');
 ```
 
 ### --seed--
@@ -385,7 +385,7 @@ You should run `node init-blockchain.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node init-blockchain.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node init-blockchain.js');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -484,7 +484,7 @@ assert.match(getBlockchain.toString(), /const\s+blockchainFile\s*=\s*readFileSyn
 
 ### --description--
 
-Below that, create a `const blockchain` variable and parse `blockchainFile` into JSON.
+Your variable is a string. Below it, create a `const blockchain` variable and parse `blockchainFile` into JSON.
 
 ### --tests--
 
@@ -541,7 +541,7 @@ You should use `touch add-block.js` in the terminal to create the file
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'touch add-block.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'touch add-block.js');
 ```
 
 ### --seed--
@@ -621,7 +621,7 @@ You should run `node add-block.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node add-block.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-block.js');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -721,7 +721,7 @@ assert.match(fileContents, /const\s+newBlock\s*=\s*{\s*(|'|")hash\1\s*:\s*Math\s
 
 ### --description--
 
-Below your `newBlock` and above the log, push the new block to your blockchain.
+Below your `newBlock` variable, push the new block to your blockchain array.
 
 ### --tests--
 
@@ -770,7 +770,7 @@ You should run `node add-block.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node add-block.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-block.js');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -786,7 +786,10 @@ The terminal output should include your blockchain with two blocks
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('add-block.js');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /^[\s\S]*previousHash[\s\S]*previousHash[\s\S]*$/);
 ```
 
 ### --seed--
@@ -797,7 +800,7 @@ assert(false);
 
 ### --description--
 
-You have successfully added a second block to your blockchain, but the data is not being saved. Import your `writeBlockchain` function at the top of your `add-block.js` file next to the other import so you can write it to the file.
+You have successfully added a second block to your blockchain, but the data is not being saved. Import your `writeBlockchain` function at the top of your `add-block.js` file, next to the other import, so you can write it to the file.
 
 ### --tests--
 
@@ -866,7 +869,7 @@ You should run `node add-block.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node add-block.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-block.js');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -878,7 +881,7 @@ const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 ```
 
-You should have two blocks in your `blockchain.json` file
+Your `blockchain.json` file should be an array with two blocks (objects) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -895,7 +898,7 @@ assert.lengthOf(fileContents, 2);
 
 ### --description--
 
-Add two more blocks to your blockchain.
+Your second block was added. Add two more with the same command.
 
 ### --tests--
 
@@ -904,7 +907,7 @@ You should run `node add-block.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node add-block.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-block.js');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -916,7 +919,7 @@ const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 ```
 
-You should have four blocks in your `blockchain.json` file
+Your `blockchain.json` file should be an array with four blocks (objects) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -993,7 +996,7 @@ assert.match(isValidChain.toString(), /for\s*\(let\s+i\s*=\s*1\s*;\s*i\s*<\s*blo
 
 ### --description--
 
-On each block, you need to make sure the `previousHash` is matches the block before it. Add a `const previousBlock` variable in your for loop that is set to the block before the current one in the loop (`blockchain[i - 1]`).
+On each block, you need to make sure the `previousHash` matches the `hash` of the block before it. Add a `const previousBlock` variable in your for loop that is set to the block before the current one in the loop (`blockchain[i - 1]`).
 
 ### --tests--
 
@@ -1013,7 +1016,7 @@ assert.match(isValidChain.toString(), /[\s\S]*for[\s\S]*{\s*const\s+previousBloc
 
 ### --description--
 
-You should be able to get the `hash` of the previous block using that. Create a new `const` that destructs `previousHash` from the current block in the loop.
+You can get the `hash` of the previous block using that. Create a new `const` that destructs `previousHash` from the current block in the loop (`blockchain[i]`) so you can see if it matches that hash.
 
 ### --tests--
 
@@ -1033,7 +1036,7 @@ assert.match(isValidChain.toString(), /[\s\S]*for[\s\S]*{[\s\S]*const\s*{\s*prev
 
 ### --description--
 
-Add an empty `if` condition that checks if the `previousHash` is not strictly equal to the `hash` of the previous block.
+Add an empty `if` condition that checks if the `previousHash` is not equal to the `hash` of the previous block.
 
 ### --tests--
 
@@ -1110,7 +1113,7 @@ You should use `touch validate-chain.js` in the terminal to create the file
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'touch validate-chain.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'touch validate-chain.js');
 ```
 
 ### --seed--
@@ -1192,7 +1195,7 @@ You should run `node validate-chain.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node validate-chain.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -1202,6 +1205,16 @@ await new Promise(res => setTimeout(res, 1000));
 const cwdFile = await __helpers.getCWD();
 const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
+```
+
+The terminal output should log `Chain is valid`
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('validate-chain.js');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /Chain is valid/);
 ```
 
 ### --seed--
@@ -1225,6 +1238,15 @@ assert.isArray(fileContents);
 assert.include(fileContents[0], { hash: "1" });
 ```
 
+You should still have four blocks in your `blockchain.json` file
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 4);
+```
+
 ### --seed--
 
 #### --cmd--
@@ -1242,7 +1264,7 @@ You should run `node validate-chain.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node validate-chain.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -1254,6 +1276,16 @@ const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 ```
 
+The terminal output should log `Chain is not valid`
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('validate-chain.js');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /Chain is not valid/);
+```
+
 ### --seed--
 
 #### --cmd--
@@ -1262,7 +1294,7 @@ assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 
 ### --description--
 
-Since you manually changed the `hash` of a block, the `previousHash` property doesn't match it anymore, making your chain invalid. Change the `hash` of your genesis block back to `0`.
+Since you manually changed the `hash` of a block, the `previousHash` property doesn't match it anymore, making your chain invalid. Each block needs to properly link to the block before to have a valid chain. Change the `hash` of your genesis block back to `0`.
 
 ### --tests--
 
@@ -1273,6 +1305,15 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/blockchain.json');
 assert.isArray(fileContents);
 assert.include(fileContents[0], { hash: "0" });
+```
+
+You should still have four blocks in your `blockchain.json` file
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 4);
 ```
 
 ### --seed--
@@ -1292,7 +1333,7 @@ You should run `node validate-chain.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node validate-chain.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -1304,6 +1345,16 @@ const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 ```
 
+The terminal output should log `Chain is valid`
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('validate-chain.js');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /Chain is valid/);
+```
+
 ### --seed--
 
 #### --cmd--
@@ -1312,7 +1363,7 @@ assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 
 ### --description--
 
-Okay, your chain is valid again. Back in `add-block.js`, add a `data` property to your `newBlock`. This will be for adding transaction information to a block.
+Okay, your chain is valid again, but all it does is keep track of the some `hash` and `previousHash` values. Back in `add-block.js`, add a `data` property to your `newBlock`. This will be for adding transaction information to a block.
 
 
 ### --tests--
@@ -1341,7 +1392,7 @@ In the `data` object, add a `fromAddress` property equal to `process.argv[2]`. T
 
 ### --tests--
 
-You should have `fromAddress: process.argv[2]` in your `data` object
+You should have `"fromAddress": process.argv[2]` in your `data` object
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1361,7 +1412,7 @@ Add a `toAddress` property to the object that is the next command line argument,
 
 ### --tests--
 
-You should have a `toAddress: process.argv[3]` property at the bottom of your `data` object
+You should have a `"toAddress": process.argv[3]` property at the bottom of your `data` object
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1381,7 +1432,7 @@ Lastly, add an `amount` to the object. Make it the next command line argument, b
 
 ### --tests--
 
-You should have a `amount: parseInt(process.argv[4])` property at the bottom of your `data` object
+You should have a `"amount": parseInt(process.argv[4])` property at the bottom of your `data` object
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1437,7 +1488,7 @@ assert.match(fileContents, /^\s*console\s*\.\s*log\s*\(\s*blockchain\s*\)\s*;?\s
 
 ### --description--
 
-Run your `add-block.js` file, give it three arguments, `Me`, `You`, and `10`. 
+Run your `add-block.js` file, give it three arguments, `Me`, `You`, and `10` to add a transaction from `Me` to `You`. 
 
 ### --tests--
 
@@ -1446,7 +1497,7 @@ You should run `node add-block.js Me You 10` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node add-block.js Me You 10');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-block.js Me You 10');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -1456,6 +1507,17 @@ await new Promise(res => setTimeout(res, 1000));
 const cwdFile = await __helpers.getCWD();
 const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
+```
+
+Your terminal output should include a block with your `data` object
+
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('validate-chain.js');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /data/);
 ```
 
 ### --seed--
@@ -1506,7 +1568,7 @@ assert.match(fileContents, /^\s*writeBlockchain\s*\(\s*blockchain\s*\)\s*;?\s*$/
 
 ### --description--
 
-Run the command add the block again, give it the same three arguments.
+Open your `blockchain.json` file so you can see it. Then, run the command to add the block again, give it the same three arguments.
 
 ### --tests--
 
@@ -1515,7 +1577,7 @@ You should run `node add-block.js Me You 10` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node add-block.js Me You 10');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-block.js Me You 10');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -1527,13 +1589,23 @@ const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 ```
 
-Your `blockchain.json` file should have five objects in it
+Your `blockchain.json` file should be an array with five blocks (objects) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/blockchain.json');
 assert.isArray(fileContents);
 assert.lengthOf(fileContents, 5);
+```
+
+The fifth block should have a `data` object with the correct transaction
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/blockchain.json');
+assert.equal(fileContents[4]?.data?.fromAddress, 'Me');
+assert.equal(fileContents[4]?.data?.toAddress, 'You');
+assert.equal(fileContents[4]?.data?.amount, 10);
 ```
 
 ### --seed--
@@ -1553,7 +1625,7 @@ You should run `node add-block.js Me You 20` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node add-block.js Me You 20');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-block.js Me You 20');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -1565,13 +1637,23 @@ const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 ```
 
-Your `blockchain.json` file should have six objects in it
+Your `blockchain.json` file should be an array with six blocks (objects) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/blockchain.json');
 assert.isArray(fileContents);
 assert.lengthOf(fileContents, 6);
+```
+
+The sixth block should have a `data` object with the correct transaction
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/blockchain.json');
+assert.equal(fileContents[5]?.data?.fromAddress, 'Me');
+assert.equal(fileContents[5]?.data?.toAddress, 'You');
+assert.equal(fileContents[5]?.data?.amount, 20);
 ```
 
 ### --seed--
@@ -1591,7 +1673,7 @@ You should run `node add-block.js Me You 30` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node add-block.js Me You 30');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-block.js Me You 30');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -1603,13 +1685,23 @@ const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 ```
 
-Your `blockchain.json` file should have seven objects in it
+Your `blockchain.json` file should be an array with seven blocks (objects) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/blockchain.json');
 assert.isArray(fileContents);
 assert.lengthOf(fileContents, 7);
+```
+
+The seventh block should have a `data` object with the correct transaction
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/blockchain.json');
+assert.equal(fileContents[6]?.data?.fromAddress, 'Me');
+assert.equal(fileContents[6]?.data?.toAddress, 'You');
+assert.equal(fileContents[6]?.data?.amount, 30);
 ```
 
 ### --seed--
@@ -1629,7 +1721,7 @@ You should run `node validate-chain.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node validate-chain.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -1639,6 +1731,16 @@ await new Promise(res => setTimeout(res, 1000));
 const cwdFile = await __helpers.getCWD();
 const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
+```
+
+The terminal output should log `Chain is valid`
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('validate-chain.js');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /Chain is valid/);
 ```
 
 ### --seed--
@@ -1691,7 +1793,7 @@ assert.match(writeTransactions.toString(), /{\s*const\s+transactionsString\s*=\s
 
 ### --description--
 
-Use `writeFileSync` in the function to write that string to `transactions.json`.
+Next, use `writeFileSync` in the function to write that string to `transactions.json`.
 
 ### --tests--
 
@@ -1728,7 +1830,7 @@ You should use `touch add-transaction.js` in the terminal to create the file
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'touch add-transaction.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'touch add-transaction.js');
 ```
 
 ### --seed--
@@ -1901,7 +2003,7 @@ assert.match(fileContents, /const\s*transactions\s*=\s*\[\s*newTransaction\s*\]\
 
 ### --description--
 
-Use your `writeTransactions` function to write the transactions to the `transactions.json` file.
+Below that, use your `writeTransactions` function to write the transactions to the `transactions.json` file.
 
 ### --tests--
 
@@ -1921,7 +2023,7 @@ assert.match(fileContents, /writeTransactions\s*\(\s*transactions\s*\)\s*;?\s*$/
 
 ### --description--
 
-Run your `add-transaction.js` file in the terminal and give it `You`, `Me`, and `5` as command line arguments.
+Run your `add-transaction.js` file in the terminal and give it `You`, `Me`, and `5` as command line arguments to add a transaction from `You` to `Me`.
 
 ### --tests--
 
@@ -1930,7 +2032,7 @@ You should run `node add-transaction.js You Me 5` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node add-transaction.js You Me 5');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js You Me 5');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -1940,6 +2042,25 @@ await new Promise(res => setTimeout(res, 1000));
 const cwdFile = await __helpers.getCWD();
 const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
+```
+
+Your `transactions.json` file should be an array with one transaction (object) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
+```
+
+The transaction should have the correct three properties and values
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/transactions.json');
+assert.equal(fileContents[0]?.fromAddress, 'You');
+assert.equal(fileContents[0]?.toAddress, 'Me');
+assert.equal(fileContents[0]?.amount, 5);
 ```
 
 ### --seed--
@@ -1959,7 +2080,7 @@ You should run `node add-transaction.js You Me 15` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node add-transaction.js You Me 15');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js You Me 15');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -1969,6 +2090,25 @@ await new Promise(res => setTimeout(res, 1000));
 const cwdFile = await __helpers.getCWD();
 const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
+```
+
+Your `transactions.json` file should be an array with one transaction (object) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
+```
+
+The transaction should have the correct three properties and values
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/transactions.json');
+assert.equal(fileContents[0]?.fromAddress, 'You');
+assert.equal(fileContents[0]?.toAddress, 'Me');
+assert.equal(fileContents[0]?.amount, 15);
 ```
 
 ### --seed--
@@ -2059,7 +2199,7 @@ assert.match(getTransactions.toString(), /return\s+transactions\s*;?\s*}\s*$/);
 
 ### --description--
 
-Back in the `add-transaction.js` file, add your new function to the imports at the top with the rest of the imports.
+Back in the `add-transaction.js` file, add your new function to the imports at the top with the other import.
 
 ### --tests--
 
@@ -2119,7 +2259,7 @@ assert.match(fileContents, /transactions\s*\.\s*push\s*\(\s*newTransaction\s*\)\
 
 ### --description--
 
-Now the transactions should accumulate in the file. Add a new transactions using the command line. Send `25` tokens from `You` to `Me`.
+Now the transactions should accumulate. Open the `transactions.json` file so you can see it. Then, add a new transaction using the command line. Send `25` tokens from `You` to `Me`.
 
 ### --tests--
 
@@ -2128,7 +2268,7 @@ You should run `node add-transaction.js You Me 25` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node add-transaction.js You Me 25');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js You Me 25');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -2138,6 +2278,25 @@ await new Promise(res => setTimeout(res, 1000));
 const cwdFile = await __helpers.getCWD();
 const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
+```
+
+Your `transactions.json` file should be an array with two transactions (objects) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 2);
+```
+
+The second transaction should have the correct three properties and values
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/transactions.json');
+assert.equal(fileContents[1]?.fromAddress, 'You');
+assert.equal(fileContents[1]?.toAddress, 'Me');
+assert.equal(fileContents[1]?.amount, 25);
 ```
 
 ### --seed--
@@ -2157,7 +2316,7 @@ You should run `node add-transaction.js You Me 35` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node add-transaction.js You Me 35');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js You Me 35');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -2167,6 +2326,25 @@ await new Promise(res => setTimeout(res, 1000));
 const cwdFile = await __helpers.getCWD();
 const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
+```
+
+Your `transactions.json` file should be an array with three transactions (objects) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 3);
+```
+
+The third transaction should have the correct three properties and values
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/transactions.json');
+assert.equal(fileContents[2]?.fromAddress, 'You');
+assert.equal(fileContents[2]?.toAddress, 'Me');
+assert.equal(fileContents[2]?.amount, 35);
 ```
 
 ### --seed--
@@ -2305,7 +2483,7 @@ assert.match(fileContents, /writeTransactions\s*\(\s*\[\s*\]\s*\)\s*;?\s*$/);
 
 ### --description--
 
-Run your `add-blocks.js` with no arguments to add a new block.
+Open your `blockchain.json` file. Then, run your `add-blocks.js` file with no arguments to add a new block.
 
 ### --tests--
 
@@ -2314,7 +2492,7 @@ You should run `node add-block.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node add-block.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-block.js');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -2326,11 +2504,31 @@ const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 ```
 
-You should have X number of blocks in your blockchain
+Your `blockchain.json` should be an array with eight blocks (objects) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 8);
+```
+
+The eighth block should have a `transactions` array with three transactions (objects) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/blockchain.json');
+assert.isArray(fileContents[7]?.transactions);
+assert.lengthOf(fileContents[7]?.transactions, 3);
+```
+
+Your `transactions.json` file should be an empty array
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 0);
 ```
 
 ### --seed--
@@ -2341,7 +2539,7 @@ assert(false);
 
 ### --description--
 
-The new block was added with all the transactions. Add a new transaction that sends `2` tokens from `Me` to `You`. Remember that the from address is the first command line argument.
+The new block was added with all the transactions. Open your `transactions.json` file, all the transactions waiting in the pool were added to that block and the pool is empty. Add a new transaction that sends `2` tokens from `Me` to `You`. Remember that the from address is the first command line argument.
 
 ### --tests--
 
@@ -2350,7 +2548,7 @@ You should run `node add-transaction.js Me You 2` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node add-transaction.js Me You 2');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js Me You 2');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -2360,6 +2558,25 @@ await new Promise(res => setTimeout(res, 1000));
 const cwdFile = await __helpers.getCWD();
 const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
+```
+
+Your `transactions.json` file should be an array with one transaction (object) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
+```
+
+The transaction should have the correct three properties and values
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/transactions.json');
+assert.equal(fileContents[0]?.fromAddress, 'Me');
+assert.equal(fileContents[0]?.toAddress, 'You');
+assert.equal(fileContents[0]?.amount, 2);
 ```
 
 ### --seed--
@@ -2379,7 +2596,7 @@ You should run `node add-transaction.js Me You 4` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert(lastCommand.trim(), 'node add-transaction.js Me You 4');
+assert(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js Me You 4');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -2389,6 +2606,25 @@ await new Promise(res => setTimeout(res, 1000));
 const cwdFile = await __helpers.getCWD();
 const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
+```
+
+Your `transactions.json` file should be an array with two transactions (objects) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 2);
+```
+
+The second transaction should have the correct three properties and values
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/transactions.json');
+assert.equal(fileContents[1]?.fromAddress, 'Me');
+assert.equal(fileContents[1]?.toAddress, 'You');
+assert.equal(fileContents[1]?.amount, 4);
 ```
 
 ### --seed--
@@ -2408,7 +2644,7 @@ You should run `node add-transaction.js Me You 6` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node add-transaction.js Me You 6');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js Me You 6');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -2418,6 +2654,25 @@ await new Promise(res => setTimeout(res, 1000));
 const cwdFile = await __helpers.getCWD();
 const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
+```
+
+Your `transactions.json` file should be an array with three transactions (objects) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 3);
+```
+
+The third transaction should have the correct three properties and values
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/transactions.json');
+assert.equal(fileContents[2]?.fromAddress, 'Me');
+assert.equal(fileContents[2]?.toAddress, 'You');
+assert.equal(fileContents[2]?.amount, 6);
 ```
 
 ### --seed--
@@ -2428,7 +2683,7 @@ assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 
 ### --description--
 
-Add a new block.
+You have three transactions waiting. Open your `blockchain.json` and add a new block.
 
 ### --tests--
 
@@ -2437,7 +2692,7 @@ You should run `node add-block.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.trim(), 'node add-block.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-block.js');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -2447,6 +2702,33 @@ await new Promise(res => setTimeout(res, 1000));
 const cwdFile = await __helpers.getCWD();
 const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
+```
+
+Your `blockchain.json` should be an array with nine blocks (objects) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 9);
+```
+
+The ninth block should have a `transactions` array with three transactions (objects) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/blockchain.json');
+assert.isArray(fileContents[8]?.transactions);
+assert.lengthOf(fileContents[8]?.transactions, 3);
+```
+
+Your `transactions.json` file should be an empty array
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-building-a-blockchain/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 0);
 ```
 
 ### --seed--
@@ -2457,7 +2739,7 @@ assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 
 ### --description--
 
-TASK: This is the last step. Validate your chain one more time. When you are done, feel free to add some more transactions and blocks with your commands.
+This is the last step. Validate your chain one more time. When you are done, feel free to add some more transactions and blocks with your commands.
 
 ### --tests--
 
@@ -2466,7 +2748,7 @@ You should run `node validate-chain.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert(lastCommand.trim(), 'node validate-chain.js');
+assert(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
 ```
 
 You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
@@ -2476,6 +2758,16 @@ await new Promise(res => setTimeout(res, 1000));
 const cwdFile = await __helpers.getCWD();
 const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
+```
+
+The terminal output should log `Chain is valid`
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('validate-chain.js');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /Chain is valid/);
 ```
 
 ### --seed--
