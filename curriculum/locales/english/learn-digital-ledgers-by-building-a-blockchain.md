@@ -27,10 +27,6 @@ const cwd = cwdFile.split('\n').filter(Boolean).pop();
 assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 ```
 
-### --seed--
-
-#### --cmd--
-
 ## 2
 
 ### --description--
@@ -55,10 +51,6 @@ const lastCommand = await __helpers.getLastCommand();
 assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'touch init-blockchain.js');
 ```
 
-### --seed--
-
-#### --cmd--
-
 ## 3
 
 ### --description--
@@ -77,7 +69,11 @@ assert.match(fileContents, /^\s*const\s+genesisBlock\s*=\s*{\s*}\s*;?\s*$/);
 
 ### --seed--
 
-#### --cmd--
+#### --"init-blockchain.js"--
+
+```js
+
+```
 
 ## 4
 
@@ -87,7 +83,7 @@ This object will be the first block in your blockchain, also known as the genesi
 
 ### --tests--
 
-You should have a `hash: "0"` property in your `genesisBlock` object
+You should have a `"hash": "0"` property in your `genesisBlock` object
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -97,7 +93,13 @@ assert.match(fileContents, /^\s*const\s+genesisBlock\s*=\s*{\s*(|'|")hash\1\s*:\
 
 ### --seed--
 
-#### --cmd--
+#### --"init-blockchain.js"--
+
+```js
+const genesisBlock = {
+
+}
+```
 
 ## 5
 
@@ -107,7 +109,7 @@ Each block also has a `previousHash` property that is the `hash` of block before
 
 ### --tests--
 
-You should have a `previousHash: null` property at the bottom of your `genesisBlock` object
+You should have a `"previousHash": null` property at the bottom of your `genesisBlock` object
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -117,7 +119,13 @@ assert.match(fileContents, /^\s*const\s+genesisBlock\s*=\s*{\s*(|'|")hash\1\s*:\
 
 ### --seed--
 
-#### --cmd--
+#### --"init-blockchain.js"--
+
+```js
+const genesisBlock = {
+  "hash": "0"
+}
+```
 
 ## 6
 
@@ -137,7 +145,14 @@ assert.match(fileContents, /const\s+blockchain\s*=\s*\[\s*genesisBlock\s*\]\s*;?
 
 ### --seed--
 
-#### --cmd--
+#### --"init-blockchain.js"--
+
+```js
+const genesisBlock = {
+  "hash": "0",
+  "previousHash": null
+}
+```
 
 ## 7
 
@@ -157,7 +172,16 @@ assert.match(fileContents, /console\s*\.\s*log\s*\(\s*blockchain\s*\)\s*;?\s*$/)
 
 ### --seed--
 
-#### --cmd--
+#### --"init-blockchain.js"--
+
+```js
+const genesisBlock = {
+  "hash": "0",
+  "previousHash": null
+}
+
+const blockchain = [genesisBlock];
+```
 
 ## 8
 
@@ -186,7 +210,17 @@ assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 
 ### --seed--
 
-#### --cmd--
+#### --"init-blockchain.js"--
+
+```js
+const genesisBlock = {
+  "hash": "0",
+  "previousHash": null
+}
+
+const blockchain = [genesisBlock];
+console.log(blockchain);
+```
 
 ## 9
 
@@ -212,10 +246,6 @@ const lastCommand = await __helpers.getLastCommand();
 assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'touch blockchain-helpers.js');
 ```
 
-### --seed--
-
-#### --cmd--
-
 ## 10
 
 ### --description--
@@ -234,7 +264,11 @@ assert.match(fileContents, /^\s*import\s*{\s*writeFileSync\s*}\s*from\s*('|")fs\
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+
+```
 
 ## 11
 
@@ -262,7 +296,11 @@ assert.match(fileContents, /export\s*function\s*writeBlockchain\s*\(\s*blockchai
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync } from 'fs';
+```
 
 ## 12
 
@@ -282,7 +320,15 @@ assert.match(writeBlockchain.toString(), /{\s*const\s+blockchainString\s*=\s*JSO
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+
+}
+```
 
 ## 13
 
@@ -302,7 +348,15 @@ assert.match(writeBlockchain.toString(), /writeFileSync\s*\(('|")\.\/blockchain\
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+}
+```
 
 ## 14
 
@@ -322,7 +376,16 @@ assert.match(fileContents, /^import\s*{\s*writeBlockchain\s*}\s*from\s*("|')\.\/
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+```
 
 ## 15
 
@@ -342,7 +405,19 @@ assert.match(fileContents, /writeBlockchain\s*\(\s*blockchain\s*\)\s*;?\s*$/);
 
 ### --seed--
 
-#### --cmd--
+#### --"init-blockchain.js"--
+
+```js
+import { writeBlockchain } from './blockchain-helpers.js';
+
+const genesisBlock = {
+  "hash": "0",
+  "previousHash": null
+}
+
+const blockchain = [genesisBlock];
+console.log(blockchain);
+```
 
 ## 16
 
@@ -370,7 +445,20 @@ assert.match(fileContents, /const\s+blockchain\s*=\s*\[\s*genesisBlock\s*\]\s*;?
 
 ### --seed--
 
-#### --cmd--
+#### --"init-blockchain.js"--
+
+```js
+import { writeBlockchain } from './blockchain-helpers.js';
+
+const genesisBlock = {
+  "hash": "0",
+  "previousHash": null
+}
+
+const blockchain = [genesisBlock];
+console.log(blockchain);
+writeBlockchain(blockchain);
+```
 
 ## 17
 
@@ -416,7 +504,19 @@ assert.include(fileContents[0], { hash: "0", previousHash: null });
 
 ### --seed--
 
-#### --cmd--
+#### --"init-blockchain.js"--
+
+```js
+import { writeBlockchain } from './blockchain-helpers.js';
+
+const genesisBlock = {
+  "hash": "0",
+  "previousHash": null
+}
+
+const blockchain = [genesisBlock];
+writeBlockchain(blockchain);
+```
 
 ## 18
 
@@ -438,7 +538,16 @@ assert.match(fileContents, /^\s*import\s*{\s*(writeFileSync\s*,\s*readFileSync|r
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain.json"--
+
+```js
+[
+  {
+    "hash": "0",
+    "previousHash": null
+  }
+]
+```
 
 ## 19
 
@@ -458,7 +567,16 @@ assert.isFunction(getBlockchain);
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+```
 
 ## 20
 
@@ -478,7 +596,20 @@ assert.match(getBlockchain.toString(), /const\s+blockchainFile\s*=\s*readFileSyn
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+
+}
+```
 
 ## 21
 
@@ -498,7 +629,20 @@ assert.match(getBlockchain.toString(), /const\s+blockchain\s*=\s*JSON\s*\.\s*par
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+}
+```
 
 ## 22
 
@@ -518,7 +662,21 @@ assert.match(getBlockchain.toString(), /return\s+blockchain\s*;?\s*}\s*;?\s*$/);
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+}
+```
 
 ## 23
 
@@ -546,7 +704,22 @@ assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'touch add-block.js');
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+```
 
 ## 24
 
@@ -566,7 +739,11 @@ assert.match(fileContents, /^import\s*{\s*getBlockchain\s*}\s*from\s*("|')\.\/bl
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+
+```
 
 ## 25
 
@@ -586,7 +763,11 @@ assert.match(fileContents, /const\s+blockchain\s*=\s*getBlockchain\s*\(\s*\)\s*;
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain } from './blockchain-helpers.js';
+```
 
 ## 26
 
@@ -606,7 +787,13 @@ assert.match(fileContents, /console\s*\.\s*log\s*\(\s*blockchain\s*\)\s*;?\s*$/)
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+```
 
 ## 27
 
@@ -635,7 +822,14 @@ assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+console.log(blockchain);
+```
 
 ## 28
 
@@ -652,10 +846,6 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
 assert.match(fileContents, /const\s+newBlock\s*=\s*{\s*}\s*;?\s*$/);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 29
 
@@ -675,7 +865,18 @@ assert.match(fileContents, /const\s+newBlock\s*=\s*{\s*(|'|")hash\1\s*:\s*Math\s
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+console.log(blockchain);
+
+const newBlock = {
+
+}
+```
 
 ## 30
 
@@ -695,7 +896,18 @@ assert.match(fileContents, /const\s+previousBlock\s*=\s*blockchain\s*\[\s*blockc
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+console.log(blockchain);
+
+const newBlock = {
+  "hash": Math.random().toString()
+}
+```
 
 ## 31
 
@@ -715,7 +927,20 @@ assert.match(fileContents, /const\s+newBlock\s*=\s*{\s*(|'|")hash\1\s*:\s*Math\s
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+
+console.log(blockchain);
+
+const newBlock = {
+  "hash": Math.random().toString()
+}
+```
 
 ## 32
 
@@ -735,7 +960,21 @@ assert.match(fileContents, /blockchain\s*\.\s*push\s*\(\s*newBlock\s*\)\s*;?\s*$
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+
+console.log(blockchain);
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash
+}
+```
 
 ## 33
 
@@ -755,7 +994,22 @@ assert.match(fileContents, /console\s*\.\s*log\s*\(\s*blockchain\s*\)\s*;?\s*$/)
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+console.log(blockchain);
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash
+}
+
+blockchain.push(newBlock);
+```
 
 ## 34
 
@@ -794,7 +1048,22 @@ assert.match(lastOutput, /^[\s\S]*previousHash[\s\S]*previousHash[\s\S]*$/);
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash
+}
+
+blockchain.push(newBlock);
+console.log(blockchain);
+```
 
 ## 35
 
@@ -811,10 +1080,6 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
 assert.match(fileContents, /^\s*import\s*{\s*(getBlockchain\s*,\s*writeBlockchain|writeBlockchain\s*,\s*getBlockchain)\s*}\s*from\s*('|")\.\/blockchain-helpers\.js\2\s*;?/);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 36
 
@@ -834,7 +1099,22 @@ assert.match(fileContents, /writeBlockchain\s*\(\s*blockchain\s*\)\s*;?\s*$/);
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain, writeBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash
+}
+
+blockchain.push(newBlock);
+console.log(blockchain);
+```
 
 ## 37
 
@@ -854,7 +1134,23 @@ assert.match(fileContents, /\/\/[ \t]*console\s*\.\s*log\s*\(\s*blockchain\s*\)/
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain, writeBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash
+}
+
+blockchain.push(newBlock);
+console.log(blockchain);
+writeBlockchain(blockchain);
+```
 
 ## 38
 
@@ -892,13 +1188,29 @@ assert.lengthOf(fileContents, 2);
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain, writeBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash
+}
+
+blockchain.push(newBlock);
+// console.log(blockchain);
+writeBlockchain(blockchain);
+```
 
 ## 39
 
 ### --description--
 
-Your second block was added. Add two more with the same command.
+Your second block was added. Add two more by running the same command two more times.
 
 ### --tests--
 
@@ -930,7 +1242,20 @@ assert.lengthOf(fileContents, 4);
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain.json"--
+
+```js
+[
+  {
+    "hash": "0",
+    "previousHash": null
+  },
+  {
+    "hash": "0.45062045106488546",
+    "previousHash": "0"
+  }
+]
+```
 
 ## 40
 
@@ -950,7 +1275,28 @@ assert.isFunction(isValidChain);
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain.json"--
+
+```js
+[
+  {
+    "hash": "0",
+    "previousHash": null
+  },
+  {
+    "hash": "0.45062045106488546",
+    "previousHash": "0"
+  },
+  {
+    "hash": "0.16111842235772156",
+    "previousHash": "0.45062045106488546"
+  },
+  {
+    "hash": "0.8158006630142653",
+    "previousHash": "0.16111842235772156"
+  }
+]
+```
 
 ## 41
 
@@ -970,7 +1316,26 @@ assert.match(isValidChain.toString(), /const\s+blockchain\s*=\s*getBlockchain\s*
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+
+}
+```
 
 ## 42
 
@@ -990,7 +1355,26 @@ assert.match(isValidChain.toString(), /for\s*\(let\s+i\s*=\s*1\s*;\s*i\s*<\s*blo
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+}
+```
 
 ## 43
 
@@ -1010,7 +1394,30 @@ assert.match(isValidChain.toString(), /[\s\S]*for[\s\S]*{\s*const\s+previousBloc
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  for (let i = 1; i < blockchain.length; i++) {
+
+  }
+}
+```
 
 ## 44
 
@@ -1030,7 +1437,30 @@ assert.match(isValidChain.toString(), /[\s\S]*for[\s\S]*{[\s\S]*const\s*{\s*prev
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+  }
+}
+```
 
 ## 45
 
@@ -1050,7 +1480,31 @@ assert.match(isValidChain.toString(), /[\s\S]*for[\s\S]*{[\s\S]*if\s*\(\s*previo
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { previousHash } = blockchain[i];
+  }
+}
+```
 
 ## 46
 
@@ -1070,7 +1524,35 @@ assert.match(isValidChain.toString(), /[\s\S]*if[\s\S]*{\s*return\s+false\s*;?\s
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { previousHash } = blockchain[i];
+
+    if (previousHash !== previousBlock.hash) {
+
+    }
+  }
+}
+```
 
 ## 47
 
@@ -1090,7 +1572,35 @@ assert.match(isValidChain.toString(), /return\s+true\s*;?\s*}\s*;?\s*$/);
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { previousHash } = blockchain[i];
+
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+  }
+}
+```
 
 ## 48
 
@@ -1118,14 +1628,43 @@ assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'touch validate-chain.js')
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { previousHash } = blockchain[i];
+
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+  }
+
+  return true;
+}
+```
 
 ## 49
 
 ### --description--
 
 Open your new `validate-chain.js` file and import the `isValidChain` function you just created at the top.
-In `validate-chain.js`...
 
 ### --tests--
 
@@ -1139,7 +1678,11 @@ assert.match(fileContents, /^\s*import\s*{\s*isValidChain\s*}\s*from\s*("|')\.\/
 
 ### --seed--
 
-#### --cmd--
+#### --"validate-chain.js"--
+
+```js
+
+```
 
 ## 50
 
@@ -1159,14 +1702,17 @@ assert.match(fileContents, /if\s*\(\s*isValidChain\s*\(\s*\)\s*\)\s*{\s*console\
 
 ### --seed--
 
-#### --cmd--
+#### --"validate-chain.js"--
+
+```js
+import { isValidChain } from './blockchain-helpers.js';
+```
 
 ## 51
 
 ### --description--
 
 Add an `else` area that logs `Chain is not valid` to the console if the condition is false.
-
 
 ### --tests--
 
@@ -1180,7 +1726,15 @@ assert.match(fileContents, /}\s*else\s*{\s*console\s*\.log\s*\(\s*('|"|`)Chain i
 
 ### --seed--
 
-#### --cmd--
+#### --"validate-chain.js"--
+
+```js
+import { isValidChain } from './blockchain-helpers.js';
+
+if (isValidChain()) {
+  console.log('Chain is valid');
+}
+```
 
 ## 52
 
@@ -1219,7 +1773,17 @@ assert.match(lastOutput, /Chain is valid/);
 
 ### --seed--
 
-#### --cmd--
+#### --"validate-chain.js"--
+
+```js
+import { isValidChain } from './blockchain-helpers.js';
+
+if (isValidChain()) {
+  console.log('Chain is valid');
+} else {
+  console.log('Chain is not valid');
+}
+```
 
 ## 53
 
@@ -1246,10 +1810,6 @@ const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-build
 assert.isArray(fileContents);
 assert.lengthOf(fileContents, 4);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 54
 
@@ -1288,7 +1848,28 @@ assert.match(lastOutput, /Chain is not valid/);
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain.json"--
+
+```js
+[
+  {
+    "hash": "1",
+    "previousHash": null
+  },
+  {
+    "hash": "0.45062045106488546",
+    "previousHash": "0"
+  },
+  {
+    "hash": "0.16111842235772156",
+    "previousHash": "0.45062045106488546"
+  },
+  {
+    "hash": "0.8158006630142653",
+    "previousHash": "0.16111842235772156"
+  }
+]
+```
 
 ## 55
 
@@ -1315,10 +1896,6 @@ const fileContents = await __helpers.getJsonFile('learn-digital-ledgers-by-build
 assert.isArray(fileContents);
 assert.lengthOf(fileContents, 4);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 56
 
@@ -1357,14 +1934,34 @@ assert.match(lastOutput, /Chain is valid/);
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain.json"--
+
+```js
+[
+  {
+    "hash": "0",
+    "previousHash": null
+  },
+  {
+    "hash": "0.45062045106488546",
+    "previousHash": "0"
+  },
+  {
+    "hash": "0.16111842235772156",
+    "previousHash": "0.45062045106488546"
+  },
+  {
+    "hash": "0.8158006630142653",
+    "previousHash": "0.16111842235772156"
+  }
+]
+```
 
 ## 57
 
 ### --description--
 
 Okay, your chain is valid again, but all it does is keep track of the some `hash` and `previousHash` values. Back in `add-block.js`, add a `data` property to your `newBlock`. This will be for adding transaction information to a block.
-
 
 ### --tests--
 
@@ -1379,10 +1976,6 @@ const value = parsed.body[3].declarations[0].init.properties[2].value.type;
 assert.equal(key, 'data');
 assert.equal(value, 'ObjectExpression');
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 58
 
@@ -1402,7 +1995,26 @@ assert.match(fileContents, /newBlock[\s\S]*data[\s\S]*{\s*("|')fromAddress\1\s*:
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain, writeBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash,
+  "data": {
+
+  }
+}
+
+blockchain.push(newBlock);
+// console.log(blockchain);
+writeBlockchain(blockchain);
+```
 
 ## 59
 
@@ -1422,7 +2034,26 @@ assert.match(fileContents, /newBlock[\s\S]*data[\s\S]*{[\s\S]*("|')toAddress\1\s
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain, writeBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash,
+  "data": {
+    "fromAddress": process.argv[2]
+  }
+}
+
+blockchain.push(newBlock);
+// console.log(blockchain);
+writeBlockchain(blockchain);
+```
 
 ## 60
 
@@ -1442,7 +2073,27 @@ assert.match(fileContents, /newBlock[\s\S]*data[\s\S]*{[\s\S]*("|')amount\1\s*:\
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain, writeBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash,
+  "data": {
+    "fromAddress": process.argv[2],
+    "toAddress": process.argv[3]
+  }
+}
+
+blockchain.push(newBlock);
+// console.log(blockchain);
+writeBlockchain(blockchain);
+```
 
 ## 61
 
@@ -1462,7 +2113,28 @@ assert.match(fileContents, /\/\/\s*writeBlockchain\s*\(blockchain\s*\)/);
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain, writeBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash,
+  "data": {
+    "fromAddress": process.argv[2],
+    "toAddress": process.argv[3],
+    "amount": parseInt(process.argv[4])
+  }
+}
+
+blockchain.push(newBlock);
+// console.log(blockchain);
+writeBlockchain(blockchain);
+```
 
 ## 62
 
@@ -1482,7 +2154,28 @@ assert.match(fileContents, /^\s*console\s*\.\s*log\s*\(\s*blockchain\s*\)\s*;?\s
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain, writeBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash,
+  "data": {
+    "fromAddress": process.argv[2],
+    "toAddress": process.argv[3],
+    "amount": parseInt(process.argv[4])
+  }
+}
+
+blockchain.push(newBlock);
+// console.log(blockchain);
+// writeBlockchain(blockchain);
+```
 
 ## 63
 
@@ -1522,7 +2215,28 @@ assert.match(lastOutput, /data/);
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain, writeBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash,
+  "data": {
+    "fromAddress": process.argv[2],
+    "toAddress": process.argv[3],
+    "amount": parseInt(process.argv[4])
+  }
+}
+
+blockchain.push(newBlock);
+console.log(blockchain);
+// writeBlockchain(blockchain);
+```
 
 ## 64
 
@@ -1539,10 +2253,6 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
 assert.notMatch(fileContents, /console/);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 65
 
@@ -1562,7 +2272,27 @@ assert.match(fileContents, /^\s*writeBlockchain\s*\(\s*blockchain\s*\)\s*;?\s*$/
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain, writeBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash,
+  "data": {
+    "fromAddress": process.argv[2],
+    "toAddress": process.argv[3],
+    "amount": parseInt(process.argv[4])
+  }
+}
+
+blockchain.push(newBlock);
+// writeBlockchain(blockchain);
+```
 
 ## 66
 
@@ -1610,7 +2340,27 @@ assert.equal(fileContents[4]?.data?.amount, 10);
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain, writeBlockchain } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash,
+  "data": {
+    "fromAddress": process.argv[2],
+    "toAddress": process.argv[3],
+    "amount": parseInt(process.argv[4])
+  }
+}
+
+blockchain.push(newBlock);
+writeBlockchain(blockchain);
+```
 
 ## 67
 
@@ -1658,7 +2408,37 @@ assert.equal(fileContents[5]?.data?.amount, 20);
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain.json"--
+
+```js
+[
+  {
+    "hash": "0",
+    "previousHash": null
+  },
+  {
+    "hash": "0.45062045106488546",
+    "previousHash": "0"
+  },
+  {
+    "hash": "0.16111842235772156",
+    "previousHash": "0.45062045106488546"
+  },
+  {
+    "hash": "0.8158006630142653",
+    "previousHash": "0.16111842235772156"
+  },
+  {
+    "hash": "0.8955003586769703",
+    "previousHash": "0.8158006630142653",
+    "data": {
+      "fromAddress": "Me",
+      "toAddress": "You",
+      "amount": 10
+    }
+  }
+]
+```
 
 ## 68
 
@@ -1706,7 +2486,46 @@ assert.equal(fileContents[6]?.data?.amount, 30);
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain.json"--
+
+```js
+[
+  {
+    "hash": "0",
+    "previousHash": null
+  },
+  {
+    "hash": "0.45062045106488546",
+    "previousHash": "0"
+  },
+  {
+    "hash": "0.16111842235772156",
+    "previousHash": "0.45062045106488546"
+  },
+  {
+    "hash": "0.8158006630142653",
+    "previousHash": "0.16111842235772156"
+  },
+  {
+    "hash": "0.8955003586769703",
+    "previousHash": "0.8158006630142653",
+    "data": {
+      "fromAddress": "Me",
+      "toAddress": "You",
+      "amount": 10
+    }
+  },
+  {
+    "hash": "0.9583680743350331",
+    "previousHash": "0.8955003586769703",
+    "data": {
+      "fromAddress": "Me",
+      "toAddress": "You",
+      "amount": 20
+    }
+  }
+]
+```
 
 ## 69
 
@@ -1745,7 +2564,55 @@ assert.match(lastOutput, /Chain is valid/);
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain.json"--
+
+```js
+[
+  {
+    "hash": "0",
+    "previousHash": null
+  },
+  {
+    "hash": "0.45062045106488546",
+    "previousHash": "0"
+  },
+  {
+    "hash": "0.16111842235772156",
+    "previousHash": "0.45062045106488546"
+  },
+  {
+    "hash": "0.8158006630142653",
+    "previousHash": "0.16111842235772156"
+  },
+  {
+    "hash": "0.8955003586769703",
+    "previousHash": "0.8158006630142653",
+    "data": {
+      "fromAddress": "Me",
+      "toAddress": "You",
+      "amount": 10
+    }
+  },
+  {
+    "hash": "0.9583680743350331",
+    "previousHash": "0.8955003586769703",
+    "data": {
+      "fromAddress": "Me",
+      "toAddress": "You",
+      "amount": 20
+    }
+  },
+  {
+    "hash": "0.939029301911428",
+    "previousHash": "0.9583680743350331",
+    "data": {
+      "fromAddress": "Me",
+      "toAddress": "You",
+      "amount": 30
+    }
+  }
+]
+```
 
 ## 70
 
@@ -1764,16 +2631,11 @@ assert.isFunction(writeTransactions);
 assert.match(writeTransactions.toString(), /writeTransactions\s*\(\s*transactions\s*\)/);
 ```
 
-### --seed--
-
-#### --cmd--
-
 ## 71
 
 ### --description--
 
 This will be the same as the `writeBlockchain` function, except it will write to a different file. In your new function, create a `const transactionsString` variable. Set the value to a stringified version of the `transaction` argument. Format it using `null` and `2` like you did for the `writeBlockchain` function.
-
 
 ### --tests--
 
@@ -1787,7 +2649,41 @@ assert.match(writeTransactions.toString(), /{\s*const\s+transactionsString\s*=\s
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { previousHash } = blockchain[i];
+
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+
+}
+```
 
 ## 72
 
@@ -1807,7 +2703,41 @@ assert.match(writeTransactions.toString(), /writeFileSync\s*\(('|")\.\/transacti
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { previousHash } = blockchain[i];
+
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+}
+```
 
 ## 73
 
@@ -1835,7 +2765,42 @@ assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'touch add-transaction.js'
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { previousHash } = blockchain[i];
+
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+```
 
 ## 74
 
@@ -1855,7 +2820,11 @@ assert.match(fileContents, /^\s*import\s*{\s*writeTransactions\s*}\s*from\s*("|'
 
 ### --seed--
 
-#### --cmd--
+#### --"add-transaction.js"--
+
+```js
+
+```
 
 ## 75
 
@@ -1875,7 +2844,11 @@ assert.match(fileContents, /const\s*fromAddress\s*=\s*process\s*\.\s*argv\s*\[\s
 
 ### --seed--
 
-#### --cmd--
+#### --"add-transaction.js"--
+
+```js
+import { writeTransactions } from './blockchain-helpers.js';
+```
 
 ## 76
 
@@ -1895,7 +2868,13 @@ assert.match(fileContents, /const\s*toAddress\s*=\s*process\s*\.\s*argv\s*\[\s*3
 
 ### --seed--
 
-#### --cmd--
+#### --"add-transaction.js"--
+
+```js
+import { writeTransactions } from './blockchain-helpers.js';
+
+const fromAddress = process.argv[2];
+```
 
 ## 77
 
@@ -1915,7 +2894,14 @@ assert.match(fileContents, /const\s*amount\s*=\s*parseInt\s*\(\s*process\s*\.\s*
 
 ### --seed--
 
-#### --cmd--
+#### --"add-transaction.js"--
+
+```js
+import { writeTransactions } from './blockchain-helpers.js';
+
+const fromAddress = process.argv[2];
+const toAddress = process.argv[3];
+```
 
 ## 78
 
@@ -1935,7 +2921,15 @@ assert.match(fileContents, /const\s*newTransaction\s*=\s*{\s*}\s*;?\s*$/);
 
 ### --seed--
 
-#### --cmd--
+#### --"add-transaction.js"--
+
+```js
+import { writeTransactions } from './blockchain-helpers.js';
+
+const fromAddress = process.argv[2];
+const toAddress = process.argv[3];
+const amount = parseInt(process.argv[4]);
+```
 
 ## 79
 
@@ -1977,7 +2971,19 @@ assert.equal(value, 'amount');
 
 ### --seed--
 
-#### --cmd--
+#### --"add-transaction.js"--
+
+```js
+import { writeTransactions } from './blockchain-helpers.js';
+
+const fromAddress = process.argv[2];
+const toAddress = process.argv[3];
+const amount = parseInt(process.argv[4]);
+
+const newTransaction = {
+
+}
+```
 
 ## 80
 
@@ -1997,7 +3003,21 @@ assert.match(fileContents, /const\s*transactions\s*=\s*\[\s*newTransaction\s*\]\
 
 ### --seed--
 
-#### --cmd--
+#### --"add-transaction.js"--
+
+```js
+import { writeTransactions } from './blockchain-helpers.js';
+
+const fromAddress = process.argv[2];
+const toAddress = process.argv[3];
+const amount = parseInt(process.argv[4]);
+
+const newTransaction = {
+  fromAddress,
+  toAddress,
+  amount
+}
+```
 
 ## 81
 
@@ -2017,7 +3037,23 @@ assert.match(fileContents, /writeTransactions\s*\(\s*transactions\s*\)\s*;?\s*$/
 
 ### --seed--
 
-#### --cmd--
+#### --"add-transaction.js"--
+
+```js
+import { writeTransactions } from './blockchain-helpers.js';
+
+const fromAddress = process.argv[2];
+const toAddress = process.argv[3];
+const amount = parseInt(process.argv[4]);
+
+const newTransaction = {
+  fromAddress,
+  toAddress,
+  amount
+}
+
+const transactions = [newTransaction];
+```
 
 ## 82
 
@@ -2065,7 +3101,24 @@ assert.equal(fileContents[0]?.amount, 5);
 
 ### --seed--
 
-#### --cmd--
+#### --"add-transaction.js"--
+
+```js
+import { writeTransactions } from './blockchain-helpers.js';
+
+const fromAddress = process.argv[2];
+const toAddress = process.argv[3];
+const amount = parseInt(process.argv[4]);
+
+const newTransaction = {
+  fromAddress,
+  toAddress,
+  amount
+}
+
+const transactions = [newTransaction];
+writeTransactions(transactions);
+```
 
 ## 83
 
@@ -2113,7 +3166,17 @@ assert.equal(fileContents[0]?.amount, 15);
 
 ### --seed--
 
-#### --cmd--
+#### --"transactions.json"--
+
+```js
+[
+  {
+    "fromAddress": "You",
+    "toAddress": "Me",
+    "amount": 5
+  }
+]
+```
 
 ## 84
 
@@ -2133,7 +3196,17 @@ assert.isFunction(getTransactions);
 
 ### --seed--
 
-#### --cmd--
+#### --"transactions.json"--
+
+```js
+[
+  {
+    "fromAddress": "You",
+    "toAddress": "Me",
+    "amount": 15
+  }
+]
+```
 
 ## 85
 
@@ -2153,7 +3226,46 @@ assert.match(getTransactions.toString(), /const\s+transactionsFile\s*=\s*readFil
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { previousHash } = blockchain[i];
+
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+
+}
+```
 
 ## 86
 
@@ -2173,7 +3285,46 @@ assert.match(getTransactions.toString(), /const\s+transactions\s*=\s*JSON\s*\.\s
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { previousHash } = blockchain[i];
+
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+}
+```
 
 ## 87
 
@@ -2193,7 +3344,47 @@ assert.match(getTransactions.toString(), /return\s+transactions\s*;?\s*}\s*$/);
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { previousHash } = blockchain[i];
+
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+}
+```
 
 ## 88
 
@@ -2213,7 +3404,48 @@ assert.match(fileContents, /^\s*import\s*{\s*(writeTransactions\s*,\s*getTransac
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain-helpers.js"--
+
+```js
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { previousHash } = blockchain[i];
+
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
+```
 
 ## 89
 
@@ -2233,7 +3465,24 @@ assert.match(fileContents, /^\s*const\s+transactions\s*=\s*getTransactions\s*\(\
 
 ### --seed--
 
-#### --cmd--
+#### --"add-transaction.js"--
+
+```js
+import { writeTransactions, getTransactions } from './blockchain-helpers.js';
+
+const fromAddress = process.argv[2];
+const toAddress = process.argv[3];
+const amount = parseInt(process.argv[4]);
+
+const newTransaction = {
+  fromAddress,
+  toAddress,
+  amount
+}
+
+const transactions = [newTransaction];
+writeTransactions(transactions);
+```
 
 ## 90
 
@@ -2253,7 +3502,24 @@ assert.match(fileContents, /transactions\s*\.\s*push\s*\(\s*newTransaction\s*\)\
 
 ### --seed--
 
-#### --cmd--
+#### --"add-transaction.js"--
+
+```js
+import { writeTransactions, getTransactions } from './blockchain-helpers.js';
+
+const fromAddress = process.argv[2];
+const toAddress = process.argv[3];
+const amount = parseInt(process.argv[4]);
+
+const newTransaction = {
+  fromAddress,
+  toAddress,
+  amount
+}
+
+const transactions = getTransactions();
+writeTransactions(transactions);
+```
 
 ## 91
 
@@ -2301,7 +3567,25 @@ assert.equal(fileContents[1]?.amount, 25);
 
 ### --seed--
 
-#### --cmd--
+#### --"add-transaction.js"--
+
+```js
+import { writeTransactions, getTransactions } from './blockchain-helpers.js';
+
+const fromAddress = process.argv[2];
+const toAddress = process.argv[3];
+const amount = parseInt(process.argv[4]);
+
+const newTransaction = {
+  fromAddress,
+  toAddress,
+  amount
+}
+
+const transactions = getTransactions();
+transactions.push(newTransaction);
+writeTransactions(transactions);
+```
 
 ## 92
 
@@ -2349,7 +3633,22 @@ assert.equal(fileContents[2]?.amount, 35);
 
 ### --seed--
 
-#### --cmd--
+#### --"transactions.json"--
+
+```js
+[
+  {
+    "fromAddress": "You",
+    "toAddress": "Me",
+    "amount": 15
+  },
+  {
+    "fromAddress": "You",
+    "toAddress": "Me",
+    "amount": 25
+  }
+]
+```
 
 ## 93
 
@@ -2377,7 +3676,27 @@ assert.match(fileContents, /^\s*import\s*({\s*writeTransactions\s*,[\s\S*]*}|{[\
 
 ### --seed--
 
-#### --cmd--
+#### --"transactions.json"--
+
+```js
+[
+  {
+    "fromAddress": "You",
+    "toAddress": "Me",
+    "amount": 15
+  },
+  {
+    "fromAddress": "You",
+    "toAddress": "Me",
+    "amount": 25
+  },
+  {
+    "fromAddress": "You",
+    "toAddress": "Me",
+    "amount": 35
+  }
+]
+```
 
 ## 94
 
@@ -2405,7 +3724,27 @@ assert.match(fileContents, /const\s+transactions\s*=\s*getTransactions\s*\(\s*\)
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain, writeBlockchain, getTransactions, writeTransactions } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash,
+  "data": {
+    "fromAddress": process.argv[2],
+    "toAddress": process.argv[3],
+    "amount": parseInt(process.argv[4])
+  }
+}
+
+blockchain.push(newBlock);
+writeBlockchain(blockchain);
+```
 
 ## 95
 
@@ -2435,7 +3774,28 @@ assert.lengthOf(newBlockProperties, 2);
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain, writeBlockchain, getTransactions, writeTransactions } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+const transactions = getTransactions();
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash,
+  "data": {
+    "fromAddress": process.argv[2],
+    "toAddress": process.argv[3],
+    "amount": parseInt(process.argv[4])
+  }
+}
+
+blockchain.push(newBlock);
+writeBlockchain(blockchain);
+```
 
 ## 96
 
@@ -2457,7 +3817,23 @@ assert.equal(value, 'transactions');
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain, writeBlockchain, getTransactions, writeTransactions } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+const transactions = getTransactions();
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash
+}
+
+blockchain.push(newBlock);
+writeBlockchain(blockchain);
+```
 
 ## 97
 
@@ -2477,7 +3853,24 @@ assert.match(fileContents, /writeTransactions\s*\(\s*\[\s*\]\s*\)\s*;?\s*$/);
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain, writeBlockchain, getTransactions, writeTransactions } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+const transactions = getTransactions();
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash,
+  transactions
+}
+
+blockchain.push(newBlock);
+writeBlockchain(blockchain);
+```
 
 ## 98
 
@@ -2533,7 +3926,25 @@ assert.lengthOf(fileContents, 0);
 
 ### --seed--
 
-#### --cmd--
+#### --"add-block.js"--
+
+```js
+import { getBlockchain, writeBlockchain, getTransactions, writeTransactions } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+const transactions = getTransactions();
+
+const newBlock = {
+  "hash": Math.random().toString(),
+  "previousHash": previousBlock.hash,
+  transactions
+}
+
+blockchain.push(newBlock);
+writeBlockchain(blockchain);
+writeTransactions([]);
+```
 
 ## 99
 
@@ -2581,7 +3992,82 @@ assert.equal(fileContents[0]?.amount, 2);
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain.json"--
+
+```js
+[
+  {
+    "hash": "0",
+    "previousHash": null
+  },
+  {
+    "hash": "0.45062045106488546",
+    "previousHash": "0"
+  },
+  {
+    "hash": "0.16111842235772156",
+    "previousHash": "0.45062045106488546"
+  },
+  {
+    "hash": "0.8158006630142653",
+    "previousHash": "0.16111842235772156"
+  },
+  {
+    "hash": "0.8955003586769703",
+    "previousHash": "0.8158006630142653",
+    "data": {
+      "fromAddress": "Me",
+      "toAddress": "You",
+      "amount": 10
+    }
+  },
+  {
+    "hash": "0.9583680743350331",
+    "previousHash": "0.8955003586769703",
+    "data": {
+      "fromAddress": "Me",
+      "toAddress": "You",
+      "amount": 20
+    }
+  },
+  {
+    "hash": "0.939029301911428",
+    "previousHash": "0.9583680743350331",
+    "data": {
+      "fromAddress": "Me",
+      "toAddress": "You",
+      "amount": 30
+    }
+  },
+  {
+    "hash": "0.7495656727576048",
+    "previousHash": "0.939029301911428",
+    "transactions": [
+      {
+        "fromAddress": "You",
+        "toAddress": "Me",
+        "amount": 15
+      },
+      {
+        "fromAddress": "You",
+        "toAddress": "Me",
+        "amount": 25
+      },
+      {
+        "fromAddress": "You",
+        "toAddress": "Me",
+        "amount": 35
+      }
+    ]
+  }
+]
+```
+
+#### --"transactions.json"--
+
+```js
+[]
+```
 
 ## 100
 
@@ -2629,7 +4115,17 @@ assert.equal(fileContents[1]?.amount, 4);
 
 ### --seed--
 
-#### --cmd--
+#### --"transactions.json"--
+
+```js
+[
+  {
+    "fromAddress": "Me",
+    "toAddress": "You",
+    "amount": 2
+  }
+]
+```
 
 ## 101
 
@@ -2677,7 +4173,22 @@ assert.equal(fileContents[2]?.amount, 6);
 
 ### --seed--
 
-#### --cmd--
+#### --"transactions.json"--
+
+```js
+[
+  {
+    "fromAddress": "Me",
+    "toAddress": "You",
+    "amount": 2
+  },
+  {
+    "fromAddress": "Me",
+    "toAddress": "You",
+    "amount": 4
+  }
+]
+```
 
 ## 102
 
@@ -2733,7 +4244,27 @@ assert.lengthOf(fileContents, 0);
 
 ### --seed--
 
-#### --cmd--
+#### --"transactions.json"--
+
+```js
+[
+  {
+    "fromAddress": "Me",
+    "toAddress": "You",
+    "amount": 2
+  },
+  {
+    "fromAddress": "Me",
+    "toAddress": "You",
+    "amount": 4
+  },
+  {
+    "fromAddress": "Me",
+    "toAddress": "You",
+    "amount": 6
+  }
+]
+```
 
 ## 103
 
@@ -2772,6 +4303,102 @@ assert.match(lastOutput, /Chain is valid/);
 
 ### --seed--
 
-#### --cmd--
+#### --"blockchain.json"--
+
+```js
+[
+  {
+    "hash": "0",
+    "previousHash": null
+  },
+  {
+    "hash": "0.45062045106488546",
+    "previousHash": "0"
+  },
+  {
+    "hash": "0.16111842235772156",
+    "previousHash": "0.45062045106488546"
+  },
+  {
+    "hash": "0.8158006630142653",
+    "previousHash": "0.16111842235772156"
+  },
+  {
+    "hash": "0.8955003586769703",
+    "previousHash": "0.8158006630142653",
+    "data": {
+      "fromAddress": "Me",
+      "toAddress": "You",
+      "amount": 10
+    }
+  },
+  {
+    "hash": "0.9583680743350331",
+    "previousHash": "0.8955003586769703",
+    "data": {
+      "fromAddress": "Me",
+      "toAddress": "You",
+      "amount": 20
+    }
+  },
+  {
+    "hash": "0.939029301911428",
+    "previousHash": "0.9583680743350331",
+    "data": {
+      "fromAddress": "Me",
+      "toAddress": "You",
+      "amount": 30
+    }
+  },
+  {
+    "hash": "0.7495656727576048",
+    "previousHash": "0.939029301911428",
+    "transactions": [
+      {
+        "fromAddress": "You",
+        "toAddress": "Me",
+        "amount": 15
+      },
+      {
+        "fromAddress": "You",
+        "toAddress": "Me",
+        "amount": 25
+      },
+      {
+        "fromAddress": "You",
+        "toAddress": "Me",
+        "amount": 35
+      }
+    ]
+  },
+  {
+    "hash": "0.13366310229995104",
+    "previousHash": "0.7495656727576048",
+    "transactions": [
+      {
+        "fromAddress": "Me",
+        "toAddress": "You",
+        "amount": 2
+      },
+      {
+        "fromAddress": "Me",
+        "toAddress": "You",
+        "amount": 4
+      },
+      {
+        "fromAddress": "Me",
+        "toAddress": "You",
+        "amount": 6
+      }
+    ]
+  }
+]
+```
+
+#### --"transactions.json"--
+
+```js
+[]
+```
 
 ## --fcc-end--
