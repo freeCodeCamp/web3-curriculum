@@ -11,6 +11,7 @@
     ".git": true,
     ".github": true,
     ".gitignore": true,
+    "*/.gitkeep": true,
     ".gitpod.Dockerfile": true,
     ".gitpod.yml": true,
     ".logs": true,
