@@ -55,7 +55,7 @@ assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'touch init-blockchain.js'
 
 ### --description--
 
-Open your new `init-blockchain.js` file and create a `const genesisBlock` variable. Give it a value of an empty object to start.
+Open your new `init-blockchain.js` file and create a `const genesisBlock` variable. Give it a value of an empty object literal to start.
 
 ### --tests--
 
@@ -79,7 +79,7 @@ assert.match(fileContents, /^\s*const\s+genesisBlock\s*=\s*{\s*}\s*;?\s*$/);
 
 ### --description--
 
-This object will be the first block in your blockchain, also known as the genesis block. Each block has `hash` property to identify the block. Add that property to your object and give it a value of `0` (zero/string).
+This object will be the first block in your blockchain, also known as the genesis block. Each block has a `hash` property to identify the block. Add that property to your object and give it a value of `0` (zero/string).
 
 ### --tests--
 
@@ -88,7 +88,7 @@ You should have a `"hash": "0"` property in your `genesisBlock` object
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/init-blockchain.js');
-assert.match(fileContents, /^\s*const\s+genesisBlock\s*=\s*{\s*(|'|")hash\1\s*:\s*("|'|`)0\2\s*}\s*;?\s*$/);
+assert.match(fileContents, /^\s*const\s+genesisBlock\s*=\s*{\s*(|'|")hash\1\s*:\s*("|'|`)0\2\s*,?\s*}\s*;?\s*$/);
 ```
 
 ### --seed--
@@ -105,7 +105,7 @@ const genesisBlock = {
 
 ### --description--
 
-Each block also has a `previousHash` property that is the `hash` of block before it. Add a `previousHash` property to your genesis block. Since this is the first block, there isn't a previous block to get a hash from so use `null` as the value.
+Each block also has a `previousHash` property that is the `hash` of the block before it. Add a `previousHash` property to your genesis block. Since this is the first block, there isn't a previous block to get a hash from, so use `null` as the value.
 
 ### --tests--
 
@@ -306,7 +306,9 @@ import { writeFileSync } from 'fs';
 
 ### --description--
 
-The `blockchain` parameter will be what you logged to the console (JSON). You want to strigify and format it so you can write it to a file. In your `writeBlockchain` function, create a `const blockchainString` variable. Use `JSON.stringify` to set its value to a stringified version of the `blockchain` argument. Add `null` and `2`, in that order, as arguments to the `stringify` call to format the string with two spaces.
+The `blockchain` parameter will be what you logged to the console. You want to stringify and format it so you can write it to a file.
+
+In your `writeBlockchain` function, create a `const blockchainString` variable. Use `JSON.stringify` to set its value to a stringified version of the `blockchain` argument. Add `null` and `2`, in that order, as arguments to the `stringify` call to format the string with two spaces.
 
 ### --tests--
 
@@ -366,7 +368,7 @@ The function should be working. Go back to your `init-blockchain.js` file and im
 
 ### --tests--
 
-You should have `import { writeBlockchain } from 'blockchain-helpers.js';` at the top of your `init-blockchain.js` file
+You should have `import { writeBlockchain } from './blockchain-helpers.js';` at the top of your `init-blockchain.js` file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
