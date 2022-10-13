@@ -83,7 +83,7 @@ This object will be the first block in your blockchain, also known as the genesi
 
 ### --tests--
 
-You should have a `"hash": "0"` property in your `genesisBlock` object
+You should have a `hash: "0"` property in your `genesisBlock` object
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -109,12 +109,12 @@ Each block also has a `previousHash` property that is the `hash` of the block be
 
 ### --tests--
 
-You should have a `"previousHash": null` property at the bottom of your `genesisBlock` object
+You should have a `previousHash: null` property at the bottom of your `genesisBlock` object
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/init-blockchain.js');
-assert.match(fileContents, /^\s*const\s+genesisBlock\s*=\s*{\s*(|'|")hash\1\s*:\s*("|'|`)0\2\s*,\s*(|'|")previousHash\3\s*:\s*null\s*}\s*;?\s*$/);
+assert.match(fileContents, /^\s*const\s+genesisBlock\s*=\s*{\s*(|'|")hash\1\s*:\s*("|'|`)0\2\s*,\s*(|'|")previousHash\3\s*:\s*null\s*,?\s*}\s*;?\s*$/);
 ```
 
 ### --seed--
@@ -123,7 +123,7 @@ assert.match(fileContents, /^\s*const\s+genesisBlock\s*=\s*{\s*(|'|")hash\1\s*:\
 
 ```js
 const genesisBlock = {
-  "hash": "0"
+  hash: "0"
 }
 ```
 
@@ -149,8 +149,8 @@ assert.match(fileContents, /const\s+blockchain\s*=\s*\[\s*genesisBlock\s*\]\s*;?
 
 ```js
 const genesisBlock = {
-  "hash": "0",
-  "previousHash": null
+  hash: "0",
+  previousHash: null
 }
 ```
 
@@ -176,8 +176,8 @@ assert.match(fileContents, /console\s*\.\s*log\s*\(\s*blockchain\s*\)\s*;?\s*$/)
 
 ```js
 const genesisBlock = {
-  "hash": "0",
-  "previousHash": null
+  hash: "0",
+  previousHash: null
 }
 
 const blockchain = [genesisBlock];
@@ -214,8 +214,8 @@ assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 
 ```js
 const genesisBlock = {
-  "hash": "0",
-  "previousHash": null
+  hash: "0",
+  previousHash: null
 }
 
 const blockchain = [genesisBlock];
@@ -413,8 +413,8 @@ assert.match(fileContents, /writeBlockchain\s*\(\s*blockchain\s*\)\s*;?\s*$/);
 import { writeBlockchain } from './blockchain-helpers.js';
 
 const genesisBlock = {
-  "hash": "0",
-  "previousHash": null
+  hash: "0",
+  previousHash: null
 }
 
 const blockchain = [genesisBlock];
@@ -453,8 +453,8 @@ assert.match(fileContents, /const\s+blockchain\s*=\s*\[\s*genesisBlock\s*\]\s*;?
 import { writeBlockchain } from './blockchain-helpers.js';
 
 const genesisBlock = {
-  "hash": "0",
-  "previousHash": null
+  hash: "0",
+  previousHash: null
 }
 
 const blockchain = [genesisBlock];
@@ -512,8 +512,8 @@ assert.include(fileContents[0], { hash: "0", previousHash: null });
 import { writeBlockchain } from './blockchain-helpers.js';
 
 const genesisBlock = {
-  "hash": "0",
-  "previousHash": null
+  hash: "0",
+  previousHash: null
 }
 
 const blockchain = [genesisBlock];
@@ -837,7 +837,7 @@ console.log(blockchain);
 
 ### --description--
 
-It's working. Create a `const newBlock` variable and set it to an empty object. This will be for new blocks that get added to your blockchain.
+It's working. Create a `const newBlock` variable and set it to an empty object literal. This will be for new blocks that get added to your blockchain.
 
 ### --tests--
 
@@ -857,12 +857,12 @@ Add a `hash` property to your new block for its identifier. Use `Math.random` an
 
 ### --tests--
 
-You should have `"hash": Math.random().toString()` in your `newBlock` object
+You should have `hash: Math.random().toString()` in your `newBlock` object
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
-assert.match(fileContents, /const\s+newBlock\s*=\s*{\s*(|'|")hash\1\s*:\s*Math\s*\.\s*random\s*\(\s*\)\s*\.\s*toString\s*\(\s*\)\s*}\s*;?\s*$/);
+assert.match(fileContents, /const\s+newBlock\s*=\s*{\s*(|'|")hash\1\s*:\s*Math\s*\.\s*random\s*\(\s*\)\s*\.\s*toString\s*\(\s*\),?\s*\s*}\s*;?\s*$/);
 ```
 
 ### --seed--
@@ -907,7 +907,7 @@ const blockchain = getBlockchain();
 console.log(blockchain);
 
 const newBlock = {
-  "hash": Math.random().toString()
+  hash: Math.random().toString()
 }
 ```
 
@@ -919,12 +919,12 @@ Add a `previousHash` property to your `newBlock` object. Set the value to the `h
 
 ### --tests--
 
-You should have a `"previousHash": previousBlock.hash` property in your `newBlock` object
+You should have a `previousHash: previousBlock.hash` property in your `newBlock` object
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
-assert.match(fileContents, /const\s+newBlock\s*=\s*{\s*(|'|")hash\1\s*:\s*Math\s*\.\s*random\s*\(\s*\)\s*\.\s*toString\s*\(\s*\)\s*,\s*(|'|")previousHash\2\s*:\s*previousBlock\s*\.\s*hash\s*}\s*;?\s*$/);
+assert.match(fileContents, /const\s+newBlock\s*=\s*{\s*(|'|")hash\1\s*:\s*Math\s*\.\s*random\s*\(\s*\)\s*\.\s*toString\s*\(\s*\)\s*,\s*(|'|")previousHash\2\s*:\s*previousBlock\s*\.\s*hash\s*,?\s*}\s*;?\s*$/);
 ```
 
 ### --seed--
@@ -936,11 +936,10 @@ import { getBlockchain } from './blockchain-helpers.js';
 
 const blockchain = getBlockchain();
 const previousBlock = blockchain[blockchain.length - 1];
-
 console.log(blockchain);
 
 const newBlock = {
-  "hash": Math.random().toString()
+  hash: Math.random().toString()
 }
 ```
 
@@ -969,12 +968,11 @@ import { getBlockchain } from './blockchain-helpers.js';
 
 const blockchain = getBlockchain();
 const previousBlock = blockchain[blockchain.length - 1];
-
 console.log(blockchain);
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash
 }
 ```
 
@@ -1006,8 +1004,8 @@ const previousBlock = blockchain[blockchain.length - 1];
 console.log(blockchain);
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash
 }
 
 blockchain.push(newBlock);
@@ -1059,8 +1057,8 @@ const blockchain = getBlockchain();
 const previousBlock = blockchain[blockchain.length - 1];
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash
 }
 
 blockchain.push(newBlock);
@@ -1110,8 +1108,8 @@ const blockchain = getBlockchain();
 const previousBlock = blockchain[blockchain.length - 1];
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash
 }
 
 blockchain.push(newBlock);
@@ -1145,8 +1143,8 @@ const blockchain = getBlockchain();
 const previousBlock = blockchain[blockchain.length - 1];
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash
 }
 
 blockchain.push(newBlock);
@@ -1199,8 +1197,8 @@ const blockchain = getBlockchain();
 const previousBlock = blockchain[blockchain.length - 1];
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash
 }
 
 blockchain.push(newBlock);
@@ -1963,19 +1961,20 @@ assert.match(lastOutput, /Chain is valid/);
 
 ### --description--
 
-Okay, your chain is valid again, but all it does is keep track of the some `hash` and `previousHash` values. Back in `add-block.js`, add a `data` property to your `newBlock`. This will be for adding transaction information to a block.
+Okay, your chain is valid again, but all it does is keep track of the some `hash` and `previousHash` values. Back in `add-block.js`, add a `data` property to your `newBlock`, make it an object literal. This will be for adding transaction information to a block.
 
 ### --tests--
 
-Your `newBlock` object should have a `"data": {}` property
+Your `newBlock` object should have a `data: {}` property
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
 const parsed = await __helpers.parseJs(fileContents);
-const key = parsed.body[3].declarations[0].init.properties[2].key.value;
+const keyValue = parsed.body[3].declarations[0].init.properties[2].key.value;
+const keyName = parsed.body[3].declarations[0].init.properties[2].key.name;
 const value = parsed.body[3].declarations[0].init.properties[2].value.type;
-assert.equal(key, 'data');
+assert.equal(keyValue || keyName, 'data');
 assert.equal(value, 'ObjectExpression');
 ```
 
@@ -1987,12 +1986,12 @@ In the `data` object, add a `fromAddress` property equal to `process.argv[2]`. T
 
 ### --tests--
 
-You should have `"fromAddress": process.argv[2]` in your `data` object
+You should have `fromAddress: process.argv[2]` in your `data` object
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
-assert.match(fileContents, /newBlock[\s\S]*data[\s\S]*{\s*("|')fromAddress\1\s*:\s*process\s*\.argv\s*\[\s*2\s*]\s*}[\s\S*]}/);
+assert.match(fileContents, /newBlock[\s\S]*data[\s\S]*{\s*(|"|')fromAddress\1\s*:\s*process\s*\.argv\s*\[\s*2\s*]\s*,?\s*}[\s\S*]}/);
 ```
 
 ### --seed--
@@ -2006,9 +2005,9 @@ const blockchain = getBlockchain();
 const previousBlock = blockchain[blockchain.length - 1];
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash,
-  "data": {
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash,
+  data: {
 
   }
 }
@@ -2026,12 +2025,12 @@ Add a `toAddress` property to the object that is the next command line argument,
 
 ### --tests--
 
-You should have a `"toAddress": process.argv[3]` property at the bottom of your `data` object
+You should have a `toAddress: process.argv[3]` property at the bottom of your `data` object
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
-assert.match(fileContents, /newBlock[\s\S]*data[\s\S]*{[\s\S]*("|')toAddress\1\s*:\s*process\s*\.\s*argv\[\s*3\s*\][\s\S]*}\s*}/);
+assert.match(fileContents, /newBlock[\s\S]*data[\s\S]*{[\s\S]*(|"|')toAddress\1\s*:\s*process\s*\.\s*argv\[\s*3\s*\][\s\S]*?}\s*,?\s*\s*}/);
 ```
 
 ### --seed--
@@ -2045,10 +2044,10 @@ const blockchain = getBlockchain();
 const previousBlock = blockchain[blockchain.length - 1];
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash,
-  "data": {
-    "fromAddress": process.argv[2]
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash,
+  data: {
+    fromAddress: process.argv[2]
   }
 }
 
@@ -2065,12 +2064,12 @@ Lastly, add an `amount` to the object. Make it the next command line argument, b
 
 ### --tests--
 
-You should have a `"amount": parseInt(process.argv[4])` property at the bottom of your `data` object
+You should have a `amount: parseInt(process.argv[4])` property at the bottom of your `data` object
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
-assert.match(fileContents, /newBlock[\s\S]*data[\s\S]*{[\s\S]*("|')amount\1\s*:\s*parseInt\s*\(\s*process\s*\.\s*argv\[\s*4\s*\]\s*\)[\s\S]*}\s*}/);
+assert.match(fileContents, /newBlock[\s\S]*data[\s\S]*{[\s\S]*(|"|')amount\1\s*:\s*parseInt\s*\(\s*process\s*\.\s*argv\[\s*4\s*\]\s*\)[\s\S]*?}\s*,?\s*}/);
 ```
 
 ### --seed--
@@ -2084,11 +2083,11 @@ const blockchain = getBlockchain();
 const previousBlock = blockchain[blockchain.length - 1];
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash,
-  "data": {
-    "fromAddress": process.argv[2],
-    "toAddress": process.argv[3]
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash,
+  data: {
+    fromAddress: process.argv[2],
+    toAddress: process.argv[3]
   }
 }
 
@@ -2124,12 +2123,12 @@ const blockchain = getBlockchain();
 const previousBlock = blockchain[blockchain.length - 1];
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash,
-  "data": {
-    "fromAddress": process.argv[2],
-    "toAddress": process.argv[3],
-    "amount": parseInt(process.argv[4])
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash,
+  data: {
+    fromAddress: process.argv[2],
+    toAddress: process.argv[3],
+    amount: parseInt(process.argv[4])
   }
 }
 
@@ -2165,12 +2164,12 @@ const blockchain = getBlockchain();
 const previousBlock = blockchain[blockchain.length - 1];
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash,
-  "data": {
-    "fromAddress": process.argv[2],
-    "toAddress": process.argv[3],
-    "amount": parseInt(process.argv[4])
+  hash: Math.random().toString(),
+  previousHash": previousBlock.hash,
+  data: {
+    fromAddress: process.argv[2],
+    toAddress: process.argv[3],
+    amount: parseInt(process.argv[4])
   }
 }
 
@@ -2226,12 +2225,12 @@ const blockchain = getBlockchain();
 const previousBlock = blockchain[blockchain.length - 1];
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash,
-  "data": {
-    "fromAddress": process.argv[2],
-    "toAddress": process.argv[3],
-    "amount": parseInt(process.argv[4])
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash,
+  data: {
+    fromAddress: process.argv[2],
+    toAddress: process.argv[3],
+    amount: parseInt(process.argv[4])
   }
 }
 
@@ -2283,12 +2282,12 @@ const blockchain = getBlockchain();
 const previousBlock = blockchain[blockchain.length - 1];
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash,
-  "data": {
-    "fromAddress": process.argv[2],
-    "toAddress": process.argv[3],
-    "amount": parseInt(process.argv[4])
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash,
+  data: {
+    fromAddress: process.argv[2],
+    toAddress: process.argv[3],
+    amount: parseInt(process.argv[4])
   }
 }
 
@@ -2351,12 +2350,12 @@ const blockchain = getBlockchain();
 const previousBlock = blockchain[blockchain.length - 1];
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash,
-  "data": {
-    "fromAddress": process.argv[2],
-    "toAddress": process.argv[3],
-    "amount": parseInt(process.argv[4])
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash,
+  data: {
+    fromAddress: process.argv[2],
+    toAddress: process.argv[3],
+    amount: parseInt(process.argv[4])
   }
 }
 
@@ -2909,7 +2908,7 @@ const toAddress = process.argv[3];
 
 ### --description--
 
-Now you can create the transaction. Add a `const newTransaction` variable set to an empty object.
+Now you can create the transaction. Add a `const newTransaction` variable set to an empty object literal.
 
 ### --tests--
 
@@ -3735,12 +3734,12 @@ const blockchain = getBlockchain();
 const previousBlock = blockchain[blockchain.length - 1];
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash,
-  "data": {
-    "fromAddress": process.argv[2],
-    "toAddress": process.argv[3],
-    "amount": parseInt(process.argv[4])
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash,
+  data: {
+    fromAddress: process.argv[2],
+    toAddress: process.argv[3],
+    amount: parseInt(process.argv[4])
   }
 }
 
@@ -3786,12 +3785,12 @@ const previousBlock = blockchain[blockchain.length - 1];
 const transactions = getTransactions();
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash,
-  "data": {
-    "fromAddress": process.argv[2],
-    "toAddress": process.argv[3],
-    "amount": parseInt(process.argv[4])
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash,
+  data: {
+    fromAddress: process.argv[2],
+    toAddress: process.argv[3],
+    amount: parseInt(process.argv[4])
   }
 }
 
@@ -3829,8 +3828,8 @@ const previousBlock = blockchain[blockchain.length - 1];
 const transactions = getTransactions();
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash
 }
 
 blockchain.push(newBlock);
@@ -3865,8 +3864,8 @@ const previousBlock = blockchain[blockchain.length - 1];
 const transactions = getTransactions();
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash,
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash,
   transactions
 }
 
@@ -3938,8 +3937,8 @@ const previousBlock = blockchain[blockchain.length - 1];
 const transactions = getTransactions();
 
 const newBlock = {
-  "hash": Math.random().toString(),
-  "previousHash": previousBlock.hash,
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash,
   transactions
 }
 
