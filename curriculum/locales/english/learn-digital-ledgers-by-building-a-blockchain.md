@@ -882,7 +882,7 @@ const newBlock = {
 
 ### --description--
 
-You need to get the `hash` of the previous block for the `previousHash` property of your new block. Above your `newBlock` variable, create a `const previousBlock` variable and set it to the last block of `blockchain` (`blockchain.length - 1`).
+You need to get the `hash` of the previous block for the `previousHash` property of your new block. Above your `newBlock` variable, create a `const previousBlock` variable and set it to the last block of `blockchain`.
 
 ### --tests--
 
