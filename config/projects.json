@@ -16,9 +16,10 @@
     "dashedName": "learn-proof-of-work-consensus-by-building-a-block-mining-algorithm",
     "isIntegrated": false,
     "description": "In this course, you will learn how to use the SHA-256 hashing algorithm make your blockchain more secure.",
-    "isPublic": false,
+    "isPublic": true,
     "currentLesson": 1,
-    "runTestsOnWatch": true
+    "runTestsOnWatch": true,
+    "isResetEnabled": true
   },
   {
     "id": 2,
@@ -26,9 +27,10 @@
     "dashedName": "learn-digital-signatures-by-building-a-wallet",
     "isIntegrated": false,
     "description": "In this course, you will learn how to generate and use keypairs so you can veryify users and transactions.",
-    "isPublic": false,
+    "isPublic": true,
     "currentLesson": 1,
-    "runTestsOnWatch": true
+    "runTestsOnWatch": true,
+    "isResetEnabled": true
   },
   {
     "id": 3,

@@ -4,569 +4,624 @@
 
 ### --description--
 
-You left the last tutorial after creating your own blockchain. The blockchain is still in the blockchain.json file. For a quick recap on the process, add a new transaction to the pool that sends X coinds to Y...
+For this project, you will work in the `learn-proof-of-work-consensus-by-building-a-block-mining-algorithm` folder. Open a bash terminal and use `cd` to change into it.
 
-run `node add-transaction.js You Me 2`
+The tests should run automatically. If they don't, close any open **bash** terminals, open a new one, and run the command again.
 
 ### --tests--
 
-Auto-pass test
+You should use the change directory (`cd`) command in the terminal
 
 ```js
-assert(true);
+await new Promise(res => setTimeout(res, 1000));
+const lastCommand = await __helpers.getLastCommand();
+assert.match(lastCommand, /^\s*cd/);
 ```
 
-### --seed--
+You should be in the `learn-proof-of-work-consensus-by-building-a-block-mining-algorithm` folder in your terminal
 
-#### --cmd--
+```js
+await new Promise(res => setTimeout(res, 1000));
+const cwdFile = await __helpers.getCWD();
+const cwd = cwdFile.split('\n').filter(Boolean).pop();
+assert.include(cwd, 'learn-proof-of-work-consensus-by-building-a-block-mining-algorithm');
+```
 
 ## 2
 
 ### --description--
 
-Add a new block...
+You left the last tutorial after creating your own blockchain. Your blockchain is still in the `blockchain.json` file and the transactions are in `transactions.json`. For a quick recap, open your `transactions.json` file and run `node add-transaction.js You Me 100` in the terminal to add a transaction that sends 100 tokens from `You` to `Me`.
 
-run `node add-block.js`
+### --tests--
 
-### --test--
-
-Auto-pass test
+You should run `node add-transactions.js You Me 100` in the terminal
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
+Your `transactions.json` file should be an array with one transaction (object) in it
 
-#### --cmd--
+```js
+assert(false);
+```
+
+The transaction should have the correct three properties and values
+
+```js
+assert(false);
+```
 
 ## 3
 
 ### --description--
 
-run `node validate-chain.js`
+The transaction was added to the transaction pool. Open your `blockchain.json` file and run `node add-block.js` in the terminal to add a new block. 
 
 ### --test--
 
-Auto-pass test
+You should run `node add-block.js` in the terminal
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
+Your `blockchain.json` should be an array with ten blocks (objects) in it
 
-#### --cmd--
+```js
+assert(false)
+```
+
+The tenth block should have a `transactions` array with one transaction (object) in it
+
+```js
+assert(false);
+```
 
 ## 4
 
 ### --description--
 
-Instead of just adding blocks, you will learn how they are mined.
-
-run `mv add-block.js mine-block.js`
+A new block was added to your blockchain. Run `node validate-chain.js` in the terminal to make sure your chain is still valid.
+run `node validate-chain.js`
 
 ### --test--
 
-Auto-pass test
+You should run `node validate-chain.js` in the terminal
 
 ```js
-assert(true);
+await new Promise(res => setTimeout(res, 1000));
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
 ```
 
-### --seed--
+You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
 
-#### --cmd--
+```js
+assert(false);
+```
+
+The terminal output should log `Chain is valid`
+
+```js
+assert(false);
+```
 
 ## 5
 
 ### --description--
 
-run `npm install crypto-js`
+Instead of just adding blocks, you will learn how they are mined. Rename your `add-block.js` file to `mine-block.js`
 
 ### --test--
 
-Auto-pass test
+You should not have a `add-block.js` file in your project folder
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
+You should have a `mine-block.js` file in your project folder
 
-#### --cmd--
+```js
+assert(false);
+```
 
 ## 6
 
 ### --description--
 
-In `mine-block.js`...
-
-add `const SHA256 = require('crypto-js/sha256');`
+Your blocks have a `hash` property that is a random number. You will turn these into actual hash values. Run `npm install crypto-js` in your project folder so you can create do that.
 
 ### --test--
 
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 7
 
 ### --description--
 
-add `const hash = SHA256('password').toString();`
+Open your `mine-block.js` file and import the `sha256` method at the top with `import sha256 from 'crypto-js/sha256.js';`.
 
 ### --test--
 
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 8
 
 ### --description--
 
-add `console.log(hash)`
+This method takes a string of any length and turns it into a 256 bit hash value that is always 64 characters. Above your `newBlock`, create a `const hash` variable with a value of `sha256('password').toString();`.
 
 ### --test--
 
-Auto-pass test
+You should have `const hash = sha256('password').toString();` right above your `newBlock` variable
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 9
 
 ### --description--
 
-comment out `writeBlockchain(blockchain);` & `writeTransactions([rewardTransaction]);`
+Right below that, log your `hash` variable to the console.
+add `console.log(hash)`
 
 ### --test--
 
-Auto-pass test
+You should have `console.log(hash);` right above your `newBlock` variable
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 10
 
 ### --description--
 
-run `node mine-block.js`
+Use single line comments to comment out the two lines at the bottom of the file where you write your blockchain and transactions. This way, you can test your hash functions without writing to your files.
 
 ### --test--
 
-Auto-pass test
+You should have `// writeBlockchain(blockchain);` in your file
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
+You should have `// writeTransactions([]);` in your file
 
-#### --cmd--
+```js
+assert(false);
+```
 
 ## 11
 
 ### --description--
 
-run `node mine-block.js` again
+Run your `mine-block.js` file in the terminal so you can see what the hashing function does.
 
 ### --test--
 
-Auto-pass test
+You should run `node mine-block.js` in the terminal
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
+Your terminal output should include a hash
 
-#### --cmd--
+```js
+assert(false);
+```
 
 ## 12
 
 ### --description--
 
-Change `password` to `passwords`
+The `sha256` method turned the `password` string you passed to it, into a cryptic 256 bit hash that is 64 characters long. Run the command again.
 
 ### --test--
 
-Auto-pass test
+You should run `node mine-block.js` in the terminal
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
+Your terminal output should include a hash
 
-#### --cmd--
+```js
+assert(false);
+```
 
 ## 13
 
 ### --description--
 
-run `node mine-block.js` again
+The output included that same hash. Given the same input, the hash function will always produce the output. Change `password` to `passwords`.
 
 ### --test--
 
-Auto-pass test
+You should have `const hash = sha256('passwords').toString();` right above your log to the console
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 14
 
 ### --description--
 
-Change `passwords` to `previousBlock.hash + JSON.stringify(transactions)`
-
-### --test--
-
-Auto-pass test
+You should run `node mine-block.js` in the terminal
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
+Your terminal output should include a hash
 
-#### --cmd--
+```js
+assert(false);
+```
 
 ## 15
 
 ### --description--
 
-run `node mine-block.js` again
+Now that you changed the input to the function, the hash output is completely different, but still fixed to 64 characters. Change `passwords` to a concatenation of the `previousBlock.hash` and `JSON.stringify(transactions)` so your hash is created using information from the block you are mining.
 
 ### --test--
 
-Auto-pass test
+You should have `const hash = sha256(previousBlock.hash + JSON.stringify(transactions)).toString();` right above your log to the console
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 16
 
 ### --description--
 
-remove `Math.random()` and use `hash`
+Now the string you are passing to the function is potentially quite large because you are using everything in your `transactions.json` file. Run your `mine-block.js` file again.
 
 ### --test--
 
-Auto-pass test
+You should run `node mine-block.js` in the terminal
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
+Your terminal output should include a hash
 
-#### --cmd--
+```js
+assert(false);
+```
 
 ## 17
 
 ### --description--
 
-uncomment the two `write`'s
+But it still gives a fixed length output. Replace the `hash` value in your `newBlock` to use the new `hash` variable.
 
 ### --test--
 
-Auto-pass test
+Your `newBlock` variable should have a `hash` property that uses the `hash` variable as its value
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 18
 
 ### --description--
 
-run `node add-transaction.js You Me 4`
+Uncomment the two places you where you write your files at the bottom that you commented out earlier.
 
 ### --test--
 
-Auto-pass test
+You should have `writeBlockchain(blockchain);` in your file that is not commented out
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
+You should have `writeTransactions([]);` in your file that is not commented out
 
-#### --cmd--
+```js
+assert(false);
+```
 
 ## 19
 
 ### --description--
 
-run `node mine-block.js`
+Run `node add-transaction.js You Me 4` in the terminal to add a new transaction to your transaction pool.
 
 ### --test--
 
-Auto-pass test
+You should run `node add-transactions.js You Me 4` in the terminal
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
+Your `transactions.json` file should be an array with one transaction (object) in it
 
-#### --cmd--
+```js
+assert(false);
+```
+
+The transaction should have the correct three properties and values
+
+```js
+assert(false);
+```
 
 ## 20
 
 ### --description--
 
-run `node add-transaction.js You Me 6`
+Open your `blockchain.json` file and mine a new block. 
 
 ### --test--
 
-Auto-pass test
+You should run `node add-block.js` in the terminal
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
+Your `blockchain.json` should be an array with eleven blocks (objects) in it
 
-#### --cmd--
+```js
+assert(false)
+```
+
+The eleventh block should have a `hash` property that is a 64 character long string
+
+```js
+assert(false);
+```
 
 ## 21
 
 ### --description--
 
-run `node mine-block.js`
+Your new block, at the bottom of `blockchain.json`, has a cryptic `hash` value created using the information from the block. Add a new transaction that sends `6` tokens from `You` to `Me`.
 
 ### --test--
 
-Auto-pass test
+You should run `node add-transactions.js You Me 6` in the terminal
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
+Your `transactions.json` file should be an array with one transaction (object) in it
 
-#### --cmd--
+```js
+assert(false);
+```
+
+The transaction should have the correct three properties and values
+
+```js
+assert(false);
+```
 
 ## 22
 
 ### --description--
 
-change the `hash` to `let hash = '';`
+Mine another block.
 
 ### --test--
 
-Auto-pass test
+You should run `node add-block.js` in the terminal
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
+Your `blockchain.json` should be an array with twelve blocks (objects) in it
 
-#### --cmd--
+```js
+assert(false)
+```
+
+The twelvth block should have a `hash` property that is a 64 character long string
+
+```js
+assert(false);
+```
 
 ## 23
 
 ### --description--
 
-add `let nonce = 0;`
+The latest block at the bottom of `blockchain.json` has a different hash because the information used to create it was different. Change your `const hash` declaration to use the `let` keyword and set the value to an empty string.
 
 ### --test--
 
-Auto-pass test
+You should have `let hash = '';` above your log to the console
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
+You should only have one `hash` variable
 
-#### --cmd--
+```js
+assert(false)
+```
 
 ## 24
 
 ### --description--
 
-add `while(!hash.startsWith('0')) {}` with the `console.log(hash)` in it
+The process of mining a block is to keep changing the input of the hash function until you find a hash that fits a pattern you are looking for. A _nonce_ is used to do this. Add a `let nonce` variable below your `hash` declaration that is set to `0` (zero/integer).
 
 ### --test--
 
-Auto-pass test
+You should have `let nonce = 0;` right above your log to the console
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 25
 
 ### --description--
 
-add `nonce++;`
+Add a `while` loop that checks if `!hash.startsWith('0')`. Put your `console.log(hash)` in the loop. This loop will continue to run until you find a hash that starts with a `0` (zero).
 
 ### --test--
 
-Auto-pass test
+You should have `while (!hash.startsWith('0')) { }` below your `nonce` declaration
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
+You should have `console.log(hash);` in your `while` loop
 
-#### --cmd--
+```js
+assert(false);
+```
 
 ## 26
 
 ### --description--
 
-add `hash = SHA256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();`
+At the top of your loop, increment your `nonce` with the `++` operator.
 
 ### --test--
 
-Auto-pass test
+You should have `nonce++;` at the start of your `while` loop
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 27
 
 ### --description--
 
-change the `console.log` to ``console.log(`nonce = ${nonce}`);``
+Below that, redefine your `hash` so that it creates a hash using the `sha256` method from a concatenation of your `nonce`, the hash of the previous block, and a stringified version of what is in the transactions file. Here's a reminder of the syntax: `sha256(<content>).toString();`
 
 ### --test--
 
-Auto-pass test
+You should have `hash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();` in your while loop
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
+The `console.log(hash);` should be at the bottom of your `while` loop
 
-#### --cmd--
+```js
+assert(false);
+```
 
 ## 28
 
 ### --description--
 
-add ``console.log(`hash = ${hash}`)``
+Change the log to the console so it prints `nonce = ${nonce}`. Use a template literal.
+
+`console.log` to ``console.log(`nonce = ${nonce}`);``
 
 ### --test--
 
-Auto-pass test
+You should have ``console.log(`nonce = ${nonce}`);`` at the bottom of your while loop
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 29
 
 ### --description--
 
-comment out the two `write`'s
+Below that, add another log that prints the `hash` in the same fashion.
 
 ### --test--
 
-Auto-pass test
+You should have ``console.log(`hash = ${hash}`)`` at the bottom of your while loop
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 30
 
 ### --description--
 
-run node add-transaction.js You Me 8
+Comment out the two places you write to files at the bottom again.
 
 ### --test--
 
-Auto-pass test
+You should have `// writeBlockchain(blockchain);` in your file
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
+You should have `// writeTransactions([]);` in your file
 
-#### --cmd--
+```js
+assert(false);
+```
 
 ## 31
 
 ### --description--
 
-run `node mine-block.js`
+Add a transaction that sends `8` tokens from `You` to `Me`
+
+Delete this? We don't even write to the tx file.
 
 ### --test--
 
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
 ## 32
+
+### --description--
+
+Run your `mine-block.js` file.
+
+### --test--
+
+You should run `node mine-block.js` in the terminal
+
+```js
+assert(false);
+```
+
+Your terminal output should include a hash
+
+```js
+assert(false);
+```
+
+## 33
 
 ### --description--
 
@@ -577,14 +632,10 @@ add `const difficulty = 2;`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 33
+## 34
 
 ### --description--
 
@@ -595,14 +646,10 @@ add `.repeat(difficulty)`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 34
+## 35
 
 ### --description--
 
@@ -613,14 +660,10 @@ run `node-mine-block.js`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 35
+## 36
 
 ### --description--
 
@@ -631,14 +674,10 @@ change `difficulty` to `3`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 36
+## 37
 
 ### --description--
 
@@ -649,14 +688,10 @@ run `node mine-block.js`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 37
+## 38
 
 ### --description--
 
@@ -667,14 +702,10 @@ change difficulty to `4`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 38
+## 39
 
 ### --description--
 
@@ -685,14 +716,10 @@ run `node mine-block.js` again
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 39
+## 40
 
 ### --description--
 
@@ -703,14 +730,10 @@ add `nonce` to `newBlock`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 40
+## 41
 
 ### --description--
 
@@ -721,14 +744,10 @@ add `const rewardTransaction = {}`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 41
+## 42
 
 ### --description--
 
@@ -739,14 +758,10 @@ add `fromAddress: null`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 42
+## 43
 
 ### --description--
 
@@ -757,14 +772,10 @@ add `toAddress: Me`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 43
+## 44
 
 ### --description--
 
@@ -775,14 +786,10 @@ add `amount: 50`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 44
+## 45
 
 ### --description--
 
@@ -793,14 +800,10 @@ uncomment two `write`'s
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 45
+## 46
 
 ### --description--
 
@@ -811,14 +814,10 @@ change to `writeTransaction([rewardTransaction]);`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 46
+## 47
 
 ### --description--
 
@@ -829,14 +828,10 @@ run `node init-blockchain.js`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 47
+## 48
 
 ### --description--
 
@@ -847,14 +842,10 @@ run `node add-transaction You Me 12`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 48
+## 49
 
 ### --description--
 
@@ -865,14 +856,10 @@ run `node add-transaction You Me 16`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 49
+## 50
 
 ### --description--
 
@@ -883,14 +870,10 @@ change difficulty back to `2`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 50
+## 51
 
 ### --description--
 
@@ -901,14 +884,10 @@ run `node mine-block.js`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 51
+## 52
 
 ### --description--
 
@@ -919,14 +898,10 @@ run `node add-transaction Me You 20`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 52
+## 53
 
 ### --description--
 
@@ -937,14 +912,10 @@ run `node mine-block.js`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 53
+## 54
 
 ### --description--
 
@@ -955,14 +926,10 @@ run `node add-transaction Me You 10`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 54
+## 55
 
 ### --description--
 
@@ -973,14 +940,10 @@ run `node mine-block.js`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 55
+## 56
 
 ### --description--
 
@@ -991,34 +954,27 @@ Remove the two `console.log()`'s
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 56
+## 57
 
 ### --description--
 
 In `blockchain-helpers.js` -> isValidChain
 
 add `const SHA256 = require('crypto-js/sha256');`
+new: `import sha256 from 'crypto-js/sha256.js';`
 
 ### --test--
 
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 57
+## 58
 
 ### --description--
 
@@ -1033,14 +989,10 @@ add comment
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 58
+## 59
 
 ### --description--
 
@@ -1055,14 +1007,10 @@ validate previous hash
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 59
+## 60
 
 ### --description--
 
@@ -1077,14 +1025,10 @@ validate block hash
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 60
+## 61
 
 ### --description--
 
@@ -1095,14 +1039,10 @@ get nonce, hash and transactions from current block
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 61
+## 62
 
 ### --description--
 
@@ -1113,14 +1053,10 @@ add `const testBlockHash = SHA256(currentBlock.nonce + previousBlock.hash + JSON
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 62
+## 63
 
 ### --description--
 
@@ -1131,14 +1067,10 @@ add `if (testBlockHash != currentBlock.hash) {}`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 63
+## 64
 
 ### --description--
 
@@ -1149,14 +1081,10 @@ add `return false;`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 64
+## 65
 
 ### --description--
 
@@ -1167,14 +1095,10 @@ run `node validate-chain.js`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 65
+## 66
 
 ### --description--
 
@@ -1185,14 +1109,10 @@ tamper with nonce
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 66
+## 67
 
 ### --description--
 
@@ -1203,14 +1123,10 @@ run `node validate-chain.js`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 67
+## 68
 
 ### --description--
 
@@ -1221,14 +1137,10 @@ untamper nonce
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 68
+## 69
 
 ### --description--
 
@@ -1239,14 +1151,10 @@ run `node validate-chain.js`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 69
+## 70
 
 ### --description--
 
@@ -1259,14 +1167,10 @@ add const SHA256 = require('crypto-js/sha256');
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 70
+## 71
 
 ### --description--
 
@@ -1277,14 +1181,10 @@ add const hash = SHA256(fromAddress + toAddress + amount).toString()
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 71
+## 72
 
 ### --description--
 
@@ -1295,14 +1195,10 @@ add hash to newTransaction
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 72
+## 73
 
 ### --description--
 
@@ -1313,14 +1209,10 @@ run node init-blockchain.js
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 73
+## 74
 
 ### --description--
 
@@ -1331,14 +1223,10 @@ run node add-transaction.js Me You 15
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 74
+## 75
 
 ### --description--
 
@@ -1349,14 +1237,10 @@ run node add-transaction.js Me You 25
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 75
+## 76
 
 ### --description--
 
@@ -1367,14 +1251,10 @@ run `node mine-block.js`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 76
+## 77
 
 ### --description--
 
@@ -1385,14 +1265,10 @@ run node add-transaction.js You Me 4
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 77
+## 78
 
 ### --description--
 
@@ -1403,14 +1279,10 @@ run node add-transaction.js You Me 8
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 78
+## 79
 
 ### --description--
 
@@ -1421,14 +1293,10 @@ run `node mine-block.js`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 79
+## 80
 
 ### --description--
 
@@ -1441,14 +1309,10 @@ add comment // loop over transactions
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 80
+## 81
 
 ### --description--
 
@@ -1463,14 +1327,10 @@ for (let j = 0; j < transactions.length; j++) {}
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 81
+## 82
 
 ### --description--
 
@@ -1485,14 +1345,10 @@ const { fromAddress, toAddress, amount, hash } = transactions[j];
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 82
+## 83
 
 ### --description--
 
@@ -1503,14 +1359,10 @@ add comment // don't validate reward transaction
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 83
+## 84
 
 ### --description--
 
@@ -1521,14 +1373,10 @@ add if (fromAddress) {}
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 84
+## 85
 
 ### --description--
 
@@ -1543,14 +1391,10 @@ add comment
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 85
+## 86
 
 ### --description--
 
@@ -1561,14 +1405,10 @@ add const testTransactionHash = SHA256(fromAddress + toAddress + amount).toStrin
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 86
+## 87
 
 ### --description--
 
@@ -1583,14 +1423,10 @@ if (testTransactionHash != hash) {}
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 87
+## 88
 
 ### --description--
 
@@ -1601,14 +1437,10 @@ add return false;
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 88
+## 89
 
 ### --description--
 
@@ -1619,14 +1451,10 @@ run `node validate-chain.js`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 89
+## 90
 
 ### --description--
 
@@ -1637,14 +1465,10 @@ tamper with transaction
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 90
+## 91
 
 ### --description--
 
@@ -1655,14 +1479,10 @@ run `node validate-chain.js`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 91
+## 92
 
 ### --description--
 
@@ -1673,14 +1493,10 @@ change transaction back
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 92
+## 93
 
 ### --description--
 
@@ -1691,34 +1507,27 @@ run `node validate-chain.js`
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 93
+## 94
 
 ### --description--
 
 In blockchain-helpers.js - getAddressBalance
 
 add function getAddressBalance(address) {}
+new: `export function getAddressBalance(address) {}`
 
 ### --test--
 
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 94
+## 95
 
 ### --description--
 
@@ -1729,14 +1538,10 @@ add const blockchain = getBlockchain();
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 95
+## 96
 
 ### --description--
 
@@ -1747,14 +1552,10 @@ add let balance = 0;
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 96
+## 97
 
 ### --description--
 
@@ -1765,14 +1566,10 @@ add comment // loop over blocks
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 97
+## 98
 
 ### --description--
 
@@ -1783,14 +1580,10 @@ add for (let i = 1; i < blockchain.length; i++) {}
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 98
+## 99
 
 ### --description--
 
@@ -1801,14 +1594,10 @@ add const { transactions } = blockchain[i];
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 99
+## 100
 
 ### --description--
 
@@ -1819,14 +1608,10 @@ add comment // loop over transactions
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 100
+## 101
 
 ### --description--
 
@@ -1837,14 +1622,10 @@ add for (let j = 0; j < transactions.length; j++) {
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 101
+## 102
 
 ### --description--
 
@@ -1855,14 +1636,10 @@ add const { fromAddress, toAddress, amount } = transactions[j]
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 102
+## 103
 
 ### --description--
 
@@ -1873,14 +1650,10 @@ add if (fromAddress === address) {}
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 103
+## 104
 
 ### --description--
 
@@ -1891,14 +1664,10 @@ add balance -= amount;
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 104
+## 105
 
 ### --description--
 
@@ -1909,14 +1678,10 @@ add if (toAddress === address) {
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 105
+## 106
 
 ### --description--
 
@@ -1927,14 +1692,10 @@ add balance += amount;
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 106
+## 107
 
 ### --description--
 
@@ -1945,30 +1706,9 @@ add return balance;
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
-
-## 107
-
-### --description--
-
-add module.exports.getAddressBalance = getAddressBalance;
-
-### --test--
-
-Auto-pass test
-
-```js
-assert(true);
-```
-
-### --seed--
-
-#### --cmd--
 
 ## 108
 
@@ -1981,12 +1721,8 @@ touch get-address-balance.js
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 109
 
@@ -2000,12 +1736,8 @@ add const { getAddressBalance } = require('./blockchain-helpers');
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 110
 
@@ -2018,12 +1750,8 @@ add const nameOfAddress = process.argv[2];
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 111
 
@@ -2036,12 +1764,8 @@ add const balance = getAddressBalance(nameOfAddress);
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 112
 
@@ -2054,12 +1778,8 @@ add console.log(`The balance for ${nameOfAddress} is ${balance}`);
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 113
 
@@ -2072,12 +1792,8 @@ run node get-address-balance.js Me
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 114
 
@@ -2090,12 +1806,8 @@ run node get-address-balance.js You
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 115
 
@@ -2108,12 +1820,8 @@ add getAddressBalance to import
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 116
 
@@ -2126,12 +1834,8 @@ add const addressBalance = getAddressBalance(fromAddress);
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 117
 
@@ -2144,12 +1848,8 @@ add if (addressBalance >= amount) {}
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 118
 
@@ -2162,12 +1862,8 @@ add else { console.log('You do not have enough funds to make that transaction');
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 119
 
@@ -2180,12 +1876,8 @@ run node add-transaction Me You 100
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 120
 
@@ -2198,12 +1890,8 @@ run node add-transaction Me You 10
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 121
 
@@ -2218,12 +1906,8 @@ add writeTransactions to import
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 122
 
@@ -2236,12 +1920,8 @@ add writeTransactions([])
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 123
 
@@ -2254,12 +1934,8 @@ run node init-blockchain
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 124
 
@@ -2272,12 +1948,8 @@ run node mine-block x2
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
-
-### --seed--
-
-#### --cmd--
 
 ## 125
 
@@ -2290,9 +1962,7 @@ run node add-transaction + same args
 Auto-pass test
 
 ```js
-assert(true);
+assert(false);
 ```
 
-### --seed--
-
-#### --cmd--
+## --fcc-end--
