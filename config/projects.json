@@ -5,19 +5,20 @@
     "dashedName": "learn-digital-ledgers-by-building-a-blockchain",
     "isIntegrated": false,
     "description": "In this course, you will learn how to build a blockchain from scratch using JavaScript.",
-    "isPublic": false,
+    "isPublic": true,
     "currentLesson": 1,
-    "numberOfLessons": 1
+    "runTestsOnWatch": true,
+    "isResetEnabled": true
   },
   {
     "id": 1,
-    "title": "Learn Proof of Work by Building a Block Miner",
-    "dashedName": "learn-proof-of-work-by-building-a-blockchain",
+    "title": "Learn Proof of Work Consensus by Building a Block Mining Algorithm",
+    "dashedName": "learn-proof-of-work-consensus-by-building-a-block-mining-algorithm",
     "isIntegrated": false,
     "description": "In this course, you will learn how to use the SHA-256 hashing algorithm make your blockchain more secure.",
     "isPublic": false,
     "currentLesson": 1,
-    "numberOfLessons": 1
+    "runTestsOnWatch": true
   },
   {
     "id": 2,
@@ -27,7 +28,7 @@
     "description": "In this course, you will learn how to generate and use keypairs so you can veryify users and transactions.",
     "isPublic": false,
     "currentLesson": 1,
-    "numberOfLessons": 1
+    "runTestsOnWatch": true
   },
   {
     "id": 3,
