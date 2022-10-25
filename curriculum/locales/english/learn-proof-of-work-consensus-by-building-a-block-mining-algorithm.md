@@ -910,7 +910,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 50
+## 47
 
 ### --description--
 
@@ -925,7 +925,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 47
+## 48
 
 ### --description--
 
@@ -940,7 +940,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 47
+## 49
 
 ### --description--
 
@@ -955,7 +955,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 47
+## 50
 
 ### --description--
 
@@ -984,7 +984,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 48
+## 51
 
 ### --description--
 
@@ -1013,7 +1013,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 49
+## 52
 
 ### --description--
 
@@ -1042,7 +1042,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 51
+## 53
 
 ### --description--
 
@@ -1092,7 +1092,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 52
+## 54
 
 ### --description--
 
@@ -1101,85 +1101,6 @@ Your new block has a `hash` that starts with two zeros, and the `nonce` used to 
 ### --tests--
 
 You should run `node add-transactions.js Me You 20` in the terminal
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-Your `transactions.json` file should be an array with two transactions (objects) in it
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-The second transaction should have the correct three properties and values
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-## 53
-
-### --description--
-
-Mine another block.
-
-### --tests--
-
-You should run `node mine-block.js` in the terminal
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-Your `blockchain.json` file should be an array with one block (object)
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-Your block should have a `hash` that starts with two zeros
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-Your block should have a `nonce`
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-Your `transactions.json` file should be an array with one transaction (object)
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-Your transaction should have the correct three properties and values
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-## 54
-
-### --description--
-
-This is fun. Add another transaction that sends `10` tokens from `Me` to `You`.
-
-### --tests--
-
-You should run `node add-transactions.js Me You 10` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1254,6 +1175,85 @@ assert(false);
 
 ### --description--
 
+This is fun. Add another transaction that sends `10` tokens from `Me` to `You`.
+
+### --tests--
+
+You should run `node add-transactions.js Me You 10` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with two transactions (objects) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+The second transaction should have the correct three properties and values
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+## 57
+
+### --description--
+
+Mine another block.
+
+### --tests--
+
+You should run `node mine-block.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `blockchain.json` file should be an array with one block (object)
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your block should have a `hash` that starts with two zeros
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your block should have a `nonce`
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with one transaction (object)
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your transaction should have the correct three properties and values
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+## 58
+
+### --description--
+
 You are getting it. Remove the two `console.log` statements in your block mining file.
 
 ### --tests--
@@ -1265,7 +1265,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 57
+## 59
 
 ### --description--
 
@@ -1280,7 +1280,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 58
+## 60
 
 ### --description--
 
@@ -1295,7 +1295,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 59
+## 61
 
 ### --description--
 
@@ -1310,7 +1310,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 60
+## 62
 
 ### --description--
 
@@ -1325,7 +1325,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 61
+## 63
 
 ### --description--
 
@@ -1354,7 +1354,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 62
+## 64
 
 ### --description--
 
@@ -1371,7 +1371,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 63
+## 65
 
 ### --description--
 
@@ -1386,7 +1386,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 64
+## 66
 
 ### --description--
 
@@ -1401,7 +1401,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 65
+## 67
 
 ### --description--
 
@@ -1425,7 +1425,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 66
+## 68
 
 ### --description--
 
@@ -1440,7 +1440,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 67
+## 69
 
 ### --description--
 
@@ -1463,7 +1463,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 68
+## 70
 
 ### --description--
 
@@ -1485,7 +1485,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 69
+## 71
 
 ### --description--
 
@@ -1508,7 +1508,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 70
+## 72
 
 ### --description--
 
@@ -1523,7 +1523,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 71
+## 73
 
 ### --description--
 
@@ -1538,7 +1538,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 72
+## 74
 
 ### --description--
 
@@ -1553,7 +1553,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 73
+## 75
 
 ### --description--
 
@@ -1582,7 +1582,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 74
+## 76
 
 ### --description--
 
@@ -1611,7 +1611,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 75
+## 77
 
 ### --description--
 
@@ -1640,7 +1640,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 76
+## 78
 
 ### --description--
 
@@ -1669,7 +1669,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 77
+## 79
 
 ### --description--
 
@@ -1698,7 +1698,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 78
+## 80
 
 ### --description--
 
@@ -1727,7 +1727,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 79
+## 81
 
 ### --description--
 
@@ -1756,7 +1756,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 80
+## 82
 
 ### --description--
 
@@ -1771,7 +1771,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 81
+## 83
 
 ### --description--
 
@@ -1786,7 +1786,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 82
+## 84
 
 ### --description--
 
@@ -1801,7 +1801,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 83
+## 85
 
 ### --description--
 
@@ -1816,7 +1816,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 84
+## 86
 
 ### --description--
 
@@ -1831,7 +1831,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 85
+## 87
 
 ### --description--
 
@@ -1846,7 +1846,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 86
+## 88
 
 ### --description--
 
@@ -1861,7 +1861,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 87
+## 89
 
 ### --description--
 
@@ -1876,7 +1876,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 88
+## 90
 
 ### --description--
 
@@ -1891,7 +1891,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 89
+## 91
 
 ### --description--
 
@@ -1914,7 +1914,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 90
+## 92
 
 ### --description--
 
@@ -1929,7 +1929,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 91
+## 93
 
 ### --description--
 
@@ -1952,7 +1952,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 92
+## 94
 
 ### --description--
 
@@ -1967,7 +1967,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 93
+## 95
 
 ### --description--
 
@@ -1990,7 +1990,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 94
+## 96
 
 ### --description--
 
@@ -2009,7 +2009,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 95
+## 97
 
 ### --description--
 
@@ -2024,7 +2024,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 96
+## 98
 
 ### --description--
 
@@ -2039,7 +2039,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 97
+## 99
 
 ### --description--
 
@@ -2054,7 +2054,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 98
+## 100
 
 ### --description--
 
@@ -2069,7 +2069,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 99
+## 101
 
 ### --description--
 
@@ -2084,7 +2084,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 100
+## 102
 
 ### --description--
 
@@ -2099,7 +2099,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 101
+## 103
 
 ### --description--
 
@@ -2114,7 +2114,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 102
+## 104
 
 ### --description--
 
@@ -2129,7 +2129,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 103
+## 105
 
 ### --description--
 
@@ -2144,7 +2144,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 104
+## 106
 
 ### --description--
 
@@ -2159,7 +2159,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 105
+## 107
 
 ### --description--
 
@@ -2174,7 +2174,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 106
+## 108
 
 ### --description--
 
@@ -2189,7 +2189,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 107
+## 109
 
 ### --description--
 
@@ -2204,7 +2204,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 108
+## 110
 
 ### --description--
 
@@ -2219,7 +2219,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 109
+## 111
 
 ### --description--
 
@@ -2235,7 +2235,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 110
+## 112
 
 ### --description--
 
@@ -2250,7 +2250,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 111
+## 113
 
 ### --description--
 
@@ -2265,7 +2265,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 112
+## 114
 
 ### --description--
 
@@ -2280,7 +2280,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 113
+## 115
 
 ### --description--
 
@@ -2295,7 +2295,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 114
+## 116
 
 ### --description--
 
@@ -2310,7 +2310,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 115
+## 117
 
 ### --description--
 
@@ -2325,7 +2325,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 116
+## 118
 
 ### --description--
 
@@ -2340,7 +2340,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 117
+## 119
 
 ### --description--
 
@@ -2355,7 +2355,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 118
+## 120
 
 ### --description--
 
@@ -2370,7 +2370,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 119
+## 121
 
 ### --description--
 
@@ -2385,7 +2385,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 120
+## 122
 
 ### --description--
 
