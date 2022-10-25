@@ -640,6 +640,23 @@ assert(false);
 
 ### --description--
 
+Add a transaction that sends `8` tokens from `You` to `Me`
+
+Delete this? We don't even write to the tx file.
+
+### --tests--
+
+Auto-pass test
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+## 32
+
+### --description--
+
 Run your file.
 
 ### --tests--
@@ -658,7 +675,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 32
+## 33
 
 ### --description--
 
@@ -675,7 +692,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 33
+## 34
 
 ### --description--
 
@@ -690,7 +707,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 34
+## 35
 
 ### --description--
 
@@ -712,7 +729,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 35
+## 36
 
 ### --description--
 
@@ -727,7 +744,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 36
+## 37
 
 ### --description--
 
@@ -749,7 +766,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 37
+## 38
 
 ### --description--
 
@@ -764,7 +781,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 38
+## 39
 
 ### --description--
 
@@ -779,7 +796,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 39
+## 40
 
 ### --description--
 
@@ -796,7 +813,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 40
+## 41
 
 ### --description--
 
@@ -811,7 +828,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 41
+## 42
 
 ### --description--
 
@@ -826,7 +843,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 42
+## 43
 
 ### --description--
 
@@ -841,7 +858,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 43
+## 44
 
 ### --description--
 
@@ -856,7 +873,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 44
+## 45
 
 ### --description--
 
@@ -878,7 +895,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 45
+## 46
 
 ### --description--
 
@@ -893,7 +910,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 46
+## 47
 
 ### --description--
 
@@ -908,7 +925,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 47
+## 48
 
 ### --description--
 
@@ -923,7 +940,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 48
+## 49
 
 ### --description--
 
@@ -938,7 +955,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 49
+## 50
 
 ### --description--
 
@@ -967,7 +984,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 50
+## 51
 
 ### --description--
 
@@ -996,7 +1013,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 51
+## 52
 
 ### --description--
 
@@ -1025,7 +1042,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 52
+## 53
 
 ### --description--
 
@@ -1075,7 +1092,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 53
+## 54
 
 ### --description--
 
@@ -1104,7 +1121,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 54
+## 55
 
 ### --description--
 
@@ -1154,7 +1171,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 55
+## 56
 
 ### --description--
 
@@ -1183,7 +1200,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 56
+## 57
 
 ### --description--
 
@@ -1233,7 +1250,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 57
+## 58
 
 ### --description--
 
@@ -1248,7 +1265,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 58
+## 59
 
 ### --description--
 
@@ -1263,7 +1280,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 59
+## 60
 
 ### --description--
 
@@ -1278,7 +1295,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 60
+## 61
 
 ### --description--
 
@@ -1293,7 +1310,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 61
+## 62
 
 ### --description--
 
@@ -1308,7 +1325,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 62
+## 63
 
 ### --description--
 
@@ -1337,7 +1354,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 63
+## 64
 
 ### --description--
 
@@ -1354,7 +1371,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 64
+## 65
 
 ### --description--
 
@@ -1369,7 +1386,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 65
+## 66
 
 ### --description--
 
@@ -1384,7 +1401,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 66
+## 67
 
 ### --description--
 
@@ -1408,7 +1425,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 67
+## 68
 
 ### --description--
 
@@ -1423,7 +1440,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 68
+## 69
 
 ### --description--
 
@@ -1446,7 +1463,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 69
+## 70
 
 ### --description--
 
@@ -1468,7 +1485,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 70
+## 71
 
 ### --description--
 
@@ -1491,7 +1508,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 71
+## 72
 
 ### --description--
 
@@ -1506,7 +1523,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 72
+## 73
 
 ### --description--
 
@@ -1521,7 +1538,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 73
+## 74
 
 ### --description--
 
@@ -1536,7 +1553,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 74
+## 75
 
 ### --description--
 
@@ -1565,7 +1582,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 75
+## 76
 
 ### --description--
 
@@ -1594,7 +1611,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 76
+## 77
 
 ### --description--
 
@@ -1623,7 +1640,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 77
+## 78
 
 ### --description--
 
@@ -1652,7 +1669,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 78
+## 79
 
 ### --description--
 
@@ -1681,7 +1698,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 79
+## 80
 
 ### --description--
 
@@ -1710,7 +1727,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 80
+## 81
 
 ### --description--
 
@@ -1739,7 +1756,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 81
+## 82
 
 ### --description--
 
@@ -1754,7 +1771,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 82
+## 83
 
 ### --description--
 
@@ -1769,7 +1786,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 83
+## 84
 
 ### --description--
 
@@ -1784,7 +1801,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 84
+## 85
 
 ### --description--
 
@@ -1799,7 +1816,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 85
+## 86
 
 ### --description--
 
@@ -1814,7 +1831,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 86
+## 87
 
 ### --description--
 
@@ -1829,7 +1846,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 87
+## 88
 
 ### --description--
 
@@ -1844,7 +1861,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 88
+## 89
 
 ### --description--
 
@@ -1859,7 +1876,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 89
+## 90
 
 ### --description--
 
@@ -1874,7 +1891,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 90
+## 91
 
 ### --description--
 
@@ -1897,7 +1914,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 91
+## 92
 
 ### --description--
 
@@ -1912,7 +1929,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 92
+## 93
 
 ### --description--
 
@@ -1935,7 +1952,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 93
+## 94
 
 ### --description--
 
@@ -1950,7 +1967,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 94
+## 95
 
 ### --description--
 
@@ -1973,30 +1990,15 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 95
-
-### --description--
-
-There's one more thing you are going to do here, make it so you can't send transactions unless you have enough tokens. In the `blockchain-helpers.js` file, export a new `getAddressBalance` function. Make it accept an `address` parameter, and leave the function empty for now.
-
-### --tests--
-
-Auto-pass test
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
 ## 96
 
 ### --description--
 
-add const blockchain = getBlockchain();
+There's one more thing to do here, make it so you can't send transactions unless you have enough tokens. In the `blockchain-helpers.js` file, export a new `getAddressBalance` function. Have it accept an `address` parameter, and leave the function empty for now.
 
 ### --tests--
 
-Auto-pass test
+You should have `export function getAddressBalance(address) { }` in your `blockchain-helpers.js` file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2007,11 +2009,11 @@ assert(false);
 
 ### --description--
 
-add let balance = 0;
+In the new function, create a `const blockchain` variable set to the blockchain.
 
 ### --tests--
 
-Auto-pass test
+You should have `const blockchain = getBlockchain();` in your `getAddressBalance` function
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2022,11 +2024,11 @@ assert(false);
 
 ### --description--
 
-add comment // loop over blocks
+Create a `balance` variable that is set to `0` (zero/integer).
 
 ### --tests--
 
-Auto-pass test
+You should have `let balance = 0;` at the bottom of your `getAddressBalance` function
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2037,11 +2039,11 @@ assert(false);
 
 ### --description--
 
-add for (let i = 1; i < blockchain.length; i++) {}
+To find a balance, you need to loop over all the blocks and transactions, see if any of transaction addresses match the address passed to the function, and add or subtract the amount. Add a `loop over blocks` below your `balance` variable.
 
 ### --tests--
 
-Auto-pass test
+You should have a `// loop over blocks` comment at the bottom of your `getAddressBalance` function
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2052,11 +2054,11 @@ assert(false);
 
 ### --description--
 
-add const { transactions } = blockchain[i]; 
+You know the genesis block doesn't have any transactions, so create a `for` loop that goes through all except the first block. Give it the same structure as the other loop that goes over the blocks.
 
 ### --tests--
 
-Auto-pass test
+You should have `for (let i = 1; i < blockchain.length; i++) { }` at the bottom of your `getAddressBalance` function
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2067,11 +2069,11 @@ assert(false);
 
 ### --description--
 
-add comment // loop over transactions
+You only need to see all the transactions. So, in the `for` loop, destruct `transactions` from the current block like you did in the validation function.
 
 ### --tests--
 
-Auto-pass test
+You should have `const { transactions } = blockchain[i];` in your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2082,11 +2084,11 @@ assert(false);
 
 ### --description--
 
-add for (let j = 0; j < transactions.length; j++) {
+Below that, add a `loop over transactions` comment.
 
 ### --tests--
 
-Auto-pass test
+You should have `// loop over transactions` at the bottom of your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2097,11 +2099,11 @@ assert(false);
 
 ### --description--
 
-add const { fromAddress, toAddress, amount } = transactions[j]
+Add another `for` loop that loops over the transactions. Give it the same structure you used in the validation function.
 
 ### --tests--
 
-Auto-pass test
+You should have `for (let j = 0; j < transactions.length; j++) { }` at the bottom of your loop that goes over the blocks
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2112,11 +2114,11 @@ assert(false);
 
 ### --description--
 
-add if (fromAddress === address) {}
+You only need the addresses and the amount from the current transaction, so destruct everything but the `hash` from current transaction.
 
 ### --tests--
 
-Auto-pass test
+You should have `const { fromAddress, toAddress, amount } = transactions[j];` in your loop that goes over the transactions
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2127,11 +2129,11 @@ assert(false);
 
 ### --description--
 
-add balance -= amount;
+Add an empty `if` condition that checks if the `fromAddress` equals the address passed to the function.
 
 ### --tests--
 
-Auto-pass test
+You should have `if (fromAddress === address) { }` at the bottom of your transaction loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2142,11 +2144,11 @@ assert(false);
 
 ### --description--
 
-add if (toAddress === address) {
+This is for if the address sending their tokens to someone. So, in the `if` statement, use `-=` to subract the `amount` from `balance`.
 
 ### --tests--
 
-Auto-pass test
+You should have `balance -= amount;` in your `if` statement
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2157,11 +2159,11 @@ assert(false);
 
 ### --description--
 
-add balance += amount;
+Next, add another `if` statement that checks if the address is recieving the tokens.
 
 ### --tests--
 
-Auto-pass test
+You should have `if (toAddress === address) { }` at the bottom of your transaction loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2172,11 +2174,11 @@ assert(false);
 
 ### --description--
 
-add return balance;
+In the statement, use `+=` to add the `amount` to the `balance`.
 
 ### --tests--
 
-Auto-pass test
+You should have `balance += amount;` in the new `if` statement
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2187,11 +2189,11 @@ assert(false);
 
 ### --description--
 
-touch get-address-balance.js
+After you have gone through all the blocks, return the `balance`.
 
 ### --tests--
 
-Auto-pass test
+You should have `return balance;` at the bottom of your `getAddressBalance` function
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2202,12 +2204,11 @@ assert(false);
 
 ### --description--
 
-in get-address-balance.js
-add const { getAddressBalance } = require('./blockchain-helpers');
+Create a `get-address-balance.js` file so you can run this on the command line.
 
 ### --tests--
 
-Auto-pass test
+You should have a `get-address-balance.js` file in your project folder
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2218,11 +2219,11 @@ assert(false);
 
 ### --description--
 
-add const nameOfAddress = process.argv[2];
+Open the new file and import your `getAdressBalance` function from the helpers file.
 
 ### --tests--
 
-Auto-pass test
+You should have `const { getAddressBalance } = require('./blockchain-helpers.js');` in your `get-address-balance.js` function.
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2233,11 +2234,11 @@ assert(false);
 
 ### --description--
 
-add const balance = getAddressBalance(nameOfAddress);
+Below that, create a `const nameOfAddress` variable that is set to the first command line argument (`process.argv[2]`).
 
 ### --tests--
 
-Auto-pass test
+You should have `const nameOfAddress = process.argv[2];` at the bottom of your `get-address-balance.js` file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2248,11 +2249,11 @@ assert(false);
 
 ### --description--
 
-add console.log(`The balance for ${nameOfAddress} is ${balance}`);
+Below that, create a `const balance` variable. Use the `getAddressBalance` function to set the value to the balance of the address passed through the command line.
 
 ### --tests--
 
-Auto-pass test
+You should have `const balance = getAddressBalance(nameOfAddress);` at the bottom of your `get-address-balance.js` file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2263,11 +2264,11 @@ assert(false);
 
 ### --description--
 
-run node get-address-balance.js Me
+Use a template literal to log `The balance for <nameOfAddress> is <balance>` to the console.
 
 ### --tests--
 
-Auto-pass test
+You should have ``console.log(`The balance for ${nameOfAddress} is ${balance}`);`` at the bottom of your `get-address-balance.js` file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2278,11 +2279,18 @@ assert(false);
 
 ### --description--
 
-run node get-address-balance.js You
+Time to see if it works. In the terminal, run your file to see a balance and pass it `Me` as a parameter.
 
 ### --tests--
 
-Auto-pass test
+You should run `node get-address-balance.js Me` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+The terminal output should include =something=
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2293,11 +2301,20 @@ assert(false);
 
 ### --description--
 
-add getAddressBalance to import
+It looks like it works.
+=something about the balance here=
+Next, check the balance of `You`.
 
 ### --tests--
 
-Auto-pass test
+You should run `node get-address-balance.js You` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+The terminal output should include =something=
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2308,11 +2325,12 @@ assert(false);
 
 ### --description--
 
-add const addressBalance = getAddressBalance(fromAddress);
+=something about the output=
+At the top of your `add-transaction.js` file, import the `getAddressBalance` function with the rest of the imported helper functions.
 
 ### --tests--
 
-Auto-pass test
+You should import `getAddressBalance` at the top of `add-transaction.js` with the rest of the imports
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2323,11 +2341,11 @@ assert(false);
 
 ### --description--
 
-add if (addressBalance >= amount) {}
+You only want to add the transaction of the `fromAddres` has enough funds. Above where you `push` the new transaction, create a `const addressBalance` variable and set the value to the balance of the `fromAddress`.
 
 ### --tests--
 
-Auto-pass test
+You should have `const addressBalance = getAddressBalance(fromAddress);` above `transactions.push(newTransaction);`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2338,11 +2356,25 @@ assert(false);
 
 ### --description--
 
-add else { console.log('You do not have enough funds to make that transaction'); }
+Below that, add an `if` statement that checks if the balance is greater than or equal to the amount they are trying to send. Put the `transactions.push` and `writeTransactions` lines in it.
 
 ### --tests--
 
-Auto-pass test
+You should have an `if (addressBalance >= amount)` as the last block of code in your file
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+`transactions.push(newTransaction);` should be the first line in the `if` statement
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+`writeTransactions(transactions);` should be the second line in the `if` statement
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2353,11 +2385,11 @@ assert(false);
 
 ### --description--
 
-run node add-transaction Me You 100
+Add an `else` area to the `if` statement. Log `You do not have enough funds to make that transaction` to the console if the address doesn't have enough to make the transaction.
 
 ### --tests--
 
-Auto-pass test
+You should have `else { console.log('You do not have enough funds to make that transaction'); }` at the bottom of your file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2368,7 +2400,7 @@ assert(false);
 
 ### --description--
 
-run node add-transaction Me You 10
+Let's see if it works. Try to add a transaction that sends `100` from `Me` to `You`.
 
 ### --tests--
 
@@ -2383,7 +2415,8 @@ assert(false);
 
 ### --description--
 
-run node init-blockchain
+=it didn't work=
+Adrun node add-transaction Me You 10
 
 ### --tests--
 
@@ -2398,7 +2431,7 @@ assert(false);
 
 ### --description--
 
-run node mine-block x2
+run node init-blockchain
 
 ### --tests--
 
@@ -2410,6 +2443,21 @@ assert(false);
 ```
 
 ## 124
+
+### --description--
+
+run node mine-block x2
+
+### --tests--
+
+Auto-pass test
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+## 125
 
 ### --description--
 
