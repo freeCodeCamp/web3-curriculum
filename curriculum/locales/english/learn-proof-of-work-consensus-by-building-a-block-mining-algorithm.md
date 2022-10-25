@@ -89,7 +89,7 @@ assert(false);
 
 ### --description--
 
-A new block was added to your blockchain. Run `node validate-chain.js` in the terminal to make sure your chain is still valid.
+A new block was added to your blockchain that includes your transaction and the transaction pool is empty again. Run `node validate-chain.js` in the terminal to make sure your chain is still valid.
 run `node validate-chain.js`
 
 ### --tests--
@@ -120,7 +120,7 @@ assert(false);
 
 ### --description--
 
-Instead of just adding blocks, you will learn how they are mined. Rename your `add-block.js` file to `mine-block.js`
+Instead of adding blocks, you will learn how they are mined. Rename your `add-block.js` file to `mine-block.js`
 
 ### --tests--
 
@@ -142,7 +142,7 @@ assert(false);
 
 ### --description--
 
-Your blocks have a `hash` property that is a random number. You will turn these into actual hash values. Run `npm install crypto-js` in your project folder so you can create do that.
+Your blocks have a `hash` property that is a random number converted to a string. You will turn these into real hash values. Run `npm install crypto-js` in your project folder to help with that.
 
 ### --tests--
 
@@ -188,7 +188,6 @@ assert(false);
 ### --description--
 
 Right below that, log your `hash` variable to the console.
-add `console.log(hash)`
 
 ### --tests--
 
@@ -247,7 +246,7 @@ assert(false);
 
 ### --description--
 
-The `sha256` method turned the `password` string you passed to it, into a cryptic 256 bit hash that is 64 characters long. Run the command again.
+The `sha256` method turned the `password` string you passed to it into a 256 bit hash that is 64 characters long. Run the command again.
 
 ### --tests--
 
@@ -269,7 +268,7 @@ assert(false);
 
 ### --description--
 
-The output included that same hash. Given the same input, the hash function will always produce the output. Change `password` to `passwords`.
+It output the same hash. Given the same input, the hash function will always produce same the output. Change `password` to `passwords`.
 
 ### --tests--
 
@@ -283,6 +282,10 @@ assert(false);
 ## 14
 
 ### --description--
+
+Run the file again.
+
+### --tests--
 
 You should run `node mine-block.js` in the terminal
 
@@ -302,7 +305,9 @@ assert(false);
 
 ### --description--
 
-Now that you changed the input to the function, the hash output is completely different, but still fixed to 64 characters. Change `passwords` to a concatenation of the `previousBlock.hash` and `JSON.stringify(transactions)` so your hash is created using information from the block you are mining.
+The hash that was printed is completely different. Changing a single character in the input will completely change the output.
+
+The input string can be any length. Change `passwords` to a concatenation of the `previousBlock.hash` and `JSON.stringify(transactions)` so your hash is created using information from the block you are mining.
 
 ### --tests--
 
@@ -376,7 +381,7 @@ assert(false);
 
 ### --description--
 
-Run `node add-transaction.js You Me 4` in the terminal to add a new transaction to your transaction pool.
+Open `transactions.json` and run `node add-transaction.js You Me 4` in the terminal to add a new transaction to your transaction pool.
 
 ### --tests--
 
@@ -405,7 +410,7 @@ assert(false);
 
 ### --description--
 
-Open your `blockchain.json` file and mine a new block. 
+Open your `blockchain.json` file, scroll to the bottom, and mine a new block.
 
 ### --tests--
 
@@ -434,7 +439,7 @@ assert(false);
 
 ### --description--
 
-Your new block, at the bottom of `blockchain.json`, has a cryptic `hash` value created using the information from the block. Add a new transaction that sends `6` tokens from `You` to `Me`.
+Now you are using an actual hash for new blocks that is created from the information in the block. Add a new transaction that sends `6` tokens from `You` to `Me`.
 
 ### --tests--
 
@@ -492,33 +497,28 @@ assert(false);
 
 ### --description--
 
-The latest block at the bottom of `blockchain.json` has a different hash because the information used to create it was different. Change your `const hash` declaration to use the `let` keyword and set the value to an empty string.
+Each block will have a unique hash since the information used to create it will never be the same.
+
+The process of mining a block is to keep changing the input of the hash function until you find a hash that fits a pattern you are looking for. A _nonce_ is used to do this. Add a `let nonce` variable above your `hash` declaration that is set to `0` (zero/integer).
 
 ### --tests--
 
-You should have `let hash = '';` above your log to the console
+You should have `let nonce = 0` above your `hash` declaration
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-You should only have one `hash` variable
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false)
-```
-
 ## 24
 
 ### --description--
 
-The process of mining a block is to keep changing the input of the hash function until you find a hash that fits a pattern you are looking for. A _nonce_ is used to do this. Add a `let nonce` variable below your `hash` declaration that is set to `0` (zero/integer).
+Add your `nonce` as the part of the string used to create the hash. Also, change your `hash` declaraction to use the `let` keyword.
 
 ### --tests--
 
-You should have `let nonce = 0;` right above your log to the console
+You should have `let hash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();` right below your `nonce` declaration
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -529,11 +529,11 @@ assert(false);
 
 ### --description--
 
-Add a `while` loop that checks if `!hash.startsWith('0')`. Put your `console.log(hash)` in the loop. This loop will continue to run until you find a hash that starts with a `0` (zero).
+You want your `hash` to start with a zero. Create a `while` loop that checks if `!hash.startsWith('0')` and put your `console.log` in the loop.
 
 ### --tests--
 
-You should have `while (!hash.startsWith('0')) { }` below your `nonce` declaration
+You should have `while (!hash.startsWith('0')) { }` below your `hash` declaration
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -551,11 +551,11 @@ assert(false);
 
 ### --description--
 
-At the top of your loop, increment your `nonce` with the `++` operator.
+If your initial hash starts with zero, you will not enter this loop. If it doesn't you want to look for a new hash until it does. At the top of your loop, increment your `nonce` with the `++` operator.
 
 ### --tests--
 
-You should have `nonce++;` at the start of your `while` loop
+You should have `nonce++;` at the top of your `while` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -566,11 +566,11 @@ assert(false);
 
 ### --description--
 
-Below that, redefine your `hash` so that it creates a hash using the `sha256` method from a concatenation of your `nonce`, the hash of the previous block, and a stringified version of what is in the transactions file. Here's a reminder of the syntax: `sha256(<content>).toString();`
+Below that, redefine your `hash` so that it creates a new hash using the same information as the original definition.
 
 ### --tests--
 
-You should have `hash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();` in your while loop
+You should have `hash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();` in your `while` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -589,8 +589,6 @@ assert(false);
 ### --description--
 
 Change the log to the console so it prints `nonce = ${nonce}`. Use a template literal.
-
-`console.log` to ``console.log(`nonce = ${nonce}`);``
 
 ### --tests--
 
@@ -659,7 +657,7 @@ assert(false);
 
 ### --description--
 
-Run your `mine-block.js` file.
+Run your file.
 
 ### --tests--
 
@@ -670,7 +668,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-Your terminal output should include a hash
+The last line of your terminal output should print `hash = <hash>`, with `<hash>` being a hash that starts with one zero
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -681,11 +679,13 @@ assert(false);
 
 ### --description--
 
-add `const difficulty = 2;`
+It went through your loop until it found a hash that starts with zero. The only difference when creating those values was the `nonce`, all the other info was the same.
+
+Add a `const difficulty` variable above your loop. Give it a value of `2`.
 
 ### --tests--
 
-Auto-pass test
+You should have `const difficulty = 2` above your `while` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -696,11 +696,11 @@ assert(false);
 
 ### --description--
 
-add `.repeat(difficulty)`
+In the condition of your `while` loop, add `.repeat(difficulty)` so that the hash needs to start with two zeros.
 
 ### --tests--
 
-Auto-pass test
+You should have `!hash.startsWith('0'.repeat(difficulty))` as your `while` loop condition
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -711,11 +711,18 @@ assert(false);
 
 ### --description--
 
-run `node-mine-block.js`
+Run your file again.
 
 ### --tests--
 
-Auto-pass test
+You should run `node mine-block.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+The last line of your terminal output should print `hash = <hash>`, with `<hash>` being a hash that starts with two zeros
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -726,11 +733,11 @@ assert(false);
 
 ### --description--
 
-change `difficulty` to `3`
+That one took quite a few more tries since it's harder to find a hash that starts with two zeros. Change the `difficulty` to `3`.
 
 ### --tests--
 
-Auto-pass test
+You should have `const difficulty = 3;` above your `while` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -741,11 +748,18 @@ assert(false);
 
 ### --description--
 
-run `node mine-block.js`
+Run the file again.
 
 ### --tests--
 
-Auto-pass test
+You should run `node mine-block.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+The last line of your terminal output should print `hash = <hash>`, with `<hash>` being a hash that starts with three zeros
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -756,11 +770,11 @@ assert(false);
 
 ### --description--
 
-change difficulty to `4`
+At the time of writing this, the `hash` for a block on a popular blockchain needs to start with 19 zeros, and takes trillions of guesses to find a nonce that will produce a hash. Change your `difficulty` to `4`.
 
 ### --tests--
 
-Auto-pass test
+You should have `const difficulty = 4;` above your `while` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -771,11 +785,11 @@ assert(false);
 
 ### --description--
 
-run `node mine-block.js` again
+Run `node mine-block.js` again. This one may take a little longer.
 
 ### --tests--
 
-Auto-pass test
+You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -786,11 +800,13 @@ assert(false);
 
 ### --description--
 
-add `nonce` to `newBlock`
+This is how the proof of work consensus method for adding blocks to a blockchain works. If you have a `nonce` that will produce the `hash` needed, it proves that you have spent computing power needed to find it.
+
+Add the `nonce` property and value to your `newBlock`.
 
 ### --tests--
 
-Auto-pass test
+You should have a `nonce` property in the `newBlock` object set to the value of `nonce`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -801,11 +817,11 @@ assert(false);
 
 ### --description--
 
-add `const rewardTransaction = {}`
+Because proof of work takes a lot of resources to find the nonce, the person that finds it is rewarded. Add a `const rewardTransaction` below your `newBlock` object, set it to an empty object literal.
 
 ### --tests--
 
-Auto-pass test
+You should have `const rewardTransaction = {}` below your `newBlock` object
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -816,11 +832,11 @@ assert(false);
 
 ### --description--
 
-add `fromAddress: null`
+Add a `fromAddress` property to your new object. The reward transaction will add new tokens to your blockchain and won't have a sender, so set the value to `null`.
 
 ### --tests--
 
-Auto-pass test
+Your `rewardTransaction` object should have a `fromAddress: null` property
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -831,11 +847,11 @@ assert(false);
 
 ### --description--
 
-add `toAddress: Me`
+Since you are the only person here mining blocks, give it a `toAddress` property set to `Me`.
 
 ### --tests--
 
-Auto-pass test
+Your `rewardTransaction` object should have a `toAddress: 'Me'` property
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -846,11 +862,11 @@ assert(false);
 
 ### --description--
 
-add `amount: 50`
+Add an `amount` of `50` to the object for the reward amount.
 
 ### --tests--
 
-Auto-pass test
+Your `rewardTransaction` object should have an `amount: 50` property
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -861,11 +877,18 @@ assert(false);
 
 ### --description--
 
-uncomment two `write`'s
+Uncomment the two places where you write to files.
 
 ### --tests--
 
-Auto-pass test
+You should have `writeBlockchain(blockchain);` in your file that is not commented out
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+You should have `writeTransactions([]);` in your file that is not commented out
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -876,56 +899,11 @@ assert(false);
 
 ### --description--
 
-change to `writeTransaction([rewardTransaction]);`
+Change where you write the `transactions.json` file so it writes an array with your reward transaction as the only item.
 
 ### --tests--
 
-Auto-pass test
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-## 47
-
-### --description--
-
-run `node init-blockchain.js`
-
-### --tests--
-
-Auto-pass test
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-## 48
-
-### --description--
-
-run `node add-transaction You Me 12`
-
-### --tests--
-
-Auto-pass test
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-## 49
-
-### --description--
-
-run `node add-transaction You Me 16`
-
-### --tests--
-
-Auto-pass test
+You should have `writeTransaction([rewardTransaction])` at the bottom of your file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -936,11 +914,128 @@ assert(false);
 
 ### --description--
 
-change difficulty back to `2`
+Lastly, change the difficulty of mining blocks back to `2` so it doesn't take too long to mine a block.
 
 ### --tests--
 
-Auto-pass test
+You should have `const difficulty = 2` in your `mine-block.js` file
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+## 47
+
+### --description--
+
+You will add more validation later on that verifies all your block hashes, making your existing blocks invalid. So you need to re-initialize your blockchain. First, open your `init-blockchain.js` file and import the `writeTransactions` function at the top with the other import.
+
+### --tests--
+
+You should have `import { writeBlockchain, writeTransactions } from 'blockchain-helpers.js';` at the top of your `init-blockchain.js` file
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+## 47
+
+### --description--
+
+At the bottom of the file, use the function to write an empty array to your `transactions.json` file.
+
+### --tests--
+
+You should have `writeTransactions([])` at the bottom of your `init-blockchain.js` file
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+## 47
+
+### --description--
+
+Run your command to re-initialize your blockchain.
+
+### --tests--
+
+You should run `node init-blockchain.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `blockchain.json` file should be an empty array
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an emtpy array
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+## 48
+
+### --description--
+
+Open your `transactions.json` so you can see it, and use the terminal to add a transaction that sends `12` tokens from `You` to `Me`.
+
+### --tests--
+
+You should run `node add-transactions.js You Me 12` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with one transaction (object) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+The transaction should have the correct three properties and values
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+## 49
+
+### --description--
+
+Add another one, using the same two addresses, but send `16` tokens this time.
+
+### --tests--
+
+You should run `node add-transactions.js You Me 16` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with two transactions (objects) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+The second transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -951,11 +1046,46 @@ assert(false);
 
 ### --description--
 
-run `node mine-block.js`
+Open your `blockchain.json` file, I recommend keeping it open next to the `transactions.json` file so you can see both. Then, mine a new block.
 
 ### --tests--
 
-Auto-pass test
+You should run `node mine-block.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `blockchain.json` file should be an array with one block (object)
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your block should have a `hash` that starts with two zeros
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your block should have a `nonce`
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with one transaction (object)
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -966,11 +1096,25 @@ assert(false);
 
 ### --description--
 
-run `node add-transaction Me You 20`
+Your new block has a `hash` that starts with two zeros, and the `nonce` used to create it is included in the block. A reward transaction was added to the transaction pool. It will be added to the blockchain when the next block is mined. Add a transaction that sends `20` tokens from `Me` to `You`
 
 ### --tests--
 
-Auto-pass test
+You should run `node add-transactions.js Me You 20` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with two transactions (objects) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+The second transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -981,11 +1125,46 @@ assert(false);
 
 ### --description--
 
-run `node mine-block.js`
+Mine another block.
 
 ### --tests--
 
-Auto-pass test
+You should run `node mine-block.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `blockchain.json` file should be an array with one block (object)
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your block should have a `hash` that starts with two zeros
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your block should have a `nonce`
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with one transaction (object)
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -996,11 +1175,25 @@ assert(false);
 
 ### --description--
 
-run `node add-transaction Me You 10`
+This is fun. Add another transaction that sends `10` tokens from `Me` to `You`.
 
 ### --tests--
 
-Auto-pass test
+You should run `node add-transactions.js Me You 10` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with two transactions (objects) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+The second transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1011,11 +1204,46 @@ assert(false);
 
 ### --description--
 
-run `node mine-block.js`
+Mine another block.
 
 ### --tests--
 
-Auto-pass test
+You should run `node mine-block.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `blockchain.json` file should be an array with one block (object)
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your block should have a `hash` that starts with two zeros
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your block should have a `nonce`
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with one transaction (object)
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1026,11 +1254,11 @@ assert(false);
 
 ### --description--
 
-Remove the two `console.log()`'s
+You are getting it. Remove the two `console.log` statements in your block mining file.
 
 ### --tests--
 
-Auto-pass test
+You should not have any `console.log` statements in your `mine-block.js` file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1041,14 +1269,11 @@ assert(false);
 
 ### --description--
 
-In `blockchain-helpers.js` -> isValidChain
-
-add `const SHA256 = require('crypto-js/sha256');`
-new: `import sha256 from 'crypto-js/sha256.js';`
+Now, you need to make it so your blockchain validates all the hash values. Open your `blockchain-helpers.js` file, and import the `sha256` function at the top of the file like you did in your `mine-block.js` file
 
 ### --tests--
 
-Auto-pass test
+You should have `import sha256 from 'crypto-js/sha256.js';` at the top of your `blockchain-helpers.js` file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1059,15 +1284,11 @@ assert(false);
 
 ### --description--
 
-add comment
-
-```
-// loop through blocks
-```
+The `isValidChain` function is getting a little big. Add a few comments to help keep track of what is happening. Above the `for` loop, add `loop through blocks` as a single line comment
 
 ### --tests--
 
-Auto-pass test
+You should have `// loop through blocks` above the `for` loop in the `isValidChain` function of your `blockchain-helpers.js` file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1078,15 +1299,11 @@ assert(false);
 
 ### --description--
 
-add comment
-
-```
-validate previous hash
-```
+Add another one that says `validate previous hash` above your `if` statement.
 
 ### --tests--
 
-Auto-pass test
+You should have `// validate previous hash` above your `if` statement
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1097,15 +1314,11 @@ assert(false);
 
 ### --description--
 
-add comment
-
-```
-validate block hash
-```
+Add one more that says `validate block hash` below the `if` statement, but inside the `for` loop.
 
 ### --tests--
 
-Auto-pass test
+You should have `// validate block hash` below your `if` statement
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1116,11 +1329,25 @@ assert(false);
 
 ### --description--
 
-get nonce, hash and transactions from current block
+In order to validate the hash of each block, you need all the information used to create it. Where you get the `previousHash` from the current block, also destruct the `nonce`, `hash`, and `transactions` from it.
 
 ### --tests--
 
-Auto-pass test
+You should descruct `nonce` from `blockchain[i]` in your `for` loop
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+You should descruct `hash` from `blockchain[i]` in your `for` loop
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+You should descruct `transactions` from `blockchain[i]` in your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1131,11 +1358,13 @@ assert(false);
 
 ### --description--
 
-add `const testBlockHash = SHA256(currentBlock.nonce + previousBlock.hash + JSON.stringify(currentBlock.transactions)).toString();`
+Now you need to recreate the `hash` and see if matches the actual hash. Below your `validate block hash` comment, create a `const testBlockHash` variable that creates a hash using the `sha256` function in the same way that the hash is created when you mine the block.
+
+Here's a reminder of the syntax: `sha256(<content>).toString();`. The content should be a concatenation of the `nonce`, the `hash` of the previous block, and a stringified version of the `transactions`
 
 ### --tests--
 
-Auto-pass test
+You should have `const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();` below your `validate block hash` comment
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1146,11 +1375,11 @@ assert(false);
 
 ### --description--
 
-add `if (testBlockHash != currentBlock.hash) {}`
+Now you have recreated the hash using the same info. Below that, add an empty `if` condition that checks if that hash is not equal (`!=`) to the `hash` of the current block.
 
 ### --tests--
 
-Auto-pass test
+You should have `if (testBlockHash != hash) { }` at the bottom of your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1161,11 +1390,11 @@ assert(false);
 
 ### --description--
 
-add `return false;`
+If the hashes don't match, return `false`.
 
 ### --tests--
 
-Auto-pass test
+You should have `return false;` in the `if` condition for when the block hashes don't match
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1176,11 +1405,20 @@ assert(false);
 
 ### --description--
 
+Use the terminal to see if your chain is valid.
 run `node validate-chain.js`
 
 ### --tests--
 
-Auto-pass test
+You should run `node validate-chain.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
+```
+
+The terminal output should log `Chain is valid`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1191,11 +1429,11 @@ assert(false);
 
 ### --description--
 
-tamper with nonce
+All your blocks are valid. In your `blockchain.json` file, add a `.1` to the end of the `nonce` of the latest block.
 
 ### --tests--
 
-Auto-pass test
+The `nonce` of the last block in `blockchain.json` should end with `.1`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1206,11 +1444,19 @@ assert(false);
 
 ### --description--
 
-run `node validate-chain.js`
+Run the validation command again.
 
 ### --tests--
 
-Auto-pass test
+You should run `node validate-chain.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
+```
+
+The terminal output should log `Chain is not valid`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1221,11 +1467,18 @@ assert(false);
 
 ### --description--
 
-untamper nonce
+The hash validation didn't work because once block didn't have correct `nonce` needed to recreate the hash. Remove the `.1` you added.
 
 ### --tests--
 
-Auto-pass test
+The `nonce` of the last block in `blockchain.json` should not end with `.1`
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your blockchain should be valid
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1236,11 +1489,19 @@ assert(false);
 
 ### --description--
 
-run `node validate-chain.js`
+Validate it one more time to make sure it's valid.
 
 ### --tests--
 
-Auto-pass test
+You should run `node validate-chain.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
+```
+
+The terminal output should log `Chain is valid`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1251,13 +1512,11 @@ assert(false);
 
 ### --description--
 
-in add-transaction.js
-
-add const SHA256 = require('crypto-js/sha256');
+Awesome. Transaction also include a unique hash. You will add that next. Open your `add-transaction.js` file and import the `sha256` function at the top.
 
 ### --tests--
 
-Auto-pass test
+You should have `import sha256 from 'crypto-js/sha256.js';` at the top of your `add-transaction.js` file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1268,11 +1527,11 @@ assert(false);
 
 ### --description--
 
-add const hash = SHA256(fromAddress + toAddress + amount).toString()
+Above your `newTransaction` declaration, create a `const hash` variable that creates a hash using a concatenation of the `fromAddress`, `toAddress`, and `amount`. Here's a reminder of the syntax: `sha256(<content>).toString();`.
 
 ### --tests--
 
-Auto-pass test
+You should have `const hash = sha256(fromAddress + toAddress + amount).toString();` above your `newTransaction` declaration
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1283,11 +1542,11 @@ assert(false);
 
 ### --description--
 
-add hash to newTransaction
+Add a `hash` property to the `newTransaction` object.
 
 ### --tests--
 
-Auto-pass test
+Your `newTransaction` object should have a `hash` property
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1298,11 +1557,25 @@ assert(false);
 
 ### --description--
 
-run node init-blockchain.js
+You will need to validate these as well, so re-initalize your blockchain again.
 
 ### --tests--
 
-Auto-pass test
+You should run `node init-blockchain.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `blockchain.json` file should be an empty array
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an emtpy array
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1313,11 +1586,25 @@ assert(false);
 
 ### --description--
 
-run node add-transaction.js Me You 15
+Open your two JSON files, so you can see both of them. Then, add a transaction that sends `15` tokens from `Me` to `You`.
 
 ### --tests--
 
-Auto-pass test
+You should run `node add-transactions.js Me You 15` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with one transaction (object) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+The transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1328,11 +1615,25 @@ assert(false);
 
 ### --description--
 
-run node add-transaction.js Me You 25
+The transaction now includes its own unique hash created from the information in the transaction. Add another one that sends `25` tokens using the same two addresses.
 
 ### --tests--
 
-Auto-pass test
+You should run `node add-transactions.js Me You 25` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with two transactions (objects) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+The second transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1343,11 +1644,25 @@ assert(false);
 
 ### --description--
 
-run `node mine-block.js`
+Mine a block.
 
 ### --tests--
 
-Auto-pass test
+You should run `node mine-block.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `blockchain.json` file should be an array with two blocks (objects)
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with one transaction (object)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1358,11 +1673,25 @@ assert(false);
 
 ### --description--
 
-run node add-transaction.js You Me 4
+Add a transaction that sends `5` tokens from `You` to `Me`.
 
 ### --tests--
 
-Auto-pass test
+You should run `node add-transactions.js You Me 5` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with two transactions (objects) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+The second transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1373,11 +1702,25 @@ assert(false);
 
 ### --description--
 
-run node add-transaction.js You Me 8
+Add another one that sends `10` tokens using the same two addresses.
 
 ### --tests--
 
-Auto-pass test
+You should run `node add-transactions.js You Me 10` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with three transactions (objects) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+The third transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1388,11 +1731,25 @@ assert(false);
 
 ### --description--
 
-run `node mine-block.js`
+Mine another block.
 
 ### --tests--
 
-Auto-pass test
+You should run `node mine-block.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `blockchain.json` file should be an array with three blocks (objects)
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with one transaction (object)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1403,13 +1760,11 @@ assert(false);
 
 ### --description--
 
-In blockchain-helpers.js -> isValidChain()
-
-add comment // loop over transactions
+Now you need to validate all the transaction hashes. In your `blockchain-helpers.js` function, find the `isValidChain` function again and add a `loop over transactions` comment at the bottom of the `for` loop so you can go through all the transactions of each block.
 
 ### --tests--
 
-Auto-pass test
+You should have `// validate previous hash` at the bottom of your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1420,15 +1775,11 @@ assert(false);
 
 ### --description--
 
-add
-
-```
-for (let j = 0; j < transactions.length; j++) {}
-```
+Below the comment, add another `for` loop, similar to the one used for looping over the blocks. Use `let j = 0` to initialize the loop, and have it go while `j < transactions.length`.
 
 ### --tests--
 
-Auto-pass test
+You should have `for (let j = 0; j < transactions.length; j++) { }` below your `loop over transactions` comment
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1439,15 +1790,11 @@ assert(false);
 
 ### --description--
 
-add
-
-```
-const { fromAddress, toAddress, amount, hash } = transactions[j];
-```
+In your loop, destruct the only four properties from the current transaction.
 
 ### --tests--
 
-Auto-pass test
+You should have `const { fromAddress, toAddress, amount, hash } = transactions[j];` at the top of your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1458,11 +1805,11 @@ assert(false);
 
 ### --description--
 
-add comment // don't validate reward transaction
+Below that, add a `don't validate reward transaction` comment.
 
 ### --tests--
 
-Auto-pass test
+You should have `// don't validate reward transaction` at the bottom of your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1473,11 +1820,11 @@ assert(false);
 
 ### --description--
 
-add if (fromAddress) {}
+The `fromAddress` is `null` for reward transactions, so add an `if (fromAddress)` statement that is empty for now.
 
 ### --tests--
 
-Auto-pass test
+You should have `if (fromAddress) { }` below your `don't validate reward transaction` comment
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1488,15 +1835,11 @@ assert(false);
 
 ### --description--
 
-add comment 
-
-```
-// validate transaction hash
-```
+Add a `validate transaction hash` comment in your `if` statement.
 
 ### --tests--
 
-Auto-pass test
+You should have `// validate transaction hash` in your `if (fromAddress)` statement
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1507,11 +1850,11 @@ assert(false);
 
 ### --description--
 
-add const testTransactionHash = SHA256(fromAddress + toAddress + amount).toString();
+Below the new comment, add a `const testTransactionHash` variable that creates new hash in the same way the hash was created when the transaction was added.
 
 ### --tests--
 
-Auto-pass test
+You should have `const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();` below your `validate transaction hash` comment
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1522,15 +1865,11 @@ assert(false);
 
 ### --description--
 
-add empty 
-
-```
-if (testTransactionHash != hash) {}
-```
+Next, add an empty `if` condition that checks the new hash is not equal to the original hash.
 
 ### --tests--
 
-Auto-pass test
+You should have `if (testTransactionHash != hash) { }` below your `testTransactionHash` declaration
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1541,11 +1880,11 @@ assert(false);
 
 ### --description--
 
-add return false;
+If the hashes don't match, return `false`.
 
 ### --tests--
 
-Auto-pass test
+You should have `return false;` in the `if` condition for when the transaction hashes don't match
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1556,11 +1895,19 @@ assert(false);
 
 ### --description--
 
-run `node validate-chain.js`
+Validate your chain.
 
 ### --tests--
 
-Auto-pass test
+You should run `node validate-chain.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
+```
+
+The terminal output should log `Chain is valid`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1571,11 +1918,11 @@ assert(false);
 
 ### --description--
 
-tamper with transaction
+In the `blockchain.json` file, change the amount of the most recent transaction to `1000`.
 
 ### --tests--
 
-Auto-pass test
+The most recent transaction in your blockchain should have an `amount` of `1000`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1586,11 +1933,19 @@ assert(false);
 
 ### --description--
 
-run `node validate-chain.js`
+Validate your chain again.
 
 ### --tests--
 
-Auto-pass test
+You should run `node validate-chain.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
+```
+
+The terminal output should log `Chain is not valid`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1601,11 +1956,11 @@ assert(false);
 
 ### --description--
 
-change transaction back
+The transaction hash validation doesn't pass because someone tampered with a transaction amount. Change the amount back to `10`.
 
 ### --tests--
 
-Auto-pass test
+The most recent transaction in your blockchain should have an `amount` of `10`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1616,11 +1971,19 @@ assert(false);
 
 ### --description--
 
-run `node validate-chain.js`
+Validate your chain again to make sure it's valid again.
 
 ### --tests--
 
-Auto-pass test
+You should run `node validate-chain.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
+```
+
+The terminal output should log `Chain is valid`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1631,6 +1994,7 @@ assert(false);
 
 ### --description--
 
+There's one last thing you are going to do here, create a function to get 
 In blockchain-helpers.js - getAddressBalance
 
 add function getAddressBalance(address) {}
@@ -1840,7 +2204,6 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-
 ## 108
 
 ### --description--
@@ -2027,38 +2390,6 @@ assert(false);
 ### --description--
 
 run node add-transaction Me You 10
-
-### --tests--
-
-Auto-pass test
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-## 121
-
-### --description--
-
-in init-blockchain.js
-
-add writeTransactions to import
-
-### --tests--
-
-Auto-pass test
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-## 122
-
-### --description--
-
-add writeTransactions([])
 
 ### --tests--
 
