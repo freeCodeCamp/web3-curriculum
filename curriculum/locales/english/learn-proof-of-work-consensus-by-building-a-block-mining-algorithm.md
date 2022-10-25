@@ -202,7 +202,7 @@ assert(false);
 
 ### --description--
 
-Use single line comments to comment out the two lines at the bottom of the file where you write your blockchain and transaction files. This way, you can test your hash functions without writing to your files.
+Use single line comments to comment out the two lines at the bottom of the file where you write your blockchain and transaction files. This way, you can see the hash without writing to your files.
 
 ### --tests--
 
@@ -268,7 +268,7 @@ assert(false);
 
 ### --description--
 
-It output the same hash. Given the same input, the hash function will always produce same the output. Change `password` to `passwords`.
+It printed the same hash. Given the same input, the hash function will always produce same the output. Change `password` to `passwords`.
 
 ### --tests--
 
@@ -305,7 +305,7 @@ assert(false);
 
 ### --description--
 
-The hash that was printed is completely different. Changing a single character in the input will completely change the output.
+The hash is completely different. Changing a single character in the input will completely change the output.
 
 The input string can be any length. Change `passwords` to a concatenation of the `previousBlock.hash` and `JSON.stringify(transactions)` so your hash is created using information from the block you are mining.
 
@@ -344,7 +344,7 @@ assert(false);
 
 ### --description--
 
-But it still gives a fixed length output. Replace the `hash` value in your `newBlock` to use the new `hash` variable.
+But it still gives a fixed length output. Use your `hash` variable as the `hash` value in your `newBlock` object.
 
 ### --tests--
 
@@ -640,23 +640,6 @@ assert(false);
 
 ### --description--
 
-Add a transaction that sends `8` tokens from `You` to `Me`
-
-Delete this? We don't even write to the tx file.
-
-### --tests--
-
-Auto-pass test
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-## 32
-
-### --description--
-
 Run your file.
 
 ### --tests--
@@ -675,7 +658,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 33
+## 32
 
 ### --description--
 
@@ -692,7 +675,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 34
+## 33
 
 ### --description--
 
@@ -707,7 +690,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 35
+## 34
 
 ### --description--
 
@@ -729,7 +712,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 36
+## 35
 
 ### --description--
 
@@ -744,7 +727,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 37
+## 36
 
 ### --description--
 
@@ -766,7 +749,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 38
+## 37
 
 ### --description--
 
@@ -781,7 +764,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 39
+## 38
 
 ### --description--
 
@@ -796,7 +779,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 40
+## 39
 
 ### --description--
 
@@ -813,7 +796,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 41
+## 40
 
 ### --description--
 
@@ -828,7 +811,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 42
+## 41
 
 ### --description--
 
@@ -843,7 +826,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 43
+## 42
 
 ### --description--
 
@@ -858,7 +841,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 44
+## 43
 
 ### --description--
 
@@ -873,7 +856,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 45
+## 44
 
 ### --description--
 
@@ -895,7 +878,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 46
+## 45
 
 ### --description--
 
@@ -910,7 +893,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 47
+## 46
 
 ### --description--
 
@@ -925,7 +908,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 48
+## 47
 
 ### --description--
 
@@ -940,7 +923,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 49
+## 48
 
 ### --description--
 
@@ -955,7 +938,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 50
+## 49
 
 ### --description--
 
@@ -984,7 +967,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 51
+## 50
 
 ### --description--
 
@@ -1013,7 +996,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 52
+## 51
 
 ### --description--
 
@@ -1042,7 +1025,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 53
+## 52
 
 ### --description--
 
@@ -1092,7 +1075,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 54
+## 53
 
 ### --description--
 
@@ -1121,7 +1104,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 55
+## 54
 
 ### --description--
 
@@ -1171,7 +1154,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 56
+## 55
 
 ### --description--
 
@@ -1200,7 +1183,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 57
+## 56
 
 ### --description--
 
@@ -1250,7 +1233,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 58
+## 57
 
 ### --description--
 
@@ -1265,7 +1248,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 59
+## 58
 
 ### --description--
 
@@ -1280,7 +1263,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 60
+## 59
 
 ### --description--
 
@@ -1295,7 +1278,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 61
+## 60
 
 ### --description--
 
@@ -1310,7 +1293,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 62
+## 61
 
 ### --description--
 
@@ -1325,7 +1308,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 63
+## 62
 
 ### --description--
 
@@ -1354,7 +1337,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 64
+## 63
 
 ### --description--
 
@@ -1371,7 +1354,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 65
+## 64
 
 ### --description--
 
@@ -1386,7 +1369,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 66
+## 65
 
 ### --description--
 
@@ -1401,7 +1384,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 67
+## 66
 
 ### --description--
 
@@ -1425,7 +1408,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 68
+## 67
 
 ### --description--
 
@@ -1440,7 +1423,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 69
+## 68
 
 ### --description--
 
@@ -1463,7 +1446,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 70
+## 69
 
 ### --description--
 
@@ -1485,7 +1468,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 71
+## 70
 
 ### --description--
 
@@ -1508,7 +1491,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 72
+## 71
 
 ### --description--
 
@@ -1523,7 +1506,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 73
+## 72
 
 ### --description--
 
@@ -1538,7 +1521,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 74
+## 73
 
 ### --description--
 
@@ -1553,7 +1536,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 75
+## 74
 
 ### --description--
 
@@ -1582,7 +1565,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 76
+## 75
 
 ### --description--
 
@@ -1611,7 +1594,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 77
+## 76
 
 ### --description--
 
@@ -1640,7 +1623,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 78
+## 77
 
 ### --description--
 
@@ -1669,7 +1652,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 79
+## 78
 
 ### --description--
 
@@ -1698,7 +1681,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 80
+## 79
 
 ### --description--
 
@@ -1727,7 +1710,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 81
+## 80
 
 ### --description--
 
@@ -1756,7 +1739,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 82
+## 81
 
 ### --description--
 
@@ -1771,7 +1754,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 83
+## 82
 
 ### --description--
 
@@ -1786,7 +1769,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 84
+## 83
 
 ### --description--
 
@@ -1801,7 +1784,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 85
+## 84
 
 ### --description--
 
@@ -1816,7 +1799,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 86
+## 85
 
 ### --description--
 
@@ -1831,7 +1814,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 87
+## 86
 
 ### --description--
 
@@ -1846,7 +1829,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 88
+## 87
 
 ### --description--
 
@@ -1861,7 +1844,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 89
+## 88
 
 ### --description--
 
@@ -1876,7 +1859,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 90
+## 89
 
 ### --description--
 
@@ -1891,7 +1874,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 91
+## 90
 
 ### --description--
 
@@ -1914,7 +1897,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 92
+## 91
 
 ### --description--
 
@@ -1929,7 +1912,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 93
+## 92
 
 ### --description--
 
@@ -1952,7 +1935,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 94
+## 93
 
 ### --description--
 
@@ -1967,7 +1950,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 95
+## 94
 
 ### --description--
 
@@ -1990,7 +1973,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 96
+## 95
 
 ### --description--
 
@@ -2005,7 +1988,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 97
+## 96
 
 ### --description--
 
@@ -2020,7 +2003,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 98
+## 97
 
 ### --description--
 
@@ -2035,7 +2018,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 99
+## 98
 
 ### --description--
 
@@ -2050,7 +2033,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 100
+## 99
 
 ### --description--
 
@@ -2065,7 +2048,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 101
+## 100
 
 ### --description--
 
@@ -2080,7 +2063,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 102
+## 101
 
 ### --description--
 
@@ -2095,7 +2078,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 103
+## 102
 
 ### --description--
 
@@ -2110,7 +2093,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 104
+## 103
 
 ### --description--
 
@@ -2125,7 +2108,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 105
+## 104
 
 ### --description--
 
@@ -2140,7 +2123,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 106
+## 105
 
 ### --description--
 
@@ -2155,7 +2138,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 107
+## 106
 
 ### --description--
 
@@ -2170,7 +2153,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 108
+## 107
 
 ### --description--
 
@@ -2185,7 +2168,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 109
+## 108
 
 ### --description--
 
@@ -2200,7 +2183,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 110
+## 109
 
 ### --description--
 
@@ -2215,7 +2198,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 111
+## 110
 
 ### --description--
 
@@ -2230,7 +2213,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 112
+## 111
 
 ### --description--
 
@@ -2245,7 +2228,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 113
+## 112
 
 ### --description--
 
@@ -2260,7 +2243,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 114
+## 113
 
 ### --description--
 
@@ -2275,7 +2258,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 115
+## 114
 
 ### --description--
 
@@ -2297,7 +2280,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 116
+## 115
 
 ### --description--
 
@@ -2321,7 +2304,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 117
+## 116
 
 ### --description--
 
@@ -2337,7 +2320,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 118
+## 117
 
 ### --description--
 
@@ -2352,7 +2335,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 119
+## 118
 
 ### --description--
 
@@ -2381,7 +2364,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 120
+## 119
 
 ### --description--
 
@@ -2396,7 +2379,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 121
+## 120
 
 ### --description--
 
@@ -2411,7 +2394,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 122
+## 121
 
 ### --description--
 
@@ -2427,7 +2410,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 123
+## 122
 
 ### --description--
 
@@ -2442,7 +2425,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 124
+## 123
 
 ### --description--
 
@@ -2457,7 +2440,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 125
+## 124
 
 ### --description--
 
