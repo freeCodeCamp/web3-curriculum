@@ -89,7 +89,7 @@ assert(false);
 
 ### --description--
 
-A new block was added to your blockchain that includes your transaction and the transaction pool is empty again. Run `node validate-chain.js` in the terminal to make sure your chain is still valid.
+A new block was added to your blockchain that includes your transaction, and the transaction pool is empty again. Run `node validate-chain.js` in the terminal to make sure your chain is still valid.
 run `node validate-chain.js`
 
 ### --tests--
@@ -120,7 +120,7 @@ assert(false);
 
 ### --description--
 
-Instead of adding blocks, you will learn how they are mined. Rename your `add-block.js` file to `mine-block.js`
+This project will teach you how hash values are created and used to validate the content of your blockchain, and how blocks are mined. Rename your `add-block.js` file to `mine-block.js`
 
 ### --tests--
 
@@ -202,7 +202,7 @@ assert(false);
 
 ### --description--
 
-Use single line comments to comment out the two lines at the bottom of the file where you write your blockchain and transactions. This way, you can test your hash functions without writing to your files.
+Use single line comments to comment out the two lines at the bottom of the file where you write your blockchain and transaction files. This way, you can test your hash functions without writing to your files.
 
 ### --tests--
 
@@ -381,11 +381,11 @@ assert(false);
 
 ### --description--
 
-Open `transactions.json` and run `node add-transaction.js You Me 4` in the terminal to add a new transaction to your transaction pool.
+Open `transactions.json` and run `node add-transaction.js You Me 12` in the terminal to add a new transaction to your transaction pool.
 
 ### --tests--
 
-You should run `node add-transactions.js You Me 4` in the terminal
+You should run `node add-transactions.js You Me 12` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -439,11 +439,11 @@ assert(false);
 
 ### --description--
 
-Now you are using an actual hash for new blocks that is created from the information in the block. Add a new transaction that sends `6` tokens from `You` to `Me`.
+Now you are using an actual hash for new blocks that is created from the information in the block. Add a new transaction that sends `24` tokens from `You` to `Me`.
 
 ### --tests--
 
-You should run `node add-transactions.js You Me 6` in the terminal
+You should run `node add-transactions.js You Me 24` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -499,7 +499,7 @@ assert(false);
 
 Each block will have a unique hash since the information used to create it will never be the same.
 
-The process of mining a block is to keep changing the input of the hash function until you find a hash that fits a pattern you are looking for. A _nonce_ is used to do this. Add a `let nonce` variable above your `hash` declaration that is set to `0` (zero/integer).
+The process of mining a block is to keep changing the input of the hash function until you find a hash that fits a pattern you are looking for. A _nonce_ is used to do this. In your `mine-block.js file`, add a `let nonce` variable above your `hash` declaration that is set to `0` (zero/integer).
 
 ### --tests--
 
@@ -514,7 +514,7 @@ assert(false);
 
 ### --description--
 
-Add your `nonce` as the part of the string used to create the hash. Also, change your `hash` declaraction to use the `let` keyword.
+Add your `nonce` as the first part of the string used to create the hash. Also, change your `hash` declaraction to use the `let` keyword.
 
 ### --tests--
 
@@ -551,7 +551,7 @@ assert(false);
 
 ### --description--
 
-If your initial hash starts with zero, you will not enter this loop. If it doesn't you want to look for a new hash until it does. At the top of your loop, increment your `nonce` with the `++` operator.
+If your initial hash starts with zero, you will not enter this loop. If it doesn't, you want to look for a new hash until it does. At the top of your loop, increment your `nonce` with the `++` operator.
 
 ### --tests--
 
@@ -640,23 +640,6 @@ assert(false);
 
 ### --description--
 
-Add a transaction that sends `8` tokens from `You` to `Me`
-
-Delete this? We don't even write to the tx file.
-
-### --tests--
-
-Auto-pass test
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-## 32
-
-### --description--
-
 Run your file.
 
 ### --tests--
@@ -675,11 +658,11 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 33
+## 32
 
 ### --description--
 
-It went through your loop until it found a hash that starts with zero. The only difference when creating those values was the `nonce`, all the other info was the same.
+It went through your loop until it found a hash that starts with zero. The only difference when creating those values was the `nonce`, all the other info was the same. It should have used a `nonce` value of `16` to create the working hash. If it didn't, you can reset a step to get back on track.
 
 Add a `const difficulty` variable above your loop. Give it a value of `2`.
 
@@ -692,7 +675,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 34
+## 33
 
 ### --description--
 
@@ -707,7 +690,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 35
+## 34
 
 ### --description--
 
@@ -729,11 +712,11 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 36
+## 35
 
 ### --description--
 
-That one took quite a few more tries since it's harder to find a hash that starts with two zeros. Change the `difficulty` to `3`.
+That one took more tries since it's harder to find a hash that starts with two zeros. It should have used a `nonce` of `41` to find the hash. Change the `difficulty` to `3`.
 
 ### --tests--
 
@@ -744,7 +727,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 37
+## 36
 
 ### --description--
 
@@ -766,11 +749,11 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 38
+## 37
 
 ### --description--
 
-At the time of writing this, the `hash` for a block on a popular blockchain needs to start with 19 zeros, and takes trillions of guesses to find a nonce that will produce a hash. Change your `difficulty` to `4`.
+That one took quite a few more tries. It should have used a `nonce` of `926`. Change your `difficulty` to `4`.
 
 ### --tests--
 
@@ -781,11 +764,11 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 39
+## 38
 
 ### --description--
 
-Run `node mine-block.js` again. This one may take a little longer.
+At the time of writing this, the `hash` for a block on a popular blockchain needs to start with 19 zeros, and takes trillions of guesses to find a `nonce` that will produce a hash. Run `node mine-block.js` again. This one will take a little longer.
 
 ### --tests--
 
@@ -796,7 +779,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 40
+## 39
 
 ### --description--
 
@@ -813,7 +796,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 41
+## 40
 
 ### --description--
 
@@ -828,7 +811,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 42
+## 41
 
 ### --description--
 
@@ -843,7 +826,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 43
+## 42
 
 ### --description--
 
@@ -858,7 +841,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 44
+## 43
 
 ### --description--
 
@@ -873,7 +856,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 45
+## 44
 
 ### --description--
 
@@ -895,7 +878,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 46
+## 45
 
 ### --description--
 
@@ -910,7 +893,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 47
+## 46
 
 ### --description--
 
@@ -925,7 +908,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 48
+## 47
 
 ### --description--
 
@@ -940,7 +923,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 49
+## 48
 
 ### --description--
 
@@ -955,7 +938,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 50
+## 49
 
 ### --description--
 
@@ -984,11 +967,11 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 51
+## 50
 
 ### --description--
 
-Open your `transactions.json` so you can see it, and use the terminal to add a transaction that sends `12` tokens from `You` to `Me`.
+Your blockchain should only have the genesis block again, and the transaction pool should be empty. Open your `transactions.json` so you can see it, and use the terminal to add a transaction that sends `12` tokens from `You` to `Me`.
 
 ### --tests--
 
@@ -1013,7 +996,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 52
+## 51
 
 ### --description--
 
@@ -1042,7 +1025,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 53
+## 52
 
 ### --description--
 
@@ -1092,15 +1075,15 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 54
+## 53
 
 ### --description--
 
-Your new block has a `hash` that starts with two zeros, and the `nonce` used to create it is included in the block. A reward transaction was added to the transaction pool. It will be added to the blockchain when the next block is mined. Add a transaction that sends `20` tokens from `Me` to `You`
+Your new block has a `hash` that starts with two zeros, and the `nonce` used to create it is included in the block, it should be `1191`. Also, a reward transaction was added to the transaction pool. It will be added to the blockchain when the next block is mined. Add a transaction that sends `20` tokens from `You` to `Me`
 
 ### --tests--
 
-You should run `node add-transactions.js Me You 20` in the terminal
+You should run `node add-transactions.js You Me 20` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1115,6 +1098,56 @@ assert(false);
 ```
 
 The second transaction should have the correct three properties and values
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+## 54
+
+### --description--
+
+Mine another block.
+
+### --tests--
+
+You should run `node mine-block.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `blockchain.json` file should be an array with one block (object)
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your block should have a `hash` that starts with two zeros
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your block should have a `nonce`
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with one transaction (object)
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1125,61 +1158,11 @@ assert(false);
 
 ### --description--
 
-Mine another block.
+This is fun. Add another transaction that sends `10` tokens from `You` to `Me`.
 
 ### --tests--
 
-You should run `node mine-block.js` in the terminal
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-Your `blockchain.json` file should be an array with one block (object)
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-Your block should have a `hash` that starts with two zeros
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-Your block should have a `nonce`
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-Your `transactions.json` file should be an array with one transaction (object)
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-Your transaction should have the correct three properties and values
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
-```
-
-## 56
-
-### --description--
-
-This is fun. Add another transaction that sends `10` tokens from `Me` to `You`.
-
-### --tests--
-
-You should run `node add-transactions.js Me You 10` in the terminal
+You should run `node add-transactions.js You Me 10` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1200,7 +1183,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 57
+## 56
 
 ### --description--
 
@@ -1250,7 +1233,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 58
+## 57
 
 ### --description--
 
@@ -1265,11 +1248,11 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 59
+## 58
 
 ### --description--
 
-Now, you need to make it so your blockchain validates all the hash values. Open your `blockchain-helpers.js` file, and import the `sha256` function at the top of the file like you did in your `mine-block.js` file
+Now, you need to make it so your blockchain validates all the hash values. Open your `blockchain-helpers.js` file, and import the `sha256` function at the top of the file like you did in your `mine-block.js` file.
 
 ### --tests--
 
@@ -1280,11 +1263,11 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 60
+## 59
 
 ### --description--
 
-The `isValidChain` function is getting a little big. Add a few comments to help keep track of what is happening. Above the `for` loop, add `loop through blocks` as a single line comment
+The `isValidChain` function is getting a little big. Add a few comments to help keep track of what is happening. Above the `for` loop, add `loop through blocks` as a single line comment.
 
 ### --tests--
 
@@ -1295,7 +1278,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 61
+## 60
 
 ### --description--
 
@@ -1310,11 +1293,11 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 62
+## 61
 
 ### --description--
 
-Add one more that says `validate block hash` below the `if` statement, but inside the `for` loop.
+Add one more that says `validate block hash` below the `if` statement, and inside the `for` loop.
 
 ### --tests--
 
@@ -1325,7 +1308,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 63
+## 62
 
 ### --description--
 
@@ -1354,13 +1337,13 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 64
+## 63
 
 ### --description--
 
 Now you need to recreate the `hash` and see if matches the actual hash. Below your `validate block hash` comment, create a `const testBlockHash` variable that creates a hash using the `sha256` function in the same way that the hash is created when you mine the block.
 
-Here's a reminder of the syntax: `sha256(<content>).toString();`. The content should be a concatenation of the `nonce`, the `hash` of the previous block, and a stringified version of the `transactions`
+Here's a reminder of the syntax: `sha256(<content>).toString();`. The content should be a concatenation of the `nonce`, the `hash` of the previous block, and a stringified version of `transactions`.
 
 ### --tests--
 
@@ -1371,22 +1354,22 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 65
+## 64
 
 ### --description--
 
-Now you have recreated the hash using the same info. Below that, add an empty `if` condition that checks if that hash is not equal (`!=`) to the `hash` of the current block.
+You have recreated the hash using the same info. Below that, add an empty `if` condition that checks if the `hash` of the current block is not equal (`!=`) to the recreated hash.
 
 ### --tests--
 
-You should have `if (testBlockHash != hash) { }` at the bottom of your `for` loop
+You should have `if (hash != testBlockHash) { }` at the bottom of your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 66
+## 65
 
 ### --description--
 
@@ -1401,7 +1384,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 67
+## 66
 
 ### --description--
 
@@ -1425,22 +1408,22 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 68
+## 67
 
 ### --description--
 
-All your blocks are valid. In your `blockchain.json` file, add a `.1` to the end of the `nonce` of the latest block.
+All your blocks are valid. In your `blockchain.json` file, that last block should have a `nonce` of `1212`. Change it to `1210`.
 
 ### --tests--
 
-The `nonce` of the last block in `blockchain.json` should end with `.1`
+The `nonce` of the last block in `blockchain.json` should be `1210`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 69
+## 68
 
 ### --description--
 
@@ -1463,29 +1446,29 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 70
+## 69
 
 ### --description--
 
-The hash validation didn't work because once block didn't have correct `nonce` needed to recreate the hash. Remove the `.1` you added.
+The validation didn't work because one block didn't have correct `nonce` needed to recreate the hash. Change the `nonce` back to `1212` so your chain is valid again.
 
 ### --tests--
 
-The `nonce` of the last block in `blockchain.json` should not end with `.1`
+The `nonce` of the last block in `blockchain.json` should be `1212`.
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-Your blockchain should be valid
+Your chain should be valid. If it's not, reset the step and try it again
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 71
+## 70
 
 ### --description--
 
@@ -1508,11 +1491,11 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 72
+## 71
 
 ### --description--
 
-Awesome. Transaction also include a unique hash. You will add that next. Open your `add-transaction.js` file and import the `sha256` function at the top.
+Awesome. Transactions also include a unique hash, you will add that next. Open your `add-transaction.js` file and import the `sha256` function at the top.
 
 ### --tests--
 
@@ -1523,7 +1506,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 73
+## 72
 
 ### --description--
 
@@ -1538,7 +1521,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 74
+## 73
 
 ### --description--
 
@@ -1553,7 +1536,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 75
+## 74
 
 ### --description--
 
@@ -1582,15 +1565,15 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 76
+## 75
 
 ### --description--
 
-Open your two JSON files, so you can see both of them. Then, add a transaction that sends `15` tokens from `Me` to `You`.
+Open your two JSON files so you can see both of them. Then, add a transaction that sends `15` tokens from `You` to `Me`.
 
 ### --tests--
 
-You should run `node add-transactions.js Me You 15` in the terminal
+You should run `node add-transactions.js You Me 15` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1611,7 +1594,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 77
+## 76
 
 ### --description--
 
@@ -1619,7 +1602,7 @@ The transaction now includes its own unique hash created from the information in
 
 ### --tests--
 
-You should run `node add-transactions.js Me You 25` in the terminal
+You should run `node add-transactions.js You Me 25` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1640,7 +1623,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 78
+## 77
 
 ### --description--
 
@@ -1669,7 +1652,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 79
+## 78
 
 ### --description--
 
@@ -1698,7 +1681,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 80
+## 79
 
 ### --description--
 
@@ -1727,7 +1710,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 81
+## 80
 
 ### --description--
 
@@ -1756,26 +1739,26 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 82
+## 81
 
 ### --description--
 
-Now you need to validate all the transaction hashes. In your `blockchain-helpers.js` function, find the `isValidChain` function again and add a `loop over transactions` comment at the bottom of the `for` loop so you can go through all the transactions of each block.
+Now there's hashes everywhere. Next, you will validate all the transaction hashes. In your `blockchain-helpers.js` function, find the `isValidChain` function again and add a `loop over transactions` comment at the bottom of the `for` loop so you can go through all the transactions in each block.
 
 ### --tests--
 
-You should have `// validate previous hash` at the bottom of your `for` loop
+You should have `// loop over transactions` at the bottom of your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 83
+## 82
 
 ### --description--
 
-Below the comment, add another `for` loop, similar to the one used for looping over the blocks. Use `let j = 0` to initialize the loop, and have it go while `j < transactions.length`.
+Below the comment, add an empty `for` loop, similar to the one used for looping over the blocks. Use `let j = 0` to initialize the loop, and have it go while `j < transactions.length`.
 
 ### --tests--
 
@@ -1786,7 +1769,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 84
+## 83
 
 ### --description--
 
@@ -1801,7 +1784,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 85
+## 84
 
 ### --description--
 
@@ -1816,7 +1799,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 86
+## 85
 
 ### --description--
 
@@ -1831,7 +1814,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 87
+## 86
 
 ### --description--
 
@@ -1846,7 +1829,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 88
+## 87
 
 ### --description--
 
@@ -1861,22 +1844,22 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 89
+## 88
 
 ### --description--
 
-Next, add an empty `if` condition that checks the new hash is not equal to the original hash.
+Next, add an empty `if` condition that checks if the hash of the current transactions is not equal to the recreated hash.
 
 ### --tests--
 
-You should have `if (testTransactionHash != hash) { }` below your `testTransactionHash` declaration
+You should have `if (hash != testTransactionHash) { }` below your `testTransactionHash` declaration
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 90
+## 89
 
 ### --description--
 
@@ -1891,7 +1874,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 91
+## 90
 
 ### --description--
 
@@ -1914,11 +1897,11 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 92
+## 91
 
 ### --description--
 
-In the `blockchain.json` file, change the amount of the most recent transaction to `1000`.
+It looks like it's working. In the `blockchain.json` file, change the `amount` of the most recent transaction to `1000`.
 
 ### --tests--
 
@@ -1929,7 +1912,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 93
+## 92
 
 ### --description--
 
@@ -1952,11 +1935,11 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 94
+## 93
 
 ### --description--
 
-The transaction hash validation doesn't pass because someone tampered with a transaction amount. Change the amount back to `10`.
+The transaction hash isn't valid because someone tampered with a transaction amount. Change the amount back to `10`.
 
 ### --tests--
 
@@ -1967,11 +1950,11 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 95
+## 94
 
 ### --description--
 
-Validate your chain again to make sure it's valid again.
+Validate your chain again to make sure it's valid.
 
 ### --tests--
 
@@ -1990,15 +1973,11 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 96
+## 95
 
 ### --description--
 
-There's one last thing you are going to do here, create a function to get 
-In blockchain-helpers.js - getAddressBalance
-
-add function getAddressBalance(address) {}
-new: `export function getAddressBalance(address) {}`
+There's one more thing you are going to do here, make it so you can't send transactions unless you have enough tokens. In the `blockchain-helpers.js` file, export a new `getAddressBalance` function. Make it accept an `address` parameter, and leave the function empty for now.
 
 ### --tests--
 
@@ -2009,7 +1988,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 97
+## 96
 
 ### --description--
 
@@ -2024,7 +2003,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 98
+## 97
 
 ### --description--
 
@@ -2039,7 +2018,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 99
+## 98
 
 ### --description--
 
@@ -2054,7 +2033,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 100
+## 99
 
 ### --description--
 
@@ -2069,7 +2048,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 101
+## 100
 
 ### --description--
 
@@ -2084,7 +2063,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 102
+## 101
 
 ### --description--
 
@@ -2099,7 +2078,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 103
+## 102
 
 ### --description--
 
@@ -2114,7 +2093,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 104
+## 103
 
 ### --description--
 
@@ -2129,7 +2108,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 105
+## 104
 
 ### --description--
 
@@ -2144,7 +2123,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 106
+## 105
 
 ### --description--
 
@@ -2159,7 +2138,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 107
+## 106
 
 ### --description--
 
@@ -2174,7 +2153,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 108
+## 107
 
 ### --description--
 
@@ -2189,7 +2168,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 109
+## 108
 
 ### --description--
 
@@ -2204,7 +2183,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 110
+## 109
 
 ### --description--
 
@@ -2219,7 +2198,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 111
+## 110
 
 ### --description--
 
@@ -2235,7 +2214,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 112
+## 111
 
 ### --description--
 
@@ -2250,7 +2229,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 113
+## 112
 
 ### --description--
 
@@ -2265,7 +2244,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 114
+## 113
 
 ### --description--
 
@@ -2280,7 +2259,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 115
+## 114
 
 ### --description--
 
@@ -2295,7 +2274,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 116
+## 115
 
 ### --description--
 
@@ -2310,7 +2289,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 117
+## 116
 
 ### --description--
 
@@ -2325,7 +2304,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 118
+## 117
 
 ### --description--
 
@@ -2340,7 +2319,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 119
+## 118
 
 ### --description--
 
@@ -2355,7 +2334,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 120
+## 119
 
 ### --description--
 
@@ -2370,7 +2349,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 121
+## 120
 
 ### --description--
 
@@ -2385,7 +2364,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 122
+## 121
 
 ### --description--
 
@@ -2400,7 +2379,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 123
+## 122
 
 ### --description--
 
@@ -2415,7 +2394,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 124
+## 123
 
 ### --description--
 
@@ -2430,7 +2409,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-## 125
+## 124
 
 ### --description--
 
