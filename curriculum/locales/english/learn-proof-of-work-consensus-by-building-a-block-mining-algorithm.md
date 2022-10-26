@@ -35,7 +35,7 @@ You left the last tutorial after creating your own blockchain. Your blockchain i
 
 ### --tests--
 
-You should run `node add-transactions.js You Me 100` in the terminal
+You should run `node add-transaction.js You Me 100` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -100,13 +100,6 @@ You should run `node validate-chain.js` in the terminal
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
 assert(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
-```
-
-You should be in the `learn-digital-ledgers-by-building-a-blockchain` folder in your terminal when you run it
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-assert(false);
 ```
 
 The terminal output should log `Chain is valid`
@@ -385,7 +378,7 @@ Open `transactions.json` and run `node add-transaction.js You Me 12` in the term
 
 ### --tests--
 
-You should run `node add-transactions.js You Me 12` in the terminal
+You should run `node add-transaction.js You Me 12` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -443,7 +436,7 @@ Now you are using an actual hash for new blocks that is created from the informa
 
 ### --tests--
 
-You should run `node add-transactions.js You Me 24` in the terminal
+You should run `node add-transaction.js You Me 24` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -486,7 +479,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false)
 ```
 
-The twelvth block should have a `hash` property that is a 64 character long string
+The twelfth block should have a `hash` property that is a 64 character long string
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -514,7 +507,7 @@ assert(false);
 
 ### --description--
 
-Add your `nonce` as the first part of the string used to create the hash. Also, change your `hash` declaraction to use the `let` keyword.
+Add your `nonce` as the first part of the string used to create the hash. Also, change your `hash` declaration to use the `let` keyword.
 
 ### --tests--
 
@@ -662,7 +655,7 @@ assert(false);
 
 ### --description--
 
-It went through your loop until it found a hash that starts with zero. The only difference when creating those values was the `nonce`, all the other info was the same. It should have used a `nonce` value of `16` to create the working hash. If it didn't, you can reset a step to get back on track.
+It went through your loop until it found a hash that starts with zero. The only difference when creating those values was the `nonce`, all the other info was the same.
 
 Add a `const difficulty` variable above your loop. Give it a value of `2`.
 
@@ -716,7 +709,7 @@ assert(false);
 
 ### --description--
 
-That one took more tries since it's harder to find a hash that starts with two zeros. It should have used a `nonce` of `41` to find the hash. Change the `difficulty` to `3`.
+That one took more tries since it's harder to find a hash that starts with two zeros. Change the `difficulty` to `3`.
 
 ### --tests--
 
@@ -753,7 +746,7 @@ assert(false);
 
 ### --description--
 
-That one took quite a few more tries. It should have used a `nonce` of `926`. Change your `difficulty` to `4`.
+That one should have taken quite a few more tries. Change your `difficulty` to `4`.
 
 ### --tests--
 
@@ -768,7 +761,7 @@ assert(false);
 
 ### --description--
 
-At the time of writing this, the `hash` for a block on a popular blockchain needs to start with 19 zeros, and takes trillions of guesses to find a `nonce` that will produce a hash. Run `node mine-block.js` again. This one will take a little longer.
+At the time of writing this, the `hash` for a block on a popular blockchain needs to start with 19 zeros, and takes trillions of guesses to find a `nonce` that will produce a correct hash. Run `node mine-block.js` again. This one will take a little longer.
 
 ### --tests--
 
@@ -912,7 +905,7 @@ assert(false);
 
 ### --description--
 
-You will add more validation later on that verifies all your block hashes, making your existing blocks invalid. So you need to re-initialize your blockchain. First, open your `init-blockchain.js` file and import the `writeTransactions` function at the top with the other import.
+You will add more validation later that verifies all the block hashes, making your existing blocks invalid. So you need to re-initialize your blockchain. First, open your `init-blockchain.js` file and import the `writeTransactions` function at the top next to the other import.
 
 ### --tests--
 
@@ -953,14 +946,14 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-Your `blockchain.json` file should be an empty array
+Your `blockchain.json` file should be an array with one block (object), the genesis block
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-Your `transactions.json` file should be an emtpy array
+Your `transactions.json` file should be an empty array
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -975,7 +968,7 @@ Your blockchain should only have the genesis block again, and the transaction po
 
 ### --tests--
 
-You should run `node add-transactions.js You Me 12` in the terminal
+You should run `node add-transaction.js You Me 12` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1004,7 +997,7 @@ Add another one, using the same two addresses, but send `16` tokens this time.
 
 ### --tests--
 
-You should run `node add-transactions.js You Me 16` in the terminal
+You should run `node add-transaction.js You Me 16` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1083,7 +1076,7 @@ Your new block has a `hash` that starts with two zeros, and the `nonce` used to 
 
 ### --tests--
 
-You should run `node add-transactions.js You Me 20` in the terminal
+You should run `node add-transaction.js You Me 20` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1162,7 +1155,7 @@ This is fun. Add another transaction that sends `10` tokens from `You` to `Me`.
 
 ### --tests--
 
-You should run `node add-transactions.js You Me 10` in the terminal
+You should run `node add-transaction.js You Me 10` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1316,21 +1309,21 @@ In order to validate the hash of each block, you need all the information used t
 
 ### --tests--
 
-You should descruct `nonce` from `blockchain[i]` in your `for` loop
+You should destruct `nonce` from `blockchain[i]` in your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-You should descruct `hash` from `blockchain[i]` in your `for` loop
+You should destruct `hash` from `blockchain[i]` in your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-You should descruct `transactions` from `blockchain[i]` in your `for` loop
+You should destruct `transactions` from `blockchain[i]` in your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1412,11 +1405,11 @@ assert(false);
 
 ### --description--
 
-All your blocks are valid. In your `blockchain.json` file, that last block should have a `nonce` of `1212`. Change it to `1210`.
+All your blocks are valid. In your `blockchain.json` file, that last block should have a `nonce` of `135`. Change it to `130`. If you have a different `nonce`, you can reset the step to get back on track.
 
 ### --tests--
 
-The `nonce` of the last block in `blockchain.json` should be `1210`
+The `nonce` of the last block in `blockchain.json` should be `130`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1450,11 +1443,11 @@ assert(false);
 
 ### --description--
 
-The validation didn't work because one block didn't have correct `nonce` needed to recreate the hash. Change the `nonce` back to `1212` so your chain is valid again.
+The validation didn't work because one block didn't have correct `nonce` needed to recreate the hash. Change the `nonce` back to `135` so your chain is valid again.
 
 ### --tests--
 
-The `nonce` of the last block in `blockchain.json` should be `1212`.
+The `nonce` of the last block in `blockchain.json` should be `135`.
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1472,7 +1465,7 @@ assert(false);
 
 ### --description--
 
-Validate it one more time to make sure it's valid.
+Validate it one more time.
 
 ### --tests--
 
@@ -1540,7 +1533,7 @@ assert(false);
 
 ### --description--
 
-You will need to validate these as well, so re-initalize your blockchain again.
+You will need to validate these as well, so re-initialize your blockchain again.
 
 ### --tests--
 
@@ -1551,14 +1544,14 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-Your `blockchain.json` file should be an empty array
+Your `blockchain.json` file should be an array with one block (object), the genesis block
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-Your `transactions.json` file should be an emtpy array
+Your `transactions.json` file should be an empty array
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1573,7 +1566,7 @@ Open your two JSON files so you can see both of them. Then, add a transaction th
 
 ### --tests--
 
-You should run `node add-transactions.js You Me 15` in the terminal
+You should run `node add-transaction.js You Me 15` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1602,7 +1595,7 @@ The transaction now includes its own unique hash created from the information in
 
 ### --tests--
 
-You should run `node add-transactions.js You Me 25` in the terminal
+You should run `node add-transaction.js You Me 25` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1660,7 +1653,7 @@ Add a transaction that sends `5` tokens from `You` to `Me`.
 
 ### --tests--
 
-You should run `node add-transactions.js You Me 5` in the terminal
+You should run `node add-transaction.js You Me 5` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1689,7 +1682,7 @@ Add another one that sends `10` tokens using the same two addresses.
 
 ### --tests--
 
-You should run `node add-transactions.js You Me 10` in the terminal
+You should run `node add-transaction.js You Me 10` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1788,11 +1781,11 @@ assert(false);
 
 ### --description--
 
-Below that, add a `don't validate reward transaction` comment.
+Below that, add a `don't validate reward transactions` comment.
 
 ### --tests--
 
-You should have `// don't validate reward transaction` at the bottom of your `for` loop
+You should have `// don't validate reward transactions` at the bottom of your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2007,7 +2000,7 @@ assert(false);
 
 ### --description--
 
-Create a `balance` variable that is set to `0` (zero/integer).
+Create a `let balance` variable that is set to `0` (zero/integer).
 
 ### --tests--
 
@@ -2022,7 +2015,7 @@ assert(false);
 
 ### --description--
 
-To find a balance, you need to loop over all the blocks and transactions, see if any of transaction addresses match the address passed to the function, and add or subtract the amount. Add a `loop over blocks` below your `balance` variable.
+To find a balance, you need to loop over all the blocks and transactions, see if any of transaction addresses match the address passed to the function, and add or subtract the amount. Add a `loop over blocks` comment below your `balance` variable.
 
 ### --tests--
 
@@ -2127,7 +2120,7 @@ assert(false);
 
 ### --description--
 
-This is for if the address sending their tokens to someone. So, in the `if` statement, use `-=` to subract the `amount` from `balance`.
+This is for if the address is sending their tokens to someone. So in the `if` statement, use `-=` to subract the `amount` from `balance`.
 
 ### --tests--
 
@@ -2142,7 +2135,7 @@ assert(false);
 
 ### --description--
 
-Next, add another `if` statement that checks if the address is recieving the tokens.
+Next, add another `if` statement that checks if the address is receiving the tokens.
 
 ### --tests--
 
@@ -2202,7 +2195,7 @@ assert(false);
 
 ### --description--
 
-Open the new file and import your `getAdressBalance` function from the helpers file.
+Open the new file and import your `getAddressBalance` function from the helpers file.
 
 ### --tests--
 
@@ -2273,7 +2266,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-The terminal output should include =something=
+The terminal output should include `The balance for Me is 105`. If it doesn't reset the step and try again
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2284,9 +2277,7 @@ assert(false);
 
 ### --description--
 
-It looks like it works.
-=something about the balance here=
-Next, check the balance of `You`.
+It looks like it works. `Me` has a balance of `105`. Note that the transaction pool is not currently included when finding a balance. Next, check the balance of `You`.
 
 ### --tests--
 
@@ -2297,7 +2288,7 @@ await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-The terminal output should include =something=
+The terminal should output `The balance for You is -55`. If it doesn't reset the step and try again
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2308,8 +2299,7 @@ assert(false);
 
 ### --description--
 
-=something about the output=
-At the top of your `add-transaction.js` file, import the `getAddressBalance` function with the rest of the imported helper functions.
+`You` has a negative balance. That shouldn't be allowed. At the top of your `add-transaction.js` file, import the `getAddressBalance` function with the rest of the imported helper functions.
 
 ### --tests--
 
@@ -2324,7 +2314,7 @@ assert(false);
 
 ### --description--
 
-You only want to add the transaction of the `fromAddres` has enough funds. Above where you `push` the new transaction, create a `const addressBalance` variable and set the value to the balance of the `fromAddress`.
+You only want to add the transaction if the `fromAddress` has enough funds. Above where you `push` the new transaction, create a `const addressBalance` variable and set the value to the balance of the `fromAddress`.
 
 ### --tests--
 
@@ -2383,11 +2373,25 @@ assert(false);
 
 ### --description--
 
-Let's see if it works. Try to add a transaction that sends `100` from `Me` to `You`.
+The people using your blockchain have been sending tokens they don't have. Re-initialize it one more time.
 
 ### --tests--
 
-Auto-pass test
+You should run `node init-blockchain.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `blockchain.json` file should be an array with one block (object), the genesis block
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an empty array
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2398,12 +2402,25 @@ assert(false);
 
 ### --description--
 
-=it didn't work=
-Adrun node add-transaction Me You 10
+Try to add a transaction that sends `45` tokens from `Me` to `You`.
 
 ### --tests--
 
-Auto-pass test
+You should run `node add-transaction.js Me You 45` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+The terminal should output `You do not have enough funds to make that transaction`
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an empty array
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2414,11 +2431,18 @@ assert(false);
 
 ### --description--
 
-run node init-blockchain
+Use the terminal to check the balance of `Me`.
 
 ### --tests--
 
-Auto-pass test
+You should run `node get-address-balance.js Me` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+The terminal should output `The balance for Me is 0`. If it doesn't reset the step and try again
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2429,11 +2453,18 @@ assert(false);
 
 ### --description--
 
-run node mine-block x2
+Check the balance of `You`.
 
 ### --tests--
 
-Auto-pass test
+You should run `node get-address-balance.js You` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+The terminal should output `The balance for You is 0`. If it doesn't reset the step and try again
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2444,11 +2475,60 @@ assert(false);
 
 ### --description--
 
-run node add-transaction + same args
+No tokens exist on your blockchain since you re-intialized it and nobody has any tokens. Mine a block to add a reward transaction.
+### --tests--
+
+You should run `node mine-block.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `blockchain.json` file should be an array with two blocks (objects)
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with one transaction (object)
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+The transaction should have the correct three properties and values
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+## 124
+
+### --description--
+
+The transaction pool isn't included when checking a balance. Mine another block to add the reward transaction and the first tokens to your blockchain.
 
 ### --tests--
 
-Auto-pass test
+You should run `node mine-block.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `blockchain.json` file should be an array with three blocks (objects)
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+assert(false);
+```
+
+Your `transactions.json` file should be an array with one transaction (object)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
