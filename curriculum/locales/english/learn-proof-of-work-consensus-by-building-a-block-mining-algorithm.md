@@ -39,21 +39,27 @@ You should run `node add-transaction.js You Me 100` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js You Me 100');
 ```
 
 Your `transactions.json` file should be an array with one transaction (object) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
 The transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.equal(fileContents[0]?.fromAddress, 'You');
+assert.equal(fileContents[0]?.toAddress, 'Me');
+assert.equal(fileContents[0]?.amount, 100);
 ```
 
 ## 3
@@ -68,21 +74,27 @@ You should run `node add-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-block.js');
 ```
 
-Your `blockchain.json` should be an array with ten blocks (objects) in it
+Your `blockchain.json` file should be an array with ten blocks (objects) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false)
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 10);
 ```
 
 The tenth block should have a `transactions` array with one transaction (object) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
+assert.isArray(fileContents);
+assert.isArray(fileContents[9]?.transactions);
+assert.lengthOf(fileContents[9]?.transactions, 1);
 ```
 
 ## 4
@@ -106,7 +118,10 @@ The terminal output should log `Chain is valid`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('validate-chain.js');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /Chain is valid/);
 ```
 
 ## 5
@@ -121,14 +136,16 @@ You should not have a `add-block.js` file in your project folder
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const folder = await __helpers.getDirectory('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm');
+assert.notInclude(folder, 'add-block.js');
 ```
 
 You should have a `mine-block.js` file in your project folder
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const folder = await __helpers.getDirectory('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm');
+assert.include(folder, 'mine-block.js');
 ```
 
 ## 6
@@ -139,11 +156,12 @@ Your blocks have a `hash` property that is a random number converted to a string
 
 ### --tests--
 
-Auto-pass test
+You should run `npm install crypto-js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert(lastCommand.replace(/\s+/g, ' ').trim(), 'npm install crypto-js');
 ```
 
 ## 7
@@ -225,7 +243,8 @@ You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
 Your terminal output should include a hash
@@ -247,7 +266,8 @@ You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
 Your terminal output should include a hash
@@ -284,7 +304,8 @@ You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
 Your terminal output should include a hash
@@ -323,7 +344,8 @@ You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
 Your terminal output should include a hash
@@ -382,21 +404,27 @@ You should run `node add-transaction.js You Me 12` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js You Me 12');
 ```
 
 Your `transactions.json` file should be an array with one transaction (object) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
 The transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.equal(fileContents[0]?.fromAddress, 'You');
+assert.equal(fileContents[0]?.toAddress, 'Me');
+assert.equal(fileContents[0]?.amount, 12);
 ```
 
 ## 20
@@ -407,18 +435,21 @@ Open your `blockchain.json` file, scroll to the bottom, and mine a new block.
 
 ### --tests--
 
-You should run `node add-block.js` in the terminal
+You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
-Your `blockchain.json` should be an array with eleven blocks (objects) in it
+Your `blockchain.json` file should be an array with eleven blocks (objects) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false)
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 11);
 ```
 
 The eleventh block should have a `hash` property that is a 64 character long string
@@ -440,21 +471,27 @@ You should run `node add-transaction.js You Me 24` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js You Me 24');
 ```
 
 Your `transactions.json` file should be an array with one transaction (object) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
 The transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.equal(fileContents[0]?.fromAddress, 'You');
+assert.equal(fileContents[0]?.toAddress, 'Me');
+assert.equal(fileContents[0]?.amount, 24);
 ```
 
 ## 22
@@ -465,18 +502,21 @@ Mine another block.
 
 ### --tests--
 
-You should run `node add-block.js` in the terminal
+You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
-Your `blockchain.json` should be an array with twelve blocks (objects) in it
+Your `blockchain.json` file should be an array with twelve blocks (objects) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false)
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 12);
 ```
 
 The twelfth block should have a `hash` property that is a 64 character long string
@@ -641,7 +681,8 @@ You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
 The last line of your terminal output should print `hash = <hash>`, with `<hash>` being a hash that starts with one zero
@@ -695,7 +736,8 @@ You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
 The last line of your terminal output should print `hash = <hash>`, with `<hash>` being a hash that starts with two zeros
@@ -732,7 +774,8 @@ You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
 The last line of your terminal output should print `hash = <hash>`, with `<hash>` being a hash that starts with three zeros
@@ -769,7 +812,8 @@ You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
 ## 39
@@ -943,14 +987,17 @@ You should run `node init-blockchain.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node init-blockchain.js');
 ```
 
 Your `blockchain.json` file should be an array with one block (object), the genesis block
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
 Your `transactions.json` file should be an empty array
@@ -972,21 +1019,27 @@ You should run `node add-transaction.js You Me 12` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js You Me 12');
 ```
 
 Your `transactions.json` file should be an array with one transaction (object) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
 The transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.equal(fileContents[0]?.fromAddress, 'You');
+assert.equal(fileContents[0]?.toAddress, 'Me');
+assert.equal(fileContents[0]?.amount, 12);
 ```
 
 ## 51
@@ -1001,21 +1054,27 @@ You should run `node add-transaction.js You Me 16` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js You Me 16');
 ```
 
 Your `transactions.json` file should be an array with two transactions (objects) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 2);
 ```
 
 The second transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.equal(fileContents[1]?.fromAddress, 'You');
+assert.equal(fileContents[1]?.toAddress, 'Me');
+assert.equal(fileContents[1]?.amount, 16);
 ```
 
 ## 52
@@ -1030,24 +1089,27 @@ You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
 Your `blockchain.json` file should be an array with one block (object)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
-Your block should have a `hash` that starts with two zeros
+The block should have a `hash` that starts with two zeros
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-Your block should have a `nonce`
+The block should have a `nonce`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1058,14 +1120,19 @@ Your `transactions.json` file should be an array with one transaction (object)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
-Your transaction should have the correct three properties and values
+The transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.equal(fileContents[0]?.fromAddress, null);
+assert.equal(fileContents[0]?.toAddress, 'Me');
+assert.equal(fileContents[0]?.amount, 50);
 ```
 
 ## 53
@@ -1080,21 +1147,27 @@ You should run `node add-transaction.js You Me 20` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js You Me 20');
 ```
 
 Your `transactions.json` file should be an array with two transactions (objects) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 2);
 ```
 
 The second transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.equal(fileContents[1]?.fromAddress, 'You');
+assert.equal(fileContents[1]?.toAddress, 'Me');
+assert.equal(fileContents[1]?.amount, 20);
 ```
 
 ## 54
@@ -1109,24 +1182,27 @@ You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
 Your `blockchain.json` file should be an array with one block (object)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
-Your block should have a `hash` that starts with two zeros
+The block should have a `hash` that starts with two zeros
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-Your block should have a `nonce`
+The block should have a `nonce`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1137,14 +1213,19 @@ Your `transactions.json` file should be an array with one transaction (object)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
-Your transaction should have the correct three properties and values
+The transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.equal(fileContents[0]?.fromAddress, null);
+assert.equal(fileContents[0]?.toAddress, 'Me');
+assert.equal(fileContents[0]?.amount, 50);
 ```
 
 ## 55
@@ -1159,21 +1240,27 @@ You should run `node add-transaction.js You Me 10` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js You Me 10');
 ```
 
 Your `transactions.json` file should be an array with two transactions (objects) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 2);
 ```
 
 The second transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.equal(fileContents[1]?.fromAddress, 'You');
+assert.equal(fileContents[1]?.toAddress, 'Me');
+assert.equal(fileContents[1]?.amount, 10);
 ```
 
 ## 56
@@ -1188,24 +1275,27 @@ You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
 Your `blockchain.json` file should be an array with one block (object)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
-Your block should have a `hash` that starts with two zeros
+The block should have a `hash` that starts with two zeros
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 assert(false);
 ```
 
-Your block should have a `nonce`
+The block should have a `nonce`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1216,14 +1306,19 @@ Your `transactions.json` file should be an array with one transaction (object)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
-Your transaction should have the correct three properties and values
+The transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.equal(fileContents[0]?.fromAddress, null);
+assert.equal(fileContents[0]?.toAddress, 'Me');
+assert.equal(fileContents[0]?.amount, 50);
 ```
 
 ## 57
@@ -1398,7 +1493,10 @@ The terminal output should log `Chain is valid`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('validate-chain.js');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /Chain is valid/);
 ```
 
 ## 67
@@ -1436,7 +1534,10 @@ The terminal output should log `Chain is not valid`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('validate-chain.js');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /Chain is not valid/);
 ```
 
 ## 69
@@ -1481,7 +1582,10 @@ The terminal output should log `Chain is valid`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('validate-chain.js');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /Chain is valid/);
 ```
 
 ## 71
@@ -1541,14 +1645,17 @@ You should run `node init-blockchain.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node init-blockchain.js');
 ```
 
 Your `blockchain.json` file should be an array with one block (object), the genesis block
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
 Your `transactions.json` file should be an empty array
@@ -1570,21 +1677,27 @@ You should run `node add-transaction.js You Me 15` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js You Me 15');
 ```
 
 Your `transactions.json` file should be an array with one transaction (object) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
 The transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.equal(fileContents[0]?.fromAddress, 'You');
+assert.equal(fileContents[0]?.toAddress, 'Me');
+assert.equal(fileContents[0]?.amount, 15);
 ```
 
 ## 76
@@ -1599,21 +1712,27 @@ You should run `node add-transaction.js You Me 25` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js You Me 25');
 ```
 
 Your `transactions.json` file should be an array with two transactions (objects) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 2);
 ```
 
 The second transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.equal(fileContents[1]?.fromAddress, 'You');
+assert.equal(fileContents[1]?.toAddress, 'Me');
+assert.equal(fileContents[1]?.amount, 25);
 ```
 
 ## 77
@@ -1628,21 +1747,26 @@ You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
 Your `blockchain.json` file should be an array with two blocks (objects)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 2);
 ```
 
 Your `transactions.json` file should be an array with one transaction (object)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
 ## 78
@@ -1657,21 +1781,27 @@ You should run `node add-transaction.js You Me 5` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js You Me 5');
 ```
 
 Your `transactions.json` file should be an array with two transactions (objects) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 2);
 ```
 
 The second transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.equal(fileContents[1]?.fromAddress, 'You');
+assert.equal(fileContents[1]?.toAddress, 'Me');
+assert.equal(fileContents[1]?.amount, 5);
 ```
 
 ## 79
@@ -1686,21 +1816,27 @@ You should run `node add-transaction.js You Me 10` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js You Me 10');
 ```
 
 Your `transactions.json` file should be an array with three transactions (objects) in it
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 3);
 ```
 
 The third transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.equal(fileContents[0]?.fromAddress, 'You');
+assert.equal(fileContents[0]?.toAddress, 'Me');
+assert.equal(fileContents[0]?.amount, 10);
 ```
 
 ## 80
@@ -1715,21 +1851,26 @@ You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
 Your `blockchain.json` file should be an array with three blocks (objects)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 3);
 ```
 
 Your `transactions.json` file should be an array with one transaction (object)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
 ## 81
@@ -1887,7 +2028,10 @@ The terminal output should log `Chain is valid`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('validate-chain.js');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /Chain is valid/);
 ```
 
 ## 91
@@ -1925,7 +2069,10 @@ The terminal output should log `Chain is not valid`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('validate-chain.js');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /Chain is not valid/);
 ```
 
 ## 93
@@ -1963,7 +2110,10 @@ The terminal output should log `Chain is valid`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('validate-chain.js');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /Chain is valid/);
 ```
 
 ## 95
@@ -2188,7 +2338,8 @@ You should have a `get-address-balance.js` file in your project folder
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const folder = await __helpers.getDirectory('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm');
+assert.include(folder, 'get-address-balance.js');
 ```
 
 ## 110
@@ -2263,7 +2414,8 @@ You should run `node get-address-balance.js Me` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node get-address-balance.js Me');
 ```
 
 The terminal output should include `The balance for Me is 105`. If it doesn't reset the step and try again
@@ -2285,7 +2437,8 @@ You should run `node get-address-balance.js You` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node get-address-balance.js You');
 ```
 
 The terminal should output `The balance for You is -55`. If it doesn't reset the step and try again
@@ -2381,14 +2534,17 @@ You should run `node init-blockchain.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node init-blockchain.js');
 ```
 
 Your `blockchain.json` file should be an array with one block (object), the genesis block
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
 Your `transactions.json` file should be an empty array
@@ -2410,7 +2566,8 @@ You should run `node add-transaction.js Me You 45` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js You Me 45');
 ```
 
 The terminal should output `You do not have enough funds to make that transaction`
@@ -2439,7 +2596,8 @@ You should run `node get-address-balance.js Me` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node get-address-balance.js Me');
 ```
 
 The terminal should output `The balance for Me is 0`. If it doesn't reset the step and try again
@@ -2461,7 +2619,8 @@ You should run `node get-address-balance.js You` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node get-address-balance.js You');
 ```
 
 The terminal should output `The balance for You is 0`. If it doesn't reset the step and try again
@@ -2476,34 +2635,43 @@ assert(false);
 ### --description--
 
 No tokens exist on your blockchain since you re-intialized it and nobody has any tokens. Mine a block to add a reward transaction.
+
 ### --tests--
 
 You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
 Your `blockchain.json` file should be an array with two blocks (objects)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 2);
 ```
 
 Your `transactions.json` file should be an array with one transaction (object)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
 The transaction should have the correct three properties and values
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.equal(fileContents[0]?.fromAddress, null);
+assert.equal(fileContents[0]?.toAddress, 'Me');
+assert.equal(fileContents[0]?.amount, 50);
 ```
 
 ## 124
@@ -2518,21 +2686,26 @@ You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
 Your `blockchain.json` file should be an array with three blocks (objects)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 3);
 ```
 
 Your `transactions.json` file should be an array with one transaction (object)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
 ```
 
 ## --fcc-end--
