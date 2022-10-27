@@ -2236,15 +2236,16 @@ assert.lengthOf(fileContents, 1);
 
 ### --description--
 
-Now there's hashes everywhere. Next, you will validate all the transaction hashes. In your `blockchain-helpers.js` function, find the `isValidChain` function again and add a `loop over transactions` comment at the bottom of the `for` loop so you can go through all the transactions in each block.
+Now there's hashes everywhere. Next, you will validate all the transaction hashes. In your `blockchain-helpers.js` function, find the `isValidChain` function again and add a `loop through transactions` comment at the bottom of the `for` loop so you can go through all the transactions in each block.
 
 ### --tests--
 
-You should have `// loop over transactions` at the bottom of your `for` loop
+You should have `// loop through transactions` at the bottom of your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(isValidChain.toString(), /\/\/\s*loop\s+through\s+transactions\s*}\s*;?\s*return\s+true\s*;?\s*}\s*$/)
 ```
 
 ## 83
@@ -2259,14 +2260,15 @@ You should have `for (let j = 0; j < transactions.length; j++) { }` below your `
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(isValidChain.toString(), /loop\s+through\s+transactions\s+for\s*\(\s*let\s+j\s*=\s*0\s*;\s*j\s*<\s*transactions\s*\.\s*length\s*;\s*j\s*\+\+\s*\)\s*{\s*}\s*}\s*return\s+true/)
 ```
 
 ## 84
 
 ### --description--
 
-In your loop, destruct the only four properties from the current transaction.
+In your loop, destruct all four properties from the current transaction.
 
 ### --tests--
 
@@ -2274,7 +2276,23 @@ You should have `const { fromAddress, toAddress, amount, hash } = transactions[j
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+const babelised = await __helpers.babeliser(isValidChain.toString());
+const forLoops = babelised.getType('ForStatement');
+const forLoop = forLoops.find(l => l.init?.declarations[0]?.id?.name === 'j');
+const body = forLoop.body?.body[0];
+const decs = body.declarations[0];
+const props = decs.id?.properties;
+const hash = props.find(p => p.key?.name === 'hash' && p.value?.name === 'hash');
+const from = props.find(p => p.key?.name === 'fromAddress' && p.value?.name === 'fromAddress');
+const to = props.find(p => p.key?.name === 'toAddress' && p.value?.name === 'toAddress');
+const amount = props.find(p => p.key?.name === 'amount' && p.value?.name === 'amount');
+assert.equal(forLoop.body?.body[0]?.kind, 'const');
+assert.equal(hash.key?.name, 'hash');
+assert.equal(from.key?.name, 'fromAddress');
+assert.equal(to.key?.name, 'toAddress');
+assert.equal(amount.key?.name, 'amount');
+assert.equal(`${decs.init?.object?.name}[${decs.init?.property?.name}]`, 'transactions[i]');
 ```
 
 ## 85
@@ -2289,7 +2307,8 @@ You should have `// don't validate reward transactions` at the bottom of your `f
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(isValidChain.toString(), /\/\/\s*don't\s+validate\s+reward\s+transactions\s+}\s*}\s*return\s+true\s*;?\s*}\s*$/)
 ```
 
 ## 86
@@ -2300,11 +2319,12 @@ The `fromAddress` is `null` for reward transactions, so add an `if (fromAddress)
 
 ### --tests--
 
-You should have `if (fromAddress) { }` below your `don't validate reward transaction` comment
+You should have `if (fromAddress !== null) { }` below your `don't validate reward transaction` comment
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(isValidChain.toString(), /if\s*\(\s*fromAddress\s*!==?\s*null\s*\)\s*{\s*}\s*}\s*}\s*return\s+true\s*;?\s*}\s*$/)
 ```
 
 ## 87
@@ -2319,7 +2339,8 @@ You should have `// validate transaction hash` in your `if (fromAddress)` statem
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(isValidChain.toString(), /if\s*\(\s*fromAddress[\s\S]*?{\s*\/\/\s*validate\s+transaction\s+hash\s+}\s*}\s*}\s*return\s+true\s*;?\s*}\s*$/);
 ```
 
 ## 88
