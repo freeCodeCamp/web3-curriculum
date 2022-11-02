@@ -125,7 +125,7 @@ You should run `node validate-chain.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
 ```
 
 The terminal output should log `Chain is valid`
@@ -286,7 +286,29 @@ You should run `npm install crypto-js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert(lastCommand.replace(/\s+/g, ' ').trim(), 'npm install crypto-js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'npm install crypto-js');
+```
+
+### --seed--
+
+#### "mine-block.js"
+
+```js
+import { getBlockchain, writeBlockchain, getTransactions, writeTransactions } from './blockchain-helpers.js';
+
+const blockchain = getBlockchain();
+const previousBlock = blockchain[blockchain.length - 1];
+const transactions = getTransactions();
+
+const newBlock = {
+  hash: Math.random().toString(),
+  previousHash: previousBlock.hash,
+  transactions
+}
+
+blockchain.push(newBlock);
+writeBlockchain(blockchain);
+writeTransactions([]);
 ```
 
 ## 7
@@ -1816,7 +1838,7 @@ const lastCommand = await __helpers.getLastCommand();
 assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
 ```
 
-The last line of your terminal output should print `hash = <hash>`, with `<hash>` being a hash that starts with two zeros
+The last line of your terminal output should print `hash = <hash>`, with `<hash>` being a hash that starts with two zeros. You may need to run the command again for this test to register
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1881,7 +1903,7 @@ assert.match(fileContents, /const\s+difficulty\s*=\s*3\s*;?\s*while/);
 
 ### --description--
 
-This one may take a little longer. In order to not overload your computer, move the two logs to the console below your `while` loop.
+This one may take a little longer. In order to not overload the terminal, move the two logs to the console below your `while` loop.
 
 ### --tests--
 
@@ -2029,7 +2051,7 @@ assert.match(fileContents, /const\s+difficulty\s*=\s*4\s*;?\s*while/);
 
 ### --description--
 
-At the time of writing this, the `hash` for a block on a popular blockchain needs to start with 19 zeros, and takes trillions of guesses to find a `nonce` that will produce a correct hash. Run `node mine-block.js` again. This one will take a little longer.
+At the time of writing this, the `hash` for a block on a popular blockchain needs to start with 19 zeros, and takes trillions of guesses to find a `nonce` that will produce a correct hash. Run `node mine-block.js` again. This one will take a few more tries.
 
 ### --tests--
 
@@ -3854,7 +3876,7 @@ You should run `node validate-chain.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
 ```
 
 The terminal output should log `Chain is valid`
@@ -3951,7 +3973,7 @@ You should run `node validate-chain.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
 ```
 
 The terminal output should log `Chain is not valid`
@@ -4058,7 +4080,7 @@ You should run `node validate-chain.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
 ```
 
 The terminal output should log `Chain is valid`. If it's not, reset the step and try again
@@ -4265,7 +4287,7 @@ writeTransactions(transactions);
 
 ### --description--
 
-You will need to validate these as well, so re-initialize your blockchain again.
+You will need to validate these as well, so re-initialize your blockchain again. Note that when a real blockchain gets deployed, it doesn't get re-initialized like this.
 
 ### --tests--
 
@@ -4484,7 +4506,7 @@ assert.lengthOf(fileContents, 1);
 
 ### --description--
 
-Add a transaction that sends `5` tokens from `You` to `Me`.
+Add another transaction that sends `5` tokens from `You` to `Me`.
 
 ### --tests--
 
@@ -5001,11 +5023,11 @@ export function getTransactions() {
 
 ### --description--
 
-The `fromAddress` is `null` for reward transactions, so add an `if (fromAddress)` statement that is empty for now.
+The `fromAddress` is `null` for reward transactions, so add an `if` statement that checks if it is not equal to null. Leave the statement empty for now.
 
 ### --tests--
 
-You should have `if (fromAddress !== null) { }` below your `don't validate reward transaction` comment
+You should have `if (fromAddress != null) { }` below your `don't validate reward transaction` comment
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -5428,7 +5450,7 @@ export function getTransactions() {
 
 ### --description--
 
-Validate your chain.
+Now, if any of the transaction `hash` values cannot be recreated in the same way they originally were, the chain will not be valid. Validate your chain quick to make sure it's working.
 
 ### --tests--
 
@@ -5437,7 +5459,7 @@ You should run `node validate-chain.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
 ```
 
 The terminal output should log `Chain is valid`
@@ -5523,7 +5545,7 @@ export function getTransactions() {
 
 ### --description--
 
-It looks like it's working. In the `blockchain.json` file, change the `amount` of the most recent transaction to `1000`.
+In the `blockchain.json` file, change the `amount` of the most recent transaction to `1000` to make sure it will fail when a transaction is tampered with.
 
 ### --tests--
 
@@ -5548,7 +5570,7 @@ You should run `node validate-chain.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
 ```
 
 The terminal output should log `Chain is not valid`
@@ -5637,7 +5659,7 @@ assert.equal(fileContents[2]?.transactions[2].amount, 10);
 
 ### --description--
 
-Validate your chain again to make sure it's valid.
+Validate it once more.
 
 ### --tests--
 
@@ -5646,7 +5668,7 @@ You should run `node validate-chain.js` in the terminal
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node validate-chain.js');
 ```
 
 The terminal output should log `Chain is valid`
@@ -7458,7 +7480,7 @@ You should have `else { console.log('You do not have enough funds to make that t
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/add-transaction.js');
-assert.match(fileContents, /}\s*else\s*{\s*console\s*\.\s*log\s*\(\s*('|"|`)You do not have enough funds to make that transaction\1\s*\)\s*}\s*$/);
+assert.match(fileContents, /}\s*else\s*{\s*console\s*\.\s*log\s*\(\s*('|"|`)You do not have enough funds to make that transaction\1\s*\)\s*;?\s*}\s*$/);
 ```
 
 ### --seed--
@@ -7615,7 +7637,7 @@ assert.lengthOf(fileContents, 0);
 
 ### --description--
 
-Use the terminal to check the balance of `Me`.
+It says you do not have enough funds. Use the terminal to check the balance of `Me`.
 
 ### --tests--
 
