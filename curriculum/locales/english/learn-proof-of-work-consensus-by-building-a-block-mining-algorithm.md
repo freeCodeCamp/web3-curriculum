@@ -4178,7 +4178,6 @@ const right = callee.object.arguments[0].right;
 assert.equal(hashVar.kind, 'const');
 assert.equal(hashVar.declarations[0]?.id?.name, 'hash');
 assert.equal(callee.object?.callee?.name, 'sha256');
-assert.equal(hashVar.kind, 'const');
 assert.equal(`${left.left?.name} ${left.operator} ${left.right?.name} ${callee.object?.arguments[0]?.operator} ${right.name}`, 'fromAddress + toAddress + amount');
 assert.equal(callee.property?.name, 'toString');
 ```
@@ -5164,11 +5163,97 @@ Below the new comment, add a `const testTransactionHash` variable that creates n
 
 ### --tests--
 
-You should have `const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();` below your `validate transaction hash` comment
+You should have `const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();` in your file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+const babelised = await __helpers.babeliser(isValidChain.toString());
+const hashVar = babelised.getVariableDeclarations().find(v => {
+  return v.declarations[0]?.id?.name === 'testTransactionHash';
+});
+const callee = hashVar.declarations[0].init.callee;
+const left = callee.object.arguments[0].left;
+const right = callee.object.arguments[0].right;
+assert.equal(hashVar.kind, 'const');
+assert.equal(hashVar.declarations[0]?.id?.name, 'testTransactionHash');
+assert.equal(callee.object?.callee?.name, 'sha256');
+assert.equal(`${left.left?.name} ${left.operator} ${left.right?.name} ${callee.object?.arguments[0]?.operator} ${right.name}`, 'fromAddress + toAddress + amount');
+assert.equal(callee.property?.name, 'toString');
+```
+
+It should be right below your `validate transaction hash` comment
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(isValidChain.toString(), /validate\s+transaction\s+hash\s+const\s+testTransactionHash/);
+```
+
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
 ```
 
 ## 89
@@ -5183,7 +5268,75 @@ You should have `if (hash != testTransactionHash) { }` below your `testTransacti
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(isValidChain.toString(), /testTransactionHash[\s\S]*?toString[\s\S]*?if\s*\(\s*hash\s*!==?\s*testTransactionHash\s*\)\s*{\s*}\s*}\s*}\s*}\s*return\s+true\s*;?\s*}/);
+```
+
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+        const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();
+
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
 ```
 
 ## 90
@@ -5198,7 +5351,77 @@ You should have `return false;` in the `if` condition for when the transaction h
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(isValidChain.toString(), /if\s*\(hash\s*!==?\s*testTransactionHash\s*\)\s*{\s*return\s+false\s*;?\s*}/);
+```
+
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+        const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();
+        if (hash != testTransactionHash) {
+
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
 ```
 
 ## 91
@@ -5227,6 +5450,75 @@ const lastOutput = splitOutput[splitOutput.length - 1];
 assert.match(lastOutput, /Chain is valid/);
 ```
 
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+        const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();
+        if (hash != testTransactionHash) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
+```
+
 ## 92
 
 ### --description--
@@ -5235,11 +5527,12 @@ It looks like it's working. In the `blockchain.json` file, change the `amount` o
 
 ### --tests--
 
-The most recent transaction in your blockchain should have an `amount` of `1000`
+The third transaction in the third block of your blockchain should have an `amount` of `1000`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
+assert.equal(fileContents[2]?.transactions[2].amount, 1000);
 ```
 
 ## 93
@@ -5268,6 +5561,62 @@ const lastOutput = splitOutput[splitOutput.length - 1];
 assert.match(lastOutput, /Chain is not valid/);
 ```
 
+### --seed--
+
+#### --"blockchain.json"--
+
+```js
+[
+  {
+    "hash": "0",
+    "previousHash": null
+  },
+  {
+    "hash": "003a103cd94f91f93ee955a311d7788c0d7c084391feb95058c5a6da18fc20e5",
+    "nonce": 812,
+    "previousHash": "0",
+    "transactions": [
+      {
+        "hash": "f77b23e1e4b6326461afdd19ab31b1c7ed9059093b887fefced6b48fdbfba586",
+        "fromAddress": "You",
+        "toAddress": "Me",
+        "amount": 15
+      },
+      {
+        "hash": "e17854e6ae95cf0849157becf629f5c89b0c70c119789ca2305e3d2c8f3f26ca",
+        "fromAddress": "You",
+        "toAddress": "Me",
+        "amount": 25
+      }
+    ]
+  },
+  {
+    "hash": "00d0ccf54ed587c4f8e93fff1b64b862a38f6b7abe75b48ae104f5473845bbdf",
+    "nonce": 61,
+    "previousHash": "003a103cd94f91f93ee955a311d7788c0d7c084391feb95058c5a6da18fc20e5",
+    "transactions": [
+      {
+        "fromAddress": null,
+        "toAddress": "Me",
+        "amount": 50
+      },
+      {
+        "hash": "8633f32d6dde5de9bb31164a12d2aca3c43300fad7412667e453bd5e7fd0fd97",
+        "fromAddress": "You",
+        "toAddress": "Me",
+        "amount": 5
+      },
+      {
+        "hash": "6f4a542735debcea6c09ec83a41bcaeaea1ffea02abc8face122b0806165d9ad",
+        "fromAddress": "You",
+        "toAddress": "Me",
+        "amount": 1000
+      }
+    ]
+  }
+]
+```
+
 ## 94
 
 ### --description--
@@ -5276,11 +5625,12 @@ The transaction hash isn't valid because someone tampered with a transaction amo
 
 ### --tests--
 
-The most recent transaction in your blockchain should have an `amount` of `10`
+The third transaction of the third block in your blockchain should have an `amount` of `10`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
+assert.equal(fileContents[2]?.transactions[2].amount, 10);
 ```
 
 ## 95
@@ -5309,6 +5659,62 @@ const lastOutput = splitOutput[splitOutput.length - 1];
 assert.match(lastOutput, /Chain is valid/);
 ```
 
+### --seed--
+
+#### --"blockchain.json"--
+
+```js
+[
+  {
+    "hash": "0",
+    "previousHash": null
+  },
+  {
+    "hash": "003a103cd94f91f93ee955a311d7788c0d7c084391feb95058c5a6da18fc20e5",
+    "nonce": 812,
+    "previousHash": "0",
+    "transactions": [
+      {
+        "hash": "f77b23e1e4b6326461afdd19ab31b1c7ed9059093b887fefced6b48fdbfba586",
+        "fromAddress": "You",
+        "toAddress": "Me",
+        "amount": 15
+      },
+      {
+        "hash": "e17854e6ae95cf0849157becf629f5c89b0c70c119789ca2305e3d2c8f3f26ca",
+        "fromAddress": "You",
+        "toAddress": "Me",
+        "amount": 25
+      }
+    ]
+  },
+  {
+    "hash": "00d0ccf54ed587c4f8e93fff1b64b862a38f6b7abe75b48ae104f5473845bbdf",
+    "nonce": 61,
+    "previousHash": "003a103cd94f91f93ee955a311d7788c0d7c084391feb95058c5a6da18fc20e5",
+    "transactions": [
+      {
+        "fromAddress": null,
+        "toAddress": "Me",
+        "amount": 50
+      },
+      {
+        "hash": "8633f32d6dde5de9bb31164a12d2aca3c43300fad7412667e453bd5e7fd0fd97",
+        "fromAddress": "You",
+        "toAddress": "Me",
+        "amount": 5
+      },
+      {
+        "hash": "6f4a542735debcea6c09ec83a41bcaeaea1ffea02abc8face122b0806165d9ad",
+        "fromAddress": "You",
+        "toAddress": "Me",
+        "amount": 10
+      }
+    ]
+  }
+]
+```
+
 ## 96
 
 ### --description--
@@ -5321,7 +5727,9 @@ You should have `export function getAddressBalance(address) { }` in your `blockc
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.isFunction(getAddressBalance);
+assert.match(getAddressBalance.toString(), /getAddressBalance\s*\(\s*address\s*\)/);
 ```
 
 ## 97
@@ -5336,7 +5744,82 @@ You should have `const blockchain = getBlockchain();` in your `getAddressBalance
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(getAddressBalance.toString(), /{\s*const\s+blockchain\s*=\s*getBlockchain\s*\(\s*\)\s*;?\s*}/);
+```
+
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+        const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();
+        if (hash != testTransactionHash) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
+
+export function getAddressBalance(address) {
+
+}
+
 ```
 
 ## 98
@@ -5351,22 +5834,173 @@ You should have `let balance = 0;` at the bottom of your `getAddressBalance` fun
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(getAddressBalance.toString(), /{[\s\S]*?let\s+balance\s*=\s*0\s*;?\s*}\s*$/);
+```
+
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+        const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();
+        if (hash != testTransactionHash) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
+
+export function getAddressBalance(address) {
+  const blockchain = getBlockchain();
+
+}
 ```
 
 ## 99
 
 ### --description--
 
-To find a balance, you need to loop over all the blocks and transactions, see if any of transaction addresses match the address passed to the function, and add or subtract the amount. Add a `loop over blocks` comment below your `balance` variable.
+To find a balance, you need to loop over all the blocks and transactions, see if any of transaction addresses match the address passed to the function, and add or subtract the amount. Add a `loop through blocks` comment below your `balance` variable.
 
 ### --tests--
 
-You should have a `// loop over blocks` comment at the bottom of your `getAddressBalance` function
+You should have a `// loop through blocks` comment at the bottom of your `getAddressBalance` function
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(getAddressBalance.toString(), /{[\s\S]*?\/\/\s*loop\s+through\s+blocks\s+}\s*$/);
+```
+
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+        const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();
+        if (hash != testTransactionHash) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
+
+export function getAddressBalance(address) {
+  const blockchain = getBlockchain();
+  let balance = 0;
+
+}
 ```
 
 ## 100
@@ -5381,7 +6015,85 @@ You should have `for (let i = 1; i < blockchain.length; i++) { }` at the bottom 
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(getAddressBalance.toString(), /{[\s\S]*?for\s*\(let\s+i\s*=\s*1\s*;\s*i\s*<\s*blockchain\s*\.\s*length\s*;\s*i\s*\+\+\s*\)\s*{\s*}\s*}\s*$/);
+```
+
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+        const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();
+        if (hash != testTransactionHash) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
+
+export function getAddressBalance(address) {
+  const blockchain = getBlockchain();
+  let balance = 0;
+
+  // loop through blocks
+
+}
 ```
 
 ## 101
@@ -5396,22 +6108,183 @@ You should have `const { transactions } = blockchain[i];` in your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(getAddressBalance.toString(), /for[\s\S]*?{\s*const\s*{\s*transactions\s*}\s*=\s*blockchain\s*\[\s*i\s*\]\s*;?\s*}\s*}\s*$/);
+```
+
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+        const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();
+        if (hash != testTransactionHash) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
+
+export function getAddressBalance(address) {
+  const blockchain = getBlockchain();
+  let balance = 0;
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) { 
+
+  }
+}
 ```
 
 ## 102
 
 ### --description--
 
-Below that, add a `loop over transactions` comment.
+Below that, add a `loop through transactions` comment.
 
 ### --tests--
 
-You should have `// loop over transactions` at the bottom of your `for` loop
+You should have `// loop through transactions` at the bottom of your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(getAddressBalance.toString(), /\/\/\s*loop\s+through\s+transactions\s+}\s*}\s*$/);
+```
+
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+        const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();
+        if (hash != testTransactionHash) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
+
+export function getAddressBalance(address) {
+  const blockchain = getBlockchain();
+  let balance = 0;
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) { 
+    const { transactions } = blockchain[i];
+
+  }
+}
 ```
 
 ## 103
@@ -5426,7 +6299,90 @@ You should have `for (let j = 0; j < transactions.length; j++) { }` at the botto
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(getAddressBalance.toString(), /for\s*\(\s*let\s+j\s*=\s*0\s*;\s*j\s*<\s*transactions\s*\.\s*length\s*;\s*j\s*\+\+\s*\)\s*{\s*}\s*}\s*}\s*$/);
+```
+
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+        const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();
+        if (hash != testTransactionHash) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
+
+export function getAddressBalance(address) {
+  const blockchain = getBlockchain();
+  let balance = 0;
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) { 
+    const { transactions } = blockchain[i];
+
+    // loop through transactions
+
+  }
+}
 ```
 
 ## 104
@@ -5437,11 +6393,124 @@ You only need the addresses and the amount from the current transaction, so dest
 
 ### --tests--
 
-You should have `const { fromAddress, toAddress, amount } = transactions[j];` in your loop that goes over the transactions
+You should destruct `fromAddress` from `transactions[j]` in your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+const babelised = await __helpers.babeliser(getAddressBalance.toString());
+const vars = babelised.getVariableDeclarations();
+const props = vars[5].declarations[0].id.properties;
+const prop = props.find(p => p.key?.name === 'fromAddress');
+assert.equal(prop.key?.name, 'fromAddress');
+```
+
+You should destruct `toAddress` from `transactions[j]` in your `for` loop
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+const babelised = await __helpers.babeliser(getAddressBalance.toString());
+const vars = babelised.getVariableDeclarations();
+const props = vars[5].declarations[0].id.properties;
+const prop = props.find(p => p.key?.name === 'toAddress');
+assert.equal(prop.key?.name, 'toAddress');
+```
+
+You should destruct `amount` from `transactions[j]` in your `for` loop
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+const babelised = await __helpers.babeliser(getAddressBalance.toString());
+const vars = babelised.getVariableDeclarations();
+const props = vars[5].declarations[0].id.properties;
+const prop = props.find(p => p.key?.name === 'amount');
+assert.equal(prop.key?.name, 'amount');
+```
+
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+        const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();
+        if (hash != testTransactionHash) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
+
+export function getAddressBalance(address) {
+  const blockchain = getBlockchain();
+  let balance = 0;
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) { 
+    const { transactions } = blockchain[i];
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+
+    }
+  }
+}
 ```
 
 ## 105
@@ -5456,7 +6525,93 @@ You should have `if (fromAddress === address) { }` at the bottom of your transac
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(getAddressBalance.toString(), /if\s*\(\s*fromAddress\s*===?\s*address\s*\)\s*{\s*}\s*}\s*}\s*}\s*$/);
+```
+
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+        const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();
+        if (hash != testTransactionHash) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
+
+export function getAddressBalance(address) {
+  const blockchain = getBlockchain();
+  let balance = 0;
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) { 
+    const { transactions } = blockchain[i];
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { fromAddress, toAddress, amount } = transactions[j];
+
+    }
+  }
+}
 ```
 
 ## 106
@@ -5471,7 +6626,96 @@ You should have `balance -= amount;` in your `if` statement
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(getAddressBalance.toString(), /{\s*balance\s*-=\s*amount\s*;?\s*}\s*}\s*}\s*}\s*$/);
+```
+
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+        const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();
+        if (hash != testTransactionHash) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
+
+export function getAddressBalance(address) {
+  const blockchain = getBlockchain();
+  let balance = 0;
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) { 
+    const { transactions } = blockchain[i];
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { fromAddress, toAddress, amount } = transactions[j];
+
+      if (fromAddress === address) {
+
+      }
+    }
+  }
+}
 ```
 
 ## 107
@@ -5486,7 +6730,96 @@ You should have `if (toAddress === address) { }` at the bottom of your transacti
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(getAddressBalance.toString(), /if\s*\(\s*(toAddress\s*===?\s*address|address\s*===?\s*toAddress)\s*\)\s*\{\s*}\s*}\s*}\s*}\s*$/);
+```
+
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+        const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();
+        if (hash != testTransactionHash) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
+
+export function getAddressBalance(address) {
+  const blockchain = getBlockchain();
+  let balance = 0;
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) { 
+    const { transactions } = blockchain[i];
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { fromAddress, toAddress, amount } = transactions[j];
+
+      if (fromAddress === address) {
+        balance -= amount;
+      }
+    }
+  }
+}
 ```
 
 ## 108
@@ -5501,7 +6834,100 @@ You should have `balance += amount;` in the new `if` statement
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(getAddressBalance.toString(), /{\s*balance\s*\+=\s*amount\s*;?\s*}\s*}\s*}\s*}\s*$/);
+```
+
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+        const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();
+        if (hash != testTransactionHash) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
+
+export function getAddressBalance(address) {
+  const blockchain = getBlockchain();
+  let balance = 0;
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) { 
+    const { transactions } = blockchain[i];
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { fromAddress, toAddress, amount } = transactions[j];
+
+      if (fromAddress === address) {
+        balance -= amount;
+      }
+
+      if (toAddress === address) {
+
+      }
+    }
+  }
+}
 ```
 
 ## 109
@@ -5516,7 +6942,100 @@ You should have `return balance;` at the bottom of your `getAddressBalance` func
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
+assert.match(getAddressBalance.toString(), /return\s+balance\s*;?\s*}\s*$/);
+```
+
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+        const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();
+        if (hash != testTransactionHash) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
+
+export function getAddressBalance(address) {
+  const blockchain = getBlockchain();
+  let balance = 0;
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) { 
+    const { transactions } = blockchain[i];
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { fromAddress, toAddress, amount } = transactions[j];
+
+      if (fromAddress === address) {
+        balance -= amount;
+      }
+
+      if (toAddress === address) {
+        balance += amount;
+      }
+    }
+  }
+}
 ```
 
 ## 110
@@ -5535,6 +7054,100 @@ const folder = await __helpers.getDirectory('learn-proof-of-work-consensus-by-bu
 assert.include(folder, 'get-address-balance.js');
 ```
 
+### --seed--
+
+#### --"blockchain-helpers.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeFileSync, readFileSync } from 'fs';
+
+export function writeBlockchain(blockchain) {
+  const blockchainString = JSON.stringify(blockchain, null, 2);
+  writeFileSync('./blockchain.json', blockchainString);
+}
+
+export function getBlockchain() {
+  const blockchainFile = readFileSync('./blockchain.json');
+  const blockchain = JSON.parse(blockchainFile);
+  return blockchain;
+}
+
+export function isValidChain() {
+  const blockchain = getBlockchain();
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) {
+    const previousBlock = blockchain[i - 1];
+    const { hash, nonce, previousHash, transactions } = blockchain[i];
+
+    // validate previous hash
+    if (previousHash !== previousBlock.hash) {
+      return false;
+    }
+
+    // validate block hash
+    const testBlockHash = sha256(nonce + previousBlock.hash + JSON.stringify(transactions)).toString();
+    if (hash != testBlockHash) {
+      return false;
+    }
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { hash, fromAddress, toAddress, amount } = transactions[j];
+
+      // don't validate reward transactions
+      if (fromAddress !== null) {
+
+        // validate transaction hash
+        const testTransactionHash = sha256(fromAddress + toAddress + amount).toString();
+        if (hash != testTransactionHash) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+export function writeTransactions(transactions) {
+  const transactionsString = JSON.stringify(transactions, null, 2);
+  writeFileSync('./transactions.json', transactionsString);
+}
+
+export function getTransactions() {
+  const transactionsFile = readFileSync('./transactions.json');
+  const transactions = JSON.parse(transactionsFile);
+  return transactions;
+}
+
+export function getAddressBalance(address) {
+  const blockchain = getBlockchain();
+  let balance = 0;
+
+  // loop through blocks
+  for (let i = 1; i < blockchain.length; i++) { 
+    const { transactions } = blockchain[i];
+
+    // loop through transactions
+    for (let j = 0; j < transactions.length; j++) {
+      const { fromAddress, toAddress, amount } = transactions[j];
+
+      if (fromAddress === address) {
+        balance -= amount;
+      }
+
+      if (toAddress === address) {
+        balance += amount;
+      }
+    }
+  }
+
+  return balance;
+}
+```
+
 ## 111
 
 ### --description--
@@ -5547,7 +7160,12 @@ You should have `const { getAddressBalance } = require('./blockchain-helpers.js'
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/get-address-balance.js');
+const babelised = await __helpers.babeliser(fileContents);
+const imports = babelised.getImportDeclarations();
+const myImport = imports.find(i => i.specifiers[0]?.local?.name === 'getAddressBalance');
+assert.equal(myImport.specifiers[0]?.local?.name, 'getAddressBalance');
+assert.equal(myImport.source?.value, './blockchain-helpers.js');
 ```
 
 ## 112
@@ -5562,7 +7180,16 @@ You should have `const nameOfAddress = process.argv[2];` at the bottom of your `
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/get-address-balance.js');
+assert.match(fileContents, /const\s+nameOfAddress\s*=\s*process\s*\.\s*argv\s*\[\s*2\s*]\s*;?\s*$/);
+```
+
+### --seed--
+
+#### --"get-address-balance.js"--
+
+```js
+import { getAddressBalance } from './blockchain-helpers.js';
 ```
 
 ## 113
@@ -5577,7 +7204,18 @@ You should have `const balance = getAddressBalance(nameOfAddress);` at the botto
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/get-address-balance.js');
+assert.match(fileContents, /const\s+balance\s*=\s*getAddressBalance\s*\(\s*nameOfAddress\s*\)\s*;?\s*$/);
+```
+
+### --seed--
+
+#### --"get-address-balance.js"--
+
+```js
+import { getAddressBalance } from './blockchain-helpers.js';
+
+const nameOfAddress = process.argv[2];
 ```
 
 ## 114
@@ -5592,7 +7230,19 @@ You should have ``console.log(`The balance for ${nameOfAddress} is ${balance}`);
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/get-address-balance.js');
+assert.match(fileContents, /console\s*\.\s*log\s*\(\s*`The balance for \${\s*nameOfAddress\s*} is \${\s*balance\s*}`\s*\)\s*;?\s*$/);
+```
+
+### --seed--
+
+#### --"get-address-balance.js"--
+
+```js
+import { getAddressBalance } from './blockchain-helpers.js';
+
+const nameOfAddress = process.argv[2];
+const balance = getAddressBalance(nameOfAddress);
 ```
 
 ## 115
@@ -5615,7 +7265,23 @@ The terminal output should include `The balance for Me is 105`. If it doesn't re
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('get-address-balance.js Me');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /The balance for Me is 105/);
+```
+
+### --seed--
+
+#### --"get-address-balance.js"--
+
+```js
+import { getAddressBalance } from './blockchain-helpers.js';
+
+const nameOfAddress = process.argv[2];
+const balance = getAddressBalance(nameOfAddress);
+
+console.log(`The balance for ${nameOfAddress} is ${balance}`);
 ```
 
 ## 116
@@ -5638,7 +7304,10 @@ The terminal should output `The balance for You is -55`. If it doesn't reset the
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('get-address-balance.js You');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /The balance for You is -55/);
 ```
 
 ## 117
@@ -5653,7 +7322,13 @@ You should import `getAddressBalance` at the top of `add-transaction.js` with th
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/add-transaction.js');
+const babelised = await __helpers.babeliser(fileContents);
+const imports = babelised.getImportDeclarations();
+const myImport = imports.find(i => i.source?.value === './blockchain-helpers.js');
+const getBalanceImport = myImport.specifiers?.find(s => s.imported?.name === 'getAddressBalance');
+assert.equal(getBalanceImport.imported?.name, 'getAddressBalance');
+assert.equal(myImport.source?.value, './blockchain-helpers.js')
 ```
 
 ## 118
@@ -5668,7 +7343,34 @@ You should have `const addressBalance = getAddressBalance(fromAddress);` above `
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/add-transaction.js');
+assert.match(fileContents, /getTransactions\s*\([\s\S]*?const\s+addressBalance\s*=\s*getAddressBalance\s*\(\s*fromAddress\s*\)\s*;?\s*transactions\s*\.\s*push/);
+```
+
+### --seed--
+
+#### --"add-transaction.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeTransactions, getTransactions, getAddressBalance } from './blockchain-helpers.js';
+
+const fromAddress = process.argv[2];
+const toAddress = process.argv[3];
+const amount = parseInt(process.argv[4]);
+
+const hash = sha256(fromAddress + toAddress + amount).toString();
+
+const newTransaction = {
+  hash,
+  fromAddress,
+  toAddress,
+  amount
+}
+
+const transactions = getTransactions();
+transactions.push(newTransaction);
+writeTransactions(transactions);
 ```
 
 ## 119
@@ -5683,21 +7385,64 @@ You should have an `if (addressBalance >= amount)` as the last block of code in 
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/add-transaction.js');
+const babelised = await __helpers.babeliser(fileContents);
+const ifStatements = babelised.getType('IfStatement');
+const ifStatement = ifStatements[0];
+const test = ifStatement.test;
+assert.equal(`${test.left?.name} ${test.operator} ${test.right?.name}`, 'addressBalance >= amount');
 ```
 
 `transactions.push(newTransaction);` should be the first line in the `if` statement
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/add-transaction.js');
+const babelised = await __helpers.babeliser(fileContents);
+const ifStatements = babelised.getType('IfStatement');
+const ifStatement = ifStatements[0];
+const exp = ifStatement.consequent?.body[0]?.expression;
+assert.equal(`${exp.callee?.object?.name}.${exp.callee?.property?.name}(${exp.arguments[0]?.name})`, 'transactions.push(newTransaction)');
 ```
 
 `writeTransactions(transactions);` should be the second line in the `if` statement
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/add-transaction.js');
+const babelised = await __helpers.babeliser(fileContents);
+const ifStatements = babelised.getType('IfStatement');
+const ifStatement = ifStatements[0];
+const exp = ifStatement.consequent?.body[1]?.expression;
+assert.equal(`${exp.callee?.name}(${exp.arguments[0]?.name})`, 'writeTransactions(transactions)');
+```
+
+### --seed--
+
+#### --"add-transaction.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeTransactions, getTransactions, getAddressBalance } from './blockchain-helpers.js';
+
+const fromAddress = process.argv[2];
+const toAddress = process.argv[3];
+const amount = parseInt(process.argv[4]);
+
+const hash = sha256(fromAddress + toAddress + amount).toString();
+
+const newTransaction = {
+  hash,
+  fromAddress,
+  toAddress,
+  amount
+}
+
+const transactions = getTransactions();
+const addressBalance = getAddressBalance(fromAddress);
+
+transactions.push(newTransaction);
+writeTransactions(transactions);
 ```
 
 ## 120
@@ -5712,7 +7457,38 @@ You should have `else { console.log('You do not have enough funds to make that t
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/add-transaction.js');
+assert.match(fileContents, /}\s*else\s*{\s*console\s*\.\s*log\s*\(\s*('|"|`)You do not have enough funds to make that transaction\1\s*\)\s*}\s*$/);
+```
+
+### --seed--
+
+#### --"add-transaction.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeTransactions, getTransactions, getAddressBalance } from './blockchain-helpers.js';
+
+const fromAddress = process.argv[2];
+const toAddress = process.argv[3];
+const amount = parseInt(process.argv[4]);
+
+const hash = sha256(fromAddress + toAddress + amount).toString();
+
+const newTransaction = {
+  hash,
+  fromAddress,
+  toAddress,
+  amount
+}
+
+const transactions = getTransactions();
+const addressBalance = getAddressBalance(fromAddress);
+
+if (addressBalance >= amount) {
+  transactions.push(newTransaction);
+  writeTransactions(transactions);
+}
 ```
 
 ## 121
@@ -5749,27 +7525,62 @@ assert.isArray(fileContents);
 assert.lengthOf(fileContents, 0);
 ```
 
+### --seed--
+
+#### --"add-transaction.js"--
+
+```js
+import sha256 from 'crypto-js/sha256.js';
+import { writeTransactions, getTransactions, getAddressBalance } from './blockchain-helpers.js';
+
+const fromAddress = process.argv[2];
+const toAddress = process.argv[3];
+const amount = parseInt(process.argv[4]);
+
+const hash = sha256(fromAddress + toAddress + amount).toString();
+
+const newTransaction = {
+  hash,
+  fromAddress,
+  toAddress,
+  amount
+}
+
+const transactions = getTransactions();
+const addressBalance = getAddressBalance(fromAddress);
+
+if (addressBalance >= amount) {
+  transactions.push(newTransaction);
+  writeTransactions(transactions);
+} else {
+  console.log('You do not have enough funds to make that transaction')
+}
+```
+
 ## 122
 
 ### --description--
 
-Try to add a transaction that sends `45` tokens from `Me` to `You`.
+Try to add a transaction that sends `40` tokens from `Me` to `You`.
 
 ### --tests--
 
-You should run `node add-transaction.js Me You 45` in the terminal
+You should run `node add-transaction.js Me You 40` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js You Me 45');
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js Me You 40');
 ```
 
 The terminal should output `You do not have enough funds to make that transaction`
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('get-address-balance.js You');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /You do not have enough funds to make that transaction/);
 ```
 
 Your `transactions.json` file should be an empty array
@@ -5779,6 +7590,25 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
 assert.isArray(fileContents);
 assert.lengthOf(fileContents, 0);
+```
+
+### --seed--
+
+#### --"blockchain.json"--
+
+```js
+[
+  {
+    "hash": "0",
+    "previousHash": null
+  }
+]
+```
+
+#### --"transactions.json"--
+
+```js
+[]
 ```
 
 ## 123
@@ -5801,14 +7631,17 @@ The terminal should output `The balance for Me is 0`. If it doesn't reset the st
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('get-address-balance.js Me');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /The balance for Me is 0/);
 ```
 
 ## 124
 
 ### --description--
 
-Check the balance of `You`.
+They don't have any tokens. Check the balance of `You`.
 
 ### --tests--
 
@@ -5824,14 +7657,17 @@ The terminal should output `The balance for You is 0`. If it doesn't reset the s
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-assert(false);
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('get-address-balance.js You');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /The balance for You is 0/);
 ```
 
 ## 125
 
 ### --description--
 
-No tokens exist on your blockchain since you re-intialized it and nobody has any tokens. Mine a block to add a reward transaction.
+No tokens exist on your blockchain since you re-intialized it. Mine a block to add a reward transaction.
 
 ### --tests--
 
@@ -5903,6 +7739,348 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
 assert.isArray(fileContents);
 assert.lengthOf(fileContents, 1);
+```
+
+### --seed--
+
+#### --"blockchain.json"--
+
+```js
+[
+  {
+    "hash": "0",
+    "previousHash": null
+  },
+  {
+    "hash": "009b0ffdf8024c9fad6291d8b00915d23965a6ed55ba8ed680549076152705fb",
+    "nonce": 39,
+    "previousHash": "0",
+    "transactions": []
+  }
+]
+```
+
+#### --"transactions.json"--
+
+```js
+[
+  {
+    "fromAddress": null,
+    "toAddress": "Me",
+    "amount": 50
+  }
+]
+```
+
+## 127
+
+### --description--
+
+Check the balance of `Me` now.
+
+### --tests--
+
+You should run `node get-address-balance.js Me` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node get-address-balance.js Me');
+```
+
+The terminal should print `The balance for Me is 50`
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('get-address-balance.js Me');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /The balance for Me is 50/);
+```
+
+### --seed--
+
+#### --"blockchain.json"--
+
+```js
+[
+  {
+    "hash": "0",
+    "previousHash": null
+  },
+  {
+    "hash": "009b0ffdf8024c9fad6291d8b00915d23965a6ed55ba8ed680549076152705fb",
+    "nonce": 39,
+    "previousHash": "0",
+    "transactions": []
+  },
+  {
+    "hash": "00c23c20fec7b56b1f9701c07387d8f501e1901b467ca414e2a4d23712dd845f",
+    "nonce": 930,
+    "previousHash": "009b0ffdf8024c9fad6291d8b00915d23965a6ed55ba8ed680549076152705fb",
+    "transactions": [
+      {
+        "fromAddress": null,
+        "toAddress": "Me",
+        "amount": 50
+      }
+    ]
+  }
+]
+```
+
+## 128
+
+### --description--
+
+Now try to send `40` tokens from `Me` to `You`.
+
+### --tests--
+
+You should run `node add-transaction.js Me You 40` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js Me You 40');
+```
+
+Your `transactions.json` file should be an array with two transactions (objects) in it
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 2);
+```
+
+The second transaction should have the correct three properties and values
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.equal(fileContents[1]?.fromAddress, 'Me');
+assert.equal(fileContents[1]?.toAddress, 'You');
+assert.equal(fileContents[1]?.amount, 40);
+```
+
+## 129
+
+### --description--
+
+It worked that time. Check the balance of `Me` again.
+
+### --tests--
+
+You should run `node get-address-balance.js Me` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node get-address-balance.js Me');
+```
+
+The terminal should print `The balance for Me is 50`
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('get-address-balance.js Me');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /The balance for Me is 50/);
+```
+
+### --seed--
+
+#### --"transactions.json"--
+
+```js
+[
+  {
+    "fromAddress": null,
+    "toAddress": "Me",
+    "amount": 50
+  },
+  {
+    "hash": "35e19e0b0532e0073d20125e2818c5751507c63feb5954726e4c101e27752a12",
+    "fromAddress": "Me",
+    "toAddress": "You",
+    "amount": 40
+  }
+]
+```
+
+## 130
+
+### --description--
+
+It still says there's 50. Mine another block to add the transactions to the blockchain.
+
+### --tests--
+
+You should run `node mine-block.js` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node mine-block.js');
+```
+
+Your `blockchain.json` file should be an array with four blocks (objects)
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 4);
+```
+
+Your `transactions.json` file should be an array with one transaction (object)
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.isArray(fileContents);
+assert.lengthOf(fileContents, 1);
+```
+
+## 131
+
+### --description--
+
+Check the balance of `Me` again.
+
+### --tests--
+
+You should run `node get-address-balance.js Me` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node get-address-balance.js Me');
+```
+
+The terminal should print `The balance for Me is 60`
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('get-address-balance.js Me');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /The balance for Me is 60/);
+```
+
+### --seed--
+
+#### --"blockchain.json"--
+
+```js
+[
+  {
+    "hash": "0",
+    "previousHash": null
+  },
+  {
+    "hash": "009b0ffdf8024c9fad6291d8b00915d23965a6ed55ba8ed680549076152705fb",
+    "nonce": 39,
+    "previousHash": "0",
+    "transactions": []
+  },
+  {
+    "hash": "00c23c20fec7b56b1f9701c07387d8f501e1901b467ca414e2a4d23712dd845f",
+    "nonce": 930,
+    "previousHash": "009b0ffdf8024c9fad6291d8b00915d23965a6ed55ba8ed680549076152705fb",
+    "transactions": [
+      {
+        "fromAddress": null,
+        "toAddress": "Me",
+        "amount": 50
+      }
+    ]
+  },
+  {
+    "hash": "006d0fd2f22fbb1701fc4c90f2ee5ea032092da5cb26bff259b9fce552ac8cf9",
+    "nonce": 40,
+    "previousHash": "00c23c20fec7b56b1f9701c07387d8f501e1901b467ca414e2a4d23712dd845f",
+    "transactions": [
+      {
+        "fromAddress": null,
+        "toAddress": "Me",
+        "amount": 50
+      },
+      {
+        "hash": "35e19e0b0532e0073d20125e2818c5751507c63feb5954726e4c101e27752a12",
+        "fromAddress": "Me",
+        "toAddress": "You",
+        "amount": 40
+      }
+    ]
+  }
+]
+```
+
+#### --"transactions.json"--
+
+```js
+[
+  {
+    "fromAddress": null,
+    "toAddress": "Me",
+    "amount": 50
+  }
+]
+```
+
+## 132
+
+### --description--
+
+Now there's some tokens floating around your blockchain. Check the balance of `You`.
+
+### --tests--
+
+You should run `node get-address-balance.js You` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node get-address-balance.js You');
+```
+
+The terminal should print `The balance for You is 40`
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const output = await __helpers.getTerminalOutput();
+const splitOutput = output.split('get-address-balance.js You');
+const lastOutput = splitOutput[splitOutput.length - 1];
+assert.match(lastOutput, /The balance for You is 40/);
+```
+
+## 133
+
+### --description--
+
+This is the last step. Feel free to make some more transactions and mine some blocks. When you are done, add a transaction that sends `5` tokens from `Me` to `I`.
+
+### --tests--
+
+You should run `node add-transaction.js Me I 5` in the terminal
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const lastCommand = await __helpers.getLastCommand();
+assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'node add-transaction.js Me I 5');
+```
+
+The last object in your transactions array should have the correct three properties and values
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/transactions.json');
+assert.equal(fileContents[1]?.fromAddress, 'Me');
+assert.equal(fileContents[1]?.toAddress, 'I');
+assert.equal(fileContents[1]?.amount, 5);
 ```
 
 ## --fcc-end--
