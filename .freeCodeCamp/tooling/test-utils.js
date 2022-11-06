@@ -7,6 +7,7 @@ import { ROOT } from './env.js';
 import { logover } from './logger.js';
 import { Logger } from 'logover';
 import { parse as acornParse} from 'acorn';
+import { Babeliser } from 'babeliser';
 
 // ---------------
 // GENERIC HELPERS
@@ -243,6 +244,10 @@ async function parseJs(jsString) {
   return acornParse(jsString, { ecmaVersion: 2020, sourceType: 'module' });
 }
 
+async function babeliser(codeString) {
+  return new Babeliser(codeString);
+}
+
 const logoverHelp = new Logger({ level: 'debug' });
 
 const __helpers = {
@@ -263,7 +268,8 @@ const __helpers = {
   logover: logoverHelp,
   runCommand,
   writeJsonFile,
-  parseJs
+  parseJs,
+  babeliser
 };
 
 export default __helpers;
