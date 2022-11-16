@@ -133,7 +133,7 @@ function getAddressItems(address) {
   for (let i = 1; i < blockchain.length; i++) {
     const { transactions } = blockchain[i];
 
-    // loop over transactions in blockchain
+    // loop over transactions in block
     for (let j = 0; j < transactions.length; j++) {
       const {
         buyerAddress,
