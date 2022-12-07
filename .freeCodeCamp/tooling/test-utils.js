@@ -1,4 +1,4 @@
-import { readFile, readdir } from 'fs/promises';
+import { readFile, readdir, mkdir } from 'fs/promises';
 import { exec, execSync } from 'child_process';
 import { promisify } from 'util';
 import { join } from 'path';
@@ -99,6 +99,14 @@ async function getLastCWD(howManyBack = 0) {
 async function getDirectory(path) {
   const files = await readdir(join(ROOT, path));
   return files;
+}
+
+/**
+ * Create a directory
+ * @param {string} path Path relative to root of working directory
+ */
+async function makeDirectory(path) {
+  await mkdir(join(ROOT, path));
 }
 
 const execute = promisify(exec);
@@ -249,6 +257,7 @@ const __helpers = {
   getCommandOutput,
   getCWD,
   getDirectory,
+  makeDirectory,
   getFile,
   getJsonFile,
   getLastCommand,

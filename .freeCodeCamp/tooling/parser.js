@@ -2,6 +2,7 @@
 import { readFile } from 'fs/promises';
 import { createReadStream } from 'fs';
 import { createInterface } from 'readline';
+import { logover } from './logger.js';
 
 const DESCRIPTION_MARKER = '### --description--';
 const TEST_MARKER = '### --tests--';
@@ -39,7 +40,7 @@ export async function getProjectTitle(file) {
  * Gets all content within a lesson
  * @param {string} file - The relative path to the english locale file
  * @param {number} lessonNumber - The number of the lesson
- * @returns {Promise<string>} The content of the lesson
+ * @returns {Promise<string | undefined>} The content of the lesson
  */
 export async function getLessonFromFile(file, lessonNumber = 1) {
   const fileContent = await readFile(file, 'utf8');
@@ -50,6 +51,10 @@ export async function getLessonFromFile(file, lessonNumber = 1) {
     )
   );
   const lesson = mat?.[1];
+  if (!lesson) {
+    logover.debug(`Lesson ${lessonNumber} not found in ${file}`);
+    throw new Error(`Lesson ${lessonNumber} not found in ${file}`);
+  }
   return lesson;
 }
 
