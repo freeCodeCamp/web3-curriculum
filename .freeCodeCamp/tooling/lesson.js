@@ -12,10 +12,12 @@ import {
   updateDescription,
   updateProjectHeading,
   updateTests,
-  updateProject
+  updateProject,
+  updateError
 } from './client-socks.js';
 import { ROOT, getState, getProjectConfig, freeCodeCampConfig } from './env.js';
 import seedLesson from './seed.js';
+import { logover } from './logger.js';
 
 /**
  * Runs the lesson from the `project` config.
@@ -31,38 +33,44 @@ async function runLesson(ws, projectDashedName) {
     project.dashedName + '.md'
   );
   const lessonNumber = project.currentLesson;
-  const lesson = await getLessonFromFile(projectFile, lessonNumber);
-  const description = getLessonDescription(lesson);
+  try {
+    const lesson = await getLessonFromFile(projectFile, lessonNumber);
 
-  updateProject(ws, project);
+    const description = getLessonDescription(lesson);
 
-  if (!project.isIntegrated) {
-    const hintsAndTestsArr = getLessonHintsAndTests(lesson);
-    updateTests(
-      ws,
-      hintsAndTestsArr.reduce((acc, curr, i) => {
-        return [
-          ...acc,
-          { passed: false, testText: curr[0], testId: i, isLoading: false }
-        ];
-      }, [])
-    );
-  }
+    updateProject(ws, project);
 
-  const { projectTopic, currentProject } = await getProjectTitle(projectFile);
-  updateProjectHeading(ws, { projectTopic, currentProject, lessonNumber });
-  updateDescription(ws, description);
-
-  const seed = getLessonSeed(lesson);
-  if (seed) {
-    const isForce = isForceFlag(seed);
-    // force flag overrides seed flag
-    if (
-      (project.seedEveryLesson && !isForce) ||
-      (!project.seedEveryLesson && isForce)
-    ) {
-      await seedLesson(ws, project, lessonNumber);
+    if (!project.isIntegrated) {
+      const hintsAndTestsArr = getLessonHintsAndTests(lesson);
+      updateTests(
+        ws,
+        hintsAndTestsArr.reduce((acc, curr, i) => {
+          return [
+            ...acc,
+            { passed: false, testText: curr[0], testId: i, isLoading: false }
+          ];
+        }, [])
+      );
     }
+
+    const { projectTopic, currentProject } = await getProjectTitle(projectFile);
+    updateProjectHeading(ws, { projectTopic, currentProject, lessonNumber });
+    updateDescription(ws, description);
+
+    const seed = getLessonSeed(lesson);
+    if (seed) {
+      const isForce = isForceFlag(seed);
+      // force flag overrides seed flag
+      if (
+        (project.seedEveryLesson && !isForce) ||
+        (!project.seedEveryLesson && isForce)
+      ) {
+        await seedLesson(ws, project, lessonNumber);
+      }
+    }
+  } catch (err) {
+    updateError(ws, err);
+    logover.error(err);
   }
 }
 

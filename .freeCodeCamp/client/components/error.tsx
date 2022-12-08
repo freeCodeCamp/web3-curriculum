@@ -1,9 +1,22 @@
-export const E44o5 = ({ text }: { text: string }) => {
+export const E44o5 = ({
+  text,
+  error
+}: {
+  text: string;
+  error: Error | null;
+}) => {
   return (
     <main className='e44o5'>
       <div className='container'>
         <h1>Error 4XX - 5XX</h1>
         <p>{text}</p>
+        {error && (
+          <details>
+            <summary>More Info</summary>
+
+            <p>{JSON.stringify(error, null, 2)}</p>
+          </details>
+        )}
         <h2>To Keep Learning:</h2>
         <ul>
           <li>First, try refresh this page</li>

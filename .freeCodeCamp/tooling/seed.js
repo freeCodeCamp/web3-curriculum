@@ -12,6 +12,7 @@ import { writeFile } from 'fs/promises';
 import { promisify } from 'util';
 import { exec } from 'child_process';
 import { logover } from './logger.js';
+import { updateError } from './client-socks.js';
 const execute = promisify(exec);
 
 export default async function seedLesson(ws, project) {
@@ -23,17 +24,19 @@ export default async function seedLesson(ws, project) {
     freeCodeCampConfig.curriculum.locales[locale],
     project.dashedName + '.md'
   );
-  const lesson = await getLessonFromFile(projectFile, lessonNumber);
-  const seed = getLessonSeed(lesson);
-
-  const commands = getCommands(seed);
-  const filesWithSeed = getFilesWithSeed(seed);
 
   try {
+    const lesson = await getLessonFromFile(projectFile, lessonNumber);
+    const seed = getLessonSeed(lesson);
+
+    const commands = getCommands(seed);
+    const filesWithSeed = getFilesWithSeed(seed);
+
     await runCommands(commands);
     await runSeed(filesWithSeed);
+    logover.error(e);
   } catch (e) {
-    // TODO: Add error to UI explaining error
+    updateError(ws, e);
     logover.error(e);
   }
 }
