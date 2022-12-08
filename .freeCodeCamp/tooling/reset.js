@@ -7,7 +7,7 @@ import { logover } from './logger.js';
 import { getLessonFromFile, getLessonSeed } from './parser.js';
 import { runCommand, runLessonSeed } from './seed.js';
 
-export async function resetProject() {
+export async function resetProject(ws) {
   // Get commands and handle file setting
   const { currentProject } = await getState();
   const freeCodeCampConfig = await getConfig();
