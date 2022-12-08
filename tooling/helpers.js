@@ -2,8 +2,18 @@ import __helpers from '../.freeCodeCamp/tooling/test-utils.js';
 import sha256 from 'crypto-js/sha256.js';
 import elliptic from 'elliptic';
 import WebSocket, { WebSocketServer } from 'ws';
+import { parse as acornParse} from 'acorn';
+import { Babeliser } from 'babeliser';
 
 const ec = new elliptic.ec('p192');
+
+export async function parseJs(jsString) {
+  return acornParse(jsString, { ecmaVersion: 2020, sourceType: 'module' });
+}
+
+export async function babeliser(codeString) {
+  return new Babeliser(codeString);
+}
 
 export function generateHash(content) {
   const hash = sha256(content).toString();
