@@ -1,7 +1,7 @@
 import { readFile, writeFile } from 'fs/promises';
 
 const PATH =
-  '../curriculum/locales/english/learn-proof-of-work-consensus-by-building-a-block-mining-algorithm.md';
+  '../curriculum/locales/english/learn-digital-signatures-by-building-a-wallet.md';
 
 /**
  * Ensures all lessons are incremented by 1

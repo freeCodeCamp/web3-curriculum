@@ -23,7 +23,7 @@
   },
   {
     "id": 2,
-    "title": "Learn Digital Signatures by Buiding a Wallet",
+    "title": "Learn Digital Signatures by Building a Wallet",
     "dashedName": "learn-digital-signatures-by-building-a-wallet",
     "isIntegrated": false,
     "description": "In this course, you will learn how to generate and use keypairs so you can veryify users and transactions.",

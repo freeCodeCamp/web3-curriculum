@@ -116,7 +116,6 @@ assert.lengthOf(fileContents[9]?.transactions, 1);
 ### --description--
 
 A new block was added to your blockchain that includes your transaction, and the transaction pool is empty again. Run `node validate-chain.js` in the terminal to make sure your chain is still valid.
-run `node validate-chain.js`
 
 ### --tests--
 
@@ -291,7 +290,7 @@ assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'npm install crypto-js');
 
 ### --seed--
 
-#### "mine-block.js"
+#### --"mine-block.js"--
 
 ```js
 import { getBlockchain, writeBlockchain, getTransactions, writeTransactions } from './blockchain-helpers.js';
@@ -327,15 +326,15 @@ const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-b
 const babelised = await __helpers.babeliser(fileContents);
 const imports = babelised.getImportDeclarations();
 const sha256Import = imports.find(i => i.specifiers[0]?.local?.name === 'sha256');
-assert.equal(sha256Import.specifiers[0]?.local?.name, 'sha256');
-assert.equal(sha256Import.source?.value, 'crypto-js/sha256.js')
+assert.equal(sha256Import?.specifiers[0]?.local?.name, 'sha256');
+assert.equal(sha256Import?.source?.value, 'crypto-js/sha256.js')
 ```
 
 ## 8
 
 ### --description--
 
-This method takes a string of any length and turns it into a 256 bit hash value that is always 64 characters. Above your `newBlock`, create a `const hash` variable with a value of `sha256('password').toString();`.
+This method takes a string of any length and turns it into a 256-bit hash value that is always 64 characters. Above your `newBlock`, create a `const hash` variable with a value of `sha256('password').toString();`.
 
 ### --tests--
 
@@ -348,11 +347,11 @@ const babelised = await __helpers.babeliser(fileContents);
 const hashVar = babelised.getVariableDeclarations().find(v => {
   return v.declarations[0]?.id?.name === 'hash';
 });
-assert.equal(hashVar.kind, 'const');
-assert.equal(hashVar.declarations[0]?.id?.name, 'hash');
-assert.equal(hashVar.declarations[0]?.init?.callee?.object?.callee?.name, 'sha256');
-assert.equal(hashVar.declarations[0]?.init?.callee?.object?.arguments[0]?.value, 'password');
-assert.equal(hashVar.declarations[0]?.init?.callee?.property?.loc?.identifierName, 'toString');
+assert.equal(hashVar?.kind, 'const');
+assert.equal(hashVar?.declarations[0]?.id?.name, 'hash');
+assert.equal(hashVar?.declarations[0]?.init?.callee?.object?.callee?.name, 'sha256');
+assert.equal(hashVar?.declarations[0]?.init?.callee?.object?.arguments[0]?.value, 'password');
+assert.equal(hashVar?.declarations[0]?.init?.callee?.property?.loc?.identifierName, 'toString');
 ```
 
 Your `hash` declaration should be right above the `newBlock` declaration
@@ -453,7 +452,7 @@ const comment = babelised.parsedCode?.comments?.find(c => {
   const commentString = c.value?.replace(/\s+/g, ' ').trim();
   return commentString.includes('writeBlockchain(blockchain)')
 })
-assert.include(comment.value, 'writeBlockchain(blockchain)');
+assert.include(comment?.value, 'writeBlockchain(blockchain)');
 ```
 
 You should have `// writeTransactions([]);` in your file
@@ -466,7 +465,7 @@ const comment = babelised.parsedCode?.comments?.find(c => {
   const commentString = c.value?.replace(/\s+/g, ' ').trim();
   return commentString.includes('writeTransactions([])')
 })
-assert.include(comment.value, 'writeTransactions([])');
+assert.include(comment?.value, 'writeTransactions([])');
 ```
 
 ### --seed--
@@ -590,11 +589,11 @@ const babelised = await __helpers.babeliser(fileContents);
 const hashVar = babelised.getVariableDeclarations().find(v => {
   return v.declarations[0]?.id?.name === 'hash';
 });
-assert.equal(hashVar.kind, 'const');
-assert.equal(hashVar.declarations[0]?.id?.name, 'hash');
-assert.equal(hashVar.declarations[0]?.init?.callee?.object?.callee?.name, 'sha256');
-assert.equal(hashVar.declarations[0]?.init?.callee?.object?.arguments[0]?.value, 'passwords');
-assert.equal(hashVar.declarations[0]?.init?.callee?.property?.loc?.identifierName, 'toString');
+assert.equal(hashVar?.kind, 'const');
+assert.equal(hashVar?.declarations[0]?.id?.name, 'hash');
+assert.equal(hashVar?.declarations[0]?.init?.callee?.object?.callee?.name, 'sha256');
+assert.equal(hashVar?.declarations[0]?.init?.callee?.object?.arguments[0]?.value, 'passwords');
+assert.equal(hashVar?.declarations[0]?.init?.callee?.property?.loc?.identifierName, 'toString');
 ```
 
 It should be right above your log to the console
@@ -680,13 +679,13 @@ const declarations = hashVar.declarations[0];
 const callee = declarations.init?.callee;
 const left = callee.object?.arguments[0]?.left;
 const right = callee.object?.arguments[0]?.right;
-assert.equal(hashVar.kind, 'const');
-assert.equal(declarations.id?.name, 'hash');
-assert.equal(callee.object?.callee?.name, 'sha256');
-assert.equal(`${left.object?.name}.${left.property?.name}`, 'previousBlock.hash');
-assert.equal(callee.object?.arguments[0]?.operator, '+');
-assert.equal(`${right.callee?.object?.name}.${right.callee?.property?.name}(${right.arguments[0]?.name})`, 'JSON.stringify(transactions)');
-assert.equal(callee.property?.loc?.identifierName, 'toString');
+assert.equal(hashVar?.kind, 'const');
+assert.equal(declarations?.id?.name, 'hash');
+assert.equal(callee?.object?.callee?.name, 'sha256');
+assert.equal(`${left?.object?.name}.${left?.property?.name}`, 'previousBlock.hash');
+assert.equal(callee?.object?.arguments[0]?.operator, '+');
+assert.equal(`${right?.callee?.object?.name}.${right?.callee?.property?.name}(${right?.arguments[0]?.name})`, 'JSON.stringify(transactions)');
+assert.equal(callee?.property?.loc?.identifierName, 'toString');
 ```
 
 ## 16
@@ -758,9 +757,9 @@ const babelised = await __helpers.babeliser(fileContents);
 const newBlockVar = babelised.getVariableDeclarations().find(v => {
   return v.declarations[0]?.id?.name === 'newBlock';
 });
-const newBlockHashProp = newBlockVar.declarations[0]?.init?.properties.find(p => p.key?.name === 'hash');
-assert.equal(newBlockHashProp.key?.name, 'hash');
-assert.equal(newBlockHashProp.value?.name, 'hash');
+const newBlockHashProp = newBlockVar?.declarations[0]?.init?.properties?.find(p => p.key?.name === 'hash');
+assert.equal(newBlockHashProp?.key?.name, 'hash');
+assert.equal(newBlockHashProp?.value?.name, 'hash');
 ```
 
 ## 18
@@ -780,8 +779,8 @@ const babelised = await __helpers.babeliser(fileContents);
 const writeBcCall = babelised.getExpressionStatements().find(e => {
   return e.expression?.callee?.name === 'writeBlockchain';
 });
-assert.equal(writeBcCall.expression?.callee?.name, 'writeBlockchain');
-assert.equal(writeBcCall.expression?.arguments[0]?.name, 'blockchain');
+assert.equal(writeBcCall?.expression?.callee?.name, 'writeBlockchain');
+assert.equal(writeBcCall?.expression?.arguments[0]?.name, 'blockchain');
 ```
 
 You should have `writeTransactions([]);` in your file that is not commented out
@@ -793,8 +792,8 @@ const babelised = await __helpers.babeliser(fileContents);
 const writeTxCall = babelised.getExpressionStatements().find(e => {
   return e.expression?.callee?.name === 'writeTransactions';
 });
-assert.equal(writeTxCall.expression?.callee?.name, 'writeTransactions');
-assert.isArray(writeTxCall.expression?.arguments[0]?.elements);
+assert.equal(writeTxCall?.expression?.callee?.name, 'writeTransactions');
+assert.isArray(writeTxCall?.expression?.arguments[0]?.elements);
 ```
 
 You should not have any comments in your file
@@ -923,7 +922,7 @@ The eleventh block should have a `hash` property that is a 64 character long str
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
-assert.lengthOf(fileContents[10].hash, 64);
+assert.lengthOf(fileContents[10]?.hash, 64);
 ```
 
 ### --seed--
@@ -1127,7 +1126,7 @@ The twelfth block should have a `hash` property that is a 64 character long stri
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
-assert.lengthOf(fileContents[11].hash, 64);
+assert.lengthOf(fileContents[11]?.hash, 64);
 ```
 
 ### --seed--
@@ -1163,8 +1162,8 @@ const babelised = await __helpers.babeliser(fileContents);
 const nonceVar = babelised.getVariableDeclarations().find(v => {
   return v.declarations[0]?.id?.name === 'nonce';
 });
-assert.equal(nonceVar.kind, 'let');
-assert.equal(nonceVar.declarations[0]?.init?.value, 0);
+assert.equal(nonceVar?.kind, 'let');
+assert.equal(nonceVar?.declarations[0]?.init?.value, 0);
 ```
 
 It should be right above the `hash` declaration
@@ -1325,15 +1324,15 @@ const babelised = await __helpers.babeliser(fileContents);
 const hashVar = babelised.getVariableDeclarations().find(v => {
   return v.declarations[0]?.id?.name === 'hash';
 });
-const declarations = hashVar.declarations[0];
-const callee = declarations.init?.callee;
-const left = callee.object?.arguments[0]?.left;
-const right = callee.object?.arguments[0]?.right;
-assert.equal(hashVar.kind, 'let');
-assert.equal(declarations.id?.name, 'hash');
-assert.equal(callee.object?.callee?.name, 'sha256');
-assert.equal(`${left.left?.name} ${left.operator} ${left.right?.object?.name}.${left.right?.property?.name} ${callee.object?.arguments[0]?.operator} ${right.callee?.object?.name}.${right.callee?.property?.name}(${right.arguments[0]?.name})`, "nonce + previousBlock.hash + JSON.stringify(transactions)");
-assert.equal(callee.property?.loc?.identifierName, 'toString');
+const declarations = hashVar?.declarations[0];
+const callee = declarations?.init?.callee;
+const left = callee?.object?.arguments[0]?.left;
+const right = callee?.object?.arguments[0]?.right;
+assert.equal(hashVar?.kind, 'let');
+assert.equal(declarations?.id?.name, 'hash');
+assert.equal(callee?.object?.callee?.name, 'sha256');
+assert.equal(`${left?.left?.name} ${left?.operator} ${left?.right?.object?.name}.${left?.right?.property?.name} ${callee?.object?.arguments[0]?.operator} ${right?.callee?.object?.name}.${right?.callee?.property?.name}(${right?.arguments[0]?.name})`, "nonce + previousBlock.hash + JSON.stringify(transactions)");
+assert.equal(callee?.property?.loc?.identifierName, 'toString');
 ```
 
 ### --seed--
@@ -1429,8 +1428,8 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/mine-block.js');
 const babelised = await __helpers.babeliser(fileContents);
 const whileLoop = babelised.getType('WhileStatement');
-const firstExpression = whileLoop[0].body?.body[0]?.expression;
-assert.equal(`${firstExpression.argument?.name}${firstExpression.operator}`, 'nonce++');
+const firstExpression = whileLoop[0]?.body?.body[0]?.expression;
+assert.equal(`${firstExpression?.argument?.name}${firstExpression?.operator}`, 'nonce++');
 ```
 
 ### --seed--
@@ -1478,14 +1477,14 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/mine-block.js');
 const babelised = await __helpers.babeliser(fileContents);
 const whileLoop = babelised.getType('WhileStatement');
-const secondExp = whileLoop[0].body?.body[1]?.expression;
-const callee = secondExp.right?.callee;
-const left = callee.object?.arguments[0]?.left;
-const right = callee.object?.arguments[0]?.right;
-assert.equal(secondExp.left?.name, 'hash');
-assert.equal(secondExp.operator, '=');
-assert.equal(callee.object?.callee?.name, 'sha256');
-assert.equal(`${left.left?.name} ${left.operator} ${left.right?.object?.name}.${left.right?.property?.name} ${callee.object?.arguments[0]?.operator} ${right.callee?.object?.name}.${right.callee?.property?.name}(${right.arguments[0]?.name})`, 'nonce + previousBlock.hash + JSON.stringify(transactions)');
+const secondExp = whileLoop[0]?.body?.body[1]?.expression;
+const callee = secondExp?.right?.callee;
+const left = callee?.object?.arguments[0]?.left;
+const right = callee?.object?.arguments[0]?.right;
+assert.equal(secondExp?.left?.name, 'hash');
+assert.equal(secondExp?.operator, '=');
+assert.equal(callee?.object?.callee?.name, 'sha256');
+assert.equal(`${left?.left?.name} ${left?.operator} ${left?.right?.object?.name}.${left?.right?.property?.name} ${callee?.object?.arguments[0]?.operator} ${right?.callee?.object?.name}.${right?.callee?.property?.name}(${right?.arguments[0]?.name})`, 'nonce + previousBlock.hash + JSON.stringify(transactions)');
 ```
 
 ### --seed--
@@ -1590,7 +1589,7 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/mine-block.js');
 const babelised = await __helpers.babeliser(fileContents);
 const whileLoop = babelised.getType('WhileStatement');
-const logs = whileLoop[0].body?.body?.filter(it => it.expression?.callee?.object?.name === 'console' && it.expression?.callee?.property?.name === 'log'
+const logs = whileLoop[0]?.body?.body?.filter(it => it.expression?.callee?.object?.name === 'console' && it.expression?.callee?.property?.name === 'log'
 );
 assert.lengthOf(logs, 2);
 ```
@@ -1645,7 +1644,7 @@ const comment = babelised.parsedCode?.comments?.find(c => {
   const commentString = c.value?.replace(/\s+/g, ' ').trim();
   return commentString.includes('writeBlockchain(blockchain)')
 })
-assert.include(comment.value, 'writeBlockchain(blockchain)');
+assert.include(comment?.value, 'writeBlockchain(blockchain)');
 ```
 
 You should have `// writeTransactions([]);` in your file
@@ -1658,7 +1657,7 @@ const comment = babelised.parsedCode?.comments?.find(c => {
   const commentString = c.value?.replace(/\s+/g, ' ').trim();
   return commentString.includes('writeTransactions([])')
 })
-assert.include(comment.value, 'writeTransactions([])');
+assert.include(comment?.value, 'writeTransactions([])');
 ```
 
 ### --seed--
@@ -1914,7 +1913,7 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/mine-block.js');
 const babelised = await __helpers.babeliser(fileContents);
 const whileLoop = babelised.getType('WhileStatement');
-const logs = whileLoop[0].body?.body?.filter(it => it.expression?.callee?.object?.name === 'console' && it.expression?.callee?.property?.name === 'log'
+const logs = whileLoop[0]?.body?.body?.filter(it => it.expression?.callee?.object?.name === 'console' && it.expression?.callee?.property?.name === 'log'
 );
 assert.lengthOf(logs, 0);
 ```
@@ -2126,9 +2125,9 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/mine-block.js');
 const babelised = await __helpers.babeliser(fileContents);
 const newBlock = babelised.getVariableDeclarations().find(v => v.declarations[0]?.id?.name === 'newBlock');
-const nonce = newBlock.declarations[0]?.init?.properties?.find(p => p.key?.name === 'nonce');
-assert.equal(nonce.key?.name, 'nonce');
-assert.equal(nonce.value?.name, 'nonce');
+const nonce = newBlock?.declarations[0]?.init?.properties?.find(p => p.key?.name === 'nonce');
+assert.equal(nonce?.key?.name, 'nonce');
+assert.equal(nonce?.value?.name, 'nonce');
 ```
 
 ## 41
@@ -2198,9 +2197,9 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/mine-block.js');
 const babelised = await __helpers.babeliser(fileContents);
 const rewardTx = babelised.getVariableDeclarations().find(v => v.declarations[0]?.id?.name === 'rewardTransaction');
-const fromAddress = rewardTx.declarations[0]?.init?.properties?.find(p => p.key.name === 'fromAddress');
-assert.equal(fromAddress.key?.name, 'fromAddress');
-assert.equal(fromAddress.value?.type, 'NullLiteral')
+const fromAddress = rewardTx?.declarations[0]?.init?.properties?.find(p => p.key.name === 'fromAddress');
+assert.equal(fromAddress?.key?.name, 'fromAddress');
+assert.equal(fromAddress?.value?.type, 'NullLiteral')
 ```
 
 ### --seed--
@@ -2258,9 +2257,9 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/mine-block.js');
 const babelised = await __helpers.babeliser(fileContents);
 const rewardTx = babelised.getVariableDeclarations().find(v => v.declarations[0]?.id?.name === 'rewardTransaction');
-const toAddress = rewardTx.declarations[0]?.init?.properties[1];
-assert.equal(toAddress.key?.name, 'toAddress');
-assert.equal(toAddress.value?.value, 'Me')
+const toAddress = rewardTx?.declarations[0]?.init?.properties[1];
+assert.equal(toAddress?.key?.name, 'toAddress');
+assert.equal(toAddress?.value?.value, 'Me')
 ```
 
 ### --seed--
@@ -2319,9 +2318,9 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/mine-block.js');
 const babelised = await __helpers.babeliser(fileContents);
 const rewardTx = babelised.getVariableDeclarations().find(v => v.declarations[0]?.id?.name === 'rewardTransaction');
-const amount = rewardTx.declarations[0]?.init?.properties[2];
-assert.equal(amount.key?.name, 'amount');
-assert.equal(amount.value?.value, 50)
+const amount = rewardTx?.declarations[0]?.init?.properties[2];
+assert.equal(amount?.key?.name, 'amount');
+assert.equal(amount?.value?.value, 50)
 ```
 
 ### --seed--
@@ -2382,8 +2381,8 @@ const babelised = await __helpers.babeliser(fileContents);
 const writeBcCall = babelised.getExpressionStatements().find(e => {
   return e.expression?.callee?.name === 'writeBlockchain';
 });
-assert.equal(writeBcCall.expression.callee.name, 'writeBlockchain');
-assert.equal(writeBcCall.expression.arguments[0].name, 'blockchain');
+assert.equal(writeBcCall?.expression?.callee?.name, 'writeBlockchain');
+assert.equal(writeBcCall?.expression?.arguments[0]?.name, 'blockchain');
 ```
 
 You should have `writeTransactions([]);` in your file that is not commented out
@@ -2395,9 +2394,9 @@ const babelised = await __helpers.babeliser(fileContents);
 const writeTxCall = babelised.getExpressionStatements().find(e => {
   return e.expression?.callee?.name === 'writeTransactions';
 });
-assert.equal(writeTxCall.expression?.callee?.name, 'writeTransactions');
-assert.isArray(writeTxCall.expression?.arguments[0]?.elements);
-assert.lengthOf(writeTxCall.expression?.arguments[0]?.elements, 0);
+assert.equal(writeTxCall?.expression?.callee?.name, 'writeTransactions');
+assert.isArray(writeTxCall?.expression?.arguments[0]?.elements);
+assert.lengthOf(writeTxCall?.expression?.arguments[0]?.elements, 0);
 ```
 
 You should not have any comments in your file
@@ -2406,7 +2405,7 @@ You should not have any comments in your file
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/mine-block.js');
 const babelised = await __helpers.babeliser(fileContents);
-assert.lengthOf(babelised.parsedCode.comments, 0);
+assert.lengthOf(babelised.parsedCode?.comments, 0);
 ```
 
 ### --seed--
@@ -2468,8 +2467,8 @@ const babelised = await __helpers.babeliser(fileContents);
 const writeTxCall = babelised.getExpressionStatements().find(e => {
   return e.expression?.callee?.name === 'writeTransactions';
 });
-assert.lengthOf(writeTxCall.expression?.arguments[0]?.elements, 1);
-assert.equal(writeTxCall.expression?.arguments[0]?.elements[0]?.name, 'rewardTransaction');
+assert.lengthOf(writeTxCall?.expression?.arguments[0]?.elements, 1);
+assert.equal(writeTxCall?.expression?.arguments[0]?.elements[0]?.name, 'rewardTransaction');
 ```
 
 ### --seed--
@@ -2588,8 +2587,8 @@ const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-b
 const babelised = await __helpers.babeliser(fileContents);
 const imports = babelised.getImportDeclarations();
 const writeTx = imports[0]?.specifiers?.find(s => s.imported?.name === 'writeTransactions');
-assert.equal(writeTx.imported?.name, 'writeTransactions');
-assert.equal(writeTx.local?.name, 'writeTransactions');
+assert.equal(writeTx?.imported?.name, 'writeTransactions');
+assert.equal(writeTx?.local?.name, 'writeTransactions');
 assert.equal(imports[0]?.source?.value, './blockchain-helpers.js')
 ```
 
@@ -3302,8 +3301,8 @@ const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-b
 const babelised = await __helpers.babeliser(fileContents);
 const imports = babelised.getImportDeclarations();
 const sha256Import = imports.find(i => i.specifiers[0]?.local?.name === 'sha256');
-assert.equal(sha256Import.specifiers[0]?.local?.name, 'sha256');
-assert.equal(sha256Import.source?.value, 'crypto-js/sha256.js')
+assert.equal(sha256Import?.specifiers[0]?.local?.name, 'sha256');
+assert.equal(sha256Import?.source?.value, 'crypto-js/sha256.js')
 ```
 
 ### --seed--
@@ -3362,7 +3361,7 @@ const babelised = await __helpers.babeliser(isValidChain.toString());
 const bc = babelised.getVariableDeclarations().find(v => {
   return v.declarations[0]?.id?.name === 'blockchain';
 });
-assert.equal(bc.trailingComments[0]?.value?.trim(), 'loop through blocks');
+assert.equal(bc?.trailingComments[0]?.value?.trim(), 'loop through blocks');
 ```
 
 ### --seed--
@@ -3424,7 +3423,7 @@ You should have `// validate previous hash` above your `if` statement
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
-assert.match(isValidChain.toString(), /\/\/\s*validate\s+previous\s+hash\s+if/)
+assert.match(isValidChain?.toString(), /\/\/\s*validate\s+previous\s+hash\s+if/)
 ```
 
 ### --seed--
@@ -3487,7 +3486,7 @@ You should have `// validate block hash` below your `if` statement
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
-assert.match(isValidChain.toString(), /\/\/\s*validate\s+block\s+hash\s*}\s*return\s+true\s*;?\s*}/)
+assert.match(isValidChain?.toString(), /\/\/\s*validate\s+block\s+hash\s*}\s*return\s+true\s*;?\s*}/)
 ```
 
 ### --seed--
@@ -3553,9 +3552,9 @@ await new Promise(res => setTimeout(res, 1000));
 const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
 const babelised = await __helpers.babeliser(isValidChain.toString());
 const vars = babelised.getVariableDeclarations();
-const props = vars[3].declarations[0].id.properties;
-const prop = props.find(p => p.key?.name === 'nonce');
-assert.equal(prop.key?.name, 'nonce');
+const props = vars[3]?.declarations[0]?.id?.properties;
+const prop = props?.find(p => p.key?.name === 'nonce');
+assert.equal(prop?.key?.name, 'nonce');
 ```
 
 You should destruct `hash` from `blockchain[i]` in your `for` loop
@@ -3565,9 +3564,9 @@ await new Promise(res => setTimeout(res, 1000));
 const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
 const babelised = await __helpers.babeliser(isValidChain.toString());
 const vars = babelised.getVariableDeclarations();
-const props = vars[3].declarations[0].id.properties;
-const prop = props.find(p => p.key?.name === 'hash');
-assert.equal(prop.key?.name, 'hash');
+const props = vars[3]?.declarations[0]?.id?.properties;
+const prop = props?.find(p => p.key?.name === 'hash');
+assert.equal(prop?.key?.name, 'hash');
 ```
 
 You should destruct `transactions` from `blockchain[i]` in your `for` loop
@@ -3577,9 +3576,9 @@ await new Promise(res => setTimeout(res, 1000));
 const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
 const babelised = await __helpers.babeliser(isValidChain.toString());
 const vars = babelised.getVariableDeclarations();
-const props = vars[3].declarations[0].id.properties;
-const prop = props.find(p => p.key?.name === 'transactions');
-assert.equal(prop.key?.name, 'transactions');
+const props = vars[3]?.declarations[0]?.id?.properties;
+const prop = props?.find(p => p.key?.name === 'transactions');
+assert.equal(prop?.key?.name, 'transactions');
 ```
 
 You should destruct `previousHash` from `blockchain[i]` in your `for` loop
@@ -3589,9 +3588,9 @@ await new Promise(res => setTimeout(res, 1000));
 const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
 const babelised = await __helpers.babeliser(isValidChain.toString());
 const vars = babelised.getVariableDeclarations();
-const props = vars[3].declarations[0].id.properties;
-const prop = props.find(p => p.key?.name === 'previousHash');
-assert.equal(prop.key?.name, 'previousHash');
+const props = vars[3]?.declarations[0]?.id?.properties;
+const prop = props?.find(p => p.key?.name === 'previousHash');
+assert.equal(prop?.key?.name, 'previousHash');
 ```
 
 ### --seed--
@@ -3649,7 +3648,7 @@ export function getTransactions() {
 
 ### --description--
 
-Now you need to recreate the `hash` and see if matches the actual hash. Below your `validate block hash` comment, create a `const testBlockHash` variable that creates a hash using the `sha256` function in the same way that the hash is created when you mine the block.
+Now you need to recreate the `hash` and see if it matches the actual hash. Below your `validate block hash` comment, create a `const testBlockHash` variable that creates a hash using the `sha256` function in the same way that the hash is created when you mine the block.
 
 Here's a reminder of the syntax: `sha256(<content>).toString();`. The content should be a concatenation of the `nonce`, the `hash` of the previous block, and a stringified version of `transactions`.
 
@@ -3662,15 +3661,15 @@ await new Promise(res => setTimeout(res, 1000));
 const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
 const babelised = await __helpers.babeliser(isValidChain.toString());
 const vars = babelised.getVariableDeclarations();
-const testHash = vars.find(v => v.declarations[0]?.id?.name === 'testBlockHash');
-const callee = testHash.declarations[0].init?.callee;
-const left = callee.object?.arguments[0]?.left;
-const right = callee.object?.arguments[0]?.right;
-assert.equal(testHash.kind, 'const');
-assert.equal(testHash.declarations[0].id?.name, 'testBlockHash');
-assert.equal(callee.object?.callee?.name, 'sha256');
-assert.equal(`${left.left?.name} ${left.operator} ${left.right?.object?.name}.${left.right?.property?.name} ${callee.object?.arguments[0]?.operator} ${right.callee?.object?.name}.${right.callee?.property?.name}(${right.arguments[0]?.name})`, 'nonce + previousBlock.hash + JSON.stringify(transactions)');
-assert.equal(callee.property?.name, 'toString');
+const testHash = vars?.find(v => v.declarations[0]?.id?.name === 'testBlockHash');
+const callee = testHash?.declarations[0]?.init?.callee;
+const left = callee?.object?.arguments[0]?.left;
+const right = callee?.object?.arguments[0]?.right;
+assert.equal(testHash?.kind, 'const');
+assert.equal(testHash?.declarations[0]?.id?.name, 'testBlockHash');
+assert.equal(callee?.object?.callee?.name, 'sha256');
+assert.equal(`${left?.left?.name} ${left?.operator} ${left?.right?.object?.name}.${left?.right?.property?.name} ${callee?.object?.arguments[0]?.operator} ${right?.callee?.object?.name}.${right?.callee?.property?.name}(${right?.arguments[0]?.name})`, 'nonce + previousBlock.hash + JSON.stringify(transactions)');
+assert.equal(callee?.property?.name, 'toString');
 ```
 
 ### --seed--
@@ -4172,9 +4171,9 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/add-transaction.js');
 const babelised = await __helpers.babeliser(fileContents);
 const imports = babelised.getImportDeclarations();
-const sha256Import = imports.find(i => i.specifiers[0]?.local?.name === 'sha256');
-assert.equal(sha256Import.specifiers[0]?.local?.name, 'sha256');
-assert.equal(sha256Import.source?.value, 'crypto-js/sha256.js');
+const sha256Import = imports?.find(i => i.specifiers[0]?.local?.name === 'sha256');
+assert.equal(sha256Import?.specifiers[0]?.local?.name, 'sha256');
+assert.equal(sha256Import?.source?.value, 'crypto-js/sha256.js');
 ```
 
 ## 73
@@ -4194,14 +4193,14 @@ const babelised = await __helpers.babeliser(fileContents);
 const hashVar = babelised.getVariableDeclarations().find(v => {
   return v.declarations[0]?.id?.name === 'hash';
 });
-const callee = hashVar.declarations[0].init.callee;
-const left = callee.object.arguments[0].left;
-const right = callee.object.arguments[0].right;
-assert.equal(hashVar.kind, 'const');
-assert.equal(hashVar.declarations[0]?.id?.name, 'hash');
-assert.equal(callee.object?.callee?.name, 'sha256');
-assert.equal(`${left.left?.name} ${left.operator} ${left.right?.name} ${callee.object?.arguments[0]?.operator} ${right.name}`, 'fromAddress + toAddress + amount');
-assert.equal(callee.property?.name, 'toString');
+const callee = hashVar?.declarations[0]?.init?.callee;
+const left = callee?.object?.arguments[0]?.left;
+const right = callee?.object?.arguments[0]?.right;
+assert.equal(hashVar?.kind, 'const');
+assert.equal(hashVar?.declarations[0]?.id?.name, 'hash');
+assert.equal(callee?.object?.callee?.name, 'sha256');
+assert.equal(`${left?.left?.name} ${left?.operator} ${left?.right?.name} ${callee?.object?.arguments[0]?.operator} ${right?.name}`, 'fromAddress + toAddress + amount');
+assert.equal(callee?.property?.name, 'toString');
 ```
 
 Your `hash` variable should be between the `amount` and `newTransactions` declarations
@@ -4252,10 +4251,10 @@ const babelised = await __helpers.babeliser(fileContents);
 const newTx = babelised.getVariableDeclarations().find(v => {
   return v.declarations[0]?.id?.name === 'newTransaction';
 });
-const prop = newTx.declarations[0]?.init?.properties[0];
+const prop = newTx?.declarations[0]?.init?.properties[0];
 
-assert.equal(prop.key?.name, 'hash');
-assert.equal(prop.value?.name, 'hash');
+assert.equal(prop?.key?.name, 'hash');
+assert.equal(prop?.value?.name, 'hash');
 ```
 
 ### --seed--
@@ -4869,19 +4868,19 @@ const { isValidChain } = (await import(`../../learn-proof-of-work-consensus-by-b
 const babelised = await __helpers.babeliser(isValidChain.toString());
 const forLoops = babelised.getType('ForStatement');
 const forLoop = forLoops.find(l => l.init?.declarations[0]?.id?.name === 'j');
-const body = forLoop.body?.body[0];
-const decs = body.declarations[0];
-const props = decs.id?.properties;
-const hash = props.find(p => p.key?.name === 'hash' && p.value?.name === 'hash');
-const from = props.find(p => p.key?.name === 'fromAddress' && p.value?.name === 'fromAddress');
-const to = props.find(p => p.key?.name === 'toAddress' && p.value?.name === 'toAddress');
-const amount = props.find(p => p.key?.name === 'amount' && p.value?.name === 'amount');
-assert.equal(forLoop.body?.body[0]?.kind, 'const');
-assert.equal(hash.key?.name, 'hash');
-assert.equal(from.key?.name, 'fromAddress');
-assert.equal(to.key?.name, 'toAddress');
-assert.equal(amount.key?.name, 'amount');
-assert.equal(`${decs.init?.object?.name}[${decs.init?.property?.name}]`, 'transactions[j]');
+const body = forLoop?.body?.body[0];
+const decs = body?.declarations[0];
+const props = decs?.id?.properties;
+const hash = props?.find(p => p.key?.name === 'hash' && p.value?.name === 'hash');
+const from = props?.find(p => p.key?.name === 'fromAddress' && p.value?.name === 'fromAddress');
+const to = props?.find(p => p.key?.name === 'toAddress' && p.value?.name === 'toAddress');
+const amount = props?.find(p => p.key?.name === 'amount' && p.value?.name === 'amount');
+assert.equal(forLoop?.body?.body[0]?.kind, 'const');
+assert.equal(hash?.key?.name, 'hash');
+assert.equal(from?.key?.name, 'fromAddress');
+assert.equal(to?.key?.name, 'toAddress');
+assert.equal(amount?.key?.name, 'amount');
+assert.equal(`${decs?.init?.object?.name}[${decs?.init?.property?.name}]`, 'transactions[j]');
 ```
 
 ### --seed--
@@ -5194,14 +5193,14 @@ const babelised = await __helpers.babeliser(isValidChain.toString());
 const hashVar = babelised.getVariableDeclarations().find(v => {
   return v.declarations[0]?.id?.name === 'testTransactionHash';
 });
-const callee = hashVar.declarations[0].init.callee;
-const left = callee.object.arguments[0].left;
-const right = callee.object.arguments[0].right;
-assert.equal(hashVar.kind, 'const');
-assert.equal(hashVar.declarations[0]?.id?.name, 'testTransactionHash');
-assert.equal(callee.object?.callee?.name, 'sha256');
-assert.equal(`${left.left?.name} ${left.operator} ${left.right?.name} ${callee.object?.arguments[0]?.operator} ${right.name}`, 'fromAddress + toAddress + amount');
-assert.equal(callee.property?.name, 'toString');
+const callee = hashVar?.declarations[0]?.init?.callee;
+const left = callee?.object?.arguments[0]?.left;
+const right = callee?.object?.arguments[0]?.right;
+assert.equal(hashVar?.kind, 'const');
+assert.equal(hashVar?.declarations[0]?.id?.name, 'testTransactionHash');
+assert.equal(callee?.object?.callee?.name, 'sha256');
+assert.equal(`${left?.left?.name} ${left?.operator} ${left?.right?.name} ${callee?.object?.arguments[0]?.operator} ${right?.name}`, 'fromAddress + toAddress + amount');
+assert.equal(callee?.property?.name, 'toString');
 ```
 
 It should be right below your `validate transaction hash` comment
@@ -5554,7 +5553,7 @@ The third transaction in the third block of your blockchain should have an `amou
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getJsonFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain.json');
-assert.equal(fileContents[2]?.transactions[2].amount, 1000);
+assert.equal(fileContents[2]?.transactions[2]?.amount, 1000);
 ```
 
 ## 93
@@ -6422,9 +6421,9 @@ await new Promise(res => setTimeout(res, 1000));
 const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
 const babelised = await __helpers.babeliser(getAddressBalance.toString());
 const vars = babelised.getVariableDeclarations();
-const props = vars[5].declarations[0].id.properties;
-const prop = props.find(p => p.key?.name === 'fromAddress');
-assert.equal(prop.key?.name, 'fromAddress');
+const props = vars[5]?.declarations[0]?.id?.properties;
+const prop = props?.find(p => p.key?.name === 'fromAddress');
+assert.equal(prop?.key?.name, 'fromAddress');
 ```
 
 You should destruct `toAddress` from `transactions[j]` in your `for` loop
@@ -6434,9 +6433,9 @@ await new Promise(res => setTimeout(res, 1000));
 const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
 const babelised = await __helpers.babeliser(getAddressBalance.toString());
 const vars = babelised.getVariableDeclarations();
-const props = vars[5].declarations[0].id.properties;
-const prop = props.find(p => p.key?.name === 'toAddress');
-assert.equal(prop.key?.name, 'toAddress');
+const props = vars[5]?.declarations[0]?.id?.properties;
+const prop = props?.find(p => p.key?.name === 'toAddress');
+assert.equal(prop?.key?.name, 'toAddress');
 ```
 
 You should destruct `amount` from `transactions[j]` in your `for` loop
@@ -6446,9 +6445,9 @@ await new Promise(res => setTimeout(res, 1000));
 const { getAddressBalance } = (await import(`../../learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/blockchain-helpers.js?update=${Date.now()}`));
 const babelised = await __helpers.babeliser(getAddressBalance.toString());
 const vars = babelised.getVariableDeclarations();
-const props = vars[5].declarations[0].id.properties;
-const prop = props.find(p => p.key?.name === 'amount');
-assert.equal(prop.key?.name, 'amount');
+const props = vars[5]?.declarations[0]?.id?.properties;
+const prop = props?.find(p => p.key?.name === 'amount');
+assert.equal(prop?.key?.name, 'amount');
 ```
 
 ### --seed--
@@ -7178,16 +7177,16 @@ Open the new file and import your `getAddressBalance` function from the helpers 
 
 ### --tests--
 
-You should have `const { getAddressBalance } = require('./blockchain-helpers.js');` in your `get-address-balance.js` function.
+You should have `import { getAddressBalance } from './blockchain-helpers.js';` in your `get-address-balance.js` function.
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/get-address-balance.js');
 const babelised = await __helpers.babeliser(fileContents);
 const imports = babelised.getImportDeclarations();
-const myImport = imports.find(i => i.specifiers[0]?.local?.name === 'getAddressBalance');
-assert.equal(myImport.specifiers[0]?.local?.name, 'getAddressBalance');
-assert.equal(myImport.source?.value, './blockchain-helpers.js');
+const myImport = imports?.find(i => i.specifiers[0]?.local?.name === 'getAddressBalance');
+assert.equal(myImport?.specifiers[0]?.local?.name, 'getAddressBalance');
+assert.equal(myImport?.source?.value, './blockchain-helpers.js');
 ```
 
 ## 112
@@ -7347,10 +7346,10 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-building-a-block-mining-algorithm/add-transaction.js');
 const babelised = await __helpers.babeliser(fileContents);
 const imports = babelised.getImportDeclarations();
-const myImport = imports.find(i => i.source?.value === './blockchain-helpers.js');
-const getBalanceImport = myImport.specifiers?.find(s => s.imported?.name === 'getAddressBalance');
-assert.equal(getBalanceImport.imported?.name, 'getAddressBalance');
-assert.equal(myImport.source?.value, './blockchain-helpers.js')
+const myImport = imports?.find(i => i.source?.value === './blockchain-helpers.js');
+const getBalanceImport = myImport?.specifiers?.find(s => s.imported?.name === 'getAddressBalance');
+assert.equal(getBalanceImport?.imported?.name, 'getAddressBalance');
+assert.equal(myImport?.source?.value, './blockchain-helpers.js')
 ```
 
 ## 118
@@ -7411,8 +7410,8 @@ const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-b
 const babelised = await __helpers.babeliser(fileContents);
 const ifStatements = babelised.getType('IfStatement');
 const ifStatement = ifStatements[0];
-const test = ifStatement.test;
-assert.equal(`${test.left?.name} ${test.operator} ${test.right?.name}`, 'addressBalance >= amount');
+const test = ifStatement?.test;
+assert.equal(`${test?.left?.name} ${test?.operator} ${test?.right?.name}`, 'addressBalance >= amount');
 ```
 
 `transactions.push(newTransaction);` should be the first line in the `if` statement
@@ -7423,8 +7422,8 @@ const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-b
 const babelised = await __helpers.babeliser(fileContents);
 const ifStatements = babelised.getType('IfStatement');
 const ifStatement = ifStatements[0];
-const exp = ifStatement.consequent?.body[0]?.expression;
-assert.equal(`${exp.callee?.object?.name}.${exp.callee?.property?.name}(${exp.arguments[0]?.name})`, 'transactions.push(newTransaction)');
+const exp = ifStatement?.consequent?.body[0]?.expression;
+assert.equal(`${exp?.callee?.object?.name}.${exp?.callee?.property?.name}(${exp?.arguments[0]?.name})`, 'transactions.push(newTransaction)');
 ```
 
 `writeTransactions(transactions);` should be the second line in the `if` statement
@@ -7435,8 +7434,8 @@ const fileContents = await __helpers.getFile('learn-proof-of-work-consensus-by-b
 const babelised = await __helpers.babeliser(fileContents);
 const ifStatements = babelised.getType('IfStatement');
 const ifStatement = ifStatements[0];
-const exp = ifStatement.consequent?.body[1]?.expression;
-assert.equal(`${exp.callee?.name}(${exp.arguments[0]?.name})`, 'writeTransactions(transactions)');
+const exp = ifStatement?.consequent?.body[1]?.expression;
+assert.equal(`${exp?.callee?.name}(${exp?.arguments[0]?.name})`, 'writeTransactions(transactions)');
 ```
 
 ### --seed--
