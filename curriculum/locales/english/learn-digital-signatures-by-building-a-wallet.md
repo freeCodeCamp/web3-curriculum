@@ -263,7 +263,7 @@ assert.match(lastOutput, /Chain is valid/);
 
 ### --description--
 
-For this project, you will add a program to generate wallets and you will use them for your blockchain transactions. First, create a `generate-wallet.js` file.
+For this project, you will add a program to generate wallets and you will use the wallet address for transactions on your blockchain. First, create a `generate-wallet.js` file.
 
 ### --tests--
 
@@ -279,7 +279,7 @@ assert.include(folder, 'generate-wallet.js');
 
 ### --description--
 
-Each wallet address will have a keypair that consists of a public and private key. Run `npm install elliptic` in the terminal. This package will help you generate and work with these keys.
+Each wallet address will have a keypair that consists of a public and private key. The public key will be a persons address and used for transactions. Run `npm install elliptic` in the terminal. This package will help you generate and work with these keys.
 
 ### --tests--
 
@@ -375,7 +375,7 @@ const ec = new EC.ec('p192');
 
 ### --description--
 
-Some complex things happen using that graph to generate a public and private key. Get the public key in hex format by creating a `const publicKey` variable and setting the value to `keyPair.getPublic('hex')`.
+Get the public key from your keypair, in hex format, by creating a `const publicKey` variable and setting the value to `keyPair.getPublic('hex')`.
 
 ### --tests--
 
@@ -403,7 +403,7 @@ const keyPair = ec.genKeyPair();
 
 ### --description--
 
-Create a `const privateKey` variable and set the value to `keyPair.getPrivate('hex')` to get the private key from your keypair.
+Create a `const privateKey` variable and use the `getPrivate` method on your keypair to get the private key in hex format, similar to how you got the public key.
 
 ### --tests--
 
@@ -432,7 +432,7 @@ const publicKey = keyPair.getPublic('hex');
 
 ### --description--
 
-Now you've extracted the two keys from the keypair. Below that, add a log to the console that prints `Public Key: <publicKey>` using a template literal.
+Now, you've extracted the two keys from the keypair. Below that, add a log to the console that prints `Public Key: <publicKey>` using a template literal.
 
 ### --tests--
 
@@ -462,7 +462,7 @@ const privateKey = keyPair.getPrivate('hex');
 
 ### --description--
 
-Add another log to print the private key in the same fashion.
+Add another log to print the private key in the same fashion so you can see what the keys look like.
 
 ### --tests--
 
@@ -538,7 +538,7 @@ console.log(`Private Key: ${privateKey}`);
 
 ### --description--
 
-You can see your two keys in the console. You are free to share public keys with anyone, but you should keep your private key to yourself. You can also create a keypair when you know only one of the two keys. Create a `const keyPair2` variable and set the value to `ec.keyFromPrivate(privateKey, 'hex')`.
+You can see your two keys in the console. You can freely share your public key, but you need to keep your private key a secret. You can create a new keypair when you know one of the two keys. Create a `const keyPair2` variable and set the value to `ec.keyFromPrivate(privateKey, 'hex')` to generate a keypair using the private key.
 
 ### --tests--
 
@@ -554,7 +554,7 @@ assert.match(fileContents, /const\s+keyPair2\s*=\s*ec\s*\.\s*keyFromPrivate\s*\(
 
 ### --description--
 
-There, you created another keypair using only the private key you generated earlier. Create a `const publicKey2` variable and set it to the public key of `keyPair2` like you did for the first keypair.
+Extract the public key from `keyPair2`, like you did for the first keypair, into a `const publicKey2` variable.
 
 ### --tests--
 
@@ -589,7 +589,7 @@ const keyPair2 = ec.keyFromPrivate(privateKey, 'hex');
 
 ### --description--
 
-Add a `console.log` to print `Public Key 2: <publicKey2>` using a template literal.
+Add a log that prints `Public Key 2: <publicKey2>` using a template literal.
 
 ### --tests--
 
@@ -1029,7 +1029,7 @@ console.log(`Signature: ${signature}`);
 
 ### --description--
 
-Now you have used the generated keypair to sign a piece of information. Add a `const verifiedSignature` variable and set the value to `keyPair.verify('message', signature)`.
+Now you have used the generated keypair to sign a piece of information. Add a `const verifiedSignature` variable and set the value to `keyPair.verify('message', signature)` to verify that the signature.
 
 ### --tests--
 
@@ -1140,7 +1140,7 @@ console.log(`Verified: ${verifiedSignature}`);
 
 ### --description--
 
-The same keypair was used to sign and verify the information. Change the `keyPair.sign` to use `keyPair2`.
+The same keypair was used to sign and verify the information, so the signature is valid. Change the `keyPair.sign` to use `keyPair2`.
 
 ### --tests--
 
@@ -1208,7 +1208,7 @@ console.log(`Verified: ${verifiedSignature}`);
 
 ### --description--
 
-This time you got an error because the keypair used to sign the information was created using the public key. That keypair doesn't know the private key so it couldn't sign the information. Change the signing back to use the first keypair.
+This time you got an error because the keypair used to sign the information was created using the public key. That keypair doesn't know the private key so it couldn't sign the information. Change the signature back to use the first keypair.
 
 ### --tests--
 
@@ -1321,7 +1321,7 @@ console.log(`Verified: ${verifiedSignature}`);
 
 ### --description--
 
-It worked that time. In order to verify the signature, you can use a keypair that doesn't know the private key. So when you sign a transaction with your private key, the blockchain can use the public to make sure you signed that transaction. Change the last `message` to `messages`.
+It worked that time using the keypair generated from the public key. In order to verify a signature, you can use a keypair that doesn't know the private key. So when you sign a transaction with your private key, the blockchain can use your public key to make sure someone with that private key created the transaction. Change the last `message` to `messages`.
 
 ### --tests--
 
@@ -1536,7 +1536,7 @@ You will give your wallet a name through the command line when you create it. At
 
 ### --tests--
 
-You should have `const newWalletName = process.argv[2]` in your `generate-wallet.js` file
+You should have `const newWalletName = process.argv[2]` at the bottom of your `generate-wallet.js` file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1677,7 +1677,7 @@ let wallets = JSON.parse(walletsFile);
 
 ### --description--
 
-In the `if` condition, add the new name as a key in the `wallets` object. Set the value to the public key.
+The public key for a wallet will be used as the address for where transactions are sent and received. In the `if` condition, add the new name as a key in the `wallets` object. Set the value to the public key.
 
 ### --tests--
 
@@ -1722,7 +1722,7 @@ if (!wallets.hasOwnProperty(newWalletName)) {
 
 ### --description--
 
-You added the new wallet address, now you need to write back to the file. With the `if` statement, use `JSON.stringify(wallets, null, 2)` to redefine the `wallets` variable.
+You added the new wallet address, now you need to stringify the wallets and write that back to the file. Within the `if` statement, use `JSON.stringify(wallets, null, 2)` to redefine the `wallets` variable.
 
 ### --tests--
 
@@ -2170,7 +2170,7 @@ assert.match(wallets.Wilma, /\w{20,}/);
 
 ### --description--
 
-Now you have some wallets to work with. Next, you need to make it easier to work with them. Open your `blockchain-helpers.js` file and export a new `getWalletAddressFromName` function that takes `name` as an argument. Keep the function empty for now.
+Imagine these two wallets as not yours. You will be able to send transactions to their addresses, but not from them since you don't know their private keys. Next, you will make it easier to work with these addresses. Open your `blockchain-helpers.js` file and export a new `getWalletAddressFromName` function that takes `name` as an argument. Keep the function empty for now.
 
 ### --tests--
 
@@ -2438,7 +2438,7 @@ export function getWalletAddressFromName(name) {
 
 ### --description--
 
-At the bottom, use the `name` variable to return the public key (address) of the wallet passed to the function.
+Finally, use the `name` variable to return the public key (address) of the wallet passed to the function.
 
 ### --tests--
 
@@ -2824,7 +2824,7 @@ console.log(`The public address for ${addressName} is ${address}`);
 
 ### --description--
 
-Your function is working. Your blockchain currently uses names instead of the public keys when storing transactions. You will change that so it uses the keys. Open your `add-transaction.js` file and import your function at the top.
+Your function is working, you can see the address for `Me` in the terminal. Your blockchain currently uses names when storing transactions. You will change that so it uses the public keys. Open your `add-transaction.js` file and import your function at the top.
 
 ### --tests--
 
@@ -2844,7 +2844,7 @@ assert.equal(i.imported?.name, 'getWalletAddressFromName');
 
 ### --description--
 
-Change the `toAddress` variable to `toAddressName`.
+Change the `toAddress` variable to `toAddressName` so you can use a name in the command as the recipient.
 
 ### --tests--
 
@@ -2907,7 +2907,7 @@ if (addressBalance >= amount) {
 
 ### --description--
 
-Below the `amount` variable, create a `const toAddress` variable that gets the public key using your function and the `toAddressName`.
+Below the `amount` variable, create a `const toAddress` variable that gets the public key of the recipient using your function and `toAddressName`.
 
 ### --tests--
 
@@ -3034,7 +3034,7 @@ if (addressBalance >= amount) {
 
 ### --description--
 
-Now the to address in a transaction uses the public key, but the from address is still using a name. To make a transaction, you will be passing a private key to this command and getting a keypair from that. Import `EC` from `elliptic` at the top of the file.
+The new transaction used the public address for `Fred`, but the `fromAddress` is still using a name. To make a transaction, you will be passing a private key to this command, getting a keypair from it, and then use its public key as the address. Import `EC` from `elliptic` at the top of the file.
 
 ### --tests--
 
@@ -3443,7 +3443,7 @@ if (addressBalance >= amount) {
 
 ### --description--
 
-Open the `wallets.json` file and look at the public key for `Me`. It should match the log to the console. So you used the private key for `Me` to make a transaction and got their public key from it, which will be the from address. Remove where you log that key to the console.
+Open the `wallets.json` file and look at the public key for `Me`. It should match the log to the console. So you used the private key for `Me` to make a transaction and got their public key from it, which will be the `fromAddress`. Remove that log to the console.
 
 ### --tests--
 
@@ -3521,7 +3521,7 @@ if (addressBalance >= amount) {
 
 ### --description--
 
-Add `signature` to the new transaction.
+Remember from earlier, that you couldn't sign information with a keypair generated from a public key. That's why you need to provide your private key when making a transaction. Add `signature` to `newTransaction`.
 
 ### --tests--
 
@@ -3672,7 +3672,7 @@ if (addressBalance >= amount) {
 
 ### --description--
 
-Now there's a signature you can use to verify the sender. Mine a block.
+Now there's a signature in the transaction you can use to verify the sender. Mine a block.
 
 ### --tests--
 
@@ -3992,7 +3992,7 @@ writeTransactions([rewardTransaction]);
 
 ### --description--
 
-Re-initialize your blockchain.
+Make sure you can see your blockchain and transactions files, and then re-initialize your blockchain so you don't have any transactions that use names.
 
 ### --tests--
 
@@ -4125,7 +4125,7 @@ assert.lengthOf(fileContents, 1);
 
 ### --description--
 
-Add a transaction that sends 40 tokens from `Me` to `You`. Be sure to use the private key from for `Me` from your `my-private-keys.txt` file again.
+The reward transactions are using the public address for `Me` now. Add a transaction that sends 40 tokens from `Me` to `You`. Be sure to use the private key from for `Me` from your `my-private-keys.txt` file again.
 
 ### --tests--
 
@@ -4357,7 +4357,7 @@ assert.equal(fileContents[1]?.amount, 25);
 
 ### --description--
 
-Add one more that sends `3` from `You` to `Fred`. Be sure to use the private key for `You`.
+Add one more that sends `3` from `You` to `Fred`. Be sure to use the correct private key.
 
 ### --tests--
 
@@ -5028,7 +5028,7 @@ export function getWalletAddressFromName(name) {
 
 ### --description--
 
-Back in the `isValidChain` function where you loop over the transactions, add the `signature` where you destructure the variables from each transaction.
+Back in the `isValidChain` function where you loop over the transactions, add `signature` where you destructure the variables from each transaction.
 
 ### --tests--
 
@@ -5167,7 +5167,7 @@ export function getWalletAddressFromName(name) {
 
 ### --description--
 
-Below your `validate signature` comment, create a `const publicKeyPair` variable. Set the value to a keypair generated from the public key (`toAddress`) of the transaction. 
+Below your `validate signature` comment, create a `const publicKeyPair` variable. Set the value to a keypair generated from the public key (`fromAddress`) of the transaction. Make sure to tell the method the key will be in `hex` format.
 
 ### --tests--
 
@@ -5414,7 +5414,7 @@ export function getWalletAddressFromName(name) {
 
 ### --description--
 
-Add an `if` condition that checks if `verifiedSignature` is not true. If it's not true, return `false`.
+Add an `if` condition that checks if `!verifiedSignature`. If it's not valid, return `false`.
 
 ### --tests--
 
@@ -5830,7 +5830,7 @@ assert.notEqual(sign[sign.length - 1], '0');
 
 ### --description--
 
-This is the last step. Validate your chain one more time.
+This is the last step. Congratulations on gettings this far. Validate your chain one last time.
 
 ### --tests--
 
