@@ -263,7 +263,7 @@ assert.match(lastOutput, /Chain is valid/);
 
 ### --description--
 
-For this project, you will add a program to generate wallets and you will use the wallet address for transactions on your blockchain. First, create a `generate-wallet.js` file.
+For this project, you will add a command to generate wallets and use the wallet addresses for the transactions on your blockchain. First, create a `generate-wallet.js` file.
 
 ### --tests--
 
