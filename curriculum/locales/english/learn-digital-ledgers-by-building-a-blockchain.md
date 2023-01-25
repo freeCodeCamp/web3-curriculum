@@ -31,7 +31,7 @@ assert.include(cwd, 'learn-digital-ledgers-by-building-a-blockchain');
 
 ### --description--
 
-You will be creating a blockchain from scratch using JavaScript. Use the `touch` command in the terminal to create an `init-blockchain.js` file. This will be used to initialize your blockchain.
+You will be creating a blockchain from scratch using JavaScript. First, create an `init-blockchain.js` file in your `learn-digital-ledgers-by-building-a-blockchain` folder. This will be used to initialize your blockchain.
 
 ### --tests--
 
@@ -41,14 +41,6 @@ You will be creating a blockchain from scratch using JavaScript. Use the `touch`
 await new Promise(res => setTimeout(res, 1000));
 const folder = await __helpers.getDirectory('learn-digital-ledgers-by-building-a-blockchain');
 assert.include(folder, 'init-blockchain.js');
-```
-
-You should use `touch init-blockchain.js` in the terminal to create the file
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'touch init-blockchain.js');
 ```
 
 ## 3
@@ -226,7 +218,7 @@ console.log(blockchain);
 
 ### --description--
 
-Your blockchain has its first block, but the data isn't saved anywhere. Use `touch` in the terminal to create a `blockchain-helpers.js` file. This will have some helper functions for reading and writing your blockchain to a file.
+Your blockchain has its first block, but the data isn't saved anywhere. Create a `blockchain-helpers.js` file. This will have some helper functions for reading and writing your blockchain to a file.
 
 ### --tests--
 
@@ -236,14 +228,6 @@ Your blockchain has its first block, but the data isn't saved anywhere. Use `tou
 await new Promise(res => setTimeout(res, 1000));
 const folder = await __helpers.getDirectory('learn-digital-ledgers-by-building-a-blockchain');
 assert.include(folder, 'blockchain-helpers.js');
-```
-
-You should use `touch blockchain-helpers.js` in the terminal to create the file
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'touch blockchain-helpers.js');
 ```
 
 ## 10
@@ -684,7 +668,7 @@ export function getBlockchain() {
 
 ### --description--
 
-Next, you will create a way to add more blocks to your chain. Use `touch` in the terminal to create `add-block.js`
+Next, you will create a way to add more blocks to your chain. Create an `add-block.js` for it.
 
 ### --tests--
 
@@ -694,14 +678,6 @@ Next, you will create a way to add more blocks to your chain. Use `touch` in the
 await new Promise(res => setTimeout(res, 1000));
 const folder = await __helpers.getDirectory('learn-digital-ledgers-by-building-a-blockchain');
 assert.include(folder, 'add-block.js');
-```
-
-You should use `touch add-block.js` in the terminal to create the file
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'touch add-block.js');
 ```
 
 ### --seed--
@@ -1606,7 +1582,7 @@ export function isValidChain() {
 
 ### --description--
 
-Next, you are going to create a small file to run that function. Use `touch` in the terminal to create `validate-chain.js`.
+Next, you are going to create a small file to run that function. Create a `validate-chain.js` for it.
 
 ### --tests--
 
@@ -1616,14 +1592,6 @@ Next, you are going to create a small file to run that function. Use `touch` in 
 await new Promise(res => setTimeout(res, 1000));
 const folder = await __helpers.getDirectory('learn-digital-ledgers-by-building-a-blockchain');
 assert.include(folder, 'validate-chain.js');
-```
-
-You should use `touch validate-chain.js` in the terminal to create the file
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'touch validate-chain.js');
 ```
 
 ### --seed--
@@ -2744,7 +2712,7 @@ export function writeTransactions(transactions) {
 
 ### --description--
 
-Transactions will be created separately from blocks. In the terminal, use `touch` to create an `add-transaction.js` file.
+Transactions will be created separately from blocks. Create an `add-transaction.js` file.
 
 ### --tests--
 
@@ -2754,14 +2722,6 @@ Transactions will be created separately from blocks. In the terminal, use `touch
 await new Promise(res => setTimeout(res, 1000));
 const folder = await __helpers.getDirectory('learn-digital-ledgers-by-building-a-blockchain');
 assert.include(folder, 'add-transaction.js');
-```
-
-You should use `touch add-transaction.js` in the terminal to create the file
-
-```js
-await new Promise(res => setTimeout(res, 1000));
-const lastCommand = await __helpers.getLastCommand();
-assert.equal(lastCommand.replace(/\s+/g, ' ').trim(), 'touch add-transaction.js');
 ```
 
 ### --seed--
