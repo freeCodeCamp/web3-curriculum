@@ -960,12 +960,22 @@ Move your `console.log` statement to the bottom.
 
 ### --tests--
 
-You should have `console.log(blockchain)` at the bottom of your `add-block.js` file
+You should have `console.log(blockchain);` at the bottom of your `add-block.js` file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
 assert.match(fileContents, /console\s*\.\s*log\s*\(\s*blockchain\s*\)\s*;?\s*$/);
+```
+
+You should only have one `console.log` statement in your file
+
+```js
+await new Promise(res => setTimeout(res, 1000));
+const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
+const babelised = await __helpers.babeliser(fileContents);
+const e = babelised.getExpressionStatements().filter(e => e.expression?.callee?.object?.name === 'console' && e.expression?.callee?.property?.name === 'log');
+assert.lengthOf(e, 1);
 ```
 
 ### --seed--
