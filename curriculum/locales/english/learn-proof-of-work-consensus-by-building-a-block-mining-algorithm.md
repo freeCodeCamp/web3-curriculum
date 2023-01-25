@@ -6,7 +6,7 @@
 
 For this project, you will work in the `learn-proof-of-work-consensus-by-building-a-block-mining-algorithm` folder. Open a bash terminal and use `cd` to change into it.
 
-The tests should run automatically. If they don't, close any open **bash** terminals, open a new one, and run the command again.
+If the tests don't pass, close any open terminals with the **bash** label, open a new one, and run the command again.
 
 ### --tests--
 

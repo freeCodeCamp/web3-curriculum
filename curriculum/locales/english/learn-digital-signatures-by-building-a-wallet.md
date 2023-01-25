@@ -6,7 +6,7 @@
 
 For this project, you will work in the `learn-digital-signatures-by-building-a-wallet` folder. Open a bash terminal and use `cd` to change into it.
 
-If the tests don't pass, close any open **bash** terminals, open a new one, and run the command again.
+If the tests don't pass, close any open terminals with the **bash** label, open a new one, and run the command again.
 
 ### --tests--
 
@@ -1029,7 +1029,7 @@ console.log(`Signature: ${signature}`);
 
 ### --description--
 
-Now you have used the generated keypair to sign a piece of information. Add a `const verifiedSignature` variable and set the value to `keyPair.verify('message', signature)` to verify that the signature.
+Now you have used the generated keypair to sign a piece of information. Add a `const verifiedSignature` variable and set the value to `keyPair.verify('message', signature)` to verify that the information was signed with a keypair that has access to the private key.
 
 ### --tests--
 
@@ -4076,7 +4076,7 @@ Mine two new blocks to add some tokens to your blockchain.
 
 ### --tests--
 
-You should run `node mine-block.js` in the terminal twice
+You should run `node mine-block.js` in the terminal
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
