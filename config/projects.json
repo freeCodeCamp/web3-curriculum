@@ -26,7 +26,7 @@
     "title": "Learn Digital Signatures by Building a Wallet",
     "dashedName": "learn-digital-signatures-by-building-a-wallet",
     "isIntegrated": false,
-    "description": "In this course, you will learn how to generate and use keypairs so you can veryify users and transactions.",
+    "description": "In this course, you will learn how to generate and use keypairs so you can verify users and transactions.",
     "isPublic": true,
     "currentLesson": 1,
     "runTestsOnWatch": true,

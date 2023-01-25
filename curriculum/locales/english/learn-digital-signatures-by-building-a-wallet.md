@@ -348,7 +348,7 @@ import EC from 'elliptic';
 
 ### --description--
 
-A keypair is generated using information from the graph of the elliptic curve. Create keypair by adding a `const keyPair` variable and setting it to `ec.genKeyPair()`.
+A keypair is generated using information from the graph of the elliptic curve. Create a keypair by adding a `const keyPair` variable and setting it to `ec.genKeyPair()`.
 
 ### --tests--
 
@@ -2960,7 +2960,7 @@ if (addressBalance >= amount) {
 
 ### --description--
 
-Open your `transactions.json` file and run `node add-transaction Me Fred 10` in the terminal to create a new transaction.
+Open your `transactions.json` file and run `node add-transaction.js Me Fred 10` in the terminal to create a new transaction.
 
 ### --tests--
 
@@ -3589,7 +3589,7 @@ if (addressBalance >= amount) {
 
 ### --description--
 
-Make your `transactions.json` file visible and add a transaction that send zero from `Me` to `Fred`. Make sure to use the private key for `Me`.
+Make your `transactions.json` file visible and add a transaction that sends zero from `Me` to `Fred`. Make sure to use the private key for `Me`.
 
 ### --tests--
 
