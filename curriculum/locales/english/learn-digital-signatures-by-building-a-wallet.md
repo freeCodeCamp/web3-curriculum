@@ -838,7 +838,7 @@ const fileContents = await __helpers.getFile('learn-digital-signatures-by-buildi
 assert.match(fileContents, /const\s+keyPair2\s*=\s*ec\s*\.\s*keyFromPublic\s*\(\s*publicKey\s*,\s*('|"|`)hex\1\s*\)\s*;?\s*$/);
 ```
 
-You should only have two console log statements
+You should only have two `console.log` statements
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -1404,7 +1404,7 @@ const fileContents = await __helpers.getFile('learn-digital-signatures-by-buildi
 assert.match(fileContents, /console\s*\.\s*log\s*\(\s*`Private Key: \${\s*privateKey\s*}`\s*\)\s*;?\s*$/);
 ```
 
-You should only have two console log statements
+You should only have two `console.log` statements
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2051,7 +2051,7 @@ In the generate wallet file, remove the two console log statements and the `priv
 
 ### --tests--
 
-You should not have any console log statements in your `generate-wallet.js` file
+You should not have any `console.log` statements in your `generate-wallet.js` file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -3447,7 +3447,7 @@ Open the `wallets.json` file and look at the public key for `Me`. It should matc
 
 ### --tests--
 
-You should only have one console log statement in your `add-transaction.js` file
+You should only have one `console.log` statement in your `add-transaction.js` file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
