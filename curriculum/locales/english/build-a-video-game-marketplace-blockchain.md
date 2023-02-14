@@ -377,7 +377,7 @@ Running `node buy-item.js <address-privateKey> <item>` should not add a transact
 
 ```js
 // test 8
-const testFolder = `${testsFolder}/test7`;
+const testFolder = `${testsFolder}/test8`;
 await __helpers.copyProjectFiles(projectFolder, testFolder, projectFiles);
 await __helpers.runCommand('node init-blockchain.js', testFolder);
 await __helpers.runCommand('node generate-wallet.js user_xyz123', testFolder);
