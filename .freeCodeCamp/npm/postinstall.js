@@ -3,7 +3,7 @@ import { join } from 'path';
 
 const ROOT = process.env.INIT_CWD || process.cwd();
 
-copyDotFreeCodeCampToRoot();
+await copyDotFreeCodeCampToRoot();
 
 async function copyDotFreeCodeCampToRoot() {
   try {

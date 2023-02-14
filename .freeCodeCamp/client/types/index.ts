@@ -12,6 +12,7 @@ export enum Events {
   RESET_TESTS = 'reset-tests',
   RUN_TESTS = 'run-tests',
   RESET_PROJECT = 'reset-project',
+  REQUEST_DATA = 'request-data',
   GO_TO_NEXT_LESSON = 'go-to-next-lesson',
   GO_TO_PREVIOUS_LESSON = 'go-to-previous-lesson',
   SELECT_PROJECT = 'select-project'
@@ -33,6 +34,7 @@ export interface ProjectI {
   currentLesson: number;
   numberOfLessons: number;
   isResetEnabled?: boolean;
+  completedDate: null | number;
 }
 
 export type ConsoleError = {

@@ -12,7 +12,7 @@
   "author": "Shaun Hamilton",
   "type": "module",
   "dependencies": {
-    "@freecodecamp/freecodecamp-os": "1.6.9",
+    "@freecodecamp/freecodecamp-os": "1.7.3",
     "acorn": "8.8.0",
     "babeliser": "0.6.0",
     "crypto-js": "4.1.1",
