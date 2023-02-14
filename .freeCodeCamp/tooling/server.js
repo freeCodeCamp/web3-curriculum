@@ -25,10 +25,15 @@ import { join } from 'path';
 import { logover } from './logger.js';
 import { getTotalLessons } from './parser.js';
 import { resetProject } from './reset.js';
+import { validateCurriculum } from './validate.js';
 
 const freeCodeCampConfig = await getConfig();
 
 await updateProjectConfig();
+
+if (process.env.NODE_ENV === 'development') {
+  await validateCurriculum();
+}
 
 const app = express();
 
@@ -120,6 +125,19 @@ async function handleSelectProject(ws, data) {
   return ws.send(parse({ data: { event: data.event }, event: 'RESPONSE' }));
 }
 
+async function handleRequestData(ws, data) {
+  if (data?.data?.request === 'projects') {
+    const projects = JSON.parse(
+      await readFile(
+        join(ROOT, freeCodeCampConfig.config['projects.json']),
+        'utf-8'
+      )
+    );
+    updateProjects(ws, projects);
+  }
+  ws.send(parse({ data: { event: data.event }, event: 'RESPONSE' }));
+}
+
 const server = app.listen(8080, () => {
   logover.info('Listening on port 8080');
 });
@@ -132,6 +150,7 @@ const handle = {
   'reset-project': handleResetProject,
   'go-to-next-lesson': handleGoToNextLesson,
   'go-to-previous-lesson': handleGoToPreviousLesson,
+  'request-data': handleRequestData,
   'select-project': handleSelectProject
 };
 

@@ -104,6 +104,14 @@ export function updateError(ws, error) {
   ws.send(parse({ event: 'update-error', data: { error } }));
 }
 
+/**
+ * Handles the case when a project is finished
+ * @param {WebSocket} ws WebSocket connection to the client
+ */
+export function handleProjectFinish(ws) {
+  ws.send(parse({ event: 'handle-project-finish' }));
+}
+
 export function parse(obj) {
   return JSON.stringify(obj);
 }

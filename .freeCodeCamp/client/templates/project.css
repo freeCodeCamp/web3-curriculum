@@ -117,7 +117,7 @@ nav {
   text-align: left;
 }
 
-#description > pre {
+#description pre {
   background-color: var(--dark-1);
   padding: 1rem;
 }

@@ -22,11 +22,24 @@ const FILE_MARKER_REG = '(?<=#### --")[^"]+(?="--)';
 export async function getProjectTitle(file) {
   const readable = createReadStream(file);
   const reader = createInterface({ input: readable });
-  const firstLine = await new Promise(resolve => {
-    reader.on('line', line => {
+  const firstLine = await new Promise((resolve, reject) => {
+    // Timeout after 1 second
+    const timeout = setTimeout(() => {
       reader.close();
-      resolve(line);
-    });
+      readable.close();
+      reject(new Error('Timeout'));
+    }, 1000);
+    reader
+      .on('line', line => {
+        reader.close();
+        clearTimeout(timeout);
+        resolve(line);
+      })
+      .on('error', err => {
+        reader.close();
+        clearTimeout(timeout);
+        reject(err);
+      });
   });
   readable.close();
   const proj = firstLine.replace('# ', '').split(' - ');
@@ -76,8 +89,8 @@ export function getLessonDescription(lesson) {
 export function getLessonHintsAndTests(lesson) {
   const testsString = parseMarker(TEST_MARKER, lesson);
   const hintsAndTestsArr = [];
-  const hints = testsString?.match(/^(.*?)$(?=\n+```js)/gm).filter(Boolean);
-  const tests = testsString.match(/(?<=```js\n).*?(?=```)/gms);
+  const hints = testsString?.match(/^(.*?)$(?=\n+```js)/gm)?.filter(Boolean);
+  const tests = testsString?.match(/(?<=```js\n).*?(?=```)/gms);
 
   if (hints?.length) {
     for (let i = 0; i < hints.length; i++) {

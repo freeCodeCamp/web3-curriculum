@@ -41,9 +41,11 @@ const App = () => {
   const [error, setError] = useState<Error | null>(null);
 
   const [debouncers, setDebouncers] = useState<string[]>([]);
+  const [connected, setConnected] = useState<boolean>(false);
 
   useEffect(() => {
     socket.onopen = function (_event) {
+      setConnected(true);
       sock(Events.CONNECT);
     };
     socket.onmessage = function (event) {
@@ -54,6 +56,7 @@ const App = () => {
     };
     socket.onclose = function (_event) {
       setAlertCamper('Client has disconnected from local server');
+      setConnected(false);
     };
 
     return () => {
@@ -63,6 +66,7 @@ const App = () => {
   }, []);
 
   const handle = {
+    'handle-project-finish': handleProjectFinish,
     'toggle-loader-animation': toggleLoaderAnimation,
     'update-test': updateTest,
     'update-tests': updateTests,
@@ -77,6 +81,17 @@ const App = () => {
     'reset-tests': resetTests,
     RESPONSE: debounce
   };
+
+  function handleProjectFinish() {
+    // Send Camper to landing page
+    updateProject(null);
+  }
+
+  useEffect(() => {
+    if (connected) {
+      sock(Events.REQUEST_DATA, { request: 'projects' });
+    }
+  }, [project]);
 
   function debounce({ event }: { event: string }) {
     const debouncerRemoved = debouncers.filter(d => d !== event);

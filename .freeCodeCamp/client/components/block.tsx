@@ -1,7 +1,7 @@
 import { SelectionProps } from './selection';
 import { ProjectI, Events } from '../types/index';
 import { Tag } from './tag';
-import { Badge } from './badge';
+import { Checkmark } from './checkmark';
 
 type BlockProps = {
   sock: SelectionProps['sock'];
@@ -15,13 +15,22 @@ export const Block = ({
   isPublic,
   numberOfLessons,
   currentLesson,
+  completedDate,
   sock
 }: BlockProps) => {
   function selectProject() {
     sock(Events.SELECT_PROJECT, { id });
   }
 
-  const lessonsCompleted = currentLesson - 1;
+  let lessonsCompleted = 0;
+  if (completedDate) {
+    lessonsCompleted = numberOfLessons;
+  } else {
+    lessonsCompleted =
+      !isIntegrated && currentLesson === numberOfLessons
+        ? currentLesson
+        : currentLesson - 1;
+  }
   return (
     <li className='block'>
       <button
@@ -31,8 +40,8 @@ export const Block = ({
         style={
           !isPublic
             ? {
-                cursor: 'not-allowed'
-              }
+              cursor: 'not-allowed'
+            }
             : {}
         }
       >
@@ -42,7 +51,10 @@ export const Block = ({
           {!isPublic && <Tag text='Coming Soon' />}
         </div>
 
-        <h2>{title}</h2>
+        <h2>
+          {title}
+          {completedDate ? <span className='block-checkmark'><Checkmark /></span> : null}
+        </h2>
         <div className='block-info'>
           <p>{description}</p>
           <span aria-hidden='true'>

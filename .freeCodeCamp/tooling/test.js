@@ -24,7 +24,8 @@ import {
   updateTest,
   updateTests,
   updateConsole,
-  updateHints
+  updateHints,
+  handleProjectFinish
 } from './client-socks.js';
 import { join } from 'path';
 import { logover } from './logger.js';
@@ -121,13 +122,19 @@ export default async function runTests(ws, projectDashedName) {
       const result = await Promise.allSettled(testPromises);
       const passed = result.every(r => r.status === 'fulfilled');
       if (passed) {
-        if (!project.isIntegrated) {
+        if (project.isIntegrated || lessonNumber === project.numberOfLessons) {
+          await setProjectConfig(project.dashedName, {
+            completedDate: Date.now()
+          });
+          handleProjectFinish(ws);
+        } else {
           await setProjectConfig(project.dashedName, {
             currentLesson: lessonNumber + 1
           });
           await runLesson(ws, projectDashedName);
           updateHints(ws, '');
         }
+
       } else {
         updateHints(
           ws,
