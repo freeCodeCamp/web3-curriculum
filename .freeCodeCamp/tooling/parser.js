@@ -89,7 +89,7 @@ export function getLessonDescription(lesson) {
 export function getLessonHintsAndTests(lesson) {
   const testsString = parseMarker(TEST_MARKER, lesson);
   const hintsAndTestsArr = [];
-  const hints = testsString?.match(/^(.*?)$(?=\r?\n+```js)/gm)?.filter(Boolean);
+  const hints = testsString?.match(/^(.*?)$(?=\r?\n+```js)/gms)?.filter(Boolean);
   const tests = testsString?.match(/(?<=```js\r?\n).*?(?=```)/gms);
 
   if (hints?.length) {
