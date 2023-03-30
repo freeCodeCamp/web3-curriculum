@@ -12,5 +12,5 @@ ports:
 # TODO: See about publishing to Open VSX for smoother process
 vscode:
   extensions:
-    - https://github.com/freeCodeCamp/courses-vscode-extension/releases/download/v1.7.1/freecodecamp-courses-1.7.1.vsix
+    - https://github.com/freeCodeCamp/courses-vscode-extension/releases/download/v1.7.4/freecodecamp-courses-1.7.4.vsix
     - https://github.com/freeCodeCamp/freecodecamp-dark-vscode-theme/releases/download/v1.0.0/freecodecamp-dark-vscode-theme-1.0.0.vsix

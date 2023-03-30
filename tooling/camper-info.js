@@ -11,8 +11,8 @@ import {
   getProjectConfig,
   getConfig,
   getState
-} from '../.freeCodeCamp/tooling/env.js';
-import __helpers from '../.freeCodeCamp/tooling/test-utils.js';
+} from '@freecodecamp/freecodecamp-os/.freeCodeCamp/tooling/env.js';
+import __helpers from '@freecodecamp/freecodecamp-os/.freeCodeCamp/tooling/test-utils.js';
 import { Logger } from 'logover';
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';

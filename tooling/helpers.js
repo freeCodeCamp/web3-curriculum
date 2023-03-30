@@ -1,8 +1,8 @@
-import __helpers from '../.freeCodeCamp/tooling/test-utils.js';
+import __helpers from '@freecodecamp/freecodecamp-os/.freeCodeCamp/tooling/server.js/test-utils.js';
 import sha256 from 'crypto-js/sha256.js';
 import elliptic from 'elliptic';
 import WebSocket, { WebSocketServer } from 'ws';
-import { parse as acornParse} from 'acorn';
+import { parse as acornParse } from 'acorn';
 import { Babeliser } from 'babeliser';
 
 const ec = new elliptic.ec('p192');
