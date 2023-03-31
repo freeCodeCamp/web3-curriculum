@@ -1,4 +1,4 @@
-import __helpers from '@freecodecamp/freecodecamp-os/.freeCodeCamp/tooling/server.js/test-utils.js';
+import __helpers from '@freecodecamp/freecodecamp-os/.freeCodeCamp/tooling/test-utils.js';
 import sha256 from 'crypto-js/sha256.js';
 import elliptic from 'elliptic';
 import WebSocket, { WebSocketServer } from 'ws';
