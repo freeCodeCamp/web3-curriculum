@@ -1948,12 +1948,12 @@ Your `newBlock` object should have a `data: {}` property
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
-const parsed = await __helpers.parseJs(fileContents);
-const keyValue = parsed.body[3].declarations[0].init.properties[2].key.value;
-const keyName = parsed.body[3].declarations[0].init.properties[2].key.name;
-const value = parsed.body[3].declarations[0].init.properties[2].value.type;
-assert.equal(keyValue || keyName, 'data');
-assert.equal(value, 'ObjectExpression');
+const babelised = await __helpers.babeliser(fileContents);
+const newBlockDeclaration = babelised.getVariableDeclarations().find(v => v.declarations[0]?.id?.name === 'newBlock')?.declarations[0]?.init;
+assert.equal(newBlockDeclaration?.type, 'ObjectExpression');
+const dataProperty = newBlockDeclaration?.properties?.find(p => p.key?.name === 'data');
+assert.equal(dataProperty?.value?.type, 'ObjectExpression');
+assert.lengthOf(dataProperty?.value?.properties, 0);
 ```
 
 ## 58
@@ -2160,7 +2160,7 @@ blockchain.push(newBlock);
 
 ### --description--
 
-Run your `add-block.js` file, give it three arguments, `Me`, `You`, and `10` to add a transaction from `Me` to `You`. 
+Run your `add-block.js` file, give it three arguments, `Me`, `You`, and `10` to add a transaction from `Me` to `You`.
 
 ### --tests--
 
@@ -2915,9 +2915,11 @@ Your transaction object should have a `fromAddress` property
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-transaction.js');
-const parsed = await __helpers.parseJs(fileContents);
-const value = parsed.body[4].declarations[0].init.properties[0].value.name
-assert.equal(value, 'fromAddress');
+const babelised = await __helpers.babeliser(fileContents);
+const transactionDeclaration = babelised.getVariableDeclarations().find(v => v.declarations[0]?.id?.name === 'newTransaction')?.declarations[0]?.init;
+const property = transactionDeclaration?.properties?.find(p => p.key?.name === 'fromAddress')
+assert.equal(property?.key?.name, 'fromAddress');
+assert.equal(property?.value?.name, 'fromAddress');
 ```
 
 Your transaction object should have a `toAddress` property
@@ -2925,9 +2927,11 @@ Your transaction object should have a `toAddress` property
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-transaction.js');
-const parsed = await __helpers.parseJs(fileContents);
-const value = parsed.body[4].declarations[0].init.properties[1].value.name;
-assert.equal(value, 'toAddress');
+const babelised = await __helpers.babeliser(fileContents);
+const transactionDeclaration = babelised.getVariableDeclarations().find(v => v.declarations[0]?.id?.name === 'newTransaction')?.declarations[0]?.init;
+const property = transactionDeclaration?.properties?.find(p => p.key?.name === 'toAddress')
+assert.equal(property?.key?.name, 'toAddress');
+assert.equal(property?.value?.name, 'toAddress');
 ```
 
 Your transaction object should have an `amount` property
@@ -2935,9 +2939,11 @@ Your transaction object should have an `amount` property
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-transaction.js');
-const parsed = await __helpers.parseJs(fileContents);
-const value = parsed.body[4].declarations[0].init.properties[2].value.name;
-assert.equal(value, 'amount');
+const babelised = await __helpers.babeliser(fileContents);
+const transactionDeclaration = babelised.getVariableDeclarations().find(v => v.declarations[0]?.id?.name === 'newTransaction')?.declarations[0]?.init;
+const property = transactionDeclaration?.properties?.find(p => p.key?.name === 'amount')
+assert.equal(property?.key?.name, 'amount');
+assert.equal(property?.value?.name, 'amount');
 ```
 
 ### --seed--
@@ -3738,9 +3744,10 @@ Your `newBlock` object should have two properties
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
-const parsed = await __helpers.parseJs(fileContents);
-const newBlockProperties = parsed.body[4].declarations[0].init.properties;
-assert.lengthOf(newBlockProperties, 2);
+const babelised = await __helpers.babeliser(fileContents);
+const newBlockDeclaration = babelised.getVariableDeclarations().find(v => v.declarations[0]?.id?.name === 'newBlock')?.declarations[0]?.init;
+assert.equal(newBlockDeclaration?.type, 'ObjectExpression');
+assert.lengthOf(newBlockDeclaration?.properties, 2);
 ```
 
 ### --seed--
@@ -3772,18 +3779,20 @@ writeBlockchain(blockchain);
 
 ### --description--
 
-Add `transactions` as a proprty in the `newBlock` object. This will just add exactly what's in the transaction pool to the block.
+Add `transactions` as a property in the `newBlock` object. This will just add exactly what's in the transaction pool to the block.
 
 ### --tests--
 
-Your `newBlock` should have a `transactions` property at the bottom
+Your `newBlock` should have a `transactions` property
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
-const parsed = await __helpers.parseJs(fileContents);
-const value =  parsed.body[4].declarations[0].init.properties[2].value.name;
-assert.equal(value, 'transactions');
+const babelised = await __helpers.babeliser(fileContents);
+const newBlockDeclaration = babelised.getVariableDeclarations().find(v => v.declarations[0]?.id?.name === 'newBlock')?.declarations[0]?.init;
+assert.equal(newBlockDeclaration?.type, 'ObjectExpression');
+const transactionsProperty = newBlockDeclaration?.properties?.find(p => p.value?.name === 'transactions')
+assert.equal(transactionsProperty?.value?.name, 'transactions');
 ```
 
 ### --seed--

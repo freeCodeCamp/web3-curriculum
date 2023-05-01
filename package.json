@@ -13,7 +13,6 @@
   "type": "module",
   "dependencies": {
     "@freecodecamp/freecodecamp-os": "1.8.3",
-    "acorn": "8.8.0",
     "babeliser": "0.6.0",
     "crypto-js": "4.1.1",
     "dotenv": "16.0.2",
