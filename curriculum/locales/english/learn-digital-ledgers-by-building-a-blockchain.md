@@ -266,7 +266,7 @@ You should export a `writeBlockchain` function from the file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { writeBlockchain } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { writeBlockchain } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.isFunction(writeBlockchain);
 ```
 
@@ -300,7 +300,7 @@ You should have `const blockchainString = JSON.stringify(blockchain, null, 2);` 
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { writeBlockchain } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { writeBlockchain } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.match(writeBlockchain.toString(), /{\s*const\s+blockchainString\s*=\s*JSON\s*\.\s*stringify\s*\(\s*blockchain\s*,\s*null\s*,\s*2\s*\)\s*;?\s*}\s*;?\s*$/);
 ```
 
@@ -328,7 +328,7 @@ You should have `writeFileSync('./blockchain.json', blockchainString);` at the b
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { writeBlockchain } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { writeBlockchain } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.match(writeBlockchain.toString(), /writeFileSync\s*\(('|")\.\/blockchain\.json\1\s*,\s*blockchainString\s*\)\s*;?\s*}\s*;?\s*$/);
 ```
 
@@ -547,7 +547,7 @@ You should have `export function getBlockchain() {}` at the bottom of your `bloc
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { getBlockchain } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { getBlockchain } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.isFunction(getBlockchain);
 ```
 
@@ -576,7 +576,7 @@ You should have `const blockchainFile = readFileSync('./blockchain.json')` in yo
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { getBlockchain } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { getBlockchain } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.match(getBlockchain.toString(), /const\s+blockchainFile\s*=\s*readFileSync\s*\(\s*('|"|`)(\.\/)?blockchain\.json\1\s*\)\s*;?\s*}\s*;?\s*$/);
 ```
 
@@ -609,7 +609,7 @@ You should have `const blockchain = JSON.parse(blockchainFile);` at the bottom o
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { getBlockchain } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { getBlockchain } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.match(getBlockchain.toString(), /const\s+blockchain\s*=\s*JSON\s*\.\s*parse\s*\(\s*blockchainFile\s*\)\s*;?\s*}\s*;?\s*$/);
 ```
 
@@ -642,7 +642,7 @@ You should have `return blockchain;` at the bottom of your `getBlockchain` funct
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { getBlockchain } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { getBlockchain } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.match(getBlockchain.toString(), /return\s+blockchain\s*;?\s*}\s*;?\s*$/);
 ```
 
@@ -1255,7 +1255,7 @@ You should have `export function isValidChain() {}` at the bottom of your `block
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { isValidChain } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { isValidChain } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.isFunction(isValidChain);
 ```
 
@@ -1296,7 +1296,7 @@ You should have `const blockchain = getBlockchain();` in your `isValidChain` fun
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { isValidChain } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { isValidChain } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.match(isValidChain.toString(), /const\s+blockchain\s*=\s*getBlockchain\s*\(\s*\)\s*;?\s*}\s*$/);
 ```
 
@@ -1335,7 +1335,7 @@ You should have `for (let i = 1; i < blockchain.length; i++) {}` at the bottom o
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { isValidChain } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { isValidChain } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.match(isValidChain.toString(), /for\s*\(let\s+i\s*=\s*1\s*;\s*i\s*<\s*blockchain\s*\.\s*length\s*;\s*i\s*\+\+\s*\)\s*{\s*}\s*;?\s*}\s*;?\s*$/);
 ```
 
@@ -1374,7 +1374,7 @@ You should have `const previousBlock = blockchain[i - 1];` in your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { isValidChain } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { isValidChain } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.match(isValidChain.toString(), /[\s\S]*for[\s\S]*{\s*const\s+previousBlock\s*=\s*blockchain\s*\[\s*i\s*-\s*1\s*\]\s*;?\s*}\s*;?\s*}\s*;?\s*$/);
 ```
 
@@ -1417,7 +1417,7 @@ You should have `const { previousHash } = blockchain[i];` in your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { isValidChain } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { isValidChain } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.match(isValidChain.toString(), /[\s\S]*for[\s\S]*{[\s\S]*const\s*{\s*previousHash\s*}\s*=\s*blockchain\s*\[\s*i\s*\]\s*;?\s*}\s*;?\s*}\s*;?\s*$/);
 ```
 
@@ -1460,7 +1460,7 @@ You should have `if (previousHash !== previousBlock.hash) {}` in your `for` loop
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { isValidChain } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { isValidChain } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.match(isValidChain.toString(), /[\s\S]*for[\s\S]*{[\s\S]*if\s*\(\s*previousHash\s*!==?\s*previousBlock\s*\.\s*hash\s*\)\s*{\s*}\s*;?\s*}\s*;?\s*}\s*;?\s*$/);
 ```
 
@@ -1504,7 +1504,7 @@ You should have `return false` in your `if` condition
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { isValidChain } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { isValidChain } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.match(isValidChain.toString(), /[\s\S]*if[\s\S]*{\s*return\s+false\s*;?\s*}\s*;?\s*}\s*;?\s*}\s*;?\s*$/);
 ```
 
@@ -1552,7 +1552,7 @@ You should have `return true` at the bottom of your `isValidChain` function
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { isValidChain } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { isValidChain } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.match(isValidChain.toString(), /return\s+true\s*;?\s*}\s*;?\s*$/);
 ```
 
@@ -2605,7 +2605,7 @@ You should have `export function writeTransactions(transactions) {}` in your `bl
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { writeTransactions } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { writeTransactions } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.isFunction(writeTransactions);
 assert.match(writeTransactions.toString(), /writeTransactions\s*\(\s*transactions\s*\)/);
 ```
@@ -2622,7 +2622,7 @@ You should have `const transactionsString = JSON.stringify(transactions, null, 2
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { writeTransactions } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { writeTransactions } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.match(writeTransactions.toString(), /{\s*const\s+transactionsString\s*=\s*JSON\s*\.\s*stringify\s*\(\s*transactions\s*,\s*null\s*,\s*2\s*\)\s*;?\s*}/);
 ```
 
@@ -2676,7 +2676,7 @@ You should have `writeFileSync('./transactions.json', transactionsString);` at t
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { writeTransactions } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { writeTransactions } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.match(writeTransactions.toString(), /writeFileSync\s*\(('|")\.\/transactions\.json\1\s*,\s*transactionsString\s*\)\s*;?\s*}\s*;?\s*$/);
 ```
 
@@ -3161,7 +3161,7 @@ You should have `export function getTransactions() {}` in your `blockchain-helpe
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { getTransactions } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { getTransactions } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.isFunction(getTransactions);
 ```
 
@@ -3191,7 +3191,7 @@ You should have `const transactionsFile = readFileSync('./transactions.json');` 
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { getTransactions } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { getTransactions } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.match(getTransactions.toString(), /const\s+transactionsFile\s*=\s*readFileSync\s*\(\s*('|"|`)(\.\/)?transactions\.json\1\s*\)\s*;?\s*}\s*;?\s*$/);
 ```
 
@@ -3250,7 +3250,7 @@ You should have `const transactions = JSON.parse(transactionsFile);` at the bott
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { getTransactions } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { getTransactions } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.match(getTransactions.toString(), /const\s+transactions\s*=\s*JSON\s*\.\s*parse\s*\(\s*transactionsFile\s*\)\s*;?\s*}\s*;?\s*$/);
 ```
 
@@ -3309,7 +3309,7 @@ You should have `return transactions;` at the bottom of your `getTransactions` f
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { getTransactions } = (await import(`../../learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`));
+const { getTransactions } = (await import(join(ROOT, `learn-digital-ledgers-by-building-a-blockchain/blockchain-helpers.js?update=${Date.now()}`)));
 assert.match(getTransactions.toString(), /return\s+transactions\s*;?\s*}\s*$/);
 ```
 
