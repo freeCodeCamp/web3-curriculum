@@ -277,7 +277,7 @@ const web3 = new Web3('http://localhost:3001');
 const smartContract = web3.initSmartContract(
   (
     await import(
-      '../../build-a-web3-client-side-package-for-your-dapp/node/idl.json',
+      join(ROOT, 'build-a-web3-client-side-package-for-your-dapp/node/idl.json'),
       { assert: { type: 'json' } }
     )
   ).default
@@ -294,7 +294,7 @@ const web3 = new Web3('http://localhost:3001');
 const smartContract = web3.initSmartContract(
   (
     await import(
-      '../../build-a-web3-client-side-package-for-your-dapp/node/idl.json',
+      join(ROOT, 'build-a-web3-client-side-package-for-your-dapp/node/idl.json'),
       { assert: { type: 'json' } }
     )
   ).default
@@ -311,7 +311,7 @@ const web3 = new Web3('http://localhost:3001');
 const smartContract = web3.initSmartContract(
   (
     await import(
-      '../../build-a-web3-client-side-package-for-your-dapp/node/idl.json',
+      join(ROOT, 'build-a-web3-client-side-package-for-your-dapp/node/idl.json'),
       { assert: { type: 'json' } }
     )
   ).default
@@ -327,7 +327,7 @@ const web3 = new Web3('http://localhost:3001');
 const smartContract = web3.initSmartContract(
   (
     await import(
-      '../../build-a-web3-client-side-package-for-your-dapp/node/idl.json',
+      join(ROOT, 'build-a-web3-client-side-package-for-your-dapp/node/idl.json'),
       { assert: { type: 'json' } }
     )
   ).default
@@ -343,7 +343,7 @@ const web3 = new Web3('http://localhost:3001');
 const smartContract = web3.initSmartContract(
   (
     await import(
-      '../../build-a-web3-client-side-package-for-your-dapp/node/idl.json',
+      join(ROOT, 'build-a-web3-client-side-package-for-your-dapp/node/idl.json'),
       { assert: { type: 'json' } }
     )
   ).default
@@ -376,7 +376,7 @@ const web3 = new Web3('http://localhost:3001');
 const smartContract = web3.initSmartContract(
   (
     await import(
-      '../../build-a-web3-client-side-package-for-your-dapp/node/idl.json',
+      join(ROOT, 'build-a-web3-client-side-package-for-your-dapp/node/idl.json'),
       { assert: { type: 'json' } }
     )
   ).default
@@ -397,7 +397,7 @@ const web3 = new Web3('http://localhost:3001');
 const smartContract = web3.initSmartContract(
   (
     await import(
-      '../../build-a-web3-client-side-package-for-your-dapp/node/idl.json',
+      join(ROOT, 'build-a-web3-client-side-package-for-your-dapp/node/idl.json'),
       { assert: { type: 'json' } }
     )
   ).default
@@ -627,7 +627,7 @@ await new Promise(resolve => {
 // });
 
 const web3Path =
-  '../../build-a-web3-client-side-package-for-your-dapp/web3/index.js';
+  join(ROOT, 'build-a-web3-client-side-package-for-your-dapp/web3/index.js');
 async function importSansCache(p) {
   const cacheBustingModulePath = `${p}?update=${Date.now()}`;
   return (await import(cacheBustingModulePath)).default;
