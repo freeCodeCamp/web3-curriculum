@@ -2178,7 +2178,7 @@ You should have `export function getWalletAddressFromName(name) {}` in your `blo
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { getWalletAddressFromName } = (await import(`../../learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`));
+const { getWalletAddressFromName } = (await import(join(ROOT, `learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`)));
 assert.isFunction(getWalletAddressFromName);
 const babelised = await __helpers.babeliser(getWalletAddressFromName.toString());
 assert.equal(babelised?.parsedCode?.program?.body[0]?.params[0]?.name, 'name');
@@ -2209,7 +2209,7 @@ You should have `const walletsFile = readFileSync('./wallets.json');` at the top
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { getWalletAddressFromName } = (await import(`../../learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`));
+const { getWalletAddressFromName } = (await import(join(ROOT, `learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`)));
 const babelised = await __helpers.babeliser(getWalletAddressFromName.toString());
 const code = babelised?.generateCode(babelised?.parsedCode);
 assert.match(code, /const walletsFile = readFileSync\(('|"|`)(\.\/)?wallets\.json\1\);/);
@@ -2327,7 +2327,7 @@ You should have `const wallets = JSON.parse(walletsFile);` at the bottom of your
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { getWalletAddressFromName } = (await import(`../../learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`));
+const { getWalletAddressFromName } = (await import(join(ROOT, `learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`)));
 const babelised = await __helpers.babeliser(getWalletAddressFromName.toString());
 const code = babelised?.generateCode(babelised?.parsedCode);
 assert.match(code, /const wallets = JSON\.parse\(walletsFile\);\s*}/);
@@ -2446,7 +2446,7 @@ You should have `return wallets[name];` at the bottom of your `getWalletAddressF
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { getWalletAddressFromName } = (await import(`../../learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`));
+const { getWalletAddressFromName } = (await import(join(ROOT, `learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`)));
 const babelised = await __helpers.babeliser(getWalletAddressFromName.toString());
 const code = babelised?.generateCode(babelised?.parsedCode);
 console.log(code);
@@ -4769,7 +4769,7 @@ You should have `// validate signature` in the correct spot of your `blockchain-
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { isValidChain } = (await import(`../../learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`));
+const { isValidChain } = (await import(join(ROOT, `learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`)));
 assert.isFunction(isValidChain);
 assert.match(isValidChain.toString(), /\/\/\s*validate\s+signature\s*}\s*}\s*}\s*return\s+true/);
 ```
@@ -5036,7 +5036,7 @@ You should destruct `signature` from `transactions[j]` in your `for` loop with t
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { isValidChain } = (await import(`../../learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`));
+const { isValidChain } = (await import(join(ROOT, `learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`)));
 const babelised = await __helpers.babeliser(isValidChain.toString());
 const forLoops = babelised.getType('ForStatement');
 const forLoop = forLoops.find(l => l.init?.declarations[0]?.id?.name === 'j');
@@ -5175,7 +5175,7 @@ You should have `const publicKeyPair = ec.keyFromPublic(fromAddress, 'hex');` be
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { isValidChain } = (await import(`../../learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`));
+const { isValidChain } = (await import(join(ROOT, `learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`)));
 assert.isFunction(isValidChain);
 assert.match(isValidChain.toString(), /\/\/\s*validate\s+signature\s*const\s+publicKeyPair\s*=\s*ec\s*\.\s*keyFromPublic\s*\(\s*fromAddress\s*,\s*('|"|`)hex\1\s*\)\s*;?\s*}\s*}\s*}\s*return\s+true/);
 ```
@@ -5298,7 +5298,7 @@ You should have `const verifiedSignature = publicKeyPair.verify(hash, signature)
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { isValidChain } = (await import(`../../learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`));
+const { isValidChain } = (await import(join(ROOT, `learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`)));
 assert.isFunction(isValidChain);
 assert.match(isValidChain.toString(), /const\s+verifiedSignature\s*=\s*publicKeyPair\s*\.\s*verify\s*\(\s*hash\s*,\s*signature\s*\)\s*;?\s*}\s*}\s*}\s*return\s+true/);
 ```
@@ -5422,7 +5422,7 @@ You should have `if (!verifiedSignature) { return false; }` below your `verified
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
-const { isValidChain } = (await import(`../../learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`));
+const { isValidChain } = (await import(join(ROOT, `learn-digital-signatures-by-building-a-wallet/blockchain-helpers.js?update=${Date.now()}`)));
 assert.isFunction(isValidChain);
 assert.match(isValidChain.toString(), /if\s*\(\s*!\s*verifiedSignature\s*\)\s*{\s*return\s+false\s*;?\s*}\s*}\s*}\s*}\s*return\s+true/);
 ```
