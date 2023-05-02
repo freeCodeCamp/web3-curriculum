@@ -975,7 +975,7 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
 const babelised = await __helpers.babeliser(fileContents);
 const e = babelised.getExpressionStatements().filter(e => e.expression?.callee?.object?.name === 'console' && e.expression?.callee?.property?.name === 'log');
-assert.lengthOf(e, 1);
+assert.lengthOf(e, 1, 'There should be one `console.log` call');
 ```
 
 ### --seed--
@@ -1950,10 +1950,22 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
 const babelised = await __helpers.babeliser(fileContents);
 const newBlockDeclaration = babelised.getVariableDeclarations().find(v => v.declarations[0]?.id?.name === 'newBlock')?.declarations[0]?.init;
-assert.equal(newBlockDeclaration?.type, 'ObjectExpression');
 const dataProperty = newBlockDeclaration?.properties?.find(p => p.key?.name === 'data');
-assert.equal(dataProperty?.value?.type, 'ObjectExpression');
-assert.lengthOf(dataProperty?.value?.properties, 0);
+assert.equal(
+  dataProperty?.key?.name,
+  'data',
+  '`newBlock` object should have a `data` property'
+)
+assert.equal(
+  dataProperty?.value?.type,
+  'ObjectExpression',
+  '`data` property should be an object'
+);
+assert.lengthOf(
+  dataProperty?.value?.properties,
+  0,
+  '`data` object should be empty'
+);
 ```
 
 ## 58
@@ -2918,8 +2930,16 @@ const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-
 const babelised = await __helpers.babeliser(fileContents);
 const transactionDeclaration = babelised.getVariableDeclarations().find(v => v.declarations[0]?.id?.name === 'newTransaction')?.declarations[0]?.init;
 const property = transactionDeclaration?.properties?.find(p => p.key?.name === 'fromAddress')
-assert.equal(property?.key?.name, 'fromAddress');
-assert.equal(property?.value?.name, 'fromAddress');
+assert.equal(
+  property?.key?.name,
+  'fromAddress',
+  '`newTransaction` object should have a `fromAddress` property'
+);
+assert.equal(
+  property?.value?.name,
+  'fromAddress',
+  '`fromAddress` variable should be used as a value of the `fromAddress` property'
+);
 ```
 
 Your transaction object should have a `toAddress` property
@@ -2930,8 +2950,16 @@ const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-
 const babelised = await __helpers.babeliser(fileContents);
 const transactionDeclaration = babelised.getVariableDeclarations().find(v => v.declarations[0]?.id?.name === 'newTransaction')?.declarations[0]?.init;
 const property = transactionDeclaration?.properties?.find(p => p.key?.name === 'toAddress')
-assert.equal(property?.key?.name, 'toAddress');
-assert.equal(property?.value?.name, 'toAddress');
+assert.equal(
+  property?.key?.name,
+  'toAddress',
+  '`newTransaction` object should have a `toAddress` property'
+);
+assert.equal(
+  property?.value?.name,
+  'toAddress',
+  '`toAddress` variable should be used as a value of the `toAddress` property'
+);
 ```
 
 Your transaction object should have an `amount` property
@@ -2942,8 +2970,16 @@ const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-
 const babelised = await __helpers.babeliser(fileContents);
 const transactionDeclaration = babelised.getVariableDeclarations().find(v => v.declarations[0]?.id?.name === 'newTransaction')?.declarations[0]?.init;
 const property = transactionDeclaration?.properties?.find(p => p.key?.name === 'amount')
-assert.equal(property?.key?.name, 'amount');
-assert.equal(property?.value?.name, 'amount');
+assert.equal(
+  property?.key?.name,
+  'amount',
+  '`newTransaction` object should have an `amount` property'
+);
+assert.equal(
+  property?.value?.name,
+  'amount',
+  '`amount` variable should be used as a value of the `amount` property'
+);
 ```
 
 ### --seed--
@@ -3746,8 +3782,11 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
 const babelised = await __helpers.babeliser(fileContents);
 const newBlockDeclaration = babelised.getVariableDeclarations().find(v => v.declarations[0]?.id?.name === 'newBlock')?.declarations[0]?.init;
-assert.equal(newBlockDeclaration?.type, 'ObjectExpression');
-assert.lengthOf(newBlockDeclaration?.properties, 2);
+assert.lengthOf(
+  newBlockDeclaration?.properties,
+  2,
+  '`newBlock` object should have two properties'
+);
 ```
 
 ### --seed--
@@ -3790,9 +3829,17 @@ await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
 const babelised = await __helpers.babeliser(fileContents);
 const newBlockDeclaration = babelised.getVariableDeclarations().find(v => v.declarations[0]?.id?.name === 'newBlock')?.declarations[0]?.init;
-assert.equal(newBlockDeclaration?.type, 'ObjectExpression');
-const transactionsProperty = newBlockDeclaration?.properties?.find(p => p.value?.name === 'transactions')
-assert.equal(transactionsProperty?.value?.name, 'transactions');
+const transactionsProperty = newBlockDeclaration?.properties?.find(p => p.key?.name === 'transactions')
+assert.equal(
+  transactionsProperty?.key?.name,
+  'transactions',
+  '`newBlock` object should have a `transactions` property'
+);
+assert.equal(
+  transactionsProperty?.value?.name,
+  'transactions',
+  '`transactions` variable should be used as a value of the `transactions` property'
+);
 ```
 
 ### --seed--
