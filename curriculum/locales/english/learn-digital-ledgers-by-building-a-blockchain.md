@@ -1969,7 +1969,7 @@ You should have `fromAddress: process.argv[2]` in your `data` object
 ```js
 await new Promise(res => setTimeout(res, 1000));
 const fileContents = await __helpers.getFile('learn-digital-ledgers-by-building-a-blockchain/add-block.js');
-assert.match(fileContents, /newBlock[\s\S]*data[\s\S]*{\s*(|"|')fromAddress\1\s*:\s*process\s*\.argv\s*\[\s*2\s*]\s*,?\s*}\s*,?[\s\S*]}/);
+assert.match(fileContents, /newBlock[\s\S]*data[\s\S]*{\s*(|"|')fromAddress\1\s*:\s*process\s*\.argv\s*\[\s*2\s*]\s*,?\s*}[\s\S]*}/);
 ```
 
 ### --seed--
