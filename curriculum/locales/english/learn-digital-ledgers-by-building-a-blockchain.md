@@ -1646,7 +1646,7 @@ Open your new `validate-chain.js` file and import the `isValidChain` function yo
 
 ### --tests--
 
-You should have `import { isValidChain } from 'blockchain-helpers.js'` at the top of your `validate-chain.js` file
+You should have `import { isValidChain } from './blockchain-helpers.js'` at the top of your `validate-chain.js` file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));
@@ -2609,7 +2609,7 @@ assert.match(lastOutput, /Chain is valid/);
 
 ### --description--
 
-Transactions aren't stored usually stored on the blockchain right away, they go into a waiting area known as a transaction pool until a new block is added. You will create this next. In your `blockchain-helpers.js` export a new `writeTransactions` function. Give it a parameter of `transactions` and leave the function empty to start.
+Transactions aren't usually stored on the blockchain right away – they go into a waiting area known as a transaction pool until a new block is added. You will create this next. In your `blockchain-helpers.js` export a new `writeTransactions` function. Give it a parameter of `transactions` and leave the function empty to start.
 
 ### --tests--
 
@@ -2793,7 +2793,7 @@ At the top of your new file, import the `writeTransactions` function you created
 
 ### --tests--
 
-You should have `import { writeTransactions } from 'blockchain-helpers.js';` in your `add-transaction.js` file
+You should have `import { writeTransactions } from './blockchain-helpers.js';` in your `add-transaction.js` file
 
 ```js
 await new Promise(res => setTimeout(res, 1000));

@@ -1366,7 +1366,7 @@ writeTransactions([]);
 
 ### --description--
 
-You want your `hash` to start with a zero. Create a `while` loop that checks if `!hash.startsWith('0')` and put your `console.log` in the loop.
+You want your `hash` to start with a zero. Create a `while` loop that checks if `!hash.startsWith('0')`. Also, move your `console.log` statement that logs the value of `hash` into the loop.
 
 ### --tests--
 
@@ -5740,7 +5740,7 @@ assert.match(lastOutput, /Chain is valid/);
 
 ### --description--
 
-There's one more thing to do here, make it so you can't send transactions unless you have enough tokens. In the `blockchain-helpers.js` file, export a new `getAddressBalance` function. Have it accept an `address` parameter, and leave the function empty for now.
+There's one more thing to do here: Make it so you can't send transactions unless you have enough tokens. In the `blockchain-helpers.js` file, export a new `getAddressBalance` function. Have it accept an `address` parameter, and leave the function empty for now.
 
 ### --tests--
 
