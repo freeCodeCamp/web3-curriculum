@@ -31,6 +31,7 @@ app.post('/call-smart-contract', async (req, res) => {
 
   try {
     const result = await callSmartContract(id, method, args, address);
+    res.contentType('application/json');
     res.json({ result });
   } catch (e) {
     logover.error(e);
@@ -53,6 +54,7 @@ app.post('/get-balance', async (req, res) => {
   if (!balance) {
     return res.status(404).json({ error: 'Account not found' });
   }
+  res.contentType('application/json');
   return res.json({ result: balance });
 });
 
@@ -68,6 +70,7 @@ app.post('/transfer', async (req, res) => {
   }
   try {
     await transfer({ from, to, amount });
+    res.contentType('application/json');
     res.json({ result: 'success' });
   } catch (e) {
     logover.error(e);
