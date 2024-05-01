@@ -5,7 +5,7 @@
     "build-a-web3-client-side-package-for-your-dapp/fixture/blockchain/Cargo.toml"
   ],
   "files.exclude": {
-    ".devcontainer": true,
+    ".devcontainer.json": true,
     ".editorconfig": true,
     ".freeCodeCamp": true,
     ".git": true,

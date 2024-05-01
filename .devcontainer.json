@@ -10,6 +10,6 @@
   },
   "forwardPorts": [8080],
   "workspaceFolder": "/workspace/web3-curriculum",
-  "dockerFile": "../Dockerfile",
-  "context": ".."
+  "dockerFile": "./Dockerfile",
+  "context": "."
 }
